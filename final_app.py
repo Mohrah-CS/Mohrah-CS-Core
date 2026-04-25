@@ -162,12 +162,21 @@ elif subject == "Home Page":
     جميع الدروس والأمثلة البرمجية المقدمة في هذه المنصة مستمدة من المناهج الأكاديمية المعتمدة في **جامعة تبوك**، ويتم تقديمها هنا لغرض الشرح والتوضيح وتسهيل الفهم.
     """)
 
-# --- 8. LEGAL & ACADEMIC FOOTER ---
+# --- 8. LEGAL & ACADEMIC FOOTER (Updated & Verified) ---
 st.markdown(f"""
     <div class="footer">
         <p>© 2026 | <b>تطوير وبرمجة: مهره عطيه الجهني</b></p>
         <p style="font-size: 14px;">📖 المحتوى العلمي مستمد من مناهج جامعة تبوك (جميع الحقوق العلمية محفوظة للجامعة).</p>
-        <p class="legal-warning">⚠️ WARNING: Any unauthorized copying or reproduction of this framework will lead to legal action under International Intellectual Property Laws. 
-        <br> يمنع منعاً باتاً تقليد فكرة المشروع أو نسخ الكود البرمجي، ومن يفعل ذلك يعرض نفسه للمساءلة القانونية.</p>
+        <div style="background-color: #fee2e2; padding: 15px; border-radius: 10px; border: 1px solid #b91c1c; margin-top: 15px;">
+            <p style="color: #b91c1c; font-weight: bold; margin-bottom: 5px;">🛡️ توثيق الملكية الفكرية | OFFICIAL VERIFICATION</p>
+            <p style="color: #b91c1c; font-size: 14px;">
+                هذا المشروع موثق رسمياً وحصرياً على الرابط: <br>
+                <a href="https://mohrah-cs-core.streamlit.app" style="color: #b91c1c; text-decoration: underline; font-weight: bold;">https://mohrah-cs-core.streamlit.app</a>
+            </p>
+            <p class="legal-warning" style="margin-top: 10px;">
+                ⚠️ WARNING: Any unauthorized copying or reproduction of this framework will lead to legal action. 
+                <br> يمنع منعاً باتاً تقليد فكرة المشروع أو نسخ الكود البرمجي، ومن يفعل ذلك يعرض نفسه للمساءلة القانونية.
+            </p>
+        </div>
     </div>
     """, unsafe_allow_html=True)

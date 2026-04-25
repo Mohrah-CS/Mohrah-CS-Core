@@ -174,8 +174,9 @@ st.markdown(f"""
                 <a href="https://mohrah-cs-core.streamlit.app" style="color: #b91c1c; text-decoration: underline; font-weight: bold;">https://mohrah-cs-core.streamlit.app</a>
             </p>
             <p class="legal-warning" style="margin-top: 10px;">
-                ⚠️ WARNING: Any unauthorized copying or reproduction of this framework will lead to legal action. 
-                <br> يمنع منعاً باتاً تقليد فكرة المشروع أو نسخ الكود البرمجي، ومن يفعل ذلك يعرض نفسه للمساءلة القانونية.
+                ⚠️ © 2026 Mohrah Atiah. All rights reserved.
+This platform is an original academic project. Reuse or redistribution without permission is not allowed.
+                <br> 
             </p>
         </div>
     </div>

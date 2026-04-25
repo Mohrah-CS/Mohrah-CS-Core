@@ -152,7 +152,7 @@ elif subject == "Home Page":
 # --- 10. LEGAL FOOTER ---
 st.markdown(f"""
     <div class="footer">
-        <p>© 2024 | <b>تطوير وبرمجة: مهره عطيه الجهني</b></p>
+        <p>© 2026 | <b>تطوير وبرمجة: مهره عطيه الجهني</b></p>
         <p style="font-size: 14px;">📖 المحتوى العلمي مستمد من مناهج جامعة تبوك (جميع الحقوق محفوظة للجامعة).</p>
         <p class="legal-warning">⚠️ WARNING: Any unauthorized copying or reproduction of this framework will lead to legal action under Intellectual Property Laws.</p>
     </div>

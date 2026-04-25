@@ -2,6 +2,7 @@ import streamlit as st
 import time
 import graphviz
 import os
+import json
 
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
@@ -13,22 +14,23 @@ st.set_page_config(
 
 # --- 2. PERSISTENT STORAGE FUNCTIONS ---
 def load_comments():
-    if not os.path.exists("comments.txt"):
+    if not os.path.exists("comments.json"):
+        return [{"u": "Academic Support", "m": "Welcome to Mohrah's Lab! Your feedback is valued.", "t": "09:00 AM"}]
+    try:
+        with open("comments.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    except:
         return [{"u": "Academic Support", "m": "Welcome to Mohrah's Lab!", "t": "09:00 AM"}]
-    with open("comments.txt", "r", encoding="utf-8") as f:
-        import json
-        return json.load(f)
 
 def save_comment(name, msg):
     comments = load_comments()
     comments.append({"u": name, "m": msg, "t": time.strftime("%H:%M")})
-    with open("comments.txt", "w", encoding="utf-8") as f:
-        import json
+    with open("comments.json", "w", encoding="utf-8") as f:
         json.dump(comments, f, ensure_ascii=False)
 
 # --- 3. VISITOR COUNTER ---
 if 'visitor_count' not in st.session_state:
-    st.session_state.visitor_count = 1 # يبدأ من 1 الآن
+    st.session_state.visitor_count = 1 
 else:
     st.session_state.visitor_count += 1
 
@@ -54,6 +56,7 @@ st.markdown("""
         text-align: center; padding: 30px; margin-top: 60px;
         border-top: 3px solid #1e3a8a; background-color: #f1f5f9; color: #1e3a8a;
     }
+    .legal-warning { color: #b91c1c; font-weight: bold; font-size: 14px; margin-top: 10px; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -79,19 +82,30 @@ subject = st.sidebar.selectbox(
 
 # --- 7. MODULES ---
 if subject == "Contact Developer":
-    st.markdown("### 📧 Contact the Developer")
-    st.info("🏛️ Academic: 451000518@stu.ut.edu.sa")
-    st.success("📩 Personal: mohrah.atiiah@icloud.com")
+    st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")
+    st.write("يسعدني استقبال استفساراتكم الأكاديمية أو المهنية عبر القنوات الرسمية التالية:")
+    st.write("---")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        st.info("🏛️ **Academic Email / البريد الجامعي**")
+        st.code("451000518@stu.ut.edu.sa")
+        st.write("للتواصل الرسمي بخصوص المناهج الدراسية.")
+        
+    with col2:
+        st.success("📩 **Personal Email / البريد الشخصي**")
+        st.code("mohrah.atiiah@icloud.com")
+        st.write("للتواصل المهني والتعاون التقني.")
 
 elif subject == "Community Feedback":
-    st.markdown("### 💬 Community Discussion Board")
+    st.markdown("### 💬 Community Discussion Board / لوحة نقاش المجتمع")
     with st.form("feedback_form"):
-        name = st.text_input("Name:")
-        msg = st.text_area("Feedback:")
-        if st.form_submit_button("Post"):
+        name = st.text_input("Name / الاسم:")
+        msg = st.text_area("Feedback / التعليق:")
+        if st.form_submit_button("Post / إرسال"):
             if name and msg:
                 save_comment(name, msg)
-                st.success("Comment saved permanently!")
+                st.success("Comment saved! / تم حفظ التعليق بنجاح")
     
     st.markdown("---")
     all_comments = load_comments()
@@ -100,17 +114,60 @@ elif subject == "Community Feedback":
 
 elif subject == "Theory of Computation":
     st.markdown("### 🤖 Theory of Computation: PDA Simulator")
-    st.info("💡 المحتوى العلمي مبني على مناهج جامعة تبوك.")
-    # (كود الـ PDA يظل كما هو ليعمل المختبر)
+    st.info("💡 المحتوى العلمي مبني على مناهج جامعة تبوك لتبسيط الفهم.")
+    
+    def generate_pda_diagram(active_state):
+        dot = graphviz.Digraph()
+        dot.attr(rankdir='LR', size='8,5')
+        dot.node('S', '', shape='none')
+        dot.node('q0', 'q0', shape='circle', color='#3b82f6' if active_state == 'q0' else 'black', penwidth='3' if active_state == 'q0' else '1')
+        dot.node('q1', 'q1', shape='circle', color='#3b82f6' if active_state == 'q1' else 'black', penwidth='3' if active_state == 'q1' else '1')
+        dot.node('f', 'Accept', shape='doublecircle', color='green' if active_state == 'accepted' else 'black')
+        dot.edge('S', 'q0')
+        dot.edge('q0', 'q0', label='a, Z0 / AZ0\\na, A / AA')
+        dot.edge('q0', 'q1', label='b, A / ε')
+        dot.edge('q1', 'q1', label='b, A / ε')
+        dot.edge('q1', 'f', label='ε, Z0 / Z0')
+        return dot
+
+    col_graph, col_input = st.columns([2, 1])
+    with col_graph:
+        diagram_placeholder = st.empty()
+        diagram_placeholder.graphviz_chart(generate_pda_diagram('q0'))
+    with col_input:
+        test_string = st.text_input("Enter Input String (e.g., aabb):", "aabb")
+        if st.button("Run Simulation"):
+            stack, current_state, failed = ["Z0"], "q0", False
+            for char in test_string:
+                diagram_placeholder.graphviz_chart(generate_pda_diagram(current_state))
+                if current_state == "q0":
+                    if char == 'a': stack.append('A')
+                    elif char == 'b' and len(stack) > 0 and stack[-1] == 'A': stack.pop(); current_state = "q1"
+                    else: failed = True; break
+                elif current_state == "q1":
+                    if char == 'b' and len(stack) > 0 and stack[-1] == 'A': stack.pop()
+                    else: failed = True; break
+                time.sleep(0.6)
+            if not failed and current_state == "q1" and stack == ["Z0"]:
+                diagram_placeholder.graphviz_chart(generate_pda_diagram('accepted'))
+                st.success("✅ Result: String Accepted")
+            else: st.error("❌ Result: String Rejected")
 
 elif subject == "Home Page":
     st.markdown("### 🏛️ Welcome to the CS Core Portal")
-    st.write("هذه المنصة هي مبادرة طلابية تعليمية مستمدة من مناهج جامعة تبوك.")
+    st.markdown("""
+    هذه المنصة هي **مبادرة طلابية تعليمية** تهدف إلى تحويل المفاهيم النظرية في علوم الحاسب إلى نماذج تفاعلية ملموسة.
 
-# --- 8. FOOTER (Updated to 2026) ---
+    **المصدر العلمي (Academic Source):**
+    جميع الدروس والأمثلة البرمجية المقدمة في هذه المنصة مستمدة من المناهج الأكاديمية المعتمدة في **جامعة تبوك**، ويتم تقديمها هنا لغرض الشرح والتوضيح وتسهيل الفهم.
+    """)
+
+# --- 8. LEGAL & ACADEMIC FOOTER ---
 st.markdown(f"""
     <div class="footer">
         <p>© 2026 | <b>تطوير وبرمجة: مهره عطيه الجهني</b></p>
-        <p style="font-size: 14px;">📖 المحتوى العلمي مستمد من مناهج جامعة تبوك.</p>
+        <p style="font-size: 14px;">📖 المحتوى العلمي مستمد من مناهج جامعة تبوك (جميع الحقوق العلمية محفوظة للجامعة).</p>
+        <p class="legal-warning">⚠️ WARNING: Any unauthorized copying or reproduction of this framework will lead to legal action under International Intellectual Property Laws. 
+        <br> يمنع منعاً باتاً تقليد فكرة المشروع أو نسخ الكود البرمجي، ومن يفعل ذلك يعرض نفسه للمساءلة القانونية.</p>
     </div>
     """, unsafe_allow_html=True)

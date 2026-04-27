@@ -221,7 +221,7 @@ elif subject == "DFA Explorer":
     st.markdown("## ⚙️ Deterministic Finite Automata (DFA)")
     st.info("💡 الـ DFA هو أبسط نموذج للحوسبة، حيث ينتقل بين حالات محددة بناءً على المدخلات.")
     
-    tab_info, tab_viz, tab_quiz = st.tabs(["📖 DFA Definition", "🎨 Visual Examples", "🧠 DFA Quiz"])
+    tab_info, tab_viz, tab_sim, tab_quiz = st.tabs(["📖 DFA Definition", "🎨 Visual Examples", "🚀 DFA Simulator", "🧠 DFA Quiz"])
     
     with tab_info:
         st.markdown("""
@@ -273,6 +273,89 @@ elif subject == "DFA Explorer":
             dfa2.edge('q1', 'q1', label='a, b')
             dfa2.edge('q2', 'q2', label='a, b')
             st.graphviz_chart(dfa2)
+
+    with tab_sim:
+        st.markdown("### 🚀 DFA Interactive Simulator")
+        st.write("Test a DFA that accepts strings containing the pattern **'101'**.")
+        
+        def generate_dfa_sim_diagram(active_state):
+            dot = graphviz.Digraph()
+            dot.attr(rankdir='LR', size='8,5', bgcolor='transparent')
+            dot.node('S', '', shape='none')
+            
+            # Define states with highlighting
+            states = {
+                'q0': {'label': 'Start', 'shape': 'circle'},
+                'q1': {'label': 'Got 1', 'shape': 'circle'},
+                'q2': {'label': 'Got 10', 'shape': 'circle'},
+                'q3': {'label': 'Got 101 (Accept)', 'shape': 'doublecircle'}
+            }
+            
+            for node, attr in states.items():
+                color = '#3b82f6' if active_state == node else 'black'
+                penwidth = '4' if active_state == node else '1'
+                dot.node(node, attr['label'], shape=attr['shape'], color=color, penwidth=penwidth)
+            
+            dot.edge('S', 'q0')
+            dot.edge('q0', 'q0', label='0')
+            dot.edge('q0', 'q1', label='1')
+            dot.edge('q1', 'q1', label='1')
+            dot.edge('q1', 'q2', label='0')
+            dot.edge('q2', 'q0', label='0')
+            dot.edge('q2', 'q3', label='1')
+            dot.edge('q3', 'q3', label='0, 1')
+            return dot
+
+        col_sim_graph, col_sim_input = st.columns([2, 1])
+        
+        with col_sim_graph:
+            dfa_placeholder = st.empty()
+            dfa_placeholder.graphviz_chart(generate_dfa_sim_diagram('q0'))
+            
+        with col_sim_input:
+            dfa_input_str = st.text_input("Enter Binary String (0s and 1s):", "11010")
+            dfa_speed = st.slider("Simulation Speed:", 0.5, 3.0, 1.5, key="dfa_speed")
+            run_dfa = st.button("Start DFA Simulation ⚡")
+            
+        if run_dfa:
+            current_state = 'q0'
+            dfa_history = []
+            dfa_table_placeholder = st.empty()
+            
+            # DFA Transition Logic for '101'
+            transitions = {
+                'q0': {'0': 'q0', '1': 'q1'},
+                'q1': {'0': 'q2', '1': 'q1'},
+                'q2': {'0': 'q0', '1': 'q3'},
+                'q3': {'0': 'q3', '1': 'q3'}
+            }
+            
+            valid_input = True
+            for i, char in enumerate(dfa_input_str):
+                if char not in ['0', '1']:
+                    st.error(f"Invalid character '{char}'! Please use only 0 and 1.")
+                    valid_input = False
+                    break
+                
+                prev_state = current_state
+                current_state = transitions[prev_state][char]
+                
+                dfa_history.append({
+                    "Step": i + 1,
+                    "Input": char,
+                    "From": prev_state,
+                    "To": current_state
+                })
+                
+                dfa_placeholder.graphviz_chart(generate_dfa_sim_diagram(current_state))
+                dfa_table_placeholder.table(pd.DataFrame(dfa_history))
+                time.sleep(dfa_speed)
+            
+            if valid_input:
+                if current_state == 'q3':
+                    st.success("✅ String Accepted! It contains '101'.")
+                else:
+                    st.error("❌ String Rejected! It does not contain '101'.")
 
     with tab_quiz:
         st.markdown('<div class="quiz-section">', unsafe_allow_html=True)

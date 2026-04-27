@@ -150,48 +150,180 @@ elif subject == "PDA Learning Hub":
             st.markdown('</div>', unsafe_allow_html=True)
 
 elif subject == "Theory of Computation":
-    st.markdown("### 🤖 Theory of Computation: PDA Simulator")
-    st.info("💡 هذا المحاكي يتيح لك تتبع حركة الآلة (States) وتغير الـ Stack خطوة بخطوة.")
-    
-    def generate_pda_diagram(active_state):
-        dot = graphviz.Digraph()
-        dot.attr(rankdir='LR', size='8,5')
-        dot.node('S', '', shape='none')
-        dot.node('q0', 'q0', shape='circle', color='#3b82f6' if active_state == 'q0' else 'black', penwidth='3' if active_state == 'q0' else '1')
-        dot.node('q1', 'q1', shape='circle', color='#3b82f6' if active_state == 'q1' else 'black', penwidth='3' if active_state == 'q1' else '1')
-        dot.node('f', 'Accept', shape='doublecircle', color='green' if active_state == 'accepted' else 'black')
-        dot.edge('S', 'q0'); dot.edge('q0', 'q0', label='a, Z0 / AZ0\\na, A / AA'); dot.edge('q0', 'q1', label='b, A / ε'); dot.edge('q1', 'q1', label='b, A / ε'); dot.edge('q1', 'f', label='ε, Z0 / Z0')
-        return dot
+    # ---- TAB LAYOUT: PDA Simulator + Additional Lessons ----
+    tab_sim, tab_lessons = st.tabs(["🤖 PDA Simulator", "📘 Additional Lessons"])
 
-    col_graph, col_input = st.columns([2, 1])
-    with col_graph:
-        diagram_placeholder = st.empty()
-        diagram_placeholder.graphviz_chart(generate_pda_diagram('q0'))
-    with col_input:
-        test_string = st.text_input("Enter Input String (e.g., aabb):", "aabb")
-        sim_speed = st.slider("Speed:", 0.5, 2.0, 1.0)
-        if st.button("Run Simulation 🚀"):
-            stack, current_state, history, failed = ["Z0"], "q0", [], False
-            table_placeholder = st.empty()
-            for i, char in enumerate(test_string):
-                action = "Push A" if char == 'a' else "Pop A"
-                history.append({"Step": i+1, "Input": char, "State": current_state, "Stack": str(stack[::-1]), "Action": action})
-                diagram_placeholder.graphviz_chart(generate_pda_diagram(current_state))
-                table_placeholder.table(pd.DataFrame(history))
-                if current_state == "q0":
-                    if char == 'a': stack.append('A')
-                    elif char == 'b' and len(stack) > 1: stack.pop(); current_state = "q1"
-                    else: failed = True; break
-                elif current_state == "q1":
-                    if char == 'b' and len(stack) > 1: stack.pop()
-                    else: failed = True; break
-                time.sleep(sim_speed)
-            if not failed and current_state == "q1" and len(stack) == 1:
-                diagram_placeholder.graphviz_chart(generate_pda_diagram('accepted'))
-                history.append({"Step": "End", "Input": "ε", "State": "Accept", "Stack": "['Z0']", "Action": "Success"})
-                table_placeholder.table(pd.DataFrame(history))
-                st.success("✅ Result: String Accepted")
-            else: st.error("❌ Result: String Rejected")
+    # ========================= TAB 1: PDA SIMULATOR =========================
+    with tab_sim:
+        st.markdown("### 🤖 Theory of Computation: PDA Simulator")
+        st.info("💡 هذا المحاكي يتيح لك تتبع حركة الآلة (States) وتغير الـ Stack خطوة بخطوة.")
+
+        def generate_pda_diagram(active_state):
+            dot = graphviz.Digraph()
+            dot.attr(rankdir='LR', size='8,5')
+            dot.node('S', '', shape='none')
+            dot.node('q0', 'q0', shape='circle', color='#3b82f6' if active_state == 'q0' else 'black', penwidth='3' if active_state == 'q0' else '1')
+            dot.node('q1', 'q1', shape='circle', color='#3b82f6' if active_state == 'q1' else 'black', penwidth='3' if active_state == 'q1' else '1')
+            dot.node('f', 'Accept', shape='doublecircle', color='green' if active_state == 'accepted' else 'black')
+            dot.edge('S', 'q0')
+            dot.edge('q0', 'q0', label='a, Z0 / AZ0\\na, A / AA')
+            dot.edge('q0', 'q1', label='b, A / ε')
+            dot.edge('q1', 'q1', label='b, A / ε')
+            dot.edge('q1', 'f', label='ε, Z0 / Z0')
+            return dot
+
+        col_graph, col_input = st.columns([2, 1])
+        with col_graph:
+            diagram_placeholder = st.empty()
+            diagram_placeholder.graphviz_chart(generate_pda_diagram('q0'))
+        with col_input:
+            test_string = st.text_input("Enter Input String (e.g., aabb):", "aabb")
+            sim_speed = st.slider("Speed:", 0.5, 2.0, 1.0)
+            if st.button("Run Simulation 🚀"):
+                stack, current_state, history, failed = ["Z0"], "q0", [], False
+                table_placeholder = st.empty()
+                for i, char in enumerate(test_string):
+                    action = "Push A" if char == 'a' else "Pop A"
+                    history.append({"Step": i+1, "Input": char, "State": current_state, "Stack": str(stack[::-1]), "Action": action})
+                    diagram_placeholder.graphviz_chart(generate_pda_diagram(current_state))
+                    table_placeholder.table(pd.DataFrame(history))
+                    if current_state == "q0":
+                        if char == 'a': stack.append('A')
+                        elif char == 'b' and len(stack) > 1: stack.pop(); current_state = "q1"
+                        else: failed = True; break
+                    elif current_state == "q1":
+                        if char == 'b' and len(stack) > 1: stack.pop()
+                        else: failed = True; break
+                    time.sleep(sim_speed)
+                if not failed and current_state == "q1" and len(stack) == 1:
+                    diagram_placeholder.graphviz_chart(generate_pda_diagram('accepted'))
+                    history.append({"Step": "End", "Input": "ε", "State": "Accept", "Stack": "['Z0']", "Action": "Success"})
+                    table_placeholder.table(pd.DataFrame(history))
+                    st.success("✅ Result: String Accepted")
+                else:
+                    st.error("❌ Result: String Rejected")
+
+    # ========================= TAB 2: ADDITIONAL LESSONS =========================
+    with tab_lessons:
+        st.markdown("## 📘 Theory of Computation - Additional Lessons")
+
+        # ---- LESSON 1: Alphabets, Strings, Languages ----
+        st.markdown("""
+        <div class="learning-card">
+        <h3>Alphabets, Strings, and Languages</h3>
+        <p>An alphabet (Σ) is a finite set of symbols. Strings are sequences. Languages are sets of strings.</p>
+        <ul>
+            <li>Σ = symbols set</li>
+            <li>String = sequence</li>
+            <li>ε = empty string</li>
+            <li>Σ* = all possible strings</li>
+            <li>Σ+ = non-empty strings</li>
+            <li>Concatenation</li>
+            <li>Substring</li>
+            <li>Lexicographic order</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+        dot1 = graphviz.Digraph()
+        dot1.node("Σ")
+        dot1.node("Strings")
+        dot1.node("Language")
+        dot1.edge("Σ", "Strings")
+        dot1.edge("Strings", "Language")
+        st.graphviz_chart(dot1)
+
+        q_l1 = st.radio("What does Σ represent?", ["Alphabet (symbols)", "Numbers", "Operations"], key="q_l1")
+        if st.button("Check L1"):
+            st.success("Correct!" if q_l1 == "Alphabet (symbols)" else "Incorrect")
+
+        st.write("---")
+
+        # ---- LESSON 2: Sets ----
+        st.markdown("""
+        <div class="learning-card">
+        <h3>Sets</h3>
+        <ul>
+            <li>Union (A ∪ B)</li>
+            <li>Intersection (A ∩ B)</li>
+            <li>Difference</li>
+            <li>Complement</li>
+            <li>Power Set</li>
+            <li>Cartesian Product</li>
+            <li>Cardinality</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+        dot2 = graphviz.Digraph()
+        dot2.node("A")
+        dot2.node("B")
+        dot2.node("A ∪ B")
+        dot2.node("A ∩ B")
+        dot2.edge("A", "A ∪ B")
+        dot2.edge("B", "A ∪ B")
+        dot2.edge("A", "A ∩ B")
+        dot2.edge("B", "A ∩ B")
+        st.graphviz_chart(dot2)
+
+        q_l2 = st.radio("Intersection means:", ["Common elements", "All elements", "None"], key="q_l2")
+        if st.button("Check L2"):
+            st.success("Correct!" if q_l2 == "Common elements" else "Incorrect")
+
+        st.write("---")
+
+        # ---- LESSON 3: Functions ----
+        st.markdown("""
+        <div class="learning-card">
+        <h3>Functions and Operations</h3>
+        <ul>
+            <li>Domain</li>
+            <li>Codomain</li>
+            <li>Range</li>
+            <li>Sequences</li>
+            <li>Tuples</li>
+            <li>Closed operations</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+        dot3 = graphviz.Digraph()
+        dot3.node("A")
+        dot3.node("B")
+        dot3.node("f(x)")
+        dot3.edge("A", "f(x)")
+        dot3.edge("f(x)", "B")
+        st.graphviz_chart(dot3)
+
+        q_l3 = st.radio("Function maps:", ["Set to set", "Numbers only", "Random"], key="q_l3")
+        if st.button("Check L3"):
+            st.success("Correct!" if q_l3 == "Set to set" else "Incorrect")
+
+        st.write("---")
+
+        # ---- LESSON 4: Boolean Logic ----
+        st.markdown("""
+        <div class="learning-card">
+        <h3>Boolean Logic</h3>
+        <ul>
+            <li>AND</li>
+            <li>OR</li>
+            <li>NOT</li>
+            <li>De Morgan's Laws</li>
+            <li>Commutative / Associative Laws</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+        dot4 = graphviz.Digraph()
+        dot4.node("True")
+        dot4.node("False")
+        dot4.edge("True", "False", label="NOT")
+        st.graphviz_chart(dot4)
+
+        q_l4 = st.radio("AND means:", ["Both true", "One true", "None"], key="q_l4")
+        if st.button("Check L4"):
+            st.success("Correct!" if q_l4 == "Both true" else "Incorrect")
 
 elif subject == "Contact Developer":
     st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")
@@ -212,7 +344,8 @@ elif subject == "Community Feedback":
             if name and msg: save_comment(name, msg); st.success("Comment saved!")
     st.markdown("---")
     for c in reversed(load_comments()):
-        st.markdown(f"""<div class="comment-box"><b>👤 {c['u']}</b> <small>({c['t']})</small><br>{c['m']}</div>""", unsafe_allow_html=True)
+        st.markdown(f"""<div class="comment-box"><b>👤 {c['u']}</b> <small>({c['t']})</small>  
+{c['m']}</div>""", unsafe_allow_html=True)
 
 # --- 7. FOOTER ---
 st.markdown(f"""
@@ -220,7 +353,8 @@ st.markdown(f"""
         <p>© 2026 | <b>تطوير وبرمجة: مهره عطيه الجهني</b></p>
         <p style="font-size: 14px; opacity: 0.8; margin-top: 10px;">
             © 2026 Mohrah Atiah. All rights reserved. This platform is an original academic project. 
-            <br> Reuse or redistribution without permission is not allowed.
+              
+ Reuse or redistribution without permission is not allowed.
         </p>
     </div>
     """, unsafe_allow_html=True)

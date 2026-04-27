@@ -35,7 +35,7 @@ if 'visitor_count' not in st.session_state:
 else:
     st.session_state.visitor_count += 1
 
-# --- 4. ADVANCED STYLING (The Royal Theme) ---
+# --- 4. ADVANCED STYLING ---
 st.markdown("""
     <style>
     .main { background-color: #ffffff; }
@@ -57,6 +57,9 @@ st.markdown("""
         text-align: center; padding: 30px; margin-top: 60px;
         border-top: 2px solid #1e3a8a; background-color: #f8fafc; color: #1e3a8a;
     }
+    .quiz-card {
+        background-color: #f1f5f9; padding: 20px; border-radius: 15px; border-left: 5px solid #3b82f6; margin-bottom: 20px;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -77,35 +80,41 @@ st.sidebar.write("---")
 
 subject = st.sidebar.selectbox(
     "Choose a Module:",
-    ["Home Page", "Theory of Computation", "Contact Developer", "Community Feedback"]
+    ["Home Page", "PDA Learning Hub", "Theory of Computation", "Contact Developer", "Community Feedback"]
 )
 
 # --- 7. MODULES ---
-if subject == "Contact Developer":
-    st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")
-    st.write("يسعدني استقبال استفساراتكم الأكاديمية أو المهنية عبر القنوات الرسمية التالية:")
-    st.write("---")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.info("🏛️ **Academic Email / البريد الجامعي**")
-        st.code("451000518@stu.ut.edu.sa")
-    with col2:
-        st.success("📩 **Personal Email / البريد الشخصي**")
-        st.code("mohrah.atiiah@icloud.com")
+if subject == "PDA Learning Hub":
+    st.markdown("### 📚 PDA Comprehensive Summary")
+    col_summary, col_quiz = st.columns(2)
+    
+    with col_summary:
+        st.markdown("""
+        <div class="quiz-card">
+        <h4>What is a Pushdown Automata (PDA)?</h4>
+        <p>A PDA is a type of automata that employs a <b>Stack</b> as auxiliary memory. It is used to recognize <b>Context-Free Languages (CFLs)</b>.</p>
+        <hr>
+        <h4>Core Logic (LIFO):</h4>
+        <ul>
+            <li><b>Push:</b> Adding a symbol to the top of the stack.</li>
+            <li><b>Pop:</b> Removing the top symbol from the stack.</li>
+            <li><b>Stack Memory:</b> Allows the machine to remember information (like counting the number of 'a's to match with 'b's).</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
-elif subject == "Community Feedback":
-    st.markdown("### 💬 Community Discussion Board")
-    with st.form("feedback_form"):
-        name = st.text_input("Name / الاسم:")
-        msg = st.text_area("Feedback / التعليق:")
-        if st.form_submit_button("Post / إرسال"):
-            if name and msg:
-                save_comment(name, msg)
-                st.success("Comment saved! / تم حفظ التعليق بنجاح")
-    st.markdown("---")
-    all_comments = load_comments()
-    for c in reversed(all_comments):
-        st.markdown(f"""<div class="comment-box"><b>👤 {c['u']}</b> <small>({c['t']})</small><br>{c['m']}</div>""", unsafe_allow_html=True)
+    with col_quiz:
+        st.markdown("<h4>🧠 Quick Knowledge Quiz</h4>", unsafe_allow_html=True)
+        q1 = st.radio("1. What is the main difference between FA and PDA?", ["Number of states", "Presence of a Stack", "Processing speed"])
+        if st.button("Check Q1"):
+            if q1 == "Presence of a Stack": st.success("Correct! 🎯")
+            else: st.error("Try again! The Stack is the key memory.")
+            
+        st.write("---")
+        q2 = st.radio("2. What does LIFO stand for in Stack logic?", ["Last In, First Out", "Long Input, Fast Output", "Level In, Final Out"])
+        if st.button("Check Q2"):
+            if q2 == "Last In, First Out": st.success("Correct! 🎯")
+            else: st.error("Incorrect. It means the last item added is the first one removed.")
 
 elif subject == "Theory of Computation":
     st.markdown("### 🤖 Theory of Computation: PDA Simulator")
@@ -137,14 +146,11 @@ elif subject == "Theory of Computation":
     if run_btn:
         stack, current_state, history, failed = ["Z0"], "q0", [], False
         table_placeholder = st.empty()
-        
         for i, char in enumerate(test_string):
             action = "Push A" if char == 'a' else "Pop A"
             history.append({"Step": i+1, "Input": char, "State": current_state, "Stack": str(stack[::-1]), "Action": action})
-            
             diagram_placeholder.graphviz_chart(generate_pda_diagram(current_state))
             table_placeholder.table(pd.DataFrame(history))
-            
             if current_state == "q0":
                 if char == 'a': stack.append('A')
                 elif char == 'b' and len(stack) > 1: stack.pop(); current_state = "q1"
@@ -153,14 +159,12 @@ elif subject == "Theory of Computation":
                 if char == 'b' and len(stack) > 1: stack.pop()
                 else: failed = True; break
             time.sleep(sim_speed)
-            
         if not failed and current_state == "q1" and len(stack) == 1:
             diagram_placeholder.graphviz_chart(generate_pda_diagram('accepted'))
             history.append({"Step": "End", "Input": "ε", "State": "Accept", "Stack": "['Z0']", "Action": "Success"})
             table_placeholder.table(pd.DataFrame(history))
             st.success("✅ Result: String Accepted")
-        else:
-            st.error("❌ Result: String Rejected")
+        else: st.error("❌ Result: String Rejected")
 
 elif subject == "Home Page":
     st.markdown("### 🏛️ Welcome to the CS Core Portal")
@@ -169,6 +173,27 @@ elif subject == "Home Page":
     **المصدر العلمي (Academic Source):**
     جميع الدروس والأمثلة البرمجية المقدمة في هذه المنصة مستمدة من المناهج الأكاديمية المعتمدة في **جامعة تبوك**، ويتم تقديمها هنا لغرض الشرح والتوضيح وتسهيل الفهم.
     """)
+
+elif subject == "Contact Developer":
+    st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.info("🏛️ **Academic Email**")
+        st.code("451000518@stu.ut.edu.sa")
+    with col2:
+        st.success("📩 **Personal Email**")
+        st.code("mohrah.atiiah@icloud.com")
+
+elif subject == "Community Feedback":
+    st.markdown("### 💬 Community Discussion Board")
+    with st.form("feedback_form"):
+        name = st.text_input("Name:")
+        msg = st.text_area("Feedback:")
+        if st.form_submit_button("Post"):
+            if name and msg: save_comment(name, msg); st.success("Comment saved!")
+    st.markdown("---")
+    for c in reversed(load_comments()):
+        st.markdown(f"""<div class="comment-box"><b>👤 {c['u']}</b> <small>({c['t']})</small><br>{c['m']}</div>""", unsafe_allow_html=True)
 
 # --- 8. FOOTER ---
 st.markdown(f"""

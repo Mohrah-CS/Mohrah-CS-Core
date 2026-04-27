@@ -78,7 +78,7 @@ st.sidebar.write("---")
 
 subject = st.sidebar.selectbox(
     "Choose a Module:",
-    ["Home Page", "Foundations of TOC", "PDA Learning Hub", "Theory of Computation", "Contact Developer", "Community Feedback"]
+    ["Home Page", "Foundations of TOC", "DFA Explorer", "PDA Learning Hub", "Theory of Computation", "Contact Developer", "Community Feedback"]
 )
 
 # --- 6. MODULES ---
@@ -216,6 +216,77 @@ elif subject == "Foundations of TOC":
         if st.button("Verify Answer", key="b_f4"):
             if q_f4 == "True": st.success("Correct! (F) OR T = True.")
             else: st.error("Incorrect. Remember the order of operations.")
+
+elif subject == "DFA Explorer":
+    st.markdown("## ⚙️ Deterministic Finite Automata (DFA)")
+    st.info("💡 الـ DFA هو أبسط نموذج للحوسبة، حيث ينتقل بين حالات محددة بناءً على المدخلات.")
+    
+    tab_info, tab_viz, tab_quiz = st.tabs(["📖 DFA Definition", "🎨 Visual Examples", "🧠 DFA Quiz"])
+    
+    with tab_info:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Formal Definition</div>
+        <h3>What is a DFA?</h3>
+        <p>A <b>Deterministic Finite Automata (DFA)</b> is a theoretical model of a machine that has a finite number of states and transitions between them based on input symbols.</p>
+        <p>It is formally defined as a <b>5-tuple (Q, Σ, δ, q0, F)</b>:</p>
+        <ul>
+            <li><b>Q:</b> A finite set of <span class="highlight">States</span>.</li>
+            <li><b>Σ:</b> A finite set of <span class="highlight">Input Symbols</span> (Alphabet).</li>
+            <li><b>δ:</b> The <span class="highlight">Transition Function</span> (δ: Q × Σ → Q).</li>
+            <li><b>q0:</b> The <span class="highlight">Start State</span> (q0 ∈ Q).</li>
+            <li><b>F:</b> The set of <span class="highlight">Accepting (Final) States</span> (F ⊆ Q).</li>
+        </ul>
+        <p><b>Why "Deterministic"?</b> Because for every state and every input symbol, there is <b>exactly one</b> transition to a next state.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_viz:
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("#### 1. Even Number of '0's")
+            st.write("This DFA accepts binary strings with an even count of zeros.")
+            dfa1 = graphviz.Digraph()
+            dfa1.attr(rankdir='LR', bgcolor='transparent')
+            dfa1.node('S', '', shape='none')
+            dfa1.node('q_even', 'Even (q0)', shape='doublecircle', color='green')
+            dfa1.node('q_odd', 'Odd (q1)', shape='circle')
+            dfa1.edge('S', 'q_even')
+            dfa1.edge('q_even', 'q_odd', label='0')
+            dfa1.edge('q_odd', 'q_even', label='0')
+            dfa1.edge('q_even', 'q_even', label='1')
+            dfa1.edge('q_odd', 'q_odd', label='1')
+            st.graphviz_chart(dfa1)
+            
+        with col2:
+            st.markdown("#### 2. Starts with 'a'")
+            st.write("This DFA accepts strings that begin with the letter 'a'.")
+            dfa2 = graphviz.Digraph()
+            dfa2.attr(rankdir='LR', bgcolor='transparent')
+            dfa2.node('S', '', shape='none')
+            dfa2.node('q0', 'Start', shape='circle')
+            dfa2.node('q1', 'Accept', shape='doublecircle', color='green')
+            dfa2.node('q2', 'Trap', shape='circle', color='red')
+            dfa2.edge('S', 'q0')
+            dfa2.edge('q0', 'q1', label='a')
+            dfa2.edge('q0', 'q2', label='b')
+            dfa2.edge('q1', 'q1', label='a, b')
+            dfa2.edge('q2', 'q2', label='a, b')
+            st.graphviz_chart(dfa2)
+
+    with tab_quiz:
+        st.markdown('<div class="quiz-section">', unsafe_allow_html=True)
+        dq1 = st.radio("1. How many transitions must exist for EACH state in a DFA with alphabet Σ={0,1}?", ["One", "Two", "Unlimited"])
+        if st.button("Check DFA Q1"):
+            if dq1 == "Two": st.success("Correct! One for '0' and one for '1'.")
+            else: st.error("Incorrect. In DFA, every symbol must have exactly one transition.")
+        
+        st.write("---")
+        dq2 = st.radio("2. What happens if a DFA ends in a non-final state?", ["String is Accepted", "String is Rejected", "Machine Crashes"])
+        if st.button("Check DFA Q2"):
+            if dq2 == "String is Rejected": st.success("Correct!")
+            else: st.error("Incorrect. Only final states lead to acceptance.")
+        st.markdown('</div>', unsafe_allow_html=True)
 
 elif subject == "PDA Learning Hub":
     st.markdown("## 📚 Pushdown Automata (PDA) - Comprehensive Study Guide")

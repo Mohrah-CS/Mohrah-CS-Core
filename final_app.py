@@ -51,9 +51,14 @@ st.markdown("""
         background-color: #f8fafc; padding: 25px; border-radius: 15px; border-left: 6px solid #1e3a8a; margin-bottom: 25px;
         box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     }
+    .concept-badge {
+        background-color: #1e3a8a; color: white; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: bold; display: inline-block; margin-bottom: 10px;
+    }
     .quiz-section {
         background-color: #ffffff; padding: 20px; border: 1px solid #e2e8f0; border-radius: 15px;
     }
+    h3 { color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
+    .highlight { color: #3b82f6; font-weight: bold; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -73,7 +78,7 @@ st.sidebar.write("---")
 
 subject = st.sidebar.selectbox(
     "Choose a Module:",
-    ["Home Page", "PDA Learning Hub", "Theory of Computation", "Contact Developer", "Community Feedback"]
+    ["Home Page", "Foundations of TOC", "PDA Learning Hub", "Theory of Computation", "Contact Developer", "Community Feedback"]
 )
 
 # --- 6. MODULES ---
@@ -84,6 +89,133 @@ if subject == "Home Page":
     **المصدر العلمي (Academic Source):**
     جميع الدروس والأمثلة البرمجية المقدمة في هذه المنصة مستمدة من المناهج الأكاديمية المعتمدة في **جامعة تبوك**، ويتم تقديمها هنا لغرض الشرح والتوضيح وتسهيل الفهم.
     """)
+
+elif subject == "Foundations of TOC":
+    st.markdown("## 📘 Foundations of Theory of Computation")
+    st.info("💡 استكشف المفاهيم الرياضية الأساسية التي تبنى عليها نظرية الحوسبة.")
+    
+    tab1, tab2, tab3, tab4 = st.tabs(["🔤 Alphabets & Strings", "📊 Set Theory", "⚙️ Functions", "🧠 Boolean Logic"])
+    
+    with tab1:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Lesson 1</div>
+        <h3>Alphabets, Strings, and Languages</h3>
+        <p>In TOC, we build everything from the ground up, starting with symbols.</p>
+        <ul>
+            <li><b>Alphabet (Σ):</b> A <span class="highlight">finite, non-empty set</span> of symbols. Example: Σ = {0, 1} for binary.</li>
+            <li><b>String (w):</b> A finite sequence of symbols from an alphabet. Example: '0110' is a string over Σ = {0, 1}.</li>
+            <li><b>Empty String (ε):</b> A string with <span class="highlight">zero length</span>. It is a member of Σ* but not Σ.</li>
+            <li><b>Length |w|:</b> The number of symbol positions in the string. |0110| = 4.</li>
+            <li><b>Powers of Alphabet:</b>
+                <ul>
+                    <li><b>Σ*:</b> The set of ALL possible strings over Σ, including ε (Kleene Closure).</li>
+                    <li><b>Σ+:</b> The set of all non-empty strings (Σ+ = Σ* - {ε}).</li>
+                </ul>
+            </li>
+            <li><b>Language (L):</b> A set of strings chosen from Σ*. If Σ = {0,1}, then L = {00, 01, 10, 11} is a language.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        dot1 = graphviz.Digraph()
+        dot1.attr(bgcolor='transparent')
+        dot1.node("Σ", "Alphabet\\n{a, b}", shape="ellipse", color="#1e3a8a")
+        dot1.node("S", "Strings\\n{a, b, aa, ab...}", shape="box", color="#3b82f6")
+        dot1.node("L", "Language\\n{aa, bb}", shape="doublecircle", color="#10b981")
+        dot1.edge("Σ", "S", label="Combine")
+        dot1.edge("S", "L", label="Subset")
+        st.graphviz_chart(dot1)
+        
+        st.markdown("#### 📝 Quick Check")
+        q_f1 = st.radio("If Σ = {a, b}, which of the following is NOT in Σ*?", ["ε", "ab", "c", "aaa"], key="q_f1")
+        if st.button("Verify Answer", key="b_f1"):
+            if q_f1 == "c": st.success("Correct! 'c' is not in the alphabet {a, b}.")
+            else: st.error("Try again! Remember Σ* only contains symbols from Σ.")
+
+    with tab2:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Lesson 2</div>
+        <h3>Set Theory in Computation</h3>
+        <p>Sets are the collection of distinct objects, used to define languages and states.</p>
+        <ul>
+            <li><b>Union (A ∪ B):</b> Elements in A, or B, or both.</li>
+            <li><b>Intersection (A ∩ B):</b> Elements <span class="highlight">common</span> to both A and B.</li>
+            <li><b>Complement (Ā):</b> Elements in the Universal set NOT in A.</li>
+            <li><b>Power Set P(S):</b> The set of all subsets of S. If |S| = n, then |P(S)| = 2ⁿ.</li>
+            <li><b>Cartesian Product (A × B):</b> Set of all ordered pairs (a, b).</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        dot2 = graphviz.Digraph()
+        dot2.attr(bgcolor='transparent')
+        dot2.node("A", "Set A", color="#1e3a8a")
+        dot2.node("B", "Set B", color="#1e3a8a")
+        dot2.node("U", "Union", shape="hexagon", style="filled", fillcolor="#dbeafe")
+        dot2.node("I", "Intersection", shape="hexagon", style="filled", fillcolor="#bfdbfe")
+        dot2.edge("A", "U"); dot2.edge("B", "U")
+        dot2.edge("A", "I"); dot2.edge("B", "I")
+        st.graphviz_chart(dot2)
+        
+        st.markdown("#### 📝 Quick Check")
+        q_f2 = st.radio("If A = {1, 2} and B = {2, 3}, what is A ∩ B?", ["{1, 2, 3}", "{2}", "{1, 3}"], key="q_f2")
+        if st.button("Verify Answer", key="b_f2"):
+            if q_f2 == "{2}": st.success("Correct! 2 is the only common element.")
+            else: st.error("Incorrect. Intersection looks for common elements.")
+
+    with tab3:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Lesson 3</div>
+        <h3>Functions and Relations</h3>
+        <p>Functions map inputs to outputs, essential for defining transition functions (δ).</p>
+        <ul>
+            <li><b>Domain:</b> The set of all possible inputs.</li>
+            <li><b>Codomain:</b> The set of potential outputs.</li>
+            <li><b>Range:</b> The actual set of outputs produced.</li>
+            <li><b>Onto (Surjective):</b> Every element in codomain is mapped.</li>
+            <li><b>One-to-One (Injective):</b> Each input has a unique output.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        dot3 = graphviz.Digraph()
+        dot3.attr(rankdir='LR', bgcolor='transparent')
+        dot3.node("In", "Input (Domain)", shape="circle")
+        dot3.node("F", "Function (f)", shape="box", style="filled", fillcolor="#1e3a8a", fontcolor="white")
+        dot3.node("Out", "Output (Range)", shape="circle")
+        dot3.edge("In", "F"); dot3.edge("F", "Out")
+        st.graphviz_chart(dot3)
+        
+        st.markdown("#### 📝 Quick Check")
+        q_f3 = st.radio("In a transition function δ: Q × Σ → Q, what is the domain?", ["Q", "Σ", "Q × Σ"], key="q_f3")
+        if st.button("Verify Answer", key="b_f3"):
+            if q_f3 == "Q × Σ": st.success("Correct! It takes a state and a symbol as input.")
+            else: st.error("Incorrect. Look at the part before the arrow.")
+
+    with tab4:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Lesson 4</div>
+        <h3>Boolean Logic</h3>
+        <p>The logic of True (1) and False (0) that governs all digital computation.</p>
+        <ul>
+            <li><b>AND (∧):</b> True only if BOTH are true.</li>
+            <li><b>OR (∨):</b> True if AT LEAST one is true.</li>
+            <li><b>NOT (¬):</b> Inverts the value.</li>
+            <li><b>XOR (⊕):</b> True if EXACTLY one is true.</li>
+            <li><b>De Morgan's Law:</b> ¬(A ∨ B) = ¬A ∧ ¬B.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("#### 📝 Quick Check")
+        q_f4 = st.radio("What is (True AND False) OR True?", ["True", "False"], key="q_f4")
+        if st.button("Verify Answer", key="b_f4"):
+            if q_f4 == "True": st.success("Correct! (F) OR T = True.")
+            else: st.error("Incorrect. Remember the order of operations.")
 
 elif subject == "PDA Learning Hub":
     st.markdown("## 📚 Pushdown Automata (PDA) - Comprehensive Study Guide")
@@ -150,180 +282,48 @@ elif subject == "PDA Learning Hub":
             st.markdown('</div>', unsafe_allow_html=True)
 
 elif subject == "Theory of Computation":
-    # ---- TAB LAYOUT: PDA Simulator + Additional Lessons ----
-    tab_sim, tab_lessons = st.tabs(["🤖 PDA Simulator", "📘 Additional Lessons"])
+    st.markdown("### 🤖 Theory of Computation: PDA Simulator")
+    st.info("💡 هذا المحاكي يتيح لك تتبع حركة الآلة (States) وتغير الـ Stack خطوة بخطوة.")
+    
+    def generate_pda_diagram(active_state):
+        dot = graphviz.Digraph()
+        dot.attr(rankdir='LR', size='8,5')
+        dot.node('S', '', shape='none')
+        dot.node('q0', 'q0', shape='circle', color='#3b82f6' if active_state == 'q0' else 'black', penwidth='3' if active_state == 'q0' else '1')
+        dot.node('q1', 'q1', shape='circle', color='#3b82f6' if active_state == 'q1' else 'black', penwidth='3' if active_state == 'q1' else '1')
+        dot.node('f', 'Accept', shape='doublecircle', color='green' if active_state == 'accepted' else 'black')
+        dot.edge('S', 'q0'); dot.edge('q0', 'q0', label='a, Z0 / AZ0\\na, A / AA'); dot.edge('q0', 'q1', label='b, A / ε'); dot.edge('q1', 'q1', label='b, A / ε'); dot.edge('q1', 'f', label='ε, Z0 / Z0')
+        return dot
 
-    # ========================= TAB 1: PDA SIMULATOR =========================
-    with tab_sim:
-        st.markdown("### 🤖 Theory of Computation: PDA Simulator")
-        st.info("💡 هذا المحاكي يتيح لك تتبع حركة الآلة (States) وتغير الـ Stack خطوة بخطوة.")
-
-        def generate_pda_diagram(active_state):
-            dot = graphviz.Digraph()
-            dot.attr(rankdir='LR', size='8,5')
-            dot.node('S', '', shape='none')
-            dot.node('q0', 'q0', shape='circle', color='#3b82f6' if active_state == 'q0' else 'black', penwidth='3' if active_state == 'q0' else '1')
-            dot.node('q1', 'q1', shape='circle', color='#3b82f6' if active_state == 'q1' else 'black', penwidth='3' if active_state == 'q1' else '1')
-            dot.node('f', 'Accept', shape='doublecircle', color='green' if active_state == 'accepted' else 'black')
-            dot.edge('S', 'q0')
-            dot.edge('q0', 'q0', label='a, Z0 / AZ0\\na, A / AA')
-            dot.edge('q0', 'q1', label='b, A / ε')
-            dot.edge('q1', 'q1', label='b, A / ε')
-            dot.edge('q1', 'f', label='ε, Z0 / Z0')
-            return dot
-
-        col_graph, col_input = st.columns([2, 1])
-        with col_graph:
-            diagram_placeholder = st.empty()
-            diagram_placeholder.graphviz_chart(generate_pda_diagram('q0'))
-        with col_input:
-            test_string = st.text_input("Enter Input String (e.g., aabb):", "aabb")
-            sim_speed = st.slider("Speed:", 0.5, 2.0, 1.0)
-            if st.button("Run Simulation 🚀"):
-                stack, current_state, history, failed = ["Z0"], "q0", [], False
-                table_placeholder = st.empty()
-                for i, char in enumerate(test_string):
-                    action = "Push A" if char == 'a' else "Pop A"
-                    history.append({"Step": i+1, "Input": char, "State": current_state, "Stack": str(stack[::-1]), "Action": action})
-                    diagram_placeholder.graphviz_chart(generate_pda_diagram(current_state))
-                    table_placeholder.table(pd.DataFrame(history))
-                    if current_state == "q0":
-                        if char == 'a': stack.append('A')
-                        elif char == 'b' and len(stack) > 1: stack.pop(); current_state = "q1"
-                        else: failed = True; break
-                    elif current_state == "q1":
-                        if char == 'b' and len(stack) > 1: stack.pop()
-                        else: failed = True; break
-                    time.sleep(sim_speed)
-                if not failed and current_state == "q1" and len(stack) == 1:
-                    diagram_placeholder.graphviz_chart(generate_pda_diagram('accepted'))
-                    history.append({"Step": "End", "Input": "ε", "State": "Accept", "Stack": "['Z0']", "Action": "Success"})
-                    table_placeholder.table(pd.DataFrame(history))
-                    st.success("✅ Result: String Accepted")
-                else:
-                    st.error("❌ Result: String Rejected")
-
-    # ========================= TAB 2: ADDITIONAL LESSONS =========================
-    with tab_lessons:
-        st.markdown("## 📘 Theory of Computation - Additional Lessons")
-
-        # ---- LESSON 1: Alphabets, Strings, Languages ----
-        st.markdown("""
-        <div class="learning-card">
-        <h3>Alphabets, Strings, and Languages</h3>
-        <p>An alphabet (Σ) is a finite set of symbols. Strings are sequences. Languages are sets of strings.</p>
-        <ul>
-            <li>Σ = symbols set</li>
-            <li>String = sequence</li>
-            <li>ε = empty string</li>
-            <li>Σ* = all possible strings</li>
-            <li>Σ+ = non-empty strings</li>
-            <li>Concatenation</li>
-            <li>Substring</li>
-            <li>Lexicographic order</li>
-        </ul>
-        </div>
-        """, unsafe_allow_html=True)
-
-        dot1 = graphviz.Digraph()
-        dot1.node("Σ")
-        dot1.node("Strings")
-        dot1.node("Language")
-        dot1.edge("Σ", "Strings")
-        dot1.edge("Strings", "Language")
-        st.graphviz_chart(dot1)
-
-        q_l1 = st.radio("What does Σ represent?", ["Alphabet (symbols)", "Numbers", "Operations"], key="q_l1")
-        if st.button("Check L1"):
-            st.success("Correct!" if q_l1 == "Alphabet (symbols)" else "Incorrect")
-
-        st.write("---")
-
-        # ---- LESSON 2: Sets ----
-        st.markdown("""
-        <div class="learning-card">
-        <h3>Sets</h3>
-        <ul>
-            <li>Union (A ∪ B)</li>
-            <li>Intersection (A ∩ B)</li>
-            <li>Difference</li>
-            <li>Complement</li>
-            <li>Power Set</li>
-            <li>Cartesian Product</li>
-            <li>Cardinality</li>
-        </ul>
-        </div>
-        """, unsafe_allow_html=True)
-
-        dot2 = graphviz.Digraph()
-        dot2.node("A")
-        dot2.node("B")
-        dot2.node("A ∪ B")
-        dot2.node("A ∩ B")
-        dot2.edge("A", "A ∪ B")
-        dot2.edge("B", "A ∪ B")
-        dot2.edge("A", "A ∩ B")
-        dot2.edge("B", "A ∩ B")
-        st.graphviz_chart(dot2)
-
-        q_l2 = st.radio("Intersection means:", ["Common elements", "All elements", "None"], key="q_l2")
-        if st.button("Check L2"):
-            st.success("Correct!" if q_l2 == "Common elements" else "Incorrect")
-
-        st.write("---")
-
-        # ---- LESSON 3: Functions ----
-        st.markdown("""
-        <div class="learning-card">
-        <h3>Functions and Operations</h3>
-        <ul>
-            <li>Domain</li>
-            <li>Codomain</li>
-            <li>Range</li>
-            <li>Sequences</li>
-            <li>Tuples</li>
-            <li>Closed operations</li>
-        </ul>
-        </div>
-        """, unsafe_allow_html=True)
-
-        dot3 = graphviz.Digraph()
-        dot3.node("A")
-        dot3.node("B")
-        dot3.node("f(x)")
-        dot3.edge("A", "f(x)")
-        dot3.edge("f(x)", "B")
-        st.graphviz_chart(dot3)
-
-        q_l3 = st.radio("Function maps:", ["Set to set", "Numbers only", "Random"], key="q_l3")
-        if st.button("Check L3"):
-            st.success("Correct!" if q_l3 == "Set to set" else "Incorrect")
-
-        st.write("---")
-
-        # ---- LESSON 4: Boolean Logic ----
-        st.markdown("""
-        <div class="learning-card">
-        <h3>Boolean Logic</h3>
-        <ul>
-            <li>AND</li>
-            <li>OR</li>
-            <li>NOT</li>
-            <li>De Morgan's Laws</li>
-            <li>Commutative / Associative Laws</li>
-        </ul>
-        </div>
-        """, unsafe_allow_html=True)
-
-        dot4 = graphviz.Digraph()
-        dot4.node("True")
-        dot4.node("False")
-        dot4.edge("True", "False", label="NOT")
-        st.graphviz_chart(dot4)
-
-        q_l4 = st.radio("AND means:", ["Both true", "One true", "None"], key="q_l4")
-        if st.button("Check L4"):
-            st.success("Correct!" if q_l4 == "Both true" else "Incorrect")
+    col_graph, col_input = st.columns([2, 1])
+    with col_graph:
+        diagram_placeholder = st.empty()
+        diagram_placeholder.graphviz_chart(generate_pda_diagram('q0'))
+    with col_input:
+        test_string = st.text_input("Enter Input String (e.g., aabb):", "aabb")
+        sim_speed = st.slider("Speed:", 0.5, 2.0, 1.0)
+        if st.button("Run Simulation 🚀"):
+            stack, current_state, history, failed = ["Z0"], "q0", [], False
+            table_placeholder = st.empty()
+            for i, char in enumerate(test_string):
+                action = "Push A" if char == 'a' else "Pop A"
+                history.append({"Step": i+1, "Input": char, "State": current_state, "Stack": str(stack[::-1]), "Action": action})
+                diagram_placeholder.graphviz_chart(generate_pda_diagram(current_state))
+                table_placeholder.table(pd.DataFrame(history))
+                if current_state == "q0":
+                    if char == 'a': stack.append('A')
+                    elif char == 'b' and len(stack) > 1: stack.pop(); current_state = "q1"
+                    else: failed = True; break
+                elif current_state == "q1":
+                    if char == 'b' and len(stack) > 1: stack.pop()
+                    else: failed = True; break
+                time.sleep(sim_speed)
+            if not failed and current_state == "q1" and len(stack) == 1:
+                diagram_placeholder.graphviz_chart(generate_pda_diagram('accepted'))
+                history.append({"Step": "End", "Input": "ε", "State": "Accept", "Stack": "['Z0']", "Action": "Success"})
+                table_placeholder.table(pd.DataFrame(history))
+                st.success("✅ Result: String Accepted")
+            else: st.error("❌ Result: String Rejected")
 
 elif subject == "Contact Developer":
     st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")

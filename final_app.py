@@ -7,7 +7,7 @@ import pandas as pd
 
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="MOHRAH CS CORE",
+    page_title="MOHRAH CS CORE - Ultimate Edition",
     layout="wide",
     page_icon="💎",
     initial_sidebar_state="expanded"
@@ -34,33 +34,36 @@ st.markdown("""
     <style>
     .main { background-color: #ffffff; }
     .header-box {
-        text-align: center; padding: 40px;
-        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-        color: white; border-radius: 20px; margin-bottom: 30px;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-    .comment-box {
-        padding: 15px; border-radius: 10px; background-color: #f8f9fa;
-        border-left: 5px solid #1e3a8a; margin-bottom: 10px; color: #1e3a8a;
-    }
-    .footer {
-        text-align: center; padding: 30px; margin-top: 60px;
-        border-top: 2px solid #1e3a8a; background-color: #f8fafc; color: #1e3a8a;
+        text-align: center; padding: 50px;
+        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+        color: white; border-radius: 25px; margin-bottom: 40px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
     }
     .learning-card {
-        background-color: #f8fafc; padding: 25px; border-radius: 15px; border-left: 6px solid #1e3a8a; margin-bottom: 25px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        background-color: #ffffff; padding: 35px; border-radius: 20px; 
+        border-right: 8px solid #1e3a8a; border-left: 8px solid #1e3a8a;
+        margin-bottom: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        line-height: 1.8;
     }
     .concept-badge {
-        background-color: #1e3a8a; color: white; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: bold; display: inline-block; margin-bottom: 10px;
+        background-color: #1e3a8a; color: white; padding: 6px 18px; border-radius: 25px; 
+        font-size: 14px; font-weight: bold; display: inline-block; margin-bottom: 15px;
     }
-    .quiz-section {
-        background-color: #ffffff; padding: 20px; border: 1px solid #e2e8f0; border-radius: 15px; margin-bottom: 20px;
-    }
-    h3 { color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
-    .highlight { color: #3b82f6; font-weight: bold; }
     .step-box {
-        background-color: #eff6ff; border: 1px dashed #3b82f6; padding: 15px; border-radius: 10px; margin-top: 10px;
+        background-color: #f0f9ff; border: 2px solid #bae6fd; padding: 20px; 
+        border-radius: 15px; margin: 20px 0; color: #0369a1;
+    }
+    .info-grid {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;
+    }
+    .info-item {
+        background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;
+    }
+    h2, h3 { color: #1e3a8a; font-weight: 800; }
+    .highlight { color: #2563eb; font-weight: bold; background: #eff6ff; padding: 2px 6px; border-radius: 4px; }
+    .footer {
+        text-align: center; padding: 40px; margin-top: 80px;
+        border-top: 3px solid #1e3a8a; background-color: #f1f5f9; color: #0f172a;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -68,48 +71,128 @@ st.markdown("""
 # --- 4. HEADER ---
 st.markdown(f"""
     <div class="header-box">
-        <div style="font-family: 'Georgia', serif; font-size: clamp(24px, 5vw, 48px); font-weight: bold; letter-spacing: 2px;">THE JEWEL OF COMPUTER SCIENCE</div>
-        <div style="font-size: clamp(16px, 3vw, 24px); font-weight: 300; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); display: inline-block; padding-top: 10px;">
+        <div style="font-family: 'Georgia', serif; font-size: clamp(28px, 6vw, 56px); font-weight: 900; letter-spacing: 3px;">THE JEWEL OF COMPUTER SCIENCE</div>
+        <div style="font-size: clamp(18px, 3vw, 28px); font-weight: 300; margin-top: 20px; border-top: 2px solid rgba(255,255,255,0.4); display: inline-block; padding-top: 15px;">
             MOHRAH ATIAH AL-JUHANI | مهره عطيه الجهني
         </div>
     </div>
     """, unsafe_allow_html=True)
 
 # --- 5. SIDEBAR ---
-st.sidebar.title("💎 Navigation")
+st.sidebar.title("💎 Academic Navigation")
 st.sidebar.write("---")
-
 subject = st.sidebar.selectbox(
-    "Choose a Module:",
+    "Select Academic Module:",
     ["Home Page", "Foundations of TOC", "DFA Explorer", "NFA Masterclass", "PDA Learning Hub", "Theory of Computation (Simulator)", "Contact Developer", "Community Feedback"]
 )
 
 # --- 6. MODULES ---
 
 if subject == "Home Page":
-    st.markdown("### 🏛️ Welcome to the CS Core Portal")
+    st.markdown("## 🏛️ Welcome to the CS Core Portal")
     st.markdown("""
-    هذه المنصة هي **مبادرة طلابية تعليمية** تهدف إلى تحويل المفاهيم النظرية في علوم الحاسب إلى نماذج تفاعلية ملموسة.
-    **المصدر العلمي (Academic Source):**
-    جميع الدروس والأمثلة البرمجية المقدمة في هذه المنصة مستمدة من المناهج الأكاديمية المعتمدة في **جامعة تبوك**، ويتم تقديمها هنا لغرض الشرح والتوضيح وتسهيل الفهم.
-    """)
+    <div class="learning-card">
+    <h3>عن المنصة / About the Platform</h3>
+    <p>هذه المنصة هي <b>مبادرة طلابية تعليمية متقدمة</b> تهدف إلى سد الفجوة بين المفاهيم الرياضية المجردة والتطبيقات البرمجية التفاعلية في مجال نظرية الحوسبة (Theory of Computation).</p>
+    <p><b>المصدر العلمي (Academic Source):</b>  
+
+    تم استقاء كافة المعلومات العلمية، التعريفات الرياضية، والنماذج التوضيحية من المناهج الأكاديمية المعتمدة في <b>جامعة تبوك</b>. تم تصميم المحتوى ليكون مرجعاً شاملاً يساعد الطلاب على فهم تعقيدات الأوتوماتا واللغات الرسمية.</p>
+    <div class="info-grid">
+        <div class="info-item"><b>🎯 الهدف:</b> تبسيط المفاهيم المعقدة مثل DFA, NFA, و PDA.</div>
+        <div class="info-item"><b>🛠️ الأدوات:</b> محاكيات تفاعلية، رسومات بيانية حية، واختبارات تقييمية.</div>
+        <div class="info-item"><b>📚 المحتوى:</b> يغطي من الأساسيات الرياضية إلى نماذج الحوسبة المتقدمة.</div>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 elif subject == "Foundations of TOC":
     st.markdown("## 📘 Foundations of Theory of Computation")
-    tab1, tab2, tab3, tab4, tab_q = st.tabs(["🔤 Alphabets", "📊 Sets", "⚙️ Functions", "🧠 Logic", "📝 Quiz (10 Qs)"])
+    tab1, tab2, tab3, tab4, tab_q = st.tabs(["🔤 Alphabets & Strings", "📊 Set Theory", "⚙️ Functions", "🧠 Boolean Logic", "📝 Comprehensive Quiz"])
     
     with tab1:
-        st.markdown("""<div class="learning-card"><h3>Alphabets & Strings</h3><p>Σ is a finite set of symbols. Strings are sequences. ε is the empty string.</p></div>""", unsafe_allow_html=True)
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.1</div>
+        <h3>Alphabets, Strings, and Languages: The Building Blocks</h3>
+        <p>In the world of computation, everything begins with an <b>Alphabet (Σ)</b>. An alphabet is a finite, non-empty set of symbols. For example, the binary alphabet is Σ = {0, 1}.</p>
+        <h4>1. Strings (Words)</h4>
+        <p>A <b>String</b> is a finite sequence of symbols chosen from Σ. 
+        <ul>
+            <li><b>Length |w|:</b> The number of symbols in string w. Example: |1011| = 4.</li>
+            <li><b>Empty String (ε):</b> A unique string with length 0. It exists in every Σ*.</li>
+            <li><b>Reverse (wᴿ):</b> If w = abc, then wᴿ = cba.</li>
+            <li><b>Concatenation:</b> Joining two strings. If x = "ab" and y = "cd", then xy = "abcd".</li>
+        </ul>
+        </p>
+        <h4>2. Powers of Alphabet</h4>
+        <p>
+            - <b>Σ⁰:</b> The set {ε}.  
+
+            - <b>Σ*: (Kleene Closure)</b> The set of all possible strings over Σ, including ε. It is an infinite set.  
+
+            - <b>Σ+: (Positive Closure)</b> Σ* excluding the empty string (Σ+ = Σ* - {ε}).
+        </p>
+        <h4>3. Languages</h4>
+        <p>A <b>Language (L)</b> is a subset of Σ*. A language can be finite (L = {01, 11}) or infinite (L = {all strings starting with 0}).</p>
+        </div>
+        """, unsafe_allow_html=True)
+
     with tab2:
-        st.markdown("""<div class="learning-card"><h3>Set Theory</h3><p>Union, Intersection, Power Sets, and Cartesian Products.</p></div>""", unsafe_allow_html=True)
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.2</div>
+        <h3>Set Theory: The Mathematical Framework</h3>
+        <p>Sets are collections of distinct objects. In TOC, we use sets to define states, alphabets, and languages.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Union (A ∪ B):</b> All elements in A or B.</div>
+            <div class="info-item"><b>Intersection (A ∩ B):</b> Only elements common to both.</div>
+            <div class="info-item"><b>Difference (A - B):</b> Elements in A but not in B.</div>
+            <div class="info-item"><b>Complement (Ā):</b> Elements in the Universal set not in A.</div>
+        </div>
+        <h4>Advanced Concepts:</h4>
+        <ul>
+            <li><b>Power Set P(S):</b> The set of all subsets of S. If S has <i>n</i> elements, P(S) has 2ⁿ elements. This is crucial for NFA to DFA conversion.</li>
+            <li><b>Cartesian Product (A × B):</b> The set of all ordered pairs (a, b). Used to define transition functions.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
     with tab3:
-        st.markdown("""<div class="learning-card"><h3>Functions</h3><p>Mapping from Domain to Codomain. Transition functions are the heart of Automata.</p></div>""", unsafe_allow_html=True)
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.3</div>
+        <h3>Functions and Relations</h3>
+        <p>A <b>Function (f: A → B)</b> is a rule that assigns each element in set A (Domain) to exactly one element in set B (Codomain).</p>
+        <h4>Types of Functions in TOC:</h4>
+        <ul>
+            <li><b>Transition Function (δ):</b> The most important function in Automata. It maps (Current State × Input Symbol) → Next State.</li>
+            <li><b>Total Function:</b> Defined for every possible input in the domain (Required for DFA).</li>
+            <li><b>Partial Function:</b> Not defined for all inputs (Common in NFA).</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
     with tab4:
-        st.markdown("""<div class="learning-card"><h3>Boolean Logic</h3><p>AND, OR, NOT, XOR, and De Morgan's Laws.</p></div>""", unsafe_allow_html=True)
-    
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.4</div>
+        <h3>Boolean Logic: The Logic of Computation</h3>
+        <p>Boolean logic deals with variables that have two values: <b>True (1)</b> and <b>False (0)</b>.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>AND (∧):</b> Output is 1 only if both inputs are 1.</div>
+            <div class="info-item"><b>OR (∨):</b> Output is 1 if at least one input is 1.</div>
+            <div class="info-item"><b>NOT (¬):</b> Inverts the input.</div>
+            <div class="info-item"><b>XOR (⊕):</b> Output is 1 if inputs are different.</div>
+        </div>
+        <h4>De Morgan's Laws:</h4>
+        <p>1. ¬(A ∨ B) = ¬A ∧ ¬B  
+2. ¬(A ∧ B) = ¬A ∨ ¬B</p>
+        </div>
+        """, unsafe_allow_html=True)
+
     with tab_q:
-        st.markdown("### 📝 Foundations Quiz")
-        questions = [
+        st.markdown("### 📝 Foundations Quiz (10 Questions)")
+        f_qs = [
             ("What is Σ?", ["Alphabet", "Number", "Function"], "Alphabet"),
             ("Length of empty string ε?", ["0", "1", "Undefined"], "0"),
             ("Σ* includes ε?", ["Yes", "No", "Sometimes"], "Yes"),
@@ -121,35 +204,46 @@ elif subject == "Foundations of TOC":
             ("Σ+ is Σ* minus?", ["ε", "0", "1"], "ε"),
             ("De Morgan's ¬(A∨B) is?", ["¬A∧¬B", "¬A∨¬B", "A∧B"], "¬A∧¬B")
         ]
-        score = 0
-        for i, (q, opts, ans) in enumerate(questions):
-            user_ans = st.radio(f"{i+1}. {q}", opts, key=f"fq_{i}")
-            if user_ans == ans: score += 1
-        if st.button("Submit Foundations Quiz"): st.success(f"Your Score: {score}/10")
+        f_score = 0
+        for i, (q, opts, ans) in enumerate(f_qs):
+            u_ans = st.radio(f"{i+1}. {q}", opts, key=f"fq_u_{i}")
+            if u_ans == ans: f_score += 1
+        if st.button("Submit Foundations Quiz"): st.success(f"Your Score: {f_score}/10")
 
 elif subject == "DFA Explorer":
     st.markdown("## ⚙️ Deterministic Finite Automata (DFA)")
-    tab_info, tab_viz, tab_sim, tab_q = st.tabs(["📖 Definition", "🎨 Visuals", "🚀 Simulator", "📝 Quiz (10 Qs)"])
+    tab_info, tab_viz, tab_sim, tab_q = st.tabs(["📖 Deep Dive Definition", "🎨 Visual Examples", "🚀 Interactive Simulator", "📝 DFA Quiz (10 Qs)"])
     
     with tab_info:
         st.markdown("""
         <div class="learning-card">
-        <h3>DFA Definition & Acceptance</h3>
-        <p>DFA = (Q, Σ, δ, q0, F). Deterministic means 1 transition per symbol.</p>
+        <div class="concept-badge">Formal Theory</div>
+        <h3>The Architecture of DFA</h3>
+        <p>A <b>Deterministic Finite Automata (DFA)</b> is the simplest model of computation. It has no memory other than its current state.</p>
+        <h4>The 5-Tuple Definition:</h4>
+        <ul>
+            <li><b>Q:</b> A finite set of states.</li>
+            <li><b>Σ:</b> A finite set of input symbols (Alphabet).</li>
+            <li><b>δ: (Transition Function)</b> δ: Q × Σ → Q. It defines the next state for every state-symbol pair.</li>
+            <li><b>q0:</b> The unique start state (q0 ∈ Q).</li>
+            <li><b>F:</b> The set of final or accepting states (F ⊆ Q).</li>
+        </ul>
         <div class="step-box">
-        <b>💡 How to determine Acceptance in DFA?</b>  
+        <b>💡 How to determine Acceptance? (The Process)</b>  
 
-        1. Start at q0 (Start State).  
+        1. The machine starts at <b>q0</b>.  
 
-        2. Read the input string symbol by symbol.  
+        2. It reads the first symbol of the input string <i>w</i>.  
 
-        3. Follow the unique transition for each symbol.  
+        3. It moves to the next state according to <b>δ</b>.  
 
-        4. After the LAST symbol, if the machine is in a state <b>q ∈ F</b> (Final State), the string is <b>Accepted</b>. Otherwise, it is <b>Rejected</b>.
+        4. It repeats this for every symbol in <i>w</i>.  
+
+        5. <b>Crucial Step:</b> After the last symbol is read, the machine checks its current state. If the state is in <b>F</b>, the string is <b>Accepted</b>. If not, it is <b>Rejected</b>.
         </div>
         </div>
         """, unsafe_allow_html=True)
-    
+
     with tab_viz:
         col1, col2 = st.columns(2)
         with col1:
@@ -166,7 +260,7 @@ elif subject == "DFA Explorer":
             st.graphviz_chart(dfa2)
 
     with tab_sim:
-        st.markdown("### 🚀 DFA Simulator (Pattern '101')")
+        st.markdown("### 🚀 DFA Interactive Simulator (Pattern '101')")
         def generate_dfa_sim_diagram(active_state):
             dot = graphviz.Digraph(); dot.attr(rankdir='LR', size='8,5', bgcolor='transparent')
             dot.node('S', '', shape='none')
@@ -180,8 +274,8 @@ elif subject == "DFA Explorer":
         with col_sim_graph:
             dfa_placeholder = st.empty(); dfa_placeholder.graphviz_chart(generate_dfa_sim_diagram('q0'))
         with col_sim_input:
-            dfa_input_str = st.text_input("Enter Binary String:", "11010", key="dfa_in")
-            dfa_speed = st.slider("Simulation Speed:", 0.5, 3.0, 1.5)
+            dfa_input_str = st.text_input("Enter Binary String:", "11010", key="dfa_in_u")
+            dfa_speed = st.slider("Simulation Speed:", 0.5, 3.0, 1.5, key="dfa_sp_u")
             if st.button("Start DFA Simulation ⚡"):
                 current_state, dfa_history = 'q0', []
                 dfa_table_placeholder = st.empty()
@@ -197,7 +291,7 @@ elif subject == "DFA Explorer":
                 else: st.error("❌ Rejected!")
 
     with tab_q:
-        st.markdown("### 📝 DFA Quiz")
+        st.markdown("### 📝 DFA Quiz (10 Questions)")
         dfa_qs = [
             ("DFA stands for?", ["Deterministic", "Dynamic", "Digital"], "Deterministic"),
             ("How many transitions per state?", ["Exactly one per symbol", "Many", "Zero"], "Exactly one per symbol"),
@@ -212,23 +306,30 @@ elif subject == "DFA Explorer":
         ]
         d_score = 0
         for i, (q, opts, ans) in enumerate(dfa_qs):
-            u_ans = st.radio(f"{i+1}. {q}", opts, key=f"dq_{i}")
+            u_ans = st.radio(f"{i+1}. {q}", opts, key=f"dq_u_{i}")
             if u_ans == ans: d_score += 1
         if st.button("Submit DFA Quiz"): st.success(f"Your Score: {d_score}/10")
 
 elif subject == "NFA Masterclass":
     st.markdown("## 🌀 NFA Masterclass & Conversions")
-    tab_nfa, tab_diff, tab_conv, tab_sim, tab_q = st.tabs(["📖 NFA Info", "⚖️ DFA vs NFA", "🔄 Conversions", "🚀 Simulator", "📝 Quiz (10 Qs)"])
+    tab_nfa, tab_diff, tab_conv, tab_sim, tab_q = st.tabs(["📖 Comprehensive NFA Info", "⚖️ DFA vs NFA", "🔄 Conversion Steps", "🚀 NFA Simulator", "📝 NFA Quiz (10 Qs)"])
     
     with tab_nfa:
         st.markdown("""
         <div class="learning-card">
+        <div class="concept-badge">Advanced Theory</div>
         <h3>Non-deterministic Finite Automata (NFA)</h3>
-        <p>An NFA is a theoretical model where for a given state and input symbol, the machine can move to <b>multiple states</b> simultaneously.</p>
-        <ul>
-            <li><b>ε-Transitions:</b> Can change state without any input.</li>
-            <li><b>Acceptance:</b> Accepted if <i>at least one</i> path leads to a final state.</li>
-        </ul>
+        <p>An <b>NFA</b> is a more flexible model of computation. Unlike DFA, an NFA can be in multiple states at once, effectively "guessing" the correct path.</p>
+        <h4>Why use NFA?</h4>
+        <p>NFA is often much easier to design than DFA for complex languages. It allows for <b>ε-transitions</b> (moving without input) and <b>multiple choices</b> for the same symbol.</p>
+        <h4>Formal Definition:</h4>
+        <p>Like DFA, it's a 5-tuple (Q, Σ, δ, q0, F), but the transition function is different:  
+
+        <span class="highlight">δ: Q × (Σ ∪ {ε}) → P(Q)</span>  
+
+        This means it maps to the <b>Power Set</b> of states, allowing for zero or more next states.</p>
+        <h4>Acceptance in NFA:</h4>
+        <p>A string is accepted if there exists <b>at least one path</b> from the start state to any final state. If the machine can "find a way" to accept, it will.</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -239,29 +340,34 @@ elif subject == "NFA Masterclass":
             st.info("**DFA (Deterministic)**")
             st.write("- Exactly one transition per symbol.")
             st.write("- No ε-transitions allowed.")
-            st.write("- Easier to implement in hardware.")
+            st.write("- Implementation is straightforward.")
         with col2:
             st.success("**NFA (Non-deterministic)**")
-            st.write("- Multiple transitions per symbol.")
+            st.write("- Zero, one, or many transitions per symbol.")
             st.write("- ε-transitions are allowed.")
-            st.write("- Easier to design for complex languages.")
+            st.write("- Easier to design for humans.")
 
     with tab_conv:
-        st.markdown("### 🔄 Conversion Techniques")
-        st.subheader("1. NFA to DFA (Subset Construction)")
+        st.markdown("### 🔄 Conversion: NFA to DFA (Subset Construction)")
         col_text, col_graph = st.columns([1, 1])
         with col_text:
             st.markdown("""
             <div class="step-box">
-            <b>Steps to Convert NFA → DFA:</b>  
+            <b>The Step-by-Step Algorithm:</b>  
 
-            1. <b>Start State:</b> Find the ε-closure of the NFA start state.  
+            1. <b>ε-closure:</b> For every state, find all states reachable using only ε-transitions.  
 
-            2. <b>Transitions:</b> For each new DFA state (which is a set of NFA states), find all reachable NFA states for each symbol.  
+            2. <b>Start State:</b> The DFA start state is the ε-closure of the NFA start state.  
 
-            3. <b>New States:</b> If a reachable set is new, add it to the DFA states list.  
+            3. <b>Transitions:</b> For each DFA state (which is a set of NFA states) and each symbol:  
 
-            4. <b>Final States:</b> Any DFA state (set) that contains at least one NFA final state becomes a DFA final state.
+               - Find all NFA states reachable from this set.  
+
+               - Take the ε-closure of that result.  
+
+               - This set becomes the next DFA state.  
+
+            4. <b>Final States:</b> Any DFA state (set) that contains at least one NFA final state is marked as a Final State in the DFA.
             </div>
             """, unsafe_allow_html=True)
         with col_graph:
@@ -270,16 +376,9 @@ elif subject == "NFA Masterclass":
             g.node("DFA", "[q0, q1]", shape="box", color="blue")
             g.edge("NFA", "DFA", label="Subset Construction")
             st.graphviz_chart(g)
-            
-        st.subheader("2. DFA to NFA")
-        st.markdown("""
-        <div class="step-box">
-        <b>The Rule:</b> Every DFA is already an NFA by definition. A DFA is simply an NFA with the restriction of having exactly one transition per symbol and no ε-transitions.
-        </div>
-        """, unsafe_allow_html=True)
 
     with tab_sim:
-        st.markdown("### 🚀 NFA Simulator (Ends with '01')")
+        st.markdown("### 🚀 NFA Interactive Simulator (Ends with '01')")
         def gen_nfa_diag(active_states):
             dot = graphviz.Digraph(); dot.attr(rankdir='LR', bgcolor='transparent')
             dot.node('S', '', shape='none')
@@ -293,8 +392,8 @@ elif subject == "NFA Masterclass":
         with col_g:
             nfa_placeholder = st.empty(); nfa_placeholder.graphviz_chart(gen_nfa_diag(['q0']))
         with col_i:
-            n_input = st.text_input("Enter String (0/1):", "101", key="n_in")
-            n_speed = st.slider("Speed:", 0.5, 3.0, 1.5, key="n_sp")
+            n_input = st.text_input("Enter String (0/1):", "101", key="n_in_u")
+            n_speed = st.slider("Speed:", 0.5, 3.0, 1.5, key="n_sp_u")
             if st.button("Run NFA Simulation"):
                 current_states = {'q0'}
                 n_history = []
@@ -315,7 +414,7 @@ elif subject == "NFA Masterclass":
                 else: st.error("❌ Rejected!")
 
     with tab_q:
-        st.markdown("### 📝 NFA Quiz")
+        st.markdown("### 📝 NFA Quiz (10 Questions)")
         nfa_qs = [
             ("NFA allows ε-transitions?", ["Yes", "No", "Only in DFA"], "Yes"),
             ("NFA to DFA conversion name?", ["Subset Construction", "LIFO", "FIFO"], "Subset Construction"),
@@ -330,20 +429,58 @@ elif subject == "NFA Masterclass":
         ]
         n_score = 0
         for i, (q, opts, ans) in enumerate(nfa_qs):
-            u_ans = st.radio(f"{i+1}. {q}", opts, key=f"nq_{i}")
+            u_ans = st.radio(f"{i+1}. {q}", opts, key=f"nq_u_{i}")
             if u_ans == ans: n_score += 1
         if st.button("Submit NFA Quiz"): st.success(f"Your Score: {n_score}/10")
 
 elif subject == "PDA Learning Hub":
     st.markdown("## 📚 Pushdown Automata (PDA)")
-    tab_info, tab_q = st.tabs(["📖 PDA Info", "📝 Quiz (10 Qs)"])
+    tab_info, tab_q = st.tabs(["📖 Comprehensive PDA Info", "📝 PDA Quiz (10 Qs)"])
+    
     with tab_info:
-        st.markdown("""<div class="learning-card"><h3>PDA = FA + Stack</h3><p>Uses LIFO memory. Recognizes Context-Free Languages.</p></div>""", unsafe_allow_html=True)
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Context-Free Theory</div>
+        <h3>Pushdown Automata: Adding Memory</h3>
+        <p>A <b>Pushdown Automata (PDA)</b> is essentially a Finite Automata with an added <b>Stack</b>. This stack provides infinite memory, but it can only be accessed in a <b>LIFO (Last-In, First-Out)</b> manner.</p>
+        <h4>The 7-Tuple Definition:</h4>
+        <p>PDA = (Q, Σ, Γ, δ, q0, Z0, F)</p>
+        <ul>
+            <li><b>Q:</b> States.</li>
+            <li><b>Σ:</b> Input Alphabet.</li>
+            <li><b>Γ:</b> Stack Alphabet (symbols that can be pushed).</li>
+            <li><b>δ:</b> Transition Function (Q × (Σ ∪ {ε}) × Γ → P(Q × Γ*)).</li>
+            <li><b>q0:</b> Start State.</li>
+            <li><b>Z0:</b> Initial Stack Symbol.</li>
+            <li><b>F:</b> Final States.</li>
+        </ul>
+        <div class="step-box">
+        <b>Acceptance Criteria:</b>  
+
+        - <b>Acceptance by Final State:</b> The machine ends in a state q ∈ F.  
+
+        - <b>Acceptance by Empty Stack:</b> The machine finishes the input and the stack is completely empty.
+        </div>
+        </div>
+        """, unsafe_allow_html=True)
+
     with tab_q:
-        pda_qs = [("Memory?", ["Stack", "Queue", "None"], "Stack"), ("Language?", ["CFL", "Regular", "CSL"], "CFL"), ("Tuple count?", ["7", "5", "6"], "7"), ("LIFO means?", ["Last In First Out", "First In First Out", "None"], "Last In First Out"), ("Acceptance?", ["Final State/Empty Stack", "Only Final", "Only Empty"], "Final State/Empty Stack"), ("Stack top?", ["Z0", "ε", "X"], "Z0"), ("Push adds?", ["To top", "To bottom", "Middle"], "To top"), ("Pop removes?", ["From top", "From bottom", "Middle"], "From top"), ("NPDA vs DPDA?", ["NPDA more powerful", "Same", "DPDA more"], "NPDA more powerful"), ("PDA recognizes a^n b^n?", ["Yes", "No", "Maybe"], "Yes")]
+        st.markdown("### 📝 PDA Quiz (10 Questions)")
+        pda_qs = [
+            ("Memory structure in PDA?", ["Stack", "Queue", "Tape"], "Stack"),
+            ("PDA recognizes which languages?", ["Context-Free", "Regular", "Recursive"], "Context-Free"),
+            ("LIFO stands for?", ["Last In First Out", "Lead In Fast Out", "None"], "Last In First Out"),
+            ("PDA is a 7-tuple?", ["Yes", "No", "5-tuple"], "Yes"),
+            ("Initial stack symbol?", ["Z0", "S0", "ε"], "Z0"),
+            ("Can PDA accept by empty stack?", ["Yes", "No", "Only DPDA"], "Yes"),
+            ("Push adds to?", ["Top", "Bottom", "Middle"], "Top"),
+            ("Is NPDA more powerful than DPDA?", ["Yes", "No", "Same"], "Yes"),
+            ("Can PDA recognize a^n b^n?", ["Yes", "No", "Only DFA"], "Yes"),
+            ("Γ represents?", ["Stack Alphabet", "Input Alphabet", "States"], "Stack Alphabet")
+        ]
         p_score = 0
         for i, (q, opts, ans) in enumerate(pda_qs):
-            u_ans = st.radio(f"{i+1}. {q}", opts, key=f"pq_{i}")
+            u_ans = st.radio(f"{i+1}. {q}", opts, key=f"pq_u_{i}")
             if u_ans == ans: p_score += 1
         if st.button("Submit PDA Quiz"): st.success(f"Your Score: {p_score}/10")
 
@@ -361,8 +498,8 @@ elif subject == "Theory of Computation (Simulator)":
     with col_graph:
         diagram_placeholder = st.empty(); diagram_placeholder.graphviz_chart(generate_pda_diagram('q0'))
     with col_input:
-        test_string = st.text_input("Enter Input String (e.g., aabb):", "aabb", key="pda_in")
-        sim_speed = st.slider("Speed:", 0.5, 2.0, 1.0, key="pda_sp")
+        test_string = st.text_input("Enter Input String (e.g., aabb):", "aabb", key="pda_in_u")
+        sim_speed = st.slider("Speed:", 0.5, 2.0, 1.0, key="pda_sp_u")
         if st.button("Run PDA Simulation 🚀"):
             stack, current_state, history, failed = ["Z0"], "q0", [], False
             table_placeholder = st.empty()

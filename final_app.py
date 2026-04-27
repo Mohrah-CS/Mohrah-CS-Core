@@ -57,8 +57,12 @@ st.markdown("""
         text-align: center; padding: 30px; margin-top: 60px;
         border-top: 2px solid #1e3a8a; background-color: #f8fafc; color: #1e3a8a;
     }
-    .quiz-card {
-        background-color: #f1f5f9; padding: 20px; border-radius: 15px; border-left: 5px solid #3b82f6; margin-bottom: 20px;
+    .learning-card {
+        background-color: #f8fafc; padding: 25px; border-radius: 15px; border-left: 6px solid #1e3a8a; margin-bottom: 25px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .quiz-section {
+        background-color: #ffffff; padding: 20px; border: 1px solid #e2e8f0; border-radius: 15px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -85,36 +89,101 @@ subject = st.sidebar.selectbox(
 
 # --- 7. MODULES ---
 if subject == "PDA Learning Hub":
-    st.markdown("### 📚 PDA Comprehensive Summary")
-    col_summary, col_quiz = st.columns(2)
+    st.markdown("## 📚 Pushdown Automata (PDA) - Comprehensive Study Guide")
     
-    with col_summary:
+    tab1, tab2 = st.tabs(["📖 Comprehensive Summary", "🧠 Interactive Quiz"])
+    
+    with tab1:
         st.markdown("""
-        <div class="quiz-card">
-        <h4>What is a Pushdown Automata (PDA)?</h4>
-        <p>A PDA is a type of automata that employs a <b>Stack</b> as auxiliary memory. It is used to recognize <b>Context-Free Languages (CFLs)</b>.</p>
-        <hr>
-        <h4>Core Logic (LIFO):</h4>
+        <div class="learning-card">
+        <h3>1. Introduction to PDA</h3>
+        <p>A <b>Pushdown Automata (PDA)</b> is a way to implement a <b>Context-Free Grammar</b> in a similar way we design Finite Automata for Regular Grammars. 
+        The fundamental difference is that a PDA has an extra component: a <b>Stack</b>.</p>
+        
+        <h3>2. The Formal Definition (7-Tuple)</h3>
+        <p>A PDA is formally defined as (Q, Σ, Γ, δ, q0, Z0, F):</p>
         <ul>
-            <li><b>Push:</b> Adding a symbol to the top of the stack.</li>
-            <li><b>Pop:</b> Removing the top symbol from the stack.</li>
-            <li><b>Stack Memory:</b> Allows the machine to remember information (like counting the number of 'a's to match with 'b's).</li>
+            <li><b>Q:</b> Finite set of States.</li>
+            <li><b>Σ:</b> Input Alphabet.</li>
+            <li><b>Γ:</b> Stack Alphabet.</li>
+            <li><b>δ:</b> Transition Function (Q × (Σ ∪ {ε}) × Γ → P(Q × Γ*)).</li>
+            <li><b>q0:</b> Start State.</li>
+            <li><b>Z0:</b> Initial Stack Symbol.</li>
+            <li><b>F:</b> Set of Accepting States.</li>
         </ul>
+
+        <h3>3. Core Operations (Stack Logic)</h3>
+        <p>PDA follows the <b>LIFO (Last In, First Out)</b> principle:</p>
+        <ul>
+            <li><b>Push:</b> Adds a symbol to the top of the stack.</li>
+            <li><b>Pop:</b> Removes the top symbol from the stack.</li>
+            <li><b>ε-Transition:</b> Reading an input without moving the stack or vice-versa.</li>
+        </ul>
+
+        <h3>4. Acceptance Criteria</h3>
+        <p>A PDA can accept a string in two ways:</p>
+        <ol>
+            <li><b>Acceptance by Final State:</b> The machine ends in a state belonging to F.</li>
+            <li><b>Acceptance by Empty Stack:</b> The machine ends when the stack is completely empty.</li>
+        </ol>
         </div>
         """, unsafe_allow_html=True)
 
-    with col_quiz:
-        st.markdown("<h4>🧠 Quick Knowledge Quiz</h4>", unsafe_allow_html=True)
-        q1 = st.radio("1. What is the main difference between FA and PDA?", ["Number of states", "Presence of a Stack", "Processing speed"])
-        if st.button("Check Q1"):
-            if q1 == "Presence of a Stack": st.success("Correct! 🎯")
-            else: st.error("Try again! The Stack is the key memory.")
+    with tab2:
+        st.markdown("### Test Your Knowledge")
+        st.write("Answer the following questions to verify your understanding of PDA concepts.")
+        
+        with st.container():
+            st.markdown('<div class="quiz-section">', unsafe_allow_html=True)
             
-        st.write("---")
-        q2 = st.radio("2. What does LIFO stand for in Stack logic?", ["Last In, First Out", "Long Input, Fast Output", "Level In, Final Out"])
-        if st.button("Check Q2"):
-            if q2 == "Last In, First Out": st.success("Correct! 🎯")
-            else: st.error("Incorrect. It means the last item added is the first one removed.")
+            # Q1
+            q1 = st.radio("1. Which type of language does a PDA recognize?", 
+                          ["Regular Languages", "Context-Free Languages", "Context-Sensitive Languages"])
+            if st.button("Check Q1"):
+                if q1 == "Context-Free Languages": st.success("Correct! PDA is specifically for CFLs.")
+                else: st.error("Incorrect. FA is for Regular, while PDA is for Context-Free.")
+            
+            st.write("---")
+            # Q2
+            q2 = st.radio("2. What is the memory structure used in PDA?", 
+                          ["Queue", "Linked List", "Stack"])
+            if st.button("Check Q2"):
+                if q2 == "Stack": st.success("Correct! PDA uses a Stack (LIFO).")
+                else: st.error("Incorrect. PDA is defined by its use of a Stack.")
+
+            st.write("---")
+            # Q3
+            q3 = st.radio("3. What does 'ε' (Epsilon) represent in a transition?", 
+                          ["Empty String / No Input", "Final State", "Stack Overflow"])
+            if st.button("Check Q3"):
+                if q3 == "Empty String / No Input": st.success("Correct!")
+                else: st.error("Incorrect. Epsilon represents an empty transition.")
+
+            st.write("---")
+            # Q4
+            q4 = st.radio("4. How many elements are in the formal definition (tuple) of a PDA?", 
+                          ["5", "6", "7"])
+            if st.button("Check Q4"):
+                if q4 == "7": st.success("Correct! (Q, Σ, Γ, δ, q0, Z0, F)")
+                else: st.error("Incorrect. It is a 7-tuple.")
+
+            st.write("---")
+            # Q5
+            q5 = st.radio("5. If a PDA accepts by 'Empty Stack', what must be removed?", 
+                          ["Only the input symbols", "All symbols including Z0", "Only Z0"])
+            if st.button("Check Q5"):
+                if q5 == "All symbols including Z0": st.success("Correct! The stack must be completely empty.")
+                else: st.error("Incorrect. For 'Empty Stack' acceptance, nothing should remain.")
+
+            st.write("---")
+            # Q6
+            q6 = st.radio("6. Can a PDA be Non-Deterministic (NPDA)?", 
+                          ["Yes, and they are more powerful than DPDA", "No, they must be deterministic", "Yes, but they have the same power as DPDA"])
+            if st.button("Check Q6"):
+                if q6 == "Yes, and they are more powerful than DPDA": st.success("Correct! NPDAs recognize more languages than DPDAs.")
+                else: st.error("Incorrect. In PDA, Non-Determinism actually adds more power.")
+
+            st.markdown('</div>', unsafe_allow_html=True)
 
 elif subject == "Theory of Computation":
     st.markdown("### 🤖 Theory of Computation: PDA Simulator")

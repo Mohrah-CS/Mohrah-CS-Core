@@ -168,7 +168,7 @@ elif subject == "Theory of Computation":
         diagram_placeholder = st.empty()
         diagram_placeholder.graphviz_chart(generate_pda_diagram('q0'))
         st.markdown("## 📘 Additional Lessons")
-      st.markdown("## 📘 Theory of Computation - Additional Lessons")
+    st.markdown("## 📘 Theory of Computation - Additional Lessons")
 
 # =========================
 # LESSON 1: Alphabets, Strings, Languages

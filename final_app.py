@@ -29,7 +29,7 @@ def save_comment(name, msg):
     with open("comments.json", "w", encoding="utf-8") as f:
         json.dump(comments, f, ensure_ascii=False)
 
-# --- 3. ADVANCED STYLING ---
+# --- 3. ADVANCED STYLING (The Royal Theme) ---
 st.markdown("""
     <style>
     .main { background-color: #ffffff; }
@@ -49,6 +49,7 @@ st.markdown("""
     }
     .learning-card {
         background-color: #f8fafc; padding: 25px; border-radius: 15px; border-left: 6px solid #1e3a8a; margin-bottom: 25px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     }
     .quiz-section {
         background-color: #ffffff; padding: 20px; border: 1px solid #e2e8f0; border-radius: 15px;
@@ -85,30 +86,68 @@ if subject == "Home Page":
     """)
 
 elif subject == "PDA Learning Hub":
-    st.markdown("## 📚 PDA Comprehensive Study Guide")
-    tab1, tab2 = st.tabs(["📖 Summary", "🧠 Quiz"])
+    st.markdown("## 📚 Pushdown Automata (PDA) - Comprehensive Study Guide")
+    tab1, tab2 = st.tabs(["📖 Comprehensive Summary", "🧠 Interactive Quiz"])
     with tab1:
         st.markdown("""
         <div class="learning-card">
         <h3>1. Introduction to PDA</h3>
-        <p>A PDA is a type of automata that uses a <b>Stack</b> for Context-Free Languages.</p>
-        <h3>2. The 7-Tuple Definition</h3>
-        <p>(Q, Σ, Γ, δ, q0, Z0, F)</p>
-        <h3>3. Stack Operations</h3>
-        <ul><li><b>Push:</b> Add to stack.</li><li><b>Pop:</b> Remove from stack.</li></ul>
+        <p>A <b>Pushdown Automata (PDA)</b> is a way to implement a <b>Context-Free Grammar</b>. It is essentially a Finite Automata with an extra component: a <b>Stack</b>.</p>
+        <h3>2. The Formal Definition (7-Tuple)</h3>
+        <p>A PDA is formally defined as (Q, Σ, Γ, δ, q0, Z0, F):</p>
+        <ul>
+            <li><b>Q:</b> Finite set of States.</li>
+            <li><b>Σ:</b> Input Alphabet.</li>
+            <li><b>Γ:</b> Stack Alphabet.</li>
+            <li><b>δ:</b> Transition Function.</li>
+            <li><b>q0:</b> Start State.</li>
+            <li><b>Z0:</b> Initial Stack Symbol.</li>
+            <li><b>F:</b> Set of Accepting States.</li>
+        </ul>
+        <h3>3. Core Operations (Stack Logic)</h3>
+        <p>PDA follows the <b>LIFO (Last In, First Out)</b> principle:</p>
+        <ul>
+            <li><b>Push:</b> Adds a symbol to the top of the stack.</li>
+            <li><b>Pop:</b> Removes the top symbol from the stack.</li>
+        </ul>
+        <h3>4. Acceptance Criteria</h3>
+        <p>A PDA can accept by <b>Final State</b> or by <b>Empty Stack</b>.</p>
         </div>
         """, unsafe_allow_html=True)
     with tab2:
-        st.markdown("### Knowledge Quiz")
-        q1 = st.radio("1. What memory does PDA use?", ["Queue", "Stack", "Array"])
-        if st.button("Check Q1"):
-            if q1 == "Stack": st.success("Correct!")
-            else: st.error("Incorrect.")
-        st.write("---")
-        q2 = st.radio("2. What does LIFO stand for?", ["Last In, First Out", "Long Input, Fast Output"])
-        if st.button("Check Q2"):
-            if q2 == "Last In, First Out": st.success("Correct!")
-            else: st.error("Incorrect.")
+        st.markdown("### Test Your Knowledge")
+        with st.container():
+            st.markdown('<div class="quiz-section">', unsafe_allow_html=True)
+            q1 = st.radio("1. Which type of language does a PDA recognize?", ["Regular Languages", "Context-Free Languages", "Context-Sensitive Languages"])
+            if st.button("Check Q1"):
+                if q1 == "Context-Free Languages": st.success("Correct!")
+                else: st.error("Incorrect.")
+            st.write("---")
+            q2 = st.radio("2. What is the memory structure used in PDA?", ["Queue", "Linked List", "Stack"])
+            if st.button("Check Q2"):
+                if q2 == "Stack": st.success("Correct!")
+                else: st.error("Incorrect.")
+            st.write("---")
+            q3 = st.radio("3. What does 'ε' represent in a transition?", ["Empty String", "Final State", "Stack Overflow"])
+            if st.button("Check Q3"):
+                if q3 == "Empty String": st.success("Correct!")
+                else: st.error("Incorrect.")
+            st.write("---")
+            q4 = st.radio("4. How many elements are in the PDA formal definition?", ["5", "6", "7"])
+            if st.button("Check Q4"):
+                if q4 == "7": st.success("Correct!")
+                else: st.error("Incorrect.")
+            st.write("---")
+            q5 = st.radio("5. Acceptance by 'Empty Stack' means:", ["Only Z0 remains", "The stack is completely empty", "The input is finished"])
+            if st.button("Check Q5"):
+                if q5 == "The stack is completely empty": st.success("Correct!")
+                else: st.error("Incorrect.")
+            st.write("---")
+            q6 = st.radio("6. Can a PDA be Non-Deterministic (NPDA)?", ["Yes, and it's more powerful", "No", "Yes, but same power as DPDA"])
+            if st.button("Check Q6"):
+                if q6 == "Yes, and it's more powerful": st.success("Correct!")
+                else: st.error("Incorrect.")
+            st.markdown('</div>', unsafe_allow_html=True)
 
 elif subject == "Theory of Computation":
     st.markdown("### 🤖 Theory of Computation: PDA Simulator")
@@ -121,7 +160,7 @@ elif subject == "Theory of Computation":
         dot.node('q0', 'q0', shape='circle', color='#3b82f6' if active_state == 'q0' else 'black', penwidth='3' if active_state == 'q0' else '1')
         dot.node('q1', 'q1', shape='circle', color='#3b82f6' if active_state == 'q1' else 'black', penwidth='3' if active_state == 'q1' else '1')
         dot.node('f', 'Accept', shape='doublecircle', color='green' if active_state == 'accepted' else 'black')
-        dot.edge('S', 'q0'); dot.edge('q0', 'q0', label='a, Z0/AZ0'); dot.edge('q0', 'q1', label='b, A/ε'); dot.edge('q1', 'q1', label='b, A/ε'); dot.edge('q1', 'f', label='ε, Z0/Z0')
+        dot.edge('S', 'q0'); dot.edge('q0', 'q0', label='a, Z0 / AZ0\\na, A / AA'); dot.edge('q0', 'q1', label='b, A / ε'); dot.edge('q1', 'q1', label='b, A / ε'); dot.edge('q1', 'f', label='ε, Z0 / Z0')
         return dot
 
     col_graph, col_input = st.columns([2, 1])
@@ -149,8 +188,10 @@ elif subject == "Theory of Computation":
                 time.sleep(sim_speed)
             if not failed and current_state == "q1" and len(stack) == 1:
                 diagram_placeholder.graphviz_chart(generate_pda_diagram('accepted'))
-                st.success("✅ Accepted")
-            else: st.error("❌ Rejected")
+                history.append({"Step": "End", "Input": "ε", "State": "Accept", "Stack": "['Z0']", "Action": "Success"})
+                table_placeholder.table(pd.DataFrame(history))
+                st.success("✅ Result: String Accepted")
+            else: st.error("❌ Result: String Rejected")
 
 elif subject == "Contact Developer":
     st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")
@@ -168,7 +209,7 @@ elif subject == "Community Feedback":
         name = st.text_input("Name:")
         msg = st.text_area("Feedback:")
         if st.form_submit_button("Post"):
-            if name and msg: save_comment(name, msg); st.success("Saved!")
+            if name and msg: save_comment(name, msg); st.success("Comment saved!")
     st.markdown("---")
     for c in reversed(load_comments()):
         st.markdown(f"""<div class="comment-box"><b>👤 {c['u']}</b> <small>({c['t']})</small><br>{c['m']}</div>""", unsafe_allow_html=True)

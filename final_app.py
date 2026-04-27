@@ -167,6 +167,132 @@ elif subject == "Theory of Computation":
     with col_graph:
         diagram_placeholder = st.empty()
         diagram_placeholder.graphviz_chart(generate_pda_diagram('q0'))
+        st.markdown("## 📘 Additional Lessons")
+      st.markdown("## 📘 Theory of Computation - Additional Lessons")
+
+# =========================
+# LESSON 1: Alphabets, Strings, Languages
+# =========================
+st.markdown("""
+<div class="learning-card">
+<h3>Alphabets, Strings, and Languages</h3>
+<p>An alphabet (Σ) is a finite set of symbols. Strings are sequences. Languages are sets of strings.</p>
+
+<ul>
+<li>Σ = symbols set</li>
+<li>String = sequence</li>
+<li>ε = empty string</li>
+<li>Σ* = all possible strings</li>
+<li>Σ+ = non-empty strings</li>
+<li>Concatenation</li>
+<li>Substring</li>
+<li>Lexicographic order</li>
+</ul>
+</div>
+""", unsafe_allow_html=True)
+
+dot1 = graphviz.Digraph()
+dot1.node("Σ")
+dot1.node("Strings")
+dot1.node("Language")
+dot1.edge("Σ", "Strings")
+dot1.edge("Strings", "Language")
+st.graphviz_chart(dot1)
+
+q1 = st.radio("What does Σ represent?", ["Alphabet (symbols)", "Numbers", "Operations"], key="q1")
+if st.button("Check L1"):
+    st.success("Correct!" if q1 == "Alphabet (symbols)" else "Incorrect")
+
+
+# =========================
+# LESSON 2: Sets
+# =========================
+st.markdown("""
+<div class="learning-card">
+<h3>Sets</h3>
+<ul>
+<li>Union (A ∪ B)</li>
+<li>Intersection (A ∩ B)</li>
+<li>Difference</li>
+<li>Complement</li>
+<li>Power Set</li>
+<li>Cartesian Product</li>
+<li>Cardinality</li>
+</ul>
+</div>
+""", unsafe_allow_html=True)
+
+dot2 = graphviz.Digraph()
+dot2.node("A")
+dot2.node("B")
+dot2.node("A ∪ B")
+dot2.node("A ∩ B")
+dot2.edge("A", "A ∪ B")
+dot2.edge("B", "A ∪ B")
+dot2.edge("A", "A ∩ B")
+dot2.edge("B", "A ∩ B")
+st.graphviz_chart(dot2)
+
+q2 = st.radio("Intersection means:", ["Common elements", "All elements", "None"], key="q2")
+if st.button("Check L2"):
+    st.success("Correct!" if q2 == "Common elements" else "Incorrect")
+
+
+# =========================
+# LESSON 3: Functions
+# =========================
+st.markdown("""
+<div class="learning-card">
+<h3>Functions and Operations</h3>
+<ul>
+<li>Domain</li>
+<li>Codomain</li>
+<li>Range</li>
+<li>Sequences</li>
+<li>Tuples</li>
+<li>Closed operations</li>
+</ul>
+</div>
+""", unsafe_allow_html=True)
+
+dot3 = graphviz.Digraph()
+dot3.node("A")
+dot3.node("B")
+dot3.node("f(x)")
+dot3.edge("A", "f(x)")
+dot3.edge("f(x)", "B")
+st.graphviz_chart(dot3)
+
+q3 = st.radio("Function maps:", ["Set to set", "Numbers only", "Random"], key="q3")
+if st.button("Check L3"):
+    st.success("Correct!" if q3 == "Set to set" else "Incorrect")
+
+
+# =========================
+# LESSON 4: Boolean Logic
+# =========================
+st.markdown("""
+<div class="learning-card">
+<h3>Boolean Logic</h3>
+<ul>
+<li>AND</li>
+<li>OR</li>
+<li>NOT</li>
+<li>De Morgan's Laws</li>
+<li>Commutative / Associative Laws</li>
+</ul>
+</div>
+""", unsafe_allow_html=True)
+
+dot4 = graphviz.Digraph()
+dot4.node("True")
+dot4.node("False")
+dot4.edge("True", "False", label="NOT")
+st.graphviz_chart(dot4)
+
+q4 = st.radio("AND means:", ["Both true", "One true", "None"], key="q4")
+if st.button("Check L4"):
+    st.success("Correct!" if q4 == "Both true" else "Incorrect")  
     with col_input:
         test_string = st.text_input("Enter Input String (e.g., aabb):", "aabb")
         sim_speed = st.slider("Speed:", 0.5, 2.0, 1.0)

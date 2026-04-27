@@ -54,9 +54,8 @@ st.markdown("""
     }
     .footer {
         text-align: center; padding: 30px; margin-top: 60px;
-        border-top: 3px solid #1e3a8a; background-color: #f1f5f9; color: #1e3a8a;
+        border-top: 2px solid #1e3a8a; background-color: #f8fafc; color: #1e3a8a;
     }
-    .legal-warning { color: #b91c1c; font-weight: bold; font-size: 14px; margin-top: 10px; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -85,20 +84,16 @@ if subject == "Contact Developer":
     st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")
     st.write("يسعدني استقبال استفساراتكم الأكاديمية أو المهنية عبر القنوات الرسمية التالية:")
     st.write("---")
-    
     col1, col2 = st.columns(2)
     with col1:
         st.info("🏛️ **Academic Email / البريد الجامعي**")
         st.code("451000518@stu.ut.edu.sa")
-        st.write("للتواصل الرسمي بخصوص المناهج الدراسية.")
-        
     with col2:
         st.success("📩 **Personal Email / البريد الشخصي**")
         st.code("mohrah.atiiah@icloud.com")
-        st.write("للتواصل المهني والتعاون التقني.")
 
 elif subject == "Community Feedback":
-    st.markdown("### 💬 Community Discussion Board / لوحة نقاش المجتمع")
+    st.markdown("### 💬 Community Discussion Board")
     with st.form("feedback_form"):
         name = st.text_input("Name / الاسم:")
         msg = st.text_area("Feedback / التعليق:")
@@ -106,7 +101,6 @@ elif subject == "Community Feedback":
             if name and msg:
                 save_comment(name, msg)
                 st.success("Comment saved! / تم حفظ التعليق بنجاح")
-    
     st.markdown("---")
     all_comments = load_comments()
     for c in reversed(all_comments):
@@ -115,7 +109,6 @@ elif subject == "Community Feedback":
 elif subject == "Theory of Computation":
     st.markdown("### 🤖 Theory of Computation: PDA Simulator")
     st.info("💡 المحتوى العلمي مبني على مناهج جامعة تبوك لتبسيط الفهم.")
-    
     def generate_pda_diagram(active_state):
         dot = graphviz.Digraph()
         dot.attr(rankdir='LR', size='8,5')
@@ -129,7 +122,6 @@ elif subject == "Theory of Computation":
         dot.edge('q1', 'q1', label='b, A / ε')
         dot.edge('q1', 'f', label='ε, Z0 / Z0')
         return dot
-
     col_graph, col_input = st.columns([2, 1])
     with col_graph:
         diagram_placeholder = st.empty()
@@ -157,27 +149,17 @@ elif subject == "Home Page":
     st.markdown("### 🏛️ Welcome to the CS Core Portal")
     st.markdown("""
     هذه المنصة هي **مبادرة طلابية تعليمية** تهدف إلى تحويل المفاهيم النظرية في علوم الحاسب إلى نماذج تفاعلية ملموسة.
-
     **المصدر العلمي (Academic Source):**
     جميع الدروس والأمثلة البرمجية المقدمة في هذه المنصة مستمدة من المناهج الأكاديمية المعتمدة في **جامعة تبوك**، ويتم تقديمها هنا لغرض الشرح والتوضيح وتسهيل الفهم.
     """)
 
-# --- 8. LEGAL & ACADEMIC FOOTER (Updated & Verified) ---
+# --- 8. FOOTER (New Clean Version) ---
 st.markdown(f"""
     <div class="footer">
         <p>© 2026 | <b>تطوير وبرمجة: مهره عطيه الجهني</b></p>
-        <p style="font-size: 14px;">📖 المحتوى العلمي مستمد من مناهج جامعة تبوك (جميع الحقوق العلمية محفوظة للجامعة).</p>
-        <div style="background-color: #fee2e2; padding: 15px; border-radius: 10px; border: 1px solid #b91c1c; margin-top: 15px;">
-            <p style="color: #b91c1c; font-weight: bold; margin-bottom: 5px;">🛡️ توثيق الملكية الفكرية | OFFICIAL VERIFICATION</p>
-            <p style="color: #b91c1c; font-size: 14px;">
-                هذا المشروع موثق رسمياً وحصرياً على الرابط: <br>
-                <a href="https://mohrah-cs-core.streamlit.app" style="color: #b91c1c; text-decoration: underline; font-weight: bold;">https://mohrah-cs-core.streamlit.app</a>
-            </p>
-            <p class="legal-warning" style="margin-top: 10px;">
-                ⚠️ © 2026 Mohrah Atiah. All rights reserved.
-This platform is an original academic project. Reuse or redistribution without permission is not allowed.
-                <br> 
-            </p>
-        </div>
+        <p style="font-size: 14px; opacity: 0.8; margin-top: 10px;">
+            © 2026 Mohrah Atiah. All rights reserved. This platform is an original academic project. 
+            <br> Reuse or redistribution without permission is not allowed.
+        </p>
     </div>
     """, unsafe_allow_html=True)

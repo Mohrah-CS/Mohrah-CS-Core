@@ -29,28 +29,7 @@ def save_comment(name, msg):
     with open("comments.json", "w", encoding="utf-8") as f:
         json.dump(comments, f, ensure_ascii=False)
 
-# --- 3. SMART PERSISTENT VISITOR COUNTER ---
-def get_total_visitors():
-    file_path = "visitors.json"
-    if not os.path.exists(file_path):
-        with open(file_path, "w") as f:
-            json.dump({"count": 1}, f)
-        return 1
-    try:
-        with open(file_path, "r") as f:
-            data = json.load(f)
-        if 'has_counted_visit' not in st.session_state:
-            data["count"] += 1
-            st.session_state.has_counted_visit = True
-            with open(file_path, "w") as f:
-                json.dump(data, f)
-        return data["count"]
-    except:
-        return 1
-
-total_visitors = get_total_visitors()
-
-# --- 4. ADVANCED STYLING ---
+# --- 3. ADVANCED STYLING ---
 st.markdown("""
     <style>
     .main { background-color: #ffffff; }
@@ -59,10 +38,6 @@ st.markdown("""
         background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
         color: white; border-radius: 20px; margin-bottom: 30px;
         box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-    .visitor-badge {
-        padding: 10px; background-color: #f1f5f9; border-radius: 10px;
-        text-align: center; border: 1px solid #1e3a8a; color: #1e3a8a; font-weight: bold;
     }
     .comment-box {
         padding: 15px; border-radius: 10px; background-color: #f8f9fa;
@@ -74,7 +49,6 @@ st.markdown("""
     }
     .learning-card {
         background-color: #f8fafc; padding: 25px; border-radius: 15px; border-left: 6px solid #1e3a8a; margin-bottom: 25px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     }
     .quiz-section {
         background-color: #ffffff; padding: 20px; border: 1px solid #e2e8f0; border-radius: 15px;
@@ -82,7 +56,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- 5. HEADER ---
+# --- 4. HEADER ---
 st.markdown(f"""
     <div class="header-box">
         <div style="font-family: 'Georgia', serif; font-size: clamp(24px, 5vw, 48px); font-weight: bold; letter-spacing: 2px;">THE JEWEL OF COMPUTER SCIENCE</div>
@@ -92,9 +66,8 @@ st.markdown(f"""
     </div>
     """, unsafe_allow_html=True)
 
-# --- 6. SIDEBAR ---
+# --- 5. SIDEBAR ---
 st.sidebar.title("💎 Navigation")
-st.sidebar.markdown(f"""<div class="visitor-badge">👁️ Total Visitors: {total_visitors}</div>""", unsafe_allow_html=True)
 st.sidebar.write("---")
 
 subject = st.sidebar.selectbox(
@@ -102,7 +75,7 @@ subject = st.sidebar.selectbox(
     ["Home Page", "PDA Learning Hub", "Theory of Computation", "Contact Developer", "Community Feedback"]
 )
 
-# --- 7. MODULES ---
+# --- 6. MODULES ---
 if subject == "Home Page":
     st.markdown("### 🏛️ Welcome to the CS Core Portal")
     st.markdown("""
@@ -131,10 +104,16 @@ elif subject == "PDA Learning Hub":
         if st.button("Check Q1"):
             if q1 == "Stack": st.success("Correct!")
             else: st.error("Incorrect.")
-        # ... (يمكن إضافة بقية الأسئلة الـ 6 هنا لضمان الشمولية)
+        st.write("---")
+        q2 = st.radio("2. What does LIFO stand for?", ["Last In, First Out", "Long Input, Fast Output"])
+        if st.button("Check Q2"):
+            if q2 == "Last In, First Out": st.success("Correct!")
+            else: st.error("Incorrect.")
 
 elif subject == "Theory of Computation":
-    st.markdown("### 🤖 PDA Simulator")
+    st.markdown("### 🤖 Theory of Computation: PDA Simulator")
+    st.info("💡 هذا المحاكي يتيح لك تتبع حركة الآلة (States) وتغير الـ Stack خطوة بخطوة.")
+    
     def generate_pda_diagram(active_state):
         dot = graphviz.Digraph()
         dot.attr(rankdir='LR', size='8,5')
@@ -144,12 +123,13 @@ elif subject == "Theory of Computation":
         dot.node('f', 'Accept', shape='doublecircle', color='green' if active_state == 'accepted' else 'black')
         dot.edge('S', 'q0'); dot.edge('q0', 'q0', label='a, Z0/AZ0'); dot.edge('q0', 'q1', label='b, A/ε'); dot.edge('q1', 'q1', label='b, A/ε'); dot.edge('q1', 'f', label='ε, Z0/Z0')
         return dot
+
     col_graph, col_input = st.columns([2, 1])
     with col_graph:
         diagram_placeholder = st.empty()
         diagram_placeholder.graphviz_chart(generate_pda_diagram('q0'))
     with col_input:
-        test_string = st.text_input("Enter String (e.g., aabb):", "aabb")
+        test_string = st.text_input("Enter Input String (e.g., aabb):", "aabb")
         sim_speed = st.slider("Speed:", 0.5, 2.0, 1.0)
         if st.button("Run Simulation 🚀"):
             stack, current_state, history, failed = ["Z0"], "q0", [], False
@@ -173,21 +153,27 @@ elif subject == "Theory of Computation":
             else: st.error("❌ Rejected")
 
 elif subject == "Contact Developer":
-    st.markdown("### 📧 Contact Details")
-    st.info("Academic: 451000518@stu.ut.edu.sa")
-    st.success("Personal: mohrah.atiiah@icloud.com")
+    st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.info("🏛️ **Academic Email**")
+        st.code("451000518@stu.ut.edu.sa")
+    with col2:
+        st.success("📩 **Personal Email**")
+        st.code("mohrah.atiiah@icloud.com")
 
 elif subject == "Community Feedback":
     st.markdown("### 💬 Feedback Board")
-    with st.form("f"):
+    with st.form("feedback_form"):
         name = st.text_input("Name:")
         msg = st.text_area("Feedback:")
         if st.form_submit_button("Post"):
             if name and msg: save_comment(name, msg); st.success("Saved!")
+    st.markdown("---")
     for c in reversed(load_comments()):
         st.markdown(f"""<div class="comment-box"><b>👤 {c['u']}</b> <small>({c['t']})</small><br>{c['m']}</div>""", unsafe_allow_html=True)
 
-# --- 8. FOOTER ---
+# --- 7. FOOTER ---
 st.markdown(f"""
     <div class="footer">
         <p>© 2026 | <b>تطوير وبرمجة: مهره عطيه الجهني</b></p>

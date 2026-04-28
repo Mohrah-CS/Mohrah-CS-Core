@@ -87,7 +87,7 @@ st.sidebar.title("💎 Academic Navigation")
 st.sidebar.write("---")
 subject = st.sidebar.selectbox(
     "Select Academic Module:",
-    ["Home Page", "Foundations of TOC", "DFA Explorer", "NFA Masterclass", "PDA Learning Hub", "Theory of Computation (Simulator)", "Contact Developer", "Community Feedback"]
+    ["Home Page", "Foundations of TOC", "DFA Explorer", "NFA Masterclass", "PDA Explorer", "Contact Developer", "Community Feedback"]
 )
 
 # --- 6. MODULES ---
@@ -305,7 +305,7 @@ elif subject == "Foundations of TOC":
         """, unsafe_allow_html=True)
 
     with tab_q:
-        st.markdown("### 📝 Foundations Quiz (10 Questions)")
+        st.markdown("### 📝 Foundations Quiz (30 Questions)")
         f_qs = [
             # Introduction Quiz
             ("Which branch of TOC studies abstract machines and their computational problems?", ["Computability Theory", "Complexity Theory", "Automata Theory", "Algorithm Theory"], "Automata Theory"),
@@ -353,7 +353,7 @@ elif subject == "Foundations of TOC":
         for i, (q, opts, ans) in enumerate(f_qs):
             u_ans = st.radio(f"{i+1}. {q}", opts, key=f"fq_u_{i}")
             if u_ans == ans: f_score += 1
-        if st.button("Submit Foundations Quiz"): st.success(f"Your Score: {f_score}/10")
+        if st.button("Submit Foundations Quiz"): st.success(f"Your Score: {f_score}/{len(f_qs)}")
 
 elif subject == "DFA Explorer":
     st.markdown("## ⚙️ Deterministic Finite Automata (DFA)")
@@ -364,224 +364,372 @@ elif subject == "DFA Explorer":
         <div class="learning-card">
         <div class="concept-badge">Formal Theory</div>
         <h3>The Architecture of DFA</h3>
-        <p>A <b>Deterministic Finite Automata (DFA)</b> is the simplest model of computation. It has no memory other than its current state.</p>
-        <h4>The 5-Tuple Definition:</h4>
+        <p>A <b>Deterministic Finite Automata (DFA)</b> is the simplest type of automaton. It is a mathematical model of computation that consists of a finite set of states, a finite input alphabet, a transition function that maps (current state, input symbol) to a next state, a start state, and a set of accept states.</p>
+
+        <h4>Formal Definition of a DFA:</h4>
+        <p>A DFA is formally defined as a 5-tuple (Q, Σ, δ, q₀, F), where:</p>
         <ul>
             <li><b>Q:</b> A finite set of states.</li>
-            <li><b>Σ:</b> A finite set of input symbols (Alphabet).</li>
-            <li><b>δ: (Transition Function)</b> δ: Q × Σ → Q. It defines the next state for every state-symbol pair.</li>
-            <li><b>q0:</b> The unique start state (q0 ∈ Q).</li>
-            <li><b>F:</b> The set of final or accepting states (F ⊆ Q).</li>
+            <li><b>Σ:</b> A finite set of input symbols (the alphabet).</li>
+            <li><b>δ:</b> The transition function, δ: Q × Σ → Q. It takes a state and an input symbol as arguments and returns the next state.</li>
+            <li><b>q₀:</b> The start state (q₀ ∈ Q).</li>
+            <li><b>F:</b> A set of accept (or final) states (F ⊆ Q).</li>
         </ul>
-        <div class="step-box">
-        <b>💡 How to determine Acceptance? (The Process)</b>  
 
-        1. The machine starts at <b>q0</b>.  
+        <h4>How a DFA Works:</h4>
+        <p>A DFA processes an input string one symbol at a time, starting from the start state. For each input symbol, it transitions to a new state based on its transition function. If, after processing the entire input string, the DFA is in an accept state, the string is said to be accepted by the DFA; otherwise, it is rejected.</p>
 
-        2. It reads the first symbol of the input string <i>w</i>.  
-
-        3. It moves to the next state according to <b>δ</b>.  
-
-        4. It repeats this for every symbol in <i>w</i>.  
-
-        5. <b>Crucial Step:</b> After the last symbol is read, the machine checks its current state. If the state is in <b>F</b>, the string is <b>Accepted</b>. If not, it is <b>Rejected</b>.
-        </div>
+        <h4>Key Characteristics of DFAs:</h4>
+        <ul>
+            <li><b>Deterministic:</b> For each state and input symbol, there is exactly one next state.</li>
+            <li><b>No ε-transitions:</b> DFAs do not allow transitions on the empty string.</li>
+            <li><b>Finite Memory:</b> DFAs have a finite number of states, meaning they can only remember a finite amount of information about the input processed so far.</li>
+        </ul>
         </div>
         """, unsafe_allow_html=True)
 
     with tab_viz:
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("#### 1. Even Number of '0's")
-            dfa1 = graphviz.Digraph(); dfa1.attr(rankdir='LR', bgcolor='transparent')
-            dfa1.node('S', '', shape='none'); dfa1.node('q_even', 'Even (q0)', shape='doublecircle', color='green'); dfa1.node('q_odd', 'Odd (q1)', shape='circle')
-            dfa1.edge('S', 'q_even'); dfa1.edge('q_even', 'q_odd', label='0'); dfa1.edge('q_odd', 'q_even', label='0'); dfa1.edge('q_even', 'q_even', label='1'); dfa1.edge('q_odd', 'q_odd', label='1')
-            st.graphviz_chart(dfa1)
-        with col2:
-            st.markdown("#### 2. Starts with 'a'")
-            dfa2 = graphviz.Digraph(); dfa2.attr(rankdir='LR', bgcolor='transparent')
-            dfa2.node('S', '', shape='none'); dfa2.node('q0', 'Start', shape='circle'); dfa2.node('q1', 'Accept', shape='doublecircle', color='green'); dfa2.node('q2', 'Trap', shape='circle', color='red')
-            dfa2.edge('S', 'q0'); dfa2.edge('q0', 'q1', label='a'); dfa2.edge('q0', 'q2', label='b'); dfa2.edge('q1', 'q1', label='a, b'); dfa2.edge('q2', 'q2', label='a, b')
-            st.graphviz_chart(dfa2)
+        st.markdown("### 🎨 Visual Examples of DFAs")
+        st.markdown("""
+        <div class="learning-card">
+        <p>Here are some visual examples of DFAs and how they recognize different languages.</p>
+        <h4>Example 1: DFA accepting strings ending with '0'</h4>
+        <p>This DFA accepts all binary strings that end with a '0'.</p>
+        """, unsafe_allow_html=True)
+
+        graph1 = graphviz.Digraph(comment='DFA ending with 0', graph_attr={'rankdir': 'LR'})
+        graph1.node('A', 'q0', shape='circle')
+        graph1.node('B', 'q1', shape='doublecircle')
+        graph1.edge('A', 'A', label='1')
+        graph1.edge('A', 'B', label='0')
+        graph1.edge('B', 'B', label='0')
+        graph1.edge('B', 'A', label='1')
+        st.graphviz_chart(graph1)
+
+        st.markdown("""
+        <h4>Example 2: DFA accepting strings containing '101' as a substring</h4>
+        <p>This DFA accepts all binary strings that contain the substring '101'.</p>
+        """, unsafe_allow_html=True)
+
+        graph2 = graphviz.Digraph(comment='DFA containing 101', graph_attr={'rankdir': 'LR'})
+        graph2.node('A', 'q0', shape='circle')
+        graph2.node('B', 'q1', shape='circle')
+        graph2.node('C', 'q2', shape='circle')
+        graph2.node('D', 'q3', shape='doublecircle')
+        graph2.edge('A', 'A', label='0')
+        graph2.edge('A', 'B', label='1')
+        graph2.edge('B', 'B', label='1')
+        graph2.edge('B', 'C', label='0')
+        graph2.edge('C', 'A', label='0')
+        graph2.edge('C', 'D', label='1')
+        graph2.edge('D', 'D', label='0,1')
+        st.graphviz_chart(graph2)
+        st.markdown("</div>", unsafe_allow_html=True)
 
     with tab_sim:
-        st.markdown("### 🚀 DFA Interactive Simulator (Pattern '101')")
-        def generate_dfa_sim_diagram(active_state):
-            dot = graphviz.Digraph(); dot.attr(rankdir='LR', size='8,5', bgcolor='transparent')
-            dot.node('S', '', shape='none')
-            states = {'q0': {'label': 'Start', 'shape': 'circle'}, 'q1': {'label': 'Got 1', 'shape': 'circle'}, 'q2': {'label': 'Got 10', 'shape': 'circle'}, 'q3': {'label': 'Got 101 (Accept)', 'shape': 'doublecircle'}}
-            for node, attr in states.items():
-                color = '#3b82f6' if active_state == node else 'black'
-                dot.node(node, attr['label'], shape=attr['shape'], color=color, penwidth='4' if active_state == node else '1')
-            dot.edge('S', 'q0'); dot.edge('q0', 'q0', label='0'); dot.edge('q0', 'q1', label='1'); dot.edge('q1', 'q1', label='1'); dot.edge('q1', 'q2', label='0'); dot.edge('q2', 'q0', label='0'); dot.edge('q2', 'q3', label='1'); dot.edge('q3', 'q3', label='0, 1')
-            return dot
-        col_sim_graph, col_sim_input = st.columns([2, 1])
-        with col_sim_graph:
-            dfa_placeholder = st.empty(); dfa_placeholder.graphviz_chart(generate_dfa_sim_diagram('q0'))
-        with col_sim_input:
-            dfa_input_str = st.text_input("Enter Binary String:", "11010", key="dfa_in_u")
-            dfa_speed = st.slider("Simulation Speed:", 0.5, 3.0, 1.5, key="dfa_sp_u")
-            if st.button("Start DFA Simulation ⚡"):
-                current_state, dfa_history = 'q0', []
-                dfa_table_placeholder = st.empty()
-                transitions = {'q0': {'0': 'q0', '1': 'q1'}, 'q1': {'0': 'q2', '1': 'q1'}, 'q2': {'0': 'q0', '1': 'q3'}, 'q3': {'0': 'q3', '1': 'q3'}}
-                for i, char in enumerate(dfa_input_str):
-                    prev_state = current_state
-                    current_state = transitions[prev_state][char]
-                    dfa_history.append({"Step": i + 1, "Input": char, "From": prev_state, "To": current_state})
-                    dfa_placeholder.graphviz_chart(generate_dfa_sim_diagram(current_state))
-                    dfa_table_placeholder.table(pd.DataFrame(dfa_history))
-                    time.sleep(dfa_speed)
-                if current_state == 'q3': st.success("✅ Accepted!")
-                else: st.error("❌ Rejected!")
+        st.markdown("### 🚀 Interactive DFA Simulator")
+        st.markdown("""
+        <div class="learning-card">
+        <p>Test your understanding of DFAs by simulating their behavior with custom inputs.</p>
+        """, unsafe_allow_html=True)
+
+        # DFA Definition
+        dfa_states = st.text_input("States (comma-separated, e.g., q0,q1)", "q0,q1,q2")
+        dfa_alphabet = st.text_input("Alphabet (comma-separated, e.g., 0,1)", "0,1")
+        dfa_transitions_input = st.text_area("Transitions (e.g., q0,0,q1; q1,1,q2)", "q0,0,q1; q0,1,q0; q1,0,q2; q1,1,q1; q2,0,q2; q2,1,q2")
+        dfa_start_state = st.text_input("Start State", "q0")
+        dfa_accept_states = st.text_input("Accept States (comma-separated)", "q2")
+        input_string_dfa = st.text_input("Input String for DFA", "01010")
+
+        def parse_dfa(states_str, alphabet_str, transitions_str, start_state_str, accept_states_str):
+            Q = set(s.strip() for s in states_str.split(','))
+            Sigma = set(s.strip() for s in alphabet_str.split(','))
+            delta = {}
+            for t in transitions_str.split(';'):
+                if t.strip():
+                    q, sym, next_q = t.strip().split(',')
+                    if q not in Q or next_q not in Q or sym not in Sigma:
+                        st.error(f"Invalid transition: {t}. Check states and alphabet.")
+                        return None, None, None, None, None
+                    if q not in delta: delta[q] = {}
+                    delta[q][sym] = next_q
+            q0 = start_state_str.strip()
+            F = set(s.strip() for s in accept_states_str.split(','))
+            
+            if q0 not in Q: st.error(f"Start state {q0} not in Q."); return None, None, None, None, None
+            if not F.issubset(Q): st.error(f"Accept states {F} not a subset of Q."); return None, None, None, None, None
+            
+            return Q, Sigma, delta, q0, F
+
+        def simulate_dfa(Q, Sigma, delta, q0, F, input_str):
+            current_state = q0
+            path = [q0]
+            for symbol in input_str:
+                if symbol not in Sigma:
+                    st.warning(f"Input symbol '{symbol}' not in alphabet Σ.")
+                    return False, path, "Invalid symbol in input string."
+                if current_state in delta and symbol in delta[current_state]:
+                    current_state = delta[current_state][symbol]
+                    path.append(current_state)
+                else:
+                    return False, path, f"No transition from state {current_state} on symbol {symbol}."
+            return current_state in F, path, "Simulation complete."
+
+        if st.button("Run DFA Simulation"):
+            Q_dfa, Sigma_dfa, delta_dfa, q0_dfa, F_dfa = parse_dfa(dfa_states, dfa_alphabet, dfa_transitions_input, dfa_start_state, dfa_accept_states)
+            if Q_dfa:
+                is_accepted, path_dfa, message_dfa = simulate_dfa(Q_dfa, Sigma_dfa, delta_dfa, q0_dfa, F_dfa, input_string_dfa)
+                st.write(f"Input String: {input_string_dfa}")
+                st.write(f"Path: {' -> '.join(path_dfa)}")
+                if is_accepted:
+                    st.success(f"Result: Accepted! {message_dfa}")
+                else:
+                    st.error(f"Result: Rejected! {message_dfa}")
+
+                # Visualize DFA
+                st.markdown("#### Visual Representation of DFA")
+                dfa_graph = graphviz.Digraph(comment='DFA', graph_attr={'rankdir': 'LR'})
+                for state in Q_dfa:
+                    if state == q0_dfa:
+                        dfa_graph.node(state, state, shape='circle', style='filled', fillcolor='lightblue') # Start state
+                    elif state in F_dfa:
+                        dfa_graph.node(state, state, shape='doublecircle') # Accept state
+                    else:
+                        dfa_graph.node(state, state, shape='circle')
+                
+                for q, transitions in delta_dfa.items():
+                    for sym, next_q in transitions.items():
+                        dfa_graph.edge(q, next_q, label=sym)
+                st.graphviz_chart(dfa_graph)
+        st.markdown("</div>", unsafe_allow_html=True)
 
     with tab_q:
         st.markdown("### 📝 DFA Quiz (10 Questions)")
         dfa_qs = [
-            ("DFA stands for?", ["Deterministic", "Dynamic", "Digital"], "Deterministic"),
-            ("How many transitions per state?", ["Exactly one per symbol", "Many", "Zero"], "Exactly one per symbol"),
-            ("Start state count?", ["Exactly 1", "At least 1", "Many"], "Exactly 1"),
-            ("Final state symbol?", ["Double circle", "Single circle", "Square"], "Double circle"),
-            ("δ: Q × Σ → ?", ["Q", "Σ", "F"], "Q"),
-            ("Can DFA have ε-transitions?", ["No", "Yes", "Only at start"], "No"),
-            ("DFA is a 5-tuple?", ["Yes", "No", "7-tuple"], "Yes"),
-            ("Trap state is for?", ["Rejected paths", "Accepted paths", "Start"], "Rejected paths"),
-            ("Is DFA a type of NFA?", ["Yes", "No", "Opposite"], "Yes"),
-            ("DFA recognizes?", ["Regular Languages", "CFG", "CSL"], "Regular Languages")
+            ("What does 'D' in DFA stand for?", ["Double", "Deterministic", "Direct"], "Deterministic"),
+            ("A DFA can have multiple start states.", ["True", "False"], "False"),
+            ("Which of these is NOT a component of a DFA's formal definition?", ["States", "Stack", "Alphabet"], "Stack"),
+            ("If a DFA is in an accept state after processing an input string, the string is:", ["Rejected", "Accepted", "Ignored"], "Accepted"),
+            ("DFAs have finite memory.", ["True", "False"], "True"),
+            ("The transition function in a DFA maps (state, input symbol) to:", ["A set of states", "A single next state", "An output symbol"], "A single next state"),
+            ("Can a DFA have ε-transitions?", ["Yes", "No", "Sometimes"], "No"),
+            ("Which of the following languages can a DFA recognize?", ["All languages", "Regular languages", "Context-free languages"], "Regular languages"),
+            ("If a DFA has 3 states and an alphabet of 2 symbols, how many transitions must be defined?", ["3", "6", "9"], "6"),
+            ("What is the shape of an accept state in a Graphviz DFA diagram?", ["Circle", "Square", "Double Circle"], "Double Circle")
         ]
-        d_score = 0
+        dfa_score = 0
         for i, (q, opts, ans) in enumerate(dfa_qs):
-            u_ans = st.radio(f"{i+1}. {q}", opts, key=f"dq_u_{i}")
-            if u_ans == ans: d_score += 1
-        if st.button("Submit DFA Quiz"): st.success(f"Your Score: {d_score}/10")
+            u_ans = st.radio(f"{i+1}. {q}", opts, key=f"dfaq_u_{i}")
+            if u_ans == ans: dfa_score += 1
+        if st.button("Submit DFA Quiz"): st.success(f"Your Score: {dfa_score}/10")
 
 elif subject == "NFA Masterclass":
-    st.markdown("## 🌀 NFA Masterclass & Conversions")
-    tab_nfa, tab_diff, tab_conv, tab_sim, tab_q = st.tabs(["📖 Comprehensive NFA Info", "⚖️ DFA vs NFA", "🔄 Conversion Steps", "🚀 NFA Simulator", "📝 NFA Quiz (10 Qs)"])
-    
-    with tab_nfa:
+    st.markdown("## 🧠 Non-Deterministic Finite Automata (NFA)")
+    tab_info, tab_viz, tab_sim, tab_q = st.tabs(["📖 Deep Dive Definition", "🎨 Visual Examples", "🚀 Interactive Simulator", "📝 NFA Quiz (10 Qs)"])
+
+    with tab_info:
         st.markdown("""
         <div class="learning-card">
-        <div class="concept-badge">Advanced Theory</div>
-        <h3>Non-deterministic Finite Automata (NFA)</h3>
-        <p>An <b>NFA</b> is a more flexible model of computation. Unlike DFA, an NFA can be in multiple states at once, effectively "guessing" the correct path.</p>
-        <h4>Why use NFA?</h4>
-        <p>NFA is often much easier to design than DFA for complex languages. It allows for <b>ε-transitions</b> (moving without input) and <b>multiple choices</b> for the same symbol.</p>
-        <h4>Formal Definition:</h4>
-        <p>Like DFA, it's a 5-tuple (Q, Σ, δ, q0, F), but the transition function is different:  
+        <div class="concept-badge">Formal Theory</div>
+        <h3>The Flexibility of NFA</h3>
+        <p>A <b>Non-Deterministic Finite Automata (NFA)</b> is a finite automaton where for each state and input symbol, there can be zero, one, or more than one next state. NFAs also allow transitions on the empty string (ε-transitions). Despite their non-deterministic nature, NFAs are equivalent in power to DFAs; any language recognized by an NFA can also be recognized by a DFA.</p>
 
-        <span class="highlight">δ: Q × (Σ ∪ {ε}) → P(Q)</span>  
+        <h4>Formal Definition of an NFA:</h4>
+        <p>An NFA is formally defined as a 5-tuple (Q, Σ, δ, q₀, F), where:</p>
+        <ul>
+            <li><b>Q:</b> A finite set of states.</li>
+            <li><b>Σ:</b> A finite set of input symbols (the alphabet).</li>
+            <li><b>δ:</b> The transition function, δ: Q × (Σ ∪ {ε}) → P(Q). It takes a state and an input symbol (or ε) as arguments and returns a set of possible next states. P(Q) denotes the power set of Q.</li>
+            <li><b>q₀:</b> The start state (q₀ ∈ Q).</li>
+            <li><b>F:</b> A set of accept (or final) states (F ⊆ Q).</li>
+        </ul>
 
-        This means it maps to the <b>Power Set</b> of states, allowing for zero or more next states.</p>
-        <h4>Acceptance in NFA:</h4>
-        <p>A string is accepted if there exists <b>at least one path</b> from the start state to any final state. If the machine can "find a way" to accept, it will.</p>
+        <h4>How an NFA Works:</h4>
+        <p>An NFA processes an input string by exploring all possible paths simultaneously. If at least one of these paths leads to an accept state after processing the entire input string, the string is accepted. The presence of ε-transitions allows the NFA to change states without consuming an input symbol.</p>
+
+        <h4>Key Characteristics of NFAs:</h4>
+        <ul>
+            <li><b>Non-Deterministic:</b> For a given state and input symbol, there can be multiple next states.</li>
+            <li><b>ε-transitions:</b> Allowed transitions on the empty string.</li>
+            <li><b>Equivalent to DFAs:</b> Despite non-determinism, NFAs recognize the same class of languages as DFAs (regular languages).</li>
+        </ul>
         </div>
         """, unsafe_allow_html=True)
-    
-    with tab_diff:
-        st.markdown("### ⚖️ Comparison: DFA vs NFA")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.info("**DFA (Deterministic)**")
-            st.write("- Exactly one transition per symbol.")
-            st.write("- No ε-transitions allowed.")
-            st.write("- Implementation is straightforward.")
-        with col2:
-            st.success("**NFA (Non-deterministic)**")
-            st.write("- Zero, one, or many transitions per symbol.")
-            st.write("- ε-transitions are allowed.")
-            st.write("- Easier to design for humans.")
 
-    with tab_conv:
-        st.markdown("### 🔄 Conversion: NFA to DFA (Subset Construction)")
-        col_text, col_graph = st.columns([1, 1])
-        with col_text:
-            st.markdown("""
-            <div class="step-box">
-            <b>The Step-by-Step Algorithm:</b>  
+    with tab_viz:
+        st.markdown("### 🎨 Visual Examples of NFAs")
+        st.markdown("""
+        <div class="learning-card">
+        <p>Here are some visual examples of NFAs and how they recognize different languages.</p>
+        <h4>Example 1: NFA accepting strings containing '101'</h4>
+        <p>This NFA accepts all binary strings that contain the substring '101'. Notice the simplicity compared to the DFA for the same language.</p>
+        """, unsafe_allow_html=True)
 
-            1. <b>ε-closure:</b> For every state, find all states reachable using only ε-transitions.  
+        graph_nfa1 = graphviz.Digraph(comment='NFA containing 101', graph_attr={'rankdir': 'LR'})
+        graph_nfa1.node('A', 'q0', shape='circle')
+        graph_nfa1.node('B', 'q1', shape='circle')
+        graph_nfa1.node('C', 'q2', shape='circle')
+        graph_nfa1.node('D', 'q3', shape='doublecircle')
+        graph_nfa1.edge('A', 'A', label='0,1')
+        graph_nfa1.edge('A', 'B', label='1')
+        graph_nfa1.edge('B', 'C', label='0')
+        graph_nfa1.edge('C', 'D', label='1')
+        graph_nfa1.edge('D', 'D', label='0,1')
+        st.graphviz_chart(graph_nfa1)
 
-            2. <b>Start State:</b> The DFA start state is the ε-closure of the NFA start state.  
+        st.markdown("""
+        <h4>Example 2: NFA accepting strings ending with '00' or '11'</h4>
+        <p>This NFA accepts binary strings ending with '00' or '11'. It uses ε-transitions implicitly by having multiple transitions from a state on the same input or by having multiple start paths.</p>
+        """, unsafe_allow_html=True)
 
-            3. <b>Transitions:</b> For each DFA state (which is a set of NFA states) and each symbol:  
+        graph_nfa2 = graphviz.Digraph(comment='NFA ending with 00 or 11', graph_attr={'rankdir': 'LR'})
+        graph_nfa2.node('A', 'q0', shape='circle')
+        graph_nfa2.node('B', 'q1', shape='circle')
+        graph_nfa2.node('C', 'q2', shape='doublecircle')
+        graph_nfa2.node('D', 'q3', shape='circle')
+        graph_nfa2.node('E', 'q4', shape='doublecircle')
 
-               - Find all NFA states reachable from this set.  
-
-               - Take the ε-closure of that result.  
-
-               - This set becomes the next DFA state.  
-
-            4. <b>Final States:</b> Any DFA state (set) that contains at least one NFA final state is marked as a Final State in the DFA.
-            </div>
-            """, unsafe_allow_html=True)
-        with col_graph:
-            g = graphviz.Digraph(); g.attr(rankdir='LR', bgcolor='transparent')
-            g.node("NFA", "{q0, q1}", shape="circle")
-            g.node("DFA", "[q0, q1]", shape="box", color="blue")
-            g.edge("NFA", "DFA", label="Subset Construction")
-            st.graphviz_chart(g)
+        graph_nfa2.edge('A', 'A', label='0,1')
+        graph_nfa2.edge('A', 'B', label='0')
+        graph_nfa2.edge('B', 'C', label='0')
+        graph_nfa2.edge('A', 'D', label='1')
+        graph_nfa2.edge('D', 'E', label='1')
+        st.graphviz_chart(graph_nfa2)
+        st.markdown("</div>", unsafe_allow_html=True)
 
     with tab_sim:
-        st.markdown("### 🚀 NFA Interactive Simulator (Ends with '01')")
-        def gen_nfa_diag(active_states):
-            dot = graphviz.Digraph(); dot.attr(rankdir='LR', bgcolor='transparent')
-            dot.node('S', '', shape='none')
-            nodes = {'q0': 'Start', 'q1': 'Saw 0', 'q2': 'Accept (01)'}
-            for n, l in nodes.items():
-                color = '#3b82f6' if n in active_states else 'black'
-                dot.node(n, l, shape='doublecircle' if n == 'q2' else 'circle', color=color, penwidth='4' if n in active_states else '1')
-            dot.edge('S', 'q0'); dot.edge('q0', 'q0', label='0,1'); dot.edge('q0', 'q1', label='0'); dot.edge('q1', 'q2', label='1')
-            return dot
-        col_g, col_i = st.columns([2, 1])
-        with col_g:
-            nfa_placeholder = st.empty(); nfa_placeholder.graphviz_chart(gen_nfa_diag(['q0']))
-        with col_i:
-            n_input = st.text_input("Enter String (0/1):", "101", key="n_in_u")
-            n_speed = st.slider("Speed:", 0.5, 3.0, 1.5, key="n_sp_u")
-            if st.button("Run NFA Simulation"):
-                current_states = {'q0'}
-                n_history = []
-                n_table = st.empty()
-                for i, char in enumerate(n_input):
-                    next_states = set()
-                    for s in current_states:
-                        if s == 'q0':
-                            next_states.add('q0')
-                            if char == '0': next_states.add('q1')
-                        elif s == 'q1' and char == '1': next_states.add('q2')
-                    n_history.append({"Step": i+1, "Input": char, "Active States": str(list(next_states))})
-                    current_states = next_states
-                    nfa_placeholder.graphviz_chart(gen_nfa_diag(current_states))
-                    n_table.table(pd.DataFrame(n_history))
-                    time.sleep(n_speed)
-                if 'q2' in current_states: st.success("✅ Accepted!")
-                else: st.error("❌ Rejected!")
+        st.markdown("### 🚀 Interactive NFA Simulator")
+        st.markdown("""
+        <div class="learning-card">
+        <p>Explore the non-deterministic nature of NFAs with this simulator. Define your NFA and test input strings.</p>
+        """, unsafe_allow_html=True)
+
+        nfa_states = st.text_input("NFA States (comma-separated, e.g., q0,q1)", "q0,q1,q2,q3")
+        nfa_alphabet = st.text_input("NFA Alphabet (comma-separated, e.g., 0,1)", "0,1")
+        nfa_transitions_input = st.text_area("NFA Transitions (e.g., q0,0,q0; q0,0,q1; q1,1,q2; q2,ε,q3)", "q0,0,q0; q0,1,q0; q0,1,q1; q1,0,q2; q2,1,q3")
+        nfa_start_state = st.text_input("NFA Start State", "q0")
+        nfa_accept_states = st.text_input("NFA Accept States (comma-separated)", "q3")
+        input_string_nfa = st.text_input("Input String for NFA", "0101")
+
+        def parse_nfa(states_str, alphabet_str, transitions_str, start_state_str, accept_states_str):
+            Q = set(s.strip() for s in states_str.split(','))
+            Sigma = set(s.strip() for s in alphabet_str.split(','))
+            delta = {}
+            for t in transitions_str.split(';'):
+                if t.strip():
+                    parts = t.strip().split(',')
+                    if len(parts) != 3:
+                        st.error(f"Invalid transition format: {t}. Expected 'state,symbol,next_state'.")
+                        return None, None, None, None, None
+                    q, sym, next_q = parts
+                    if q not in Q or next_q not in Q or (sym not in Sigma and sym != 'ε'):
+                        st.error(f"Invalid transition: {t}. Check states, alphabet, and ε-transitions.")
+                        return None, None, None, None, None
+                    if q not in delta: delta[q] = {}
+                    if sym not in delta[q]: delta[q][sym] = set()
+                    delta[q][sym].add(next_q)
+            q0 = start_state_str.strip()
+            F = set(s.strip() for s in accept_states_str.split(','))
+
+            if q0 not in Q: st.error(f"Start state {q0} not in Q."); return None, None, None, None, None
+            if not F.issubset(Q): st.error(f"Accept states {F} not a subset of Q."); return None, None, None, None, None
+
+            return Q, Sigma, delta, q0, F
+
+        def get_epsilon_closure(states, delta):
+            closure = set(states)
+            stack = list(states)
+            while stack:
+                current = stack.pop()
+                if current in delta and 'ε' in delta[current]:
+                    for next_state in delta[current]['ε']:
+                        if next_state not in closure:
+                            closure.add(next_state)
+                            stack.append(next_state)
+            return frozenset(closure)
+
+        def simulate_nfa(Q, Sigma, delta, q0, F, input_str):
+            current_states = get_epsilon_closure({q0}, delta)
+            path_history = [(current_states, None)] # Store (set of states, symbol)
+
+            for symbol in input_str:
+                if symbol not in Sigma:
+                    st.warning(f"Input symbol '{symbol}' not in alphabet Σ.")
+                    return False, path_history, "Invalid symbol in input string."
+                
+                next_states = set()
+                for state in current_states:
+                    if state in delta and symbol in delta[state]:
+                        next_states.update(delta[state][symbol])
+                current_states = get_epsilon_closure(next_states, delta)
+                path_history.append((current_states, symbol))
+
+            # Check if any of the final states are in the current_states set
+            if any(state in F for state in current_states):
+                return True, path_history, "Simulation complete."
+            else:
+                return False, path_history, "No path leads to an accept state."
+
+        if st.button("Run NFA Simulation"):
+            Q_nfa, Sigma_nfa, delta_nfa, q0_nfa, F_nfa = parse_nfa(nfa_states, nfa_alphabet, nfa_transitions_input, nfa_start_state, nfa_accept_states)
+            if Q_nfa:
+                is_accepted, path_nfa, message_nfa = simulate_nfa(Q_nfa, Sigma_nfa, delta_nfa, q0_nfa, F_nfa, input_string_nfa)
+                st.write(f"Input String: {input_string_nfa}")
+                
+                st.markdown("#### Simulation Path")
+                for i, (states, symbol) in enumerate(path_nfa):
+                    if symbol is None:
+                        st.write(f"Start: Epsilon closure of {{ {q0_nfa} }} = {{ {', '.join(states)} }}")
+                    else:
+                        st.write(f"After reading '{symbol}': Current states = {{ {', '.join(states)} }}")
+
+                if is_accepted:
+                    st.success(f"Result: Accepted! {message_nfa}")
+                else:
+                    st.error(f"Result: Rejected! {message_nfa}")
+
+                # Visualize NFA
+                st.markdown("#### Visual Representation of NFA")
+                nfa_graph = graphviz.Digraph(comment='NFA', graph_attr={'rankdir': 'LR'})
+                for state in Q_nfa:
+                    if state == q0_nfa:
+                        nfa_graph.node(state, state, shape='circle', style='filled', fillcolor='lightblue') # Start state
+                    elif state in F_nfa:
+                        nfa_graph.node(state, state, shape='doublecircle') # Accept state
+                    else:
+                        nfa_graph.node(state, state, shape='circle')
+                
+                for q, transitions in delta_nfa.items():
+                    for sym, next_qs in transitions.items():
+                        for next_q in next_qs:
+                            nfa_graph.edge(q, next_q, label=sym)
+                st.graphviz_chart(nfa_graph)
+        st.markdown("</div>", unsafe_allow_html=True)
 
     with tab_q:
         st.markdown("### 📝 NFA Quiz (10 Questions)")
         nfa_qs = [
-            ("NFA allows ε-transitions?", ["Yes", "No", "Only in DFA"], "Yes"),
-            ("NFA to DFA conversion name?", ["Subset Construction", "LIFO", "FIFO"], "Subset Construction"),
-            ("Is NFA more powerful than DFA?", ["No, same power", "Yes", "No, less"], "No, same power"),
-            ("NFA acceptance?", ["At least 1 path", "All paths", "No paths"], "At least 1 path"),
-            ("Can NFA have 0 transitions for a symbol?", ["Yes", "No", "Never"], "Yes"),
-            ("NFA is a 5-tuple?", ["Yes", "No", "6-tuple"], "Yes"),
-            ("ε-closure includes?", ["Self + ε paths", "Only ε paths", "Only self"], "Self + ε paths"),
-            ("NFA is easier to design?", ["Yes", "No", "Same"], "Yes"),
-            ("DFA is a subset of NFA?", ["Yes", "No", "Equal"], "Yes"),
-            ("NFA recognizes?", ["Regular Languages", "CFG", "CSL"], "Regular Languages")
+            ("What does 'N' in NFA stand for?", ["New", "Non-Deterministic", "Next"], "Non-Deterministic"),
+            ("An NFA can have multiple next states for a given (state, input symbol) pair.", ["True", "False"], "True"),
+            ("NFAs allow ε-transitions.", ["True", "False"], "True"),
+            ("Are NFAs more powerful than DFAs in terms of the languages they can recognize?", ["Yes", "No", "Sometimes"], "No"),
+            ("If an NFA has multiple paths for an input string, and at least one path leads to an accept state, the string is:", ["Rejected", "Accepted", "Ignored"], "Accepted"),
+            ("The transition function in an NFA maps (state, input symbol or ε) to:", ["A single next state", "A set of possible next states", "An output symbol"], "A set of possible next states"),
+            ("Which of the following is a key characteristic of NFAs?", ["Deterministic transitions", "Finite memory", "No ε-transitions"], "Finite memory"),
+            ("NFA to DFA conversion is always possible.", ["True", "False"], "True"),
+            ("The power set of states is used in the construction of an equivalent DFA from an NFA.", ["True", "False"], "True"),
+            ("Which symbol represents an empty string transition in an NFA?", ["0", "1", "ε"], "ε")
         ]
-        n_score = 0
+        nfa_score = 0
         for i, (q, opts, ans) in enumerate(nfa_qs):
-            u_ans = st.radio(f"{i+1}. {q}", opts, key=f"nq_u_{i}")
-            if u_ans == ans: n_score += 1
-        if st.button("Submit NFA Quiz"): st.success(f"Your Score: {n_score}/10")
+            u_ans = st.radio(f"{i+1}. {q}", opts, key=f"nfaq_u_{i}")
+            if u_ans == ans: nfa_score += 1
+        if st.button("Submit NFA Quiz"): st.success(f"Your Score: {nfa_score}/10")
 
-elif subject == "PDA Learning Hub":
-    st.markdown("## 📚 Pushdown Automata (PDA)")
-    tab_info, tab_q = st.tabs(["📖 Comprehensive PDA Info", "📝 PDA Quiz (10 Qs)"])
-    
+elif subject == "PDA Explorer":
+    st.markdown("## 📚 Pushdown Automata (PDA) Explorer")
+    tab_info, tab_sim, tab_q = st.tabs(["📖 Deep Dive Definition", "🚀 Interactive Simulator (a^n b^n)", "📝 PDA Quiz (10 Qs)"])
+
     with tab_info:
         st.markdown("""
         <div class="learning-card">
@@ -609,6 +757,45 @@ elif subject == "PDA Learning Hub":
         </div>
         """, unsafe_allow_html=True)
 
+    with tab_sim:
+        st.markdown("### 🤖 PDA Simulator (a^n b^n)")
+        def generate_pda_diagram(active_state):
+            dot = graphviz.Digraph(); dot.attr(rankdir='LR', size='8,5', bgcolor='transparent')
+            dot.node('S', '', shape='none')
+            dot.node('q0', 'q0', shape='circle', color='#3b82f6' if active_state == 'q0' else 'black', penwidth='3' if active_state == 'q0' else '1')
+            dot.node('q1', 'q1', shape='circle', color='#3b82f6' if active_state == 'q1' else 'black', penwidth='3' if active_state == 'q1' else '1')
+            dot.node('f', 'Accept', shape='doublecircle', color='green' if active_state == 'accepted' else 'black')
+            dot.edge('S', 'q0'); dot.edge('q0', 'q0', label='a, Z0 / AZ0\\na, A / AA'); dot.edge('q0', 'q1', label='b, A / ε'); dot.edge('q1', 'q1', label='b, A / ε'); dot.edge('q1', 'f', label='ε, Z0 / Z0')
+            return dot
+        col_graph, col_input = st.columns([2, 1])
+        with col_graph:
+            diagram_placeholder = st.empty(); diagram_placeholder.graphviz_chart(generate_pda_diagram('q0'))
+        with col_input:
+            test_string = st.text_input("Enter Input String (e.g., aabb):", "aabb", key="pda_in_u")
+            sim_speed = st.slider("Speed:", 0.5, 2.0, 1.0, key="pda_sp_u")
+            if st.button("Run PDA Simulation 🚀"):
+                stack, current_state, history, failed = ["Z0"], "q0", [], False
+                table_placeholder = st.empty()
+                for i, char in enumerate(test_string):
+                    action = "Push A" if char == 'a' else "Pop A"
+                    history.append({"Step": i+1, "Input": char, "State": current_state, "Stack": str(stack[::-1]), "Action": action})
+                    diagram_placeholder.graphviz_chart(generate_pda_diagram(current_state))
+                    table_placeholder.table(pd.DataFrame(history))
+                    if current_state == "q0":
+                        if char == 'a': stack.append('A')
+                        elif char == 'b' and len(stack) > 1: stack.pop(); current_state = "q1"
+                        else: failed = True; break
+                    elif current_state == "q1":
+                        if char == 'b' and len(stack) > 1: stack.pop()
+                        else: failed = True; break
+                    time.sleep(sim_speed)
+                if not failed and current_state == "q1" and len(stack) == 1:
+                    diagram_placeholder.graphviz_chart(generate_pda_diagram('accepted'))
+                    history.append({"Step": "End", "Input": "ε", "State": "Accept", "Stack": "['Z0']", "Action": "Success"})
+                    table_placeholder.table(pd.DataFrame(history))
+                    st.success("✅ Result: String Accepted")
+                else: st.error("❌ Result: String Rejected")
+
     with tab_q:
         st.markdown("### 📝 PDA Quiz (10 Questions)")
         pda_qs = [
@@ -628,45 +815,6 @@ elif subject == "PDA Learning Hub":
             u_ans = st.radio(f"{i+1}. {q}", opts, key=f"pq_u_{i}")
             if u_ans == ans: p_score += 1
         if st.button("Submit PDA Quiz"): st.success(f"Your Score: {p_score}/10")
-
-elif subject == "Theory of Computation (Simulator)":
-    st.markdown("### 🤖 PDA Simulator (a^n b^n)")
-    def generate_pda_diagram(active_state):
-        dot = graphviz.Digraph(); dot.attr(rankdir='LR', size='8,5', bgcolor='transparent')
-        dot.node('S', '', shape='none')
-        dot.node('q0', 'q0', shape='circle', color='#3b82f6' if active_state == 'q0' else 'black', penwidth='3' if active_state == 'q0' else '1')
-        dot.node('q1', 'q1', shape='circle', color='#3b82f6' if active_state == 'q1' else 'black', penwidth='3' if active_state == 'q1' else '1')
-        dot.node('f', 'Accept', shape='doublecircle', color='green' if active_state == 'accepted' else 'black')
-        dot.edge('S', 'q0'); dot.edge('q0', 'q0', label='a, Z0 / AZ0\\na, A / AA'); dot.edge('q0', 'q1', label='b, A / ε'); dot.edge('q1', 'q1', label='b, A / ε'); dot.edge('q1', 'f', label='ε, Z0 / Z0')
-        return dot
-    col_graph, col_input = st.columns([2, 1])
-    with col_graph:
-        diagram_placeholder = st.empty(); diagram_placeholder.graphviz_chart(generate_pda_diagram('q0'))
-    with col_input:
-        test_string = st.text_input("Enter Input String (e.g., aabb):", "aabb", key="pda_in_u")
-        sim_speed = st.slider("Speed:", 0.5, 2.0, 1.0, key="pda_sp_u")
-        if st.button("Run PDA Simulation 🚀"):
-            stack, current_state, history, failed = ["Z0"], "q0", [], False
-            table_placeholder = st.empty()
-            for i, char in enumerate(test_string):
-                action = "Push A" if char == 'a' else "Pop A"
-                history.append({"Step": i+1, "Input": char, "State": current_state, "Stack": str(stack[::-1]), "Action": action})
-                diagram_placeholder.graphviz_chart(generate_pda_diagram(current_state))
-                table_placeholder.table(pd.DataFrame(history))
-                if current_state == "q0":
-                    if char == 'a': stack.append('A')
-                    elif char == 'b' and len(stack) > 1: stack.pop(); current_state = "q1"
-                    else: failed = True; break
-                elif current_state == "q1":
-                    if char == 'b' and len(stack) > 1: stack.pop()
-                    else: failed = True; break
-                time.sleep(sim_speed)
-            if not failed and current_state == "q1" and len(stack) == 1:
-                diagram_placeholder.graphviz_chart(generate_pda_diagram('accepted'))
-                history.append({"Step": "End", "Input": "ε", "State": "Accept", "Stack": "['Z0']", "Action": "Success"})
-                table_placeholder.table(pd.DataFrame(history))
-                st.success("✅ Result: String Accepted")
-            else: st.error("❌ Result: String Rejected")
 
 elif subject == "Contact Developer":
     st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")

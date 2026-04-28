@@ -61,6 +61,10 @@ st.markdown("""
     }
     h2, h3 { color: #1e3a8a; font-weight: 800; }
     .highlight { color: #2563eb; font-weight: bold; background: #eff6ff; padding: 2px 6px; border-radius: 4px; }
+    .comment-box {
+            background-color: #f8fafc; padding: 15px; border-radius: 10px; 
+            border: 1px solid #e2e8f0; margin-bottom: 15px; line-height: 1.5;
+        }
     .footer {
         text-align: center; padding: 40px; margin-top: 80px;
         border-top: 3px solid #1e3a8a; background-color: #f1f5f9; color: #0f172a;
@@ -107,60 +111,170 @@ if subject == "Home Page":
 
 elif subject == "Foundations of TOC":
     st.markdown("## 📘 Foundations of Theory of Computation")
-    tab1, tab2, tab3, tab4, tab_q = st.tabs(["🔤 Alphabets & Strings", "📊 Set Theory", "⚙️ Functions", "🧠 Boolean Logic", "📝 Comprehensive Quiz"])
+    tab_intro, tab_alphabets, tab_strings, tab_languages, tab_sets, tab_functions, tab_boolean, tab_q = st.tabs(["📖 Introduction", "🔤 Alphabets", "🧵 Strings", "🗣️ Languages", "📊 Sets", "⚙️ Functions", "🧠 Boolean Logic", "📝 Comprehensive Quiz"])
     
-    with tab1:
+    with tab_intro:
         st.markdown("""
+        ### 📖 Introduction to Theory of Computation
+
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.0</div>
+        <h3>What is Theory of Computation?</h3>
+        <p><b>Theory of Computation (TOC)</b> is a branch of computer science and mathematics that deals with whether and how efficiently problems can be solved on a model of computation, using an algorithm. The field is divided into three major branches: Automata Theory, Computability Theory, and Complexity Theory.</p>
+
+        <h4>1. Automata Theory</h4>
+        <p>This branch studies abstract machines (or more abstractly, mathematical models of machines) and the computational problems that can be solved using these machines. It is the study of self-operating virtual machines that follow a predetermined sequence of operations automatically. Key concepts include Finite Automata (DFA, NFA), Pushdown Automata (PDA), and Turing Machines.</p>
+
+        <h4>2. Computability Theory</h4>
+        <p>This branch deals with the fundamental question of what problems can be solved algorithmically. It explores the limits of computation, identifying problems that are 'computable' (can be solved by an algorithm) and those that are 'uncomputable' (cannot be solved by any algorithm). The Turing Machine is a central concept here, serving as a universal model of computation.</p>
+
+        <h4>3. Complexity Theory</h4>
+        <p>This branch focuses on the resources (time and space) required to solve computational problems. It classifies problems based on their inherent difficulty, distinguishing between problems that can be solved efficiently (e.g., in polynomial time) and those that are inherently difficult (e.g., NP-hard problems). It helps in understanding the practical feasibility of solving problems.</p>
+
+        <h4>Why Study TOC?</h4>
+        <ul>
+            <li><b>Understanding Limits:</b> It helps us understand the fundamental limits of what computers can and cannot do.</li>
+            <li><b>Foundation for AI:</b> Concepts from TOC, especially computability and complexity, are crucial for understanding the theoretical underpinnings of Artificial Intelligence.</li>
+            <li><b>Algorithm Design:</b> Provides a theoretical framework for designing and analyzing efficient algorithms.</li>
+            <li><b>Compiler Design:</b> Automata theory is directly applied in the design of compilers and parsers.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_alphabets:
+        st.markdown("""
+        ### 📖 Alphabets: The Foundation of Formal Languages
+
         <div class="learning-card">
         <div class="concept-badge">Module 1.1</div>
-        <h3>Alphabets, Strings, and Languages: The Building Blocks</h3>
-        <p>In the world of computation, everything begins with an <b>Alphabet (Σ)</b>. An alphabet is a finite, non-empty set of symbols. For example, the binary alphabet is Σ = {0, 1}.</p>
-        <h4>1. Strings (Words)</h4>
-        <p>A <b>String</b> is a finite sequence of symbols chosen from Σ. 
+        <h3>What is an Alphabet (Σ)?</h3>
+        <p>In the context of Theory of Computation, an <b>Alphabet (Σ)</b> is a finite, non-empty set of symbols. These symbols are the basic building blocks from which all strings and languages are constructed. Think of it as the set of characters you can use to write words in a particular language.</p>
+
+        <h4>Key Characteristics of an Alphabet:</h4>
         <ul>
-            <li><b>Length |w|:</b> The number of symbols in string w. Example: |1011| = 4.</li>
-            <li><b>Empty String (ε):</b> A unique string with length 0. It exists in every Σ*.</li>
-            <li><b>Reverse (wᴿ):</b> If w = abc, then wᴿ = cba.</li>
-            <li><b>Concatenation:</b> Joining two strings. If x = "ab" and y = "cd", then xy = "abcd".</li>
+            <li><b>Finite:</b> The number of symbols in an alphabet must be countable and limited.</li>
+            <li><b>Non-empty:</b> An alphabet must contain at least one symbol.</li>
+            <li><b>Symbols:</b> These can be letters, numbers, special characters, or any distinct entities.</li>
         </ul>
-        </p>
-        <h4>2. Powers of Alphabet</h4>
-        <p>
-            - <b>Σ⁰:</b> The set {ε}.  
 
-            - <b>Σ*: (Kleene Closure)</b> The set of all possible strings over Σ, including ε. It is an infinite set.  
+        <h4>Examples of Alphabets:</h4>
+        <ul>
+            <li><b>Binary Alphabet:</b> Σ = {0, 1} (Used in digital computers)</li>
+            <li><b>English Alphabet (lowercase):</b> Σ = {a, b, c, ..., z}</li>
+            <li><b>Decimal Digits:</b> Σ = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}</li>
+            <li><b>Alphanumeric Characters:</b> Σ = {a-z, A-Z, 0-9}</li>
+        </ul>
 
-            - <b>Σ+: (Positive Closure)</b> Σ* excluding the empty string (Σ+ = Σ* - {ε}).
-        </p>
-        <h4>3. Languages</h4>
-        <p>A <b>Language (L)</b> is a subset of Σ*. A language can be finite (L = {01, 11}) or infinite (L = {all strings starting with 0}).</p>
+        <h4>Importance in TOC:</h4>
+        <p>Alphabets are fundamental because they define the set of valid inputs for automata and the characters that can form strings in a formal language. Without a clearly defined alphabet, it's impossible to define what constitutes a valid 'word' or 'sentence' in a computational context.</p>
         </div>
         """, unsafe_allow_html=True)
 
-    with tab2:
+    with tab_strings:
         st.markdown("""
+        ### 📖 Strings: Sequences of Symbols
+
         <div class="learning-card">
         <div class="concept-badge">Module 1.2</div>
-        <h3>Set Theory: The Mathematical Framework</h3>
-        <p>Sets are collections of distinct objects. In TOC, we use sets to define states, alphabets, and languages.</p>
-        <div class="info-grid">
-            <div class="info-item"><b>Union (A ∪ B):</b> All elements in A or B.</div>
-            <div class="info-item"><b>Intersection (A ∩ B):</b> Only elements common to both.</div>
-            <div class="info-item"><b>Difference (A - B):</b> Elements in A but not in B.</div>
-            <div class="info-item"><b>Complement (Ā):</b> Elements in the Universal set not in A.</div>
-        </div>
-        <h4>Advanced Concepts:</h4>
+        <h3>What is a String (Word)?</h3>
+        <p>A <b>String</b> (also known as a <b>Word</b>) is a finite sequence of symbols chosen from an alphabet (Σ). Strings are the fundamental units that form languages in Theory of Computation. For example, if Σ = {a, b}, then "ababa", "b", and "aa" are all strings over Σ.</p>
+
+        <h4>Key Properties and Operations of Strings:</h4>
         <ul>
-            <li><b>Power Set P(S):</b> The set of all subsets of S. If S has <i>n</i> elements, P(S) has 2ⁿ elements. This is crucial for NFA to DFA conversion.</li>
-            <li><b>Cartesian Product (A × B):</b> The set of all ordered pairs (a, b). Used to define transition functions.</li>
+            <li><b>Length (|w|):</b> The number of symbols in a string <i>w</i>. For example, if <i>w</i> = "0110", then |<i>w</i>| = 4.</li>
+            <li><b>Empty String (ε or λ):</b> A unique string with length 0. It is the only string that contains no symbols. The empty string is a member of every Σ*.</li>
+            <li><b>Concatenation:</b> Joining two strings together. If <i>x</i> = "cat" and <i>y</i> = "dog", then <i>xy</i> = "catdog". Concatenation is associative but not commutative.</li>
+            <li><b>Reverse (w<sup>R</sup>):</b> The string obtained by writing the symbols of <i>w</i> in reverse order. If <i>w</i> = "abc", then <i>w<sup>R</sup></i> = "cba".</li>
+            <li><b>Substring:</b> A sequence of consecutive symbols within a string. "aba" is a substring of "ababa".</li>
+            <li><b>Prefix:</b> A substring that occurs at the beginning of a string. "ab" is a prefix of "ababa".</li>
+            <li><b>Suffix:</b> A substring that occurs at the end of a string. "aba" is a suffix of "ababa".</li>
+        </ul>
+
+        <h4>Powers of an Alphabet (Σ<sup>k</sup>):</h4>
+        <p>The notation Σ<sup>k</sup> represents the set of all strings of length <i>k</i> that can be formed using symbols from the alphabet Σ.</p>
+        <ul>
+            <li><b>Σ<sup>0</sup>:</b> The set containing only the empty string, {ε}.</li>
+            <li><b>Σ<sup>1</sup>:</b> The set of all strings of length 1, which is equivalent to the alphabet Σ itself.</li>
+            <li><b>Σ<sup>k</sup>:</b> The set of all strings of length <i>k</i>.</li>
         </ul>
         </div>
         """, unsafe_allow_html=True)
 
-    with tab3:
+    with tab_languages:
         st.markdown("""
+        ### 📖 Languages: Collections of Strings
+
         <div class="learning-card">
         <div class="concept-badge">Module 1.3</div>
+        <h3>What is a Language (L)?</h3>
+        <p>In Theory of Computation, a <b>Language (L)</b> is defined as a set of strings over a given alphabet (Σ). Since an alphabet can generate an infinite number of strings (Σ*), a language is essentially a subset of Σ*. Languages can be finite or infinite.</p>
+
+        <h4>Key Concepts Related to Languages:</h4>
+        <ul>
+            <li><b>Formal Language:</b> A language defined by precise mathematical or logical rules, often used in computer science for programming languages, data formats, and communication protocols.</li>
+            <li><b>Natural Language:</b> Human languages like English or Arabic, which are often ambiguous and not strictly defined by formal rules. TOC primarily deals with formal languages.</li>
+            <li><b>Finite Language:</b> A language that contains a finite number of strings. For example, L = {"cat", "dog", "bird"} over Σ = {a-z}.</li>
+            <li><b>Infinite Language:</b> A language that contains an infinite number of strings. For example, L = {all binary strings starting with '0'} over Σ = {0, 1}.</li>
+        </ul>
+
+        <h4>Operations on Languages:</h4>
+        <p>Just like sets, languages can undergo various operations:</p>
+        <ul>
+            <li><b>Union (L<sub>1</sub> ∪ L<sub>2</sub>):</b> The set of all strings that are in L<sub>1</sub> or in L<sub>2</sub> (or both).</li>
+            <li><b>Intersection (L<sub>1</sub> ∩ L<sub>2</sub>):</b> The set of all strings that are in both L<sub>1</sub> and L<sub>2</sub>.</li>
+            <li><b>Concatenation (L<sub>1</sub>L<sub>2</sub>):</b> The set of all strings formed by concatenating a string from L<sub>1</sub> with a string from L<sub>2</sub>. For example, if L<sub>1</sub> = {"a"} and L<sub>2</sub> = {"b"}, then L<sub>1</sub>L<sub>2</sub> = {"ab"}.</li>
+            <li><b>Kleene Star (L*):</b> The set of all possible strings formed by concatenating zero or more strings from L. This includes the empty string (ε).</li>
+            <li><b>Positive Closure (L<sup>+</sup>):</b> Similar to Kleene Star, but excludes the empty string. It's the set of all possible strings formed by concatenating one or more strings from L.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_sets:
+        st.markdown("""
+        ### 📖 Sets: The Fundamental Mathematical Concept
+
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.4</div>
+        <h3>What is a Set?</h3>
+        <p>In mathematics and computer science, a <b>Set</b> is a well-defined collection of distinct objects, considered as an object in its own right. These objects are called the elements or members of the set. Sets are fundamental to Theory of Computation as they are used to define alphabets, states, languages, and many other abstract concepts.</p>
+
+        <h4>Key Properties of Sets:</h4>
+        <ul>
+            <li><b>Well-defined:</b> It must be clear whether an object is a member of the set or not.</li>
+            <li><b>Distinct Elements:</b> Each element in a set must be unique; duplicates are not allowed.</li>
+            <li><b>Order Does Not Matter:</b> The order in which elements are listed does not change the set (e.g., {1, 2, 3} is the same as {3, 1, 2}).</li>
+        </ul>
+
+        <h4>Common Set Notations:</h4>
+        <ul>
+            <li><b>Roster Method:</b> Listing all elements, e.g., A = {1, 2, 3, 4}.</li>
+            <li><b>Set-Builder Notation:</b> Describing the properties of the elements, e.g., B = {x | x is an even integer and 0 < x < 10}.</li>
+            <li><b>Empty Set (∅ or {}):</b> A set containing no elements.</li>
+            <li><b>Universal Set (U):</b> The set of all possible elements under consideration.</li>
+        </ul>
+
+        <h4>Basic Set Operations:</h4>
+        <ul>
+            <li><b>Union (A ∪ B):</b> The set of all elements that are in A, or in B, or in both.</li>
+            <li><b>Intersection (A ∩ B):</b> The set of all elements that are common to both A and B.</li>
+            <li><b>Difference (A - B):</b> The set of all elements that are in A but not in B.</li>
+            <li><b>Complement (A<sup>c</sup> or Ā):</b> The set of all elements in the universal set U that are not in A.</li>
+            <li><b>Subset (A ⊆ B):</b> Every element of A is also an element of B.</li>
+            <li><b>Proper Subset (A ⊂ B):</b> A is a subset of B, and A is not equal to B.</li>
+        </ul>
+
+        <h4>Advanced Set Concepts:</h4>
+        <ul>
+            <li><b>Power Set P(S):</b> The set of all possible subsets of a set S, including the empty set and S itself. If a set S has <i>n</i> elements, its power set P(S) will have 2<sup>n</sup> elements. This concept is crucial for understanding NFA to DFA conversion.</li>
+            <li><b>Cartesian Product (A × B):</b> The set of all possible ordered pairs (a, b) where 'a' is an element of A and 'b' is an element of B. This is used to define transition functions.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_functions:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.5</div>
         <h3>Functions and Relations</h3>
         <p>A <b>Function (f: A → B)</b> is a rule that assigns each element in set A (Domain) to exactly one element in set B (Codomain).</p>
         <h4>Types of Functions in TOC:</h4>
@@ -172,10 +286,10 @@ elif subject == "Foundations of TOC":
         </div>
         """, unsafe_allow_html=True)
 
-    with tab4:
+    with tab_boolean:
         st.markdown("""
         <div class="learning-card">
-        <div class="concept-badge">Module 1.4</div>
+        <div class="concept-badge">Module 1.6</div>
         <h3>Boolean Logic: The Logic of Computation</h3>
         <p>Boolean logic deals with variables that have two values: <b>True (1)</b> and <b>False (0)</b>.</p>
         <div class="info-grid">
@@ -193,6 +307,37 @@ elif subject == "Foundations of TOC":
     with tab_q:
         st.markdown("### 📝 Foundations Quiz (10 Questions)")
         f_qs = [
+            # Introduction Quiz
+            ("Which branch of TOC studies abstract machines and their computational problems?", ["Computability Theory", "Complexity Theory", "Automata Theory", "Algorithm Theory"], "Automata Theory"),
+            ("What is the primary focus of Computability Theory?", ["The efficiency of algorithms", "Whether problems can be solved algorithmically", "The design of programming languages", "The physical construction of computers"], "Whether problems can be solved algorithmically"),
+            ("Which machine is a central concept in Computability Theory and serves as a universal model of computation?", ["Finite Automata", "Pushdown Automata", "Turing Machine", "Von Neumann Machine"], "Turing Machine"),
+            ("Complexity Theory classifies problems based on what?", ["Their historical significance", "The programming language used to solve them", "The resources (time and space) required to solve them", "The number of developers working on them"], "The resources (time and space) required to solve them"),
+            ("Understanding the fundamental limits of what computers can and cannot do is a benefit of studying which field?", ["Data Structures", "Operating Systems", "Theory of Computation", "Computer Architecture"], "Theory of Computation"),
+            # Alphabets Quiz
+            ("What is the definition of an Alphabet (Σ) in Theory of Computation?", ["An infinite set of symbols", "A finite, non-empty set of symbols", "A set of all possible strings", "A set of numbers only"], "A finite, non-empty set of symbols"),
+            ("Which of the following is NOT a characteristic of an alphabet?", ["It must be finite", "It must be non-empty", "Its symbols must be letters only", "Its symbols must be distinct"], "Its symbols must be letters only"),
+            ("What is the binary alphabet?", ["Σ = {a, b}", "Σ = {0, 1}", "Σ = {True, False}", "Σ = {+, -}"], "Σ = {0, 1}"),
+            ("If an alphabet Σ = {x, y, z}, how many symbols does it contain?", ["0", "1", "3", "Infinite"], "3"),
+            ("Why are alphabets important in Theory of Computation?", ["They define the speed of computation", "They define the set of valid inputs for automata", "They determine the hardware requirements", "They are used for encryption only"], "They define the set of valid inputs for automata"),
+            # Strings Quiz
+            ("What is the length of the empty string (ε)?", ["1", "0", "Undefined", "Depends on the alphabet"], "0"),
+            ("If Σ = {0, 1}, which of the following is NOT a string over Σ?", ["0101", "111", "021", "ε"], "021"),
+            ("Given strings <i>x</i> = \"apple\" and <i>y</i> = \"pie\", what is the result of <i>xy</i> concatenation?", ["pieapple", "applepie", "apple pie", "aplepi"], "applepie"),
+            ("What is the reverse of the string <i>w</i> = \"racecar\"?", ["racecar", "raccar", "ecarcar", "caracer"], "racecar"),
+            ("The set Σ<sup>0</sup> contains which of the following?", ["All strings of length 0", "All strings of length 1", "The alphabet itself", "An infinite number of strings"], "All strings of length 0"),
+            # Languages Quiz
+            ("In Theory of Computation, what is a Language (L) defined as?", ["An infinite set of symbols", "A set of strings over a given alphabet", "A collection of all possible alphabets", "A set of numbers and operations"], "A set of strings over a given alphabet"),
+            ("Which of the following is an example of an infinite language over Σ = {a, b}?", ["L = {\"a\", \"b\", \"ab\"}", "L = {all strings with an even number of 'a's}", "L = {\"aa\", \"bb\"}", "L = {ε}"], "L = {all strings with an even number of 'a's}"),
+            ("If L<sub>1</sub> = {\"0\"} and L<sub>2</sub> = {\"1\"}, what is L<sub>1</sub>L<sub>2</sub> (concatenation)?", ["{\"0\", \"1\"}", "{\"01\"}", "{\"10\"}", "{\"0\", \"1\", \"01\"}"], "{\"01\"}"),
+            ("What does the Kleene Star operation (L*) on a language L include that Positive Closure (L<sup>+</sup>) does not?", ["All strings of length one", "All strings of infinite length", "The empty string (ε)", "All possible symbols"], "The empty string (ε)"),
+            ("Which type of language is primarily studied in Theory of Computation?", ["Natural Language", "Programming Language", "Formal Language", "Spoken Language"], "Formal Language"),
+            # Sets Quiz
+            ("Which of the following best describes a set?", ["An unordered collection of non-distinct objects", "A well-defined collection of distinct objects", "A list of elements in a specific order", "A collection that can contain duplicate elements"], "A well-defined collection of distinct objects"),
+            ("If A = {1, 2, 3} and B = {3, 4, 5}, what is A ∪ B?", ["{3}", "{1, 2, 3, 4, 5}", "{1, 2, 4, 5}", "{1, 2}"], "{1, 2, 3, 4, 5}"),
+            ("What is the intersection of A = {a, b, c} and B = {b, d, e}?", ["{a, b, c, d, e}", "{a, c, d, e}", "{b}", "{}"], "{b}"),
+            ("If a set S has 3 elements, how many elements does its Power Set P(S) have?", ["3", "6", "8", "9"], "8"),
+            ("The Cartesian Product A × B results in a set of what?", ["Single elements", "Ordered pairs", "Disjoint sets", "Subsets"], "Ordered pairs"),
+            # Original Foundations Quiz Questions (re-indexed)
             ("What is Σ?", ["Alphabet", "Number", "Function"], "Alphabet"),
             ("Length of empty string ε?", ["0", "1", "Undefined"], "0"),
             ("Σ* includes ε?", ["Yes", "No", "Sometimes"], "Yes"),

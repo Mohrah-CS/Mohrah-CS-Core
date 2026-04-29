@@ -7,7 +7,7 @@ import pandas as pd
 
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="MOHRAH CS CORE - Ultimate Edition v9",
+    page_title="MOHRAH CS CORE - Ultimate Edition v9.1",
     layout="wide",
     page_icon="💎",
     initial_sidebar_state="expanded"
@@ -478,8 +478,14 @@ elif subject == "Regular Expressions":
             <div class="info-item"><b>2. Concatenation (L₁ ∘ L₂):</b> The set of all strings formed by taking a string from L₁ and appending a string from L₂.</div>
             <div class="info-item"><b>3. Star (L*):</b> The set of all strings formed by concatenating zero or more strings from L.</div>
         </div>
-        </div>
+        <h4>Visual Representation of Operations:</h4>
         """, unsafe_allow_html=True)
+        
+        dot_ops = graphviz.Digraph(comment='Regular Operations', graph_attr={'rankdir': 'LR'})
+        dot_ops.node('U', 'Union (L1 ∪ L2)', shape='box', color='blue')
+        dot_ops.node('C', 'Concatenation (L1 ∘ L2)', shape='box', color='green')
+        dot_ops.node('S', 'Star (L*)', shape='box', color='orange')
+        st.graphviz_chart(dot_ops)
 
     with tab_re:
         st.markdown("""
@@ -514,8 +520,21 @@ elif subject == "Regular Expressions":
         <div class="concept-badge">Module 4.4</div>
         <h3>Conversion: RE to NFA (Thompson's Construction)</h3>
         <p>Every Regular Expression can be converted into an equivalent NFA by building small NFAs for basic parts and combining them.</p>
-        </div>
+        <h4>Example: RE 'a|b' to NFA</h4>
         """, unsafe_allow_html=True)
+        
+        dot_re_nfa = graphviz.Digraph(comment='RE to NFA', graph_attr={'rankdir': 'LR'})
+        dot_re_nfa.node('start', '', shape='none')
+        dot_re_nfa.node('q0', 'q0', shape='circle')
+        dot_re_nfa.node('q1', 'q1', shape='circle')
+        dot_re_nfa.node('q2', 'q2', shape='circle')
+        dot_re_nfa.node('q3', 'q3', shape='doublecircle')
+        dot_re_nfa.edge('start', 'q0')
+        dot_re_nfa.edge('q0', 'q1', label='ε')
+        dot_re_nfa.edge('q0', 'q2', label='ε')
+        dot_re_nfa.edge('q1', 'q3', label='a')
+        dot_re_nfa.edge('q2', 'q3', label='b')
+        st.graphviz_chart(dot_re_nfa)
 
     with tab_q:
         st.markdown("### 📝 Regular Expressions Quiz (10 Questions)")
@@ -556,8 +575,18 @@ elif subject == "DFA to RE & Pumping Lemma":
 
         3. Update transitions using R_new = R_ij ∪ (R_ir ∘ (R_rr)* ∘ R_rj).
         </div>
-        </div>
+        <h4>Visualizing State Elimination:</h4>
         """, unsafe_allow_html=True)
+        
+        dot_elim = graphviz.Digraph(comment='State Elimination', graph_attr={'rankdir': 'LR'})
+        dot_elim.node('qi', 'qi', shape='circle')
+        dot_elim.node('qj', 'qj', shape='circle')
+        dot_elim.node('qr', 'qr (Eliminate)', shape='circle', color='red')
+        dot_elim.edge('qi', 'qr', label='R_ir')
+        dot_elim.edge('qr', 'qr', label='R_rr')
+        dot_elim.edge('qr', 'qj', label='R_rj')
+        dot_elim.edge('qi', 'qj', label='R_ij', style='dashed')
+        st.graphviz_chart(dot_elim)
 
     with tab_pumping:
         st.markdown("""
@@ -613,8 +642,20 @@ elif subject == "CFG & Chomsky Form":
         <div class="step-box">
         <b>Example:</b> S → 0S1 | ε (Generates strings like 0011, 01, ε).
         </div>
-        </div>
+        <h4>Visualizing a Derivation Tree:</h4>
         """, unsafe_allow_html=True)
+        
+        dot_tree = graphviz.Digraph(comment='Derivation Tree')
+        dot_tree.node('S1', 'S')
+        dot_tree.node('0', '0')
+        dot_tree.node('S2', 'S')
+        dot_tree.node('1', '1')
+        dot_tree.node('eps', 'ε')
+        dot_tree.edge('S1', '0')
+        dot_tree.edge('S1', 'S2')
+        dot_tree.edge('S1', '1')
+        dot_tree.edge('S2', 'eps')
+        st.graphviz_chart(dot_tree)
 
     with tab_cnf:
         st.markdown("""
@@ -634,6 +675,18 @@ elif subject == "CFG & Chomsky Form":
             <li>Eliminate all unit productions (A → B).</li>
             <li>Eliminate rules with more than two variables or mixed terminals.</li>
         </ol>
+        <h4>Output Trace Example:</h4>
+        <div class="step-box">
+        <b>Input:</b> S → ASA | aB, A → B | S, B → b | ε  
+
+        <b>Step 1 (New Start):</b> S₀ → S, S → ASA | aB, ...  
+
+        <b>Step 2 (Eliminate ε):</b> S → ASA | aB | AS | SA | A, ...  
+
+        <b>Step 3 (Eliminate Unit):</b> S → ASA | aB | AS | SA | b | ASA | ..., ...  
+
+        <b>Step 4 (Final CNF):</b> S → AX | YB | AS | SA | b, X → SA, Y → a, ...
+        </div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -671,8 +724,16 @@ elif subject == "PDA & CFL Theory":
             <div class="info-item"><b>Deterministic PDA (DPDA):</b> Recognizes a subset of CFLs.</div>
             <div class="info-item"><b>Non-deterministic PDA (NPDA):</b> Recognizes all CFLs.</div>
         </div>
-        </div>
+        <h4>Visualizing PDA Components:</h4>
         """, unsafe_allow_html=True)
+        
+        dot_pda = graphviz.Digraph(comment='PDA Components', graph_attr={'rankdir': 'LR'})
+        dot_pda.node('Input', 'Input Tape', shape='box')
+        dot_pda.node('Control', 'Finite Control', shape='circle')
+        dot_pda.node('Stack', 'Stack (LIFO)', shape='box', style='filled', fillcolor='lightblue')
+        dot_pda.edge('Input', 'Control', label='Read')
+        dot_pda.edge('Control', 'Stack', label='Push/Pop')
+        st.graphviz_chart(dot_pda)
 
     with tab_pda_cfg:
         st.markdown("""

@@ -98,7 +98,7 @@ st.sidebar.write("---")
 # First Level: Select Subject/Course
 main_subject = st.sidebar.selectbox(
     "Select Course / اختر المادة:",
-    ["Home Page", "Theory of Computation", "Operating Systems", "Community & Contact"]
+    ["Home Page", "Theory of Computation", "Operating Systems"]
 )
 
 # Second Level: Select Lesson based on Subject
@@ -112,13 +112,19 @@ elif main_subject == "Operating Systems":
         "Select Lesson / اختر الدرس:",
         ["Introduction to OS", "Process Management", "Memory Management", "Storage & I/O"]
     )
-elif main_subject == "Community & Contact":
-    subject = st.sidebar.selectbox(
-        "Select Option / اختر:",
-        ["Contact Developer", "Community Feedback"]
-    )
 else:
     subject = "Home Page"
+
+# Always show Contact and Feedback buttons in sidebar (Fixed Position)
+st.sidebar.write("---")
+st.sidebar.write("### 📞 تواصل معي / Contact Me")
+col1, col2 = st.sidebar.columns(2)
+with col1:
+    if st.button("📧 Contact", key="contact_btn"):
+        subject = "Contact Developer"
+with col2:
+    if st.button("💬 Feedback", key="feedback_btn"):
+        subject = "Community Feedback"
 
 # --- 6. MODULES ---
 

@@ -7,7 +7,7 @@ import pandas as pd
 
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="MOHRAH CS CORE - Ultimate Edition v10.2",
+    page_title="MOHRAH CS CORE - Ultimate Edition v11",
     layout="wide",
     page_icon="💎",
     initial_sidebar_state="expanded"
@@ -69,6 +69,15 @@ st.markdown("""
         text-align: center; padding: 40px; margin-top: 80px;
         border-top: 3px solid #1e3a8a; background-color: #f1f5f9; color: #0f172a;
     }
+    .summary-table {
+        width: 100%; border-collapse: collapse; margin-top: 20px;
+    }
+    .summary-table th, .summary-table td {
+        border: 1px solid #e2e8f0; padding: 12px; text-align: left;
+    }
+    .summary-table th {
+        background-color: #1e3a8a; color: white;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -87,7 +96,7 @@ st.sidebar.title("💎 Academic Navigation")
 st.sidebar.write("---")
 subject = st.sidebar.selectbox(
     "Select Academic Module:",
-    ["Home Page", "Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "Contact Developer", "Community Feedback"]
+    ["Home Page", "Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion", "Contact Developer", "Community Feedback"]
 )
 
 # --- 6. MODULES ---
@@ -791,6 +800,48 @@ elif subject == "Turing Machines & Algorithms":
         if st.button("Submit TM Quiz"):
             st.success(f"Your Score: {t_score}/10")
 
+elif subject == "🎓 Course Completion":
+    st.balloons()
+    st.markdown("## 🎓 تهانينا! تم إتمام مقرر نظرية الحوسبة")
+    st.markdown("""
+    <div class="learning-card" style="text-align: center; border: 5px solid #1e3a8a;">
+        <h1 style="color: #1e3a8a;">🎉 CONGRATULATIONS 🎉</h1>
+        <p style="font-size: 24px;">لقد أتممت بنجاح رحلتك التعليمية في مقرر <b>نظرية الحوسبة (Theory of Computation)</b>.</p>
+        <p>من خلال هذه المنصة، استعرضت المفاهيم من أبسط قواعد الأبجدية وصولاً إلى أعقد نماذج الحوسبة العالمية.</p>
+        <hr>
+        <h3>📊 ملخص المنهج الشامل / Executive Summary</h3>
+        <table class="summary-table">
+            <tr>
+                <th>الموضوع (Module)</th>
+                <th>المفهوم الأساسي (Key Concept)</th>
+                <th>نموذج الآلة (Machine Model)</th>
+            </tr>
+            <tr>
+                <td>Foundations</td>
+                <td>Alphabets, Strings, Languages, Logic</td>
+                <td>Mathematical Sets</td>
+            </tr>
+            <tr>
+                <td>Regular Languages</td>
+                <td>DFA, NFA, Regular Expressions</td>
+                <td>Finite Automata (FA)</td>
+            </tr>
+            <tr>
+                <td>Context-Free Languages</td>
+                <td>CFG, Chomsky Normal Form (CNF)</td>
+                <td>Pushdown Automata (PDA)</td>
+            </tr>
+            <tr>
+                <td>Computability Theory</td>
+                <td>Decidability, Algorithms, Encoding</td>
+                <td>Turing Machines (TM)</td>
+            </tr>
+        </table>
+        <br>
+        <p><i>"The power of computation is not just in the machines we build, but in the theories that define them."</i></p>
+    </div>
+    """, unsafe_allow_html=True)
+
 elif subject == "Contact Developer":
     st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")
     col1, col2 = st.columns(2)
@@ -809,8 +860,7 @@ elif subject == "Community Feedback":
             if name and msg: save_comment(name, msg); st.success("Comment saved!")
     st.markdown("---")
     for c in reversed(load_comments()):
-        st.markdown(f"""<div class="comment-box"><b>👤 {c['u']}</b> <small>({c['t']})</small>  
-{c['m']}</div>""", unsafe_allow_html=True)
+        st.markdown(f"""<div class="comment-box"><b>👤 {c['u']}</b> <small>({c['t']})</small><br>{c['m']}</div>""", unsafe_allow_html=True)
 
 # --- 7. FOOTER ---
 st.markdown(f"""

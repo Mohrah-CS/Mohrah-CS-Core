@@ -87,7 +87,7 @@ st.sidebar.title("💎 Academic Navigation")
 st.sidebar.write("---")
 subject = st.sidebar.selectbox(
     "Select Academic Module:",
-    ["Home Page", "Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "PDA Explorer", "Contact Developer", "Community Feedback"]
+    ["Home Page", "Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "PDA Explorer", "Contact Developer", "Community Feedback"]
 )
 
 # --- 6. MODULES ---
@@ -677,6 +677,102 @@ elif subject == "Regular Expressions":
             u_ans = st.radio(f"{i+1}. {q}", opts, key=f"req_u_{i}")
             if u_ans == ans: re_score += 1
         if st.button("Submit RE Quiz"): st.success(f"Your Score: {re_score}/10")
+
+elif subject == "DFA to RE & Pumping Lemma":
+    st.markdown("## 🔄 DFA to RE & Pumping Lemma")
+    tab_dfa_re, tab_pumping, tab_q = st.tabs(["🔄 DFA to RE Conversion", "🧪 Pumping Lemma", "📝 Quiz (10 Qs)"])
+
+    with tab_dfa_re:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 5.1</div>
+        <h3>Conversion of DFA to Regular Expression (RE)</h3>
+        <p>Every DFA recognizes a regular language, and every regular language can be described by a Regular Expression. The most common method for this conversion is the <b>State Elimination Method</b>.</p>
+        <h4>The State Elimination Method:</h4>
+        <p>The goal is to reduce the DFA to a Generalized NFA (GNFA) with only two states: a new start state and a new final state. The label on the single transition between them will be the equivalent Regular Expression.</p>
+        <div class="step-box">
+        <b>Steps for State Elimination:</b>  
+
+        1. <b>Add New States:</b> Add a new start state <i>q_start</i> with an ε-transition to the original start state. Add a new final state <i>q_final</i> with ε-transitions from all original final states.  
+
+        2. <b>Eliminate States:</b> One by one, pick an internal state <i>q_rip</i> to eliminate.  
+
+        3. <b>Update Transitions:</b> For every pair of states <i>q_i</i> and <i>q_j</i> that had a path through <i>q_rip</i>, update the transition label using the formula:  
+
+        <center><b>R_new = R_ij ∪ (R_ir ∘ (R_rr)* ∘ R_rj)</b></center>  
+
+        Where:  
+
+        - <i>R_ij</i>: Direct transition from <i>q_i</i> to <i>q_j</i>.  
+
+        - <i>R_ir</i>: Transition from <i>q_i</i> to <i>q_rip</i>.  
+
+        - <i>R_rr</i>: Self-loop on <i>q_rip</i>.  
+
+        - <i>R_rj</i>: Transition from <i>q_rip</i> to <i>q_j</i>.  
+
+        4. <b>Final Result:</b> Repeat until only <i>q_start</i> and <i>q_final</i> remain.
+        </div>
+        """)
+        st.markdown("#### Visualizing State Elimination Step")
+        dot_elim = graphviz.Digraph(); dot_elim.attr(rankdir='LR', bgcolor='transparent')
+        dot_elim.node('qi', 'qi', shape='circle'); dot_elim.node('qrip', 'q_rip (Eliminating)', shape='circle', color='red'); dot_elim.node('qj', 'qj', shape='circle')
+        dot_elim.edge('qi', 'qrip', label='R_ir'); dot_elim.edge('qrip', 'qrip', label='R_rr'); dot_elim.edge('qrip', 'qj', label='R_rj'); dot_elim.edge('qi', 'qj', label='R_ij', style='dashed')
+        st.graphviz_chart(dot_elim)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    with tab_pumping:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 5.2</div>
+        <h3>Proving Languages Aren't Regular: Pumping Lemma</h3>
+        <p>The <b>Pumping Lemma</b> is a powerful tool used to prove that a given language is <b>NOT</b> regular. It provides a property that all regular languages must satisfy. If a language violates this property, it cannot be regular.</p>
+        <h4>The Theorem:</h4>
+        <p>If <i>L</i> is a regular language, then there exists a number <i>p</i> (the pumping length) such that any string <i>s</i> in <i>L</i> with length |<i>s</i>| ≥ <i>p</i> can be split into three parts, <b>s = xyz</b>, satisfying:</p>
+        <ul>
+            <li>1. For each <i>i</i> ≥ 0, <b>xyⁱz ∈ L</b>. (The string can be "pumped")</li>
+            <li>2. <b>|y| > 0</b>. (The middle part cannot be empty)</li>
+            <li>3. <b>|xy| ≤ p</b>. (The first two parts must be within the pumping length)</li>
+        </ul>
+        <div class="step-box">
+        <b>How to use it (Proof by Contradiction):</b>  
+
+        1. <b>Assume</b> <i>L</i> is regular.  
+
+        2. There must be a pumping length <i>p</i>.  
+
+        3. <b>Choose</b> a specific string <i>s</i> ∈ <i>L</i> such that |<i>s</i>| ≥ <i>p</i>. (e.g., <i>s = aᵖbᵖ</i> for the language {aⁿbⁿ | n ≥ 0}).  
+
+        4. <b>Consider</b> all possible ways to split <i>s = xyz</i> satisfying the conditions.  
+
+        5. <b>Show</b> that for at least one <i>i</i>, <i>xyⁱz</i> is NOT in <i>L</i>.  
+
+        6. <b>Conclusion:</b> The assumption was wrong; <i>L</i> is not regular.
+        </div>
+        <h4>Classic Example: L = {aⁿbⁿ | n ≥ 0}</h4>
+        <p>This language is NOT regular because a finite automaton cannot "count" an arbitrary number of 'a's to match them with 'b's. Using the Pumping Lemma, if we pump <i>y</i> (which must consist only of 'a's because |xy| ≤ p), we will end up with more 'a's than 'b's, which is not in the language.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_q:
+        st.markdown("### 📝 DFA to RE & Pumping Lemma Quiz (10 Questions)")
+        dp_qs = [
+            ("What is the main method to convert DFA to RE?", ["State Elimination", "Subset Construction", "Thompson's"], "State Elimination"),
+            ("Pumping Lemma is used to prove a language is regular.", ["False", "True"], "False"),
+            ("In s = xyz, which part is 'pumped'?", ["y", "x", "z"], "y"),
+            ("What is the condition for the length of y in Pumping Lemma?", ["|y| > 0", "|y| = 0", "|y| < p"], "|y| > 0"),
+            ("The condition |xy| ≤ p must hold in Pumping Lemma.", ["True", "False"], "True"),
+            ("If L = {aⁿbⁿ | n ≥ 0}, is it regular?", ["No", "Yes", "Only for small n"], "No"),
+            ("State elimination results in a GNFA with how many states?", ["2", "1", "3"], "2"),
+            ("Can a DFA recognize the language of balanced parentheses?", ["No", "Yes", "Sometimes"], "No"),
+            ("The pumping length p depends on the language.", ["True", "False"], "True"),
+            ("What happens if we pump y with i=0?", ["y is removed", "y is doubled", "String stays same"], "y is removed")
+        ]
+        dp_score = 0
+        for i, (q, opts, ans) in enumerate(dp_qs):
+            u_ans = st.radio(f"{i+1}. {q}", opts, key=f"dpq_u_{i}")
+            if u_ans == ans: dp_score += 1
+        if st.button("Submit Module 5 Quiz"): st.success(f"Your Score: {dp_score}/10")
 
 elif subject == "PDA Explorer":
     st.markdown("## 📚 Pushdown Automata (PDA) Explorer")

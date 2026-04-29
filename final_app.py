@@ -7,7 +7,7 @@ import pandas as pd
 
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="MOHRAH CS CORE - Ultimate Edition",
+    page_title="MOHRAH CS CORE - Ultimate Edition v9",
     layout="wide",
     page_icon="💎",
     initial_sidebar_state="expanded"
@@ -87,7 +87,7 @@ st.sidebar.title("💎 Academic Navigation")
 st.sidebar.write("---")
 subject = st.sidebar.selectbox(
     "Select Academic Module:",
-    ["Home Page", "Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "PDA Explorer", "Contact Developer", "Community Feedback"]
+    ["Home Page", "Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Contact Developer", "Community Feedback"]
 )
 
 # --- 6. MODULES ---
@@ -124,13 +124,6 @@ elif subject == "Foundations of TOC":
         <p>This branch deals with the fundamental question of what problems can be solved algorithmically. It explores the limits of computation, identifying problems that are 'computable' (can be solved by an algorithm) and those that are 'uncomputable' (cannot be solved by any algorithm). The Turing Machine is a central concept here, serving as a universal model of computation.</p>
         <h4>3. Complexity Theory</h4>
         <p>This branch focuses on the resources (time and space) required to solve computational problems. It classifies problems based on their inherent difficulty, distinguishing between problems that can be solved efficiently (e.g., in polynomial time) and those that are inherently difficult (e.g., NP-hard problems). It helps in understanding the practical feasibility of solving problems.</p>
-        <h4>Why Study TOC?</h4>
-        <ul>
-            <li><b>Understanding Limits:</b> It helps us understand the fundamental limits of what computers can and cannot do.</li>
-            <li><b>Foundation for AI:</b> Concepts from TOC, especially computability and complexity, are crucial for understanding the theoretical underpinnings of Artificial Intelligence.</li>
-            <li><b>Algorithm Design:</b> Provides a theoretical framework for designing and analyzing efficient algorithms.</li>
-            <li><b>Compiler Design:</b> Automata theory is directly applied in the design of compilers and parsers.</li>
-        </ul>
         </div>
         """, unsafe_allow_html=True)
 
@@ -151,10 +144,7 @@ elif subject == "Foundations of TOC":
             <li><b>Binary Alphabet:</b> Σ = {0, 1} (Used in digital computers)</li>
             <li><b>English Alphabet (lowercase):</b> Σ = {a, b, c, ..., z}</li>
             <li><b>Decimal Digits:</b> Σ = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}</li>
-            <li><b>Alphanumeric Characters:</b> Σ = {a-z, A-Z, 0-9}</li>
         </ul>
-        <h4>Importance in TOC:</h4>
-        <p>Alphabets are fundamental because they define the set of valid inputs for automata and the characters that can form strings in a formal language. Without a clearly defined alphabet, it's impossible to define what constitutes a valid 'word' or 'sentence' in a computational context.</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -171,17 +161,7 @@ elif subject == "Foundations of TOC":
             <li><b>Concatenation:</b> Joining two strings together. If <i>x</i> = "cat" and <i>y</i> = "dog", then <i>xy</i> = "catdog". Concatenation is associative but not commutative.</li>
             <li><b>Reverse (w<sup>R</sup>):</b> The string obtained by writing the symbols of <i>w</i> in reverse order. If <i>w</i> = "abc", then <i>w<sup>R</sup></i> = "cba".</li>
             <li><b>Substring:</b> A sequence of consecutive symbols within a string. "aba" is a substring of "ababa".</li>
-            <li><b>Prefix:</b> A substring that occurs at the beginning of a string. "ab" is a prefix of "ababa".</li>
-            <li><b>Suffix:</b> A substring that occurs at the end of a string. "aba" is a suffix of "ababa".</li>
         </ul>
-        <h4>Powers of an Alphabet (Σ<sup>k</sup>):</h4>
-        <p>The notation Σ<sup>k</sup> represents the set of all strings of length <i>k</i> over the alphabet Σ.
-        <ul>
-            <li>Σ<sup>0</sup> = {ε} (The set containing only the empty string)</li>
-            <li>Σ<sup>1</sup> = Σ (The set of all strings of length 1)</li>
-            <li>Σ<sup>2</sup> = {xy | x, y ∈ Σ} (The set of all strings of length 2)</li>
-        </ul>
-        </p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -197,14 +177,6 @@ elif subject == "Foundations of TOC":
             <li><b>Σ<sup>+</sup> (Positive Closure):</b> The set of all possible strings over Σ, excluding the empty string ε. (Σ<sup>+</sup> = Σ* - {ε}).</li>
             <li><b>Empty Language (∅):</b> A language that contains no strings. Note that ∅ ≠ {ε}.</li>
             <li><b>Language Operations:</b> Since languages are sets, we can perform set operations like Union (L₁ ∪ L₂), Intersection (L₁ ∩ L₂), and Difference (L₁ - L₂).</li>
-            <li><b>Concatenation of Languages (L₁L₂):</b> The set of all strings formed by concatenating a string from L₁ with a string from L₂. L₁L₂ = {xy | x ∈ L₁, y ∈ L₂}.</li>
-            <li><b>Kleene Star of a Language (L*):</b> The set of all strings formed by concatenating zero or more strings from L.</li>
-        </ul>
-        <h4>Examples of Languages:</h4>
-        <ul>
-            <li>L = {0, 00, 000, ...} over Σ = {0} (Infinite language)</li>
-            <li>L = {ε, 01, 10, 0011, 1100, ...} (Strings with equal number of 0s and 1s)</li>
-            <li>L = {w | w starts with 'a'} over Σ = {a, b}</li>
         </ul>
         </div>
         """, unsafe_allow_html=True)
@@ -225,9 +197,6 @@ elif subject == "Foundations of TOC":
         <ul>
             <li><b>Power Set P(S):</b> The set of all subsets of S. If a set S has <i>n</i> elements, its power set P(S) has 2<sup>n</sup> elements. This is a key concept in converting NFAs to DFAs.</li>
             <li><b>Cartesian Product (A × B):</b> The set of all ordered pairs (a, b) where a ∈ A and b ∈ B. This is used to define transition functions in automata.</li>
-            <li><b>Cardinality (|S|):</b> The number of elements in a set S.</li>
-            <li><b>Subset (A ⊆ B):</b> Every element of A is also an element of B.</li>
-            <li><b>Proper Subset (A ⊂ B):</b> A is a subset of B, but A is not equal to B.</li>
         </ul>
         </div>
         """, unsafe_allow_html=True)
@@ -242,14 +211,8 @@ elif subject == "Foundations of TOC":
         <ul>
             <li><b>Transition Function (δ):</b> The core of any automaton. It defines the next state based on the current state and the input symbol. For a DFA, δ: Q × Σ → Q.</li>
             <li><b>Total Function:</b> A function that is defined for every element in its domain. DFAs require total transition functions.</li>
-            <li><b>Partial Function:</b> A function that is not necessarily defined for all elements in its domain. NFAs can be thought of as having partial transition functions (or mapping to a set of states).</li>
-            <li><b>One-to-One (Injective):</b> Each element in the codomain is mapped to by at most one element in the domain.</li>
-            <li><b>Onto (Surjective):</b> Each element in the codomain is mapped to by at least one element in the domain.</li>
-            <li><b>Bijection:</b> A function that is both one-to-one and onto.</li>
+            <li><b>Partial Function:</b> A function that is not necessarily defined for all elements in its domain. NFAs can be thought of as having partial transition functions.</li>
         </ul>
-        <div class="step-box">
-        <b>Relations:</b> A relation is a subset of the Cartesian product A × B. While every function is a relation, not every relation is a function (a relation can map one input to multiple outputs).
-        </div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -265,18 +228,6 @@ elif subject == "Foundations of TOC":
             <div class="info-item"><b>NOT (¬):</b> Inverts the input value. (¬1 = 0, ¬0 = 1)</div>
             <div class="info-item"><b>XOR (⊕):</b> True if the inputs are different. (1 ⊕ 0 = 1, 0 ⊕ 1 = 1, else 0)</div>
         </div>
-        <h4>Logical Laws and Identities:</h4>
-        <ul>
-            <li><b>Commutative Laws:</b> A ∧ B = B ∧ A; A ∨ B = B ∨ A</li>
-            <li><b>Associative Laws:</b> (A ∧ B) ∧ C = A ∧ (B ∧ C); (A ∨ B) ∨ C = A ∨ (B ∨ C)</li>
-            <li><b>Distributive Laws:</b> A ∧ (B ∨ C) = (A ∧ B) ∨ (A ∧ C); A ∨ (B ∧ C) = (A ∨ B) ∧ (A ∨ C)</li>
-            <li><b>De Morgan's Laws:</b>
-                <ul>
-                    <li>¬(A ∨ B) = ¬A ∧ ¬B</li>
-                    <li>¬(A ∧ B) = ¬A ∨ ¬B</li>
-                </ul>
-            </li>
-        </ul>
         </div>
         """, unsafe_allow_html=True)
 
@@ -332,12 +283,6 @@ elif subject == "DFA Explorer":
 
         5. <b>Crucial Step:</b> After the last symbol is read, the machine checks its current state. If the state is in the set of accept states <b>F</b>, the string is <b>Accepted</b>. If not, it is <b>Rejected</b>.
         </div>
-        <h4>Key Characteristics of DFAs:</h4>
-        <ul>
-            <li><b>Deterministic:</b> For any state and input symbol, there is exactly one transition. No ambiguity.</li>
-            <li><b>Total Function:</b> The transition function must be defined for every possible state and input symbol.</li>
-            <li><b>Finite Memory:</b> The machine's memory is limited to its finite number of states.</li>
-        </ul>
         </div>
         """, unsafe_allow_html=True)
 
@@ -347,7 +292,6 @@ elif subject == "DFA Explorer":
         <div class="learning-card">
         <p>Visualizing DFAs using state transition diagrams makes it easier to understand how they process strings. Here are two common examples.</p>
         <h4>Example 1: DFA accepting strings with an even number of '0's</h4>
-        <p>This DFA tracks whether it has seen an even or odd number of '0's. It stays in the same state when it sees a '1'.</p>
         """, unsafe_allow_html=True)
         
         dfa1 = graphviz.Digraph(comment='Even 0s', graph_attr={'rankdir': 'LR'})
@@ -363,7 +307,6 @@ elif subject == "DFA Explorer":
 
         st.markdown("""
         <h4>Example 2: DFA accepting strings that start with 'a'</h4>
-        <p>This DFA over Σ = {a, b} immediately goes to a 'Trap' state if the first symbol is 'b'. If it starts with 'a', it stays in an accept state.</p>
         """, unsafe_allow_html=True)
         
         dfa2 = graphviz.Digraph(comment='Starts with a', graph_attr={'rankdir': 'LR'})
@@ -439,23 +382,15 @@ elif subject == "NFA Masterclass":
         <div class="learning-card">
         <div class="concept-badge">Formal Theory</div>
         <h3>The Flexibility of NFA</h3>
-        <p>A <b>Non-Deterministic Finite Automata (NFA)</b> is a finite automaton where for each state and input symbol, there can be zero, one, or more than one next state. NFAs also allow transitions on the empty string (ε-transitions). Despite their non-deterministic nature, NFAs are equivalent in power to DFAs; any language recognized by an NFA can also be recognized by a DFA.</p>
+        <p>A <b>Non-Deterministic Finite Automata (NFA)</b> is a finite automaton where for each state and input symbol, there can be zero, one, or more than one next state. NFAs also allow transitions on the empty string (ε-transitions).</p>
         <h4>Formal Definition of an NFA:</h4>
         <p>An NFA is formally defined as a 5-tuple (Q, Σ, δ, q₀, F), where:</p>
         <ul>
             <li><b>Q:</b> A finite set of states.</li>
             <li><b>Σ:</b> A finite set of input symbols (the alphabet).</li>
-            <li><b>δ:</b> The transition function, δ: Q × (Σ ∪ {ε}) → P(Q). It takes a state and an input symbol (or ε) as arguments and returns a set of possible next states. P(Q) denotes the power set of Q.</li>
+            <li><b>δ:</b> The transition function, δ: Q × (Σ ∪ {ε}) → P(Q).</li>
             <li><b>q₀:</b> The start state (q₀ ∈ Q).</li>
             <li><b>F:</b> A set of accept (or final) states (F ⊆ Q).</li>
-        </ul>
-        <h4>How an NFA Works:</h4>
-        <p>An NFA processes an input string by exploring all possible paths simultaneously. If at least one of these paths leads to an accept state after processing the entire input string, the string is accepted. The presence of ε-transitions allows the NFA to change states without consuming an input symbol.</p>
-        <h4>Key Characteristics of NFAs:</h4>
-        <ul>
-            <li><b>Non-Deterministic:</b> For a given state and input symbol, there can be multiple next states.</li>
-            <li><b>ε-transitions:</b> Allowed transitions on the empty string.</li>
-            <li><b>Equivalent to DFAs:</b> Despite non-determinism, NFAs recognize the same class of languages as DFAs (regular languages).</li>
         </ul>
         </div>
         """, unsafe_allow_html=True)
@@ -464,9 +399,7 @@ elif subject == "NFA Masterclass":
         st.markdown("### 🎨 Visual Examples of NFAs")
         st.markdown("""
         <div class="learning-card">
-        <p>Here are some visual examples of NFAs and how they recognize different languages.</p>
         <h4>Example 1: NFA accepting strings containing '101'</h4>
-        <p>This NFA accepts all binary strings that contain the substring '101'. Notice the simplicity compared to the DFA for the same language.</p>
         """, unsafe_allow_html=True)
 
         graph_nfa1 = graphviz.Digraph(comment='NFA containing 101', graph_attr={'rankdir': 'LR'})
@@ -539,70 +472,21 @@ elif subject == "Regular Expressions":
         <div class="learning-card">
         <div class="concept-badge">Module 4.1</div>
         <h3>Regular Operations: Union, Concatenation, and Star</h3>
-        <p>In Theory of Computation, <b>Regular Operations</b> are used to build complex languages from simpler ones. These operations are fundamental to defining regular languages.</p>
+        <p>In Theory of Computation, <b>Regular Operations</b> are used to build complex languages from simpler ones.</p>
         <div class="info-grid">
-            <div class="info-item">
-                <b>1. Union (L₁ ∪ L₂):</b>  
-
-                The set of all strings that are in either L₁ or L₂.  
-
-                <i>Example:</i> If L₁={a} and L₂={b}, then L₁ ∪ L₂ = {a, b}.
-            </div>
-            <div class="info-item">
-                <b>2. Concatenation (L₁ ∘ L₂):</b>  
-
-                The set of all strings formed by taking a string from L₁ and appending a string from L₂.  
-
-                <i>Example:</i> If L₁={a} and L₂={b}, then L₁ ∘ L₂ = {ab}.
-            </div>
-            <div class="info-item">
-                <b>3. Star (L*):</b>  
-
-                The set of all strings formed by concatenating zero or more strings from L. This is also called the Kleene Star.  
-
-                <i>Example:</i> If L={a}, then L* = {ε, a, aa, aaa, ...}.
-            </div>
+            <div class="info-item"><b>1. Union (L₁ ∪ L₂):</b> The set of all strings that are in either L₁ or L₂.</div>
+            <div class="info-item"><b>2. Concatenation (L₁ ∘ L₂):</b> The set of all strings formed by taking a string from L₁ and appending a string from L₂.</div>
+            <div class="info-item"><b>3. Star (L*):</b> The set of all strings formed by concatenating zero or more strings from L.</div>
         </div>
-        <h4>Visualizing Operations:</h4>
-        """)
-        
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.write("**Union (L1 ∪ L2)**")
-            dot_u = graphviz.Digraph(); dot_u.attr(rankdir='LR', bgcolor='transparent')
-            dot_u.node('S', 'Start', shape='circle'); dot_u.node('q1', 'L1', shape='circle'); dot_u.node('q2', 'L2', shape='circle')
-            dot_u.edge('S', 'q1', label='ε'); dot_u.edge('S', 'q2', label='ε')
-            st.graphviz_chart(dot_u)
-        with col2:
-            st.write("**Concatenation (L1 ∘ L2)**")
-            dot_c = graphviz.Digraph(); dot_c.attr(rankdir='LR', bgcolor='transparent')
-            dot_c.node('q1', 'L1', shape='circle'); dot_c.node('q2', 'L2', shape='circle')
-            dot_c.edge('q1', 'q2', label='ε')
-            st.graphviz_chart(dot_c)
-        with col3:
-            st.write("**Star (L*)**")
-            dot_s = graphviz.Digraph(); dot_s.attr(rankdir='LR', bgcolor='transparent')
-            dot_s.node('q', 'L', shape='circle')
-            dot_s.edge('q', 'q', label='ε')
-            st.graphviz_chart(dot_s)
-        st.markdown("</div>", unsafe_allow_html=True)
+        </div>
+        """, unsafe_allow_html=True)
 
     with tab_re:
         st.markdown("""
         <div class="learning-card">
         <div class="concept-badge">Module 4.2</div>
         <h3>Regular Expressions (REs)</h3>
-        <p>A <b>Regular Expression</b> is a concise way to describe a regular language using symbols and operators. It is a formal algebraic notation.</p>
-        <h4>Formal Definition:</h4>
-        <p>R is a regular expression if R is:</p>
-        <ul>
-            <li><b>a</b> for some <i>a</i> in the alphabet Σ.</li>
-            <li><b>ε</b> (the empty string).</li>
-            <li><b>∅</b> (the empty language).</li>
-            <li><b>(R₁ ∪ R₂)</b> where R₁ and R₂ are REs.</li>
-            <li><b>(R₁ ∘ R₂)</b> where R₁ and R₂ are REs.</li>
-            <li><b>(R₁*)</b> where R₁ is an RE.</li>
-        </ul>
+        <p>A <b>Regular Expression</b> is a concise way to describe a regular language using symbols and operators.</p>
         <div class="step-box">
         <b>Common Examples:</b>  
 
@@ -620,15 +504,7 @@ elif subject == "Regular Expressions":
         <div class="learning-card">
         <div class="concept-badge">Module 4.3</div>
         <h3>Closure Properties for Regular Languages</h3>
-        <p>A class of languages is <b>closed</b> under an operation if applying that operation to languages in the class always results in a language that is also in the same class.</p>
-        <h4>Regular Languages are closed under:</h4>
-        <div class="info-grid">
-            <div class="info-item">✅ <b>Union:</b> If L₁ and L₂ are regular, L₁ ∪ L₂ is regular.</div>
-            <div class="info-item">✅ <b>Concatenation:</b> If L₁ and L₂ are regular, L₁ ∘ L₂ is regular.</div>
-            <div class="info-item">✅ <b>Star:</b> If L is regular, L* is regular.</div>
-            <div class="info-item">✅ <b>Complement:</b> If L is regular, L' is regular.</div>
-            <div class="info-item">✅ <b>Intersection:</b> If L₁ and L₂ are regular, L₁ ∩ L₂ is regular.</div>
-        </div>
+        <p>Regular Languages are closed under: Union, Concatenation, Star, Complement, and Intersection.</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -637,26 +513,9 @@ elif subject == "Regular Expressions":
         <div class="learning-card">
         <div class="concept-badge">Module 4.4</div>
         <h3>Conversion: RE to NFA (Thompson's Construction)</h3>
-        <p>Every Regular Expression can be converted into an equivalent NFA. This is done by building small NFAs for basic parts and combining them.</p>
-        <div class="step-box">
-        <b>Steps for Conversion:</b>  
-
-        1. <b>Base Cases:</b> Create NFAs for single symbols (a), ε, and ∅.  
-
-        2. <b>Union (R₁ ∪ R₂):</b> Create a new start state with ε-transitions to the start states of R₁ and R₂.  
-
-        3. <b>Concatenation (R₁ ∘ R₂):</b> Connect the final states of R₁ to the start state of R₂ with ε-transitions.  
-
-        4. <b>Star (R*):</b> Add ε-transitions from final states back to the start state, and a new start/final state to handle ε.
+        <p>Every Regular Expression can be converted into an equivalent NFA by building small NFAs for basic parts and combining them.</p>
         </div>
-        """)
-        st.markdown("#### Visualizing RE to NFA (Example: a ∪ b)")
-        dot_conv = graphviz.Digraph(); dot_conv.attr(rankdir='LR', bgcolor='transparent')
-        dot_conv.node('S', 'New Start', shape='circle'); dot_conv.node('q1', 'Start a', shape='circle'); dot_conv.node('q2', 'End a', shape='doublecircle')
-        dot_conv.node('q3', 'Start b', shape='circle'); dot_conv.node('q4', 'End b', shape='doublecircle')
-        dot_conv.edge('S', 'q1', label='ε'); dot_conv.edge('S', 'q3', label='ε'); dot_conv.edge('q1', 'q2', label='a'); dot_conv.edge('q3', 'q4', label='b')
-        st.graphviz_chart(dot_conv)
-        st.markdown("</div>", unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
 
     with tab_q:
         st.markdown("### 📝 Regular Expressions Quiz (10 Questions)")
@@ -687,70 +546,30 @@ elif subject == "DFA to RE & Pumping Lemma":
         <div class="learning-card">
         <div class="concept-badge">Module 5.1</div>
         <h3>Conversion of DFA to Regular Expression (RE)</h3>
-        <p>Every DFA recognizes a regular language, and every regular language can be described by a Regular Expression. The most common method for this conversion is the <b>State Elimination Method</b>.</p>
-        <h4>The State Elimination Method:</h4>
-        <p>The goal is to reduce the DFA to a Generalized NFA (GNFA) with only two states: a new start state and a new final state. The label on the single transition between them will be the equivalent Regular Expression.</p>
+        <p>The most common method for this conversion is the <b>State Elimination Method</b>.</p>
         <div class="step-box">
         <b>Steps for State Elimination:</b>  
 
-        1. <b>Add New States:</b> Add a new start state <i>q_start</i> with an ε-transition to the original start state. Add a new final state <i>q_final</i> with ε-transitions from all original final states.  
+        1. Add New States (Start and Final).  
 
-        2. <b>Eliminate States:</b> One by one, pick an internal state <i>q_rip</i> to eliminate.  
+        2. Eliminate internal states one by one.  
 
-        3. <b>Update Transitions:</b> For every pair of states <i>q_i</i> and <i>q_j</i> that had a path through <i>q_rip</i>, update the transition label using the formula:  
-
-        <center><b>R_new = R_ij ∪ (R_ir ∘ (R_rr)* ∘ R_rj)</b></center>  
-
-        Where:  
-
-        - <i>R_ij</i>: Direct transition from <i>q_i</i> to <i>q_j</i>.  
-
-        - <i>R_ir</i>: Transition from <i>q_i</i> to <i>q_rip</i>.  
-
-        - <i>R_rr</i>: Self-loop on <i>q_rip</i>.  
-
-        - <i>R_rj</i>: Transition from <i>q_rip</i> to <i>q_j</i>.  
-
-        4. <b>Final Result:</b> Repeat until only <i>q_start</i> and <i>q_final</i> remain.
+        3. Update transitions using R_new = R_ij ∪ (R_ir ∘ (R_rr)* ∘ R_rj).
         </div>
-        """)
-        st.markdown("#### Visualizing State Elimination Step")
-        dot_elim = graphviz.Digraph(); dot_elim.attr(rankdir='LR', bgcolor='transparent')
-        dot_elim.node('qi', 'qi', shape='circle'); dot_elim.node('qrip', 'q_rip (Eliminating)', shape='circle', color='red'); dot_elim.node('qj', 'qj', shape='circle')
-        dot_elim.edge('qi', 'qrip', label='R_ir'); dot_elim.edge('qrip', 'qrip', label='R_rr'); dot_elim.edge('qrip', 'qj', label='R_rj'); dot_elim.edge('qi', 'qj', label='R_ij', style='dashed')
-        st.graphviz_chart(dot_elim)
-        st.markdown("</div>", unsafe_allow_html=True)
+        </div>
+        """, unsafe_allow_html=True)
 
     with tab_pumping:
         st.markdown("""
         <div class="learning-card">
         <div class="concept-badge">Module 5.2</div>
         <h3>Proving Languages Aren't Regular: Pumping Lemma</h3>
-        <p>The <b>Pumping Lemma</b> is a powerful tool used to prove that a given language is <b>NOT</b> regular. It provides a property that all regular languages must satisfy. If a language violates this property, it cannot be regular.</p>
-        <h4>The Theorem:</h4>
-        <p>If <i>L</i> is a regular language, then there exists a number <i>p</i> (the pumping length) such that any string <i>s</i> in <i>L</i> with length |<i>s</i>| ≥ <i>p</i> can be split into three parts, <b>s = xyz</b>, satisfying:</p>
+        <p>If <i>L</i> is a regular language, then there exists a number <i>p</i> such that any string <i>s</i> in <i>L</i> with length |<i>s</i>| ≥ <i>p</i> can be split into <b>s = xyz</b>, satisfying:</p>
         <ul>
-            <li>1. For each <i>i</i> ≥ 0, <b>xyⁱz ∈ L</b>. (The string can be "pumped")</li>
-            <li>2. <b>|y| > 0</b>. (The middle part cannot be empty)</li>
-            <li>3. <b>|xy| ≤ p</b>. (The first two parts must be within the pumping length)</li>
+            <li>1. For each <i>i</i> ≥ 0, <b>xyⁱz ∈ L</b>.</li>
+            <li>2. <b>|y| > 0</b>.</li>
+            <li>3. <b>|xy| ≤ p</b>.</li>
         </ul>
-        <div class="step-box">
-        <b>How to use it (Proof by Contradiction):</b>  
-
-        1. <b>Assume</b> <i>L</i> is regular.  
-
-        2. There must be a pumping length <i>p</i>.  
-
-        3. <b>Choose</b> a specific string <i>s</i> ∈ <i>L</i> such that |<i>s</i>| ≥ <i>p</i>. (e.g., <i>s = aᵖbᵖ</i> for the language {aⁿbⁿ | n ≥ 0}).  
-
-        4. <b>Consider</b> all possible ways to split <i>s = xyz</i> satisfying the conditions.  
-
-        5. <b>Show</b> that for at least one <i>i</i>, <i>xyⁱz</i> is NOT in <i>L</i>.  
-
-        6. <b>Conclusion:</b> The assumption was wrong; <i>L</i> is not regular.
-        </div>
-        <h4>Classic Example: L = {aⁿbⁿ | n ≥ 0}</h4>
-        <p>This language is NOT regular because a finite automaton cannot "count" an arbitrary number of 'a's to match them with 'b's. Using the Pumping Lemma, if we pump <i>y</i> (which must consist only of 'a's because |xy| ≤ p), we will end up with more 'a's than 'b's, which is not in the language.</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -774,95 +593,137 @@ elif subject == "DFA to RE & Pumping Lemma":
             if u_ans == ans: dp_score += 1
         if st.button("Submit Module 5 Quiz"): st.success(f"Your Score: {dp_score}/10")
 
-elif subject == "PDA Explorer":
-    st.markdown("## 📚 Pushdown Automata (PDA) Explorer")
-    tab_info, tab_sim, tab_q = st.tabs(["📖 Deep Dive Definition", "🚀 Interactive Simulator (a^n b^n)", "📝 PDA Quiz (10 Qs)"])
+elif subject == "CFG & Chomsky Form":
+    st.markdown("## 📜 Context-Free Grammars (CFG) & Chomsky Normal Form")
+    tab_cfg, tab_cnf, tab_q = st.tabs(["📝 CFG Definition", "📐 Chomsky Normal Form (CNF)", "📝 Quiz (10 Qs)"])
 
-    with tab_info:
+    with tab_cfg:
         st.markdown("""
         <div class="learning-card">
-        <div class="concept-badge">Context-Free Theory</div>
-        <h3>Pushdown Automata: Adding Memory</h3>
-        <p>A <b>Pushdown Automata (PDA)</b> is essentially a Finite Automata with an added <b>Stack</b>. This stack provides infinite memory, but it can only be accessed in a <b>LIFO (Last-In, First-Out)</b> manner.</p>
-        <h4>The 7-Tuple Definition:</h4>
-        <p>PDA = (Q, Σ, Γ, δ, q0, Z0, F)</p>
+        <div class="concept-badge">Module 6.1</div>
+        <h3>Context-Free Grammar (CFG)</h3>
+        <p>A <b>Context-Free Grammar</b> is a formal grammar used to generate all possible strings in a given context-free language. It is more powerful than regular expressions.</p>
+        <h4>The 4-Tuple Definition (V, Σ, R, S):</h4>
         <ul>
-            <li><b>Q:</b> States.</li>
-            <li><b>Σ:</b> Input Alphabet.</li>
-            <li><b>Γ:</b> Stack Alphabet (symbols that can be pushed).</li>
-            <li><b>δ:</b> Transition Function (Q × (Σ ∪ {ε}) × Γ → P(Q × Γ*)).</li>
-            <li><b>q0:</b> Start State.</li>
-            <li><b>Z0:</b> Initial Stack Symbol.</li>
-            <li><b>F:</b> Final States.</li>
+            <li><b>V:</b> A finite set of variables (non-terminals).</li>
+            <li><b>Σ:</b> A finite set of terminals (alphabet).</li>
+            <li><b>R:</b> A finite set of rules (productions) of the form A → w, where A ∈ V and w ∈ (V ∪ Σ)*.</li>
+            <li><b>S:</b> The start variable (S ∈ V).</li>
         </ul>
         <div class="step-box">
-        <b>Acceptance Criteria:</b>  
-
-        - <b>Acceptance by Final State:</b> The machine ends in a state q ∈ F.  
-
-        - <b>Acceptance by Empty Stack:</b> The machine finishes the input and the stack is completely empty.
+        <b>Example:</b> S → 0S1 | ε (Generates strings like 0011, 01, ε).
         </div>
         </div>
         """, unsafe_allow_html=True)
 
-    with tab_sim:
-        st.markdown("### 🤖 PDA Simulator (a^n b^n)")
-        def generate_pda_diagram(active_state):
-            dot = graphviz.Digraph(); dot.attr(rankdir='LR', size='8,5', bgcolor='transparent')
-            dot.node('S', '', shape='none')
-            dot.node('q0', 'q0', shape='circle', color='#3b82f6' if active_state == 'q0' else 'black', penwidth='3' if active_state == 'q0' else '1')
-            dot.node('q1', 'q1', shape='circle', color='#3b82f6' if active_state == 'q1' else 'black', penwidth='3' if active_state == 'q1' else '1')
-            dot.node('f', 'Accept', shape='doublecircle', color='green' if active_state == 'accepted' else 'black')
-            dot.edge('S', 'q0'); dot.edge('q0', 'q0', label='a, Z0 / AZ0\\na, A / AA'); dot.edge('q0', 'q1', label='b, A / ε'); dot.edge('q1', 'q1', label='b, A / ε'); dot.edge('q1', 'f', label='ε, Z0 / Z0')
-            return dot
-        col_graph, col_input = st.columns([2, 1])
-        with col_graph:
-            diagram_placeholder = st.empty(); diagram_placeholder.graphviz_chart(generate_pda_diagram('q0'))
-        with col_input:
-            test_string = st.text_input("Enter Input String (e.g., aabb):", "aabb", key="pda_in_u")
-            sim_speed = st.slider("Speed:", 0.5, 2.0, 1.0, key="pda_sp_u")
-            if st.button("Run PDA Simulation 🚀"):
-                stack, current_state, history, failed = ["Z0"], "q0", [], False
-                table_placeholder = st.empty()
-                for i, char in enumerate(test_string):
-                    action = "Push A" if char == 'a' else "Pop A"
-                    history.append({"Step": i+1, "Input": char, "State": current_state, "Stack": str(stack[::-1]), "Action": action})
-                    diagram_placeholder.graphviz_chart(generate_pda_diagram(current_state))
-                    table_placeholder.table(pd.DataFrame(history))
-                    if current_state == "q0":
-                        if char == 'a': stack.append('A')
-                        elif char == 'b' and len(stack) > 1: stack.pop(); current_state = "q1"
-                        else: failed = True; break
-                    elif current_state == "q1":
-                        if char == 'b' and len(stack) > 1: stack.pop()
-                        else: failed = True; break
-                    time.sleep(sim_speed)
-                if not failed and current_state == "q1" and len(stack) == 1:
-                    diagram_placeholder.graphviz_chart(generate_pda_diagram('accepted'))
-                    history.append({"Step": "End", "Input": "ε", "State": "Accept", "Stack": "['Z0']", "Action": "Success"})
-                    table_placeholder.table(pd.DataFrame(history))
-                    st.success("✅ Result: String Accepted")
-                else: st.error("❌ Result: String Rejected")
+    with tab_cnf:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 6.2</div>
+        <h3>Chomsky Normal Form (CNF)</h3>
+        <p>A CFG is in <b>Chomsky Normal Form</b> if every production rule is of the form:</p>
+        <ul>
+            <li><b>A → BC</b> (A variable goes to exactly two variables)</li>
+            <li><b>A → a</b> (A variable goes to exactly one terminal)</li>
+            <li><b>S → ε</b> (Only if S is the start variable and doesn't appear on the RHS)</li>
+        </ul>
+        <h4>Steps to convert CFG to CNF:</h4>
+        <ol>
+            <li>Add a new start variable S₀ → S.</li>
+            <li>Eliminate all ε-productions (A → ε).</li>
+            <li>Eliminate all unit productions (A → B).</li>
+            <li>Eliminate rules with more than two variables or mixed terminals.</li>
+        </ol>
+        </div>
+        """, unsafe_allow_html=True)
 
     with tab_q:
-        st.markdown("### 📝 PDA Quiz (10 Questions)")
-        pda_qs = [
-            ("Memory structure in PDA?", ["Stack", "Queue", "Tape"], "Stack"),
-            ("PDA recognizes which languages?", ["Context-Free", "Regular", "Recursive"], "Context-Free"),
-            ("LIFO stands for?", ["Last In First Out", "Lead In Fast Out", "None"], "Last In First Out"),
-            ("PDA is a 7-tuple?", ["Yes", "No", "5-tuple"], "Yes"),
-            ("Initial stack symbol?", ["Z0", "S0", "ε"], "Z0"),
-            ("Can PDA accept by empty stack?", ["Yes", "No", "Only DPDA"], "Yes"),
-            ("Push adds to?", ["Top", "Bottom", "Middle"], "Top"),
-            ("Is NPDA more powerful than DPDA?", ["Yes", "No", "Same"], "Yes"),
-            ("Can PDA recognize a^n b^n?", ["Yes", "No", "Only DFA"], "Yes"),
-            ("Γ represents?", ["Stack Alphabet", "Input Alphabet", "States"], "Stack Alphabet")
+        st.markdown("### 📝 CFG & CNF Quiz (10 Questions)")
+        cfg_qs = [
+            ("What does CFG stand for?", ["Context-Free Grammar", "Computer-File Graph", "Common-Form Grammar"], "Context-Free Grammar"),
+            ("In CFG, Σ represents?", ["Terminals", "Variables", "Rules"], "Terminals"),
+            ("A rule A → BC is allowed in CNF.", ["True", "False"], "True"),
+            ("A rule A → aB is allowed in CNF.", ["False", "True"], "False"),
+            ("Which step comes first in CNF conversion?", ["New start variable", "Eliminate ε", "Eliminate unit"], "New start variable"),
+            ("CFGs are more powerful than DFAs.", ["True", "False"], "True"),
+            ("The start variable is usually denoted by?", ["S", "V", "T"], "S"),
+            ("Can a CFG generate the language {aⁿbⁿ}?", ["Yes", "No", "Only for small n"], "Yes"),
+            ("In CNF, a variable can go to how many terminals?", ["1", "2", "Unlimited"], "1"),
+            ("What is a production rule with only one variable on RHS called?", ["Unit production", "ε-production", "Terminal rule"], "Unit production")
         ]
-        p_score = 0
-        for i, (q, opts, ans) in enumerate(pda_qs):
-            u_ans = st.radio(f"{i+1}. {q}", opts, key=f"pq_u_{i}")
-            if u_ans == ans: p_score += 1
-        if st.button("Submit PDA Quiz"): st.success(f"Your Score: {p_score}/10")
+        cfg_score = 0
+        for i, (q, opts, ans) in enumerate(cfg_qs):
+            u_ans = st.radio(f"{i+1}. {q}", opts, key=f"cfgq_u_{i}")
+            if u_ans == ans: cfg_score += 1
+        if st.button("Submit CFG Quiz"): st.success(f"Your Score: {cfg_score}/10")
+
+elif subject == "PDA & CFL Theory":
+    st.markdown("## ⚙️ PDA & Context-Free Language (CFL) Theory")
+    tab_pda, tab_pda_cfg, tab_pumping_cfl, tab_q = st.tabs(["🤖 PDA Recap", "🔄 PDA ↔ CFG", "🧪 Pumping Lemma for CFLs", "📝 Quiz (10 Qs)"])
+
+    with tab_pda:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 7.1</div>
+        <h3>Pushdown Automata (PDA)</h3>
+        <p>A PDA is a finite automaton with a <b>Stack</b>. It is the machine model for Context-Free Languages.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Deterministic PDA (DPDA):</b> Recognizes a subset of CFLs.</div>
+            <div class="info-item"><b>Non-deterministic PDA (NPDA):</b> Recognizes all CFLs.</div>
+        </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_pda_cfg:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 7.2</div>
+        <h3>Equivalence of PDA and CFG</h3>
+        <p>A language is context-free if and only if some pushdown automaton recognizes it. This means we can convert any CFG into an equivalent PDA and vice versa.</p>
+        <h4>Conversion Highlights:</h4>
+        <ul>
+            <li><b>CFG to PDA:</b> The PDA simulates the leftmost derivation of the grammar on its stack.</li>
+            <li><b>PDA to CFG:</b> More complex, involves creating variables for pairs of states (p, q) representing the stack behavior.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_pumping_cfl:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 7.3</div>
+        <h3>Pumping Lemma for CFLs</h3>
+        <p>Used to prove a language is <b>NOT</b> context-free. If L is a CFL, any string <i>s</i> with |s| ≥ p can be split into <b>s = uvxyz</b> such that:</p>
+        <ul>
+            <li>1. <b>uvⁱxyⁱz ∈ L</b> for all i ≥ 0.</li>
+            <li>2. <b>|vy| > 0</b>.</li>
+            <li>3. <b>|vxy| ≤ p</b>.</li>
+        </ul>
+        <div class="step-box">
+        <b>Example:</b> L = {aⁿbⁿcⁿ | n ≥ 0} is NOT a CFL.
+        </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_q:
+        st.markdown("### 📝 PDA & CFL Quiz (10 Questions)")
+        pc_qs = [
+            ("PDAs are equivalent to which grammars?", ["CFG", "Regular", "Unrestricted"], "CFG"),
+            ("Pumping Lemma for CFLs splits string into how many parts?", ["5", "3", "2"], "5"),
+            ("Is {aⁿbⁿcⁿ} a Context-Free Language?", ["No", "Yes", "Sometimes"], "No"),
+            ("In uvxyz, which parts are pumped?", ["v and y", "u and z", "x only"], "v and y"),
+            ("A PDA uses which data structure?", ["Stack", "Queue", "Array"], "Stack"),
+            ("Every Regular Language is also a Context-Free Language.", ["True", "False"], "True"),
+            ("NPDA is more powerful than DPDA.", ["True", "False"], "True"),
+            ("The condition |vy| > 0 means?", ["At least one of v or y is non-empty", "Both must be non-empty", "u must be empty"], "At least one of v or y is non-empty"),
+            ("Can a PDA recognize {ww^R}?", ["Yes", "No", "Only DFA"], "Yes"),
+            ("The 'vxy' part in Pumping Lemma for CFLs must be ≤ p.", ["True", "False"], "True")
+        ]
+        pc_score = 0
+        for i, (q, opts, ans) in enumerate(pc_qs):
+            u_ans = st.radio(f"{i+1}. {q}", opts, key=f"pcq_u_{i}")
+            if u_ans == ans: pc_score += 1
+        if st.button("Submit Module 7 Quiz"): st.success(f"Your Score: {pc_score}/10")
 
 elif subject == "Contact Developer":
     st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")

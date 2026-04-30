@@ -219,7 +219,6 @@ elif display_page == "Foundations of TOC":
             <li><b>Empty String (ε):</b> A unique string with length 0. It contains no symbols.</li>
             <li><b>Concatenation:</b> Joining two strings together. If u = "cat" and v = "dog", then uv = "catdog".</li>
             <li><b>Reverse (w<sup>R</sup>):</b> Writing symbols in reverse order. If w = "abc", then w<sup>R</sup> = "cba".</li>
-            <li><b>Substring:</b> A sequence of symbols that appears within a string.</li>
             <li><b>Prefix and Suffix:</b> A prefix is a substring at the beginning; a suffix is a substring at the end.</li>
         </ul>
         </div>
@@ -892,25 +891,32 @@ elif display_page == "🎓 Course Completion":
         <p><i>"The power of computation is not just in the machines we build, but in the theories that define them."</i></p>
     </div>
     """, unsafe_allow_html=True)
-
 elif display_page == "Introduction to OS":
+
     st.markdown("## ⚙️ Operating Systems: Introduction")
+
     st.markdown("""
     <div class="learning-card">
     <div class="concept-badge">Module 1.1</div>
-    <h3>What is an Operating System?</h3>
-    <p>An <b>Operating System (OS)</b> is a software that acts as an intermediary between a computer user and the computer hardware. The purpose of an OS is to provide an environment in which a user can execute programs in a convenient and efficient manner.</p>
-    <h4>Main Functions of an OS:</h4>
+
+    <h3>What Operating Systems Do</h3>
+    <p>An Operating System is responsible for managing hardware and software resources and providing services for computer programs.</p>
+
+    <h4>Topics Covered:</h4>
     <ul>
-        <li><b>Resource Management:</b> Manages hardware resources like CPU, memory, and I/O devices.</li>
-        <li><b>Process Management:</b> Scheduling, creation, and deletion of processes.</li>
-        <li><b>Memory Management:</b> Allocating and deallocating memory space as needed.</li>
-        <li><b>Storage Management:</b> Managing files and directories on secondary storage.</li>
-        <li><b>Security & Protection:</b> Protecting data and resources from unauthorized access.</li>
+        <li>Operating System Types</li>
+        <li>Computer-System Organization</li>
+        <li>Computer-System Architecture</li>
+        <li>Computer-System Operations</li>
+        <li>Resource Management</li>
+        <li>Virtualization</li>
+        <li>Kernel Data Structures</li>
+        <li>Free/Libre and Open-Source Operating Systems</li>
     </ul>
+
     </div>
     """, unsafe_allow_html=True)
-elif display_page == "Introduction to OS":
+
     st.markdown("## ⚙️ Operating Systems: Introduction")
 
     st.markdown("""
@@ -1020,10 +1026,10 @@ elif display_page == "Community Feedback":
 
 # --- 7. FOOTER ---
 st.markdown(f"""
-    <div class="footer">
-        <p>© 2026 | <b>تطوير وبرمجة: مهره عطيه الجهني</b></p>
-        <p style="font-size: 14px; opacity: 0.8; margin-top: 10px;">
-            © 2026 Mohrah Atiah. All rights reserved. This platform is an original academic project. 
+        <div class="footer">
+     <p>© 2026 | <b>تطوير وبرمجة: مهره عطيه الجهني</b></p>
+    <p style="font-size: 14px; opacity: 0.8; margin-top: 10px;">
+        © 2026 Mohrah Atiah. All rights reserved. This platform is an original academic project. 
         </p>
     </div>
     """, unsafe_allow_html=True)

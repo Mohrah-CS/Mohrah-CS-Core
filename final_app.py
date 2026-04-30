@@ -116,7 +116,20 @@ if main_subject == "Theory of Computation":
 elif main_subject == "Operating Systems":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",
-        ["Introduction to OS", "Process Management", "Memory Management", "Storage & I/O"]
+        ["Introduction to OS",
+            "What Operating Systems Do",
+            "Operating System Types",
+            "Computer-System Organization",
+            "Computer-System Architecture",
+            "Computer-System Operations",
+            "Resource Management",
+            "Virtualization",
+            "Kernel Data Structures",
+            "Free/Libre and Open-Source Operating Systems",
+            "Process Management",
+            "Memory Management",
+            "Storage & I/O"
+        ]
     )
     st.session_state.current_page = subject
 else:
@@ -895,6 +908,86 @@ elif display_page == "Introduction to OS":
         <li><b>Storage Management:</b> Managing files and directories on secondary storage.</li>
         <li><b>Security & Protection:</b> Protecting data and resources from unauthorized access.</li>
     </ul>
+    </div>
+    """, unsafe_allow_html=True)
+elif display_page == "Introduction to OS":
+    st.markdown("## ⚙️ Operating Systems: Introduction")
+
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">Module 1.1</div>
+
+    <h3>What is an Operating System?</h3>
+
+    <p>An <b>Operating System (OS)</b> is a software that acts as an intermediary between a computer user and the computer hardware.</p>
+
+    <h4>Main Functions of an OS:</h4>
+    <ul>
+        <li><b>Resource Management:</b> Manages hardware resources like CPU, memory, and I/O devices.</li>
+        <li><b>Process Management:</b> Scheduling, creation, and deletion of processes.</li>
+        <li><b>Memory Management:</b> Allocating and deallocating memory space as needed.</li>
+        <li><b>Storage & I/O:</b> Managing files and devices on secondary storage.</li>
+        <li><b>Security & Protection:</b> Protecting data and system resources from unauthorized access.</li>
+    </ul>
+
+    <h4>📚 What Operating Systems Do (Added Content):</h4>
+    <ul>
+        <li>Handle system resources efficiently</li>
+        <li>Provide user interface (GUI / CLI)</li>
+        <li>Run applications and processes</li>
+        <li>Control hardware and software interaction</li>
+    </ul>
+
+    <h4>📌 Operating System Types:</h4>
+    <ul>
+        <li>Batch Operating Systems</li>
+        <li>Time-Sharing Systems</li>
+        <li>Distributed Operating Systems</li>
+        <li>Real-Time Operating Systems</li>
+    </ul>
+
+    <h4>🏗️ Computer-System Organization:</h4>
+    <ul>
+        <li>CPU, Memory, I/O Devices</li>
+        <li>Bus structure connects components</li>
+        <li>Interrupt-based communication</li>
+    </ul>
+
+    <h4>🧠 Computer-System Architecture:</h4>
+    <ul>
+        <li>Single Processor Systems</li>
+        <li>Multiprocessor Systems</li>
+        <li>Clustered Systems</li>
+    </ul>
+
+    <h4>⚙️ Resource Management:</h4>
+    <ul>
+        <li>CPU Scheduling</li>
+        <li>Memory Allocation</li>
+        <li>Disk & File Management</li>
+    </ul>
+
+    <h4>🧩 Virtualization:</h4>
+    <ul>
+        <li>Running multiple OS on one machine</li>
+        <li>Virtual Machines (VMs)</li>
+        <li>Hypervisors</li>
+    </ul>
+
+    <h4>🧱 Kernel Data Structures:</h4>
+    <ul>
+        <li>Process Control Block (PCB)</li>
+        <li>Queues (Ready, Waiting)</li>
+        <li>Page Tables</li>
+    </ul>
+
+    <h4>💡 Open Source Operating Systems:</h4>
+    <ul>
+        <li>Linux</li>
+        <li>Ubuntu</li>
+        <li>FreeBSD</li>
+    </ul>
+
     </div>
     """, unsafe_allow_html=True)
 

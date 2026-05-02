@@ -16,7 +16,15 @@ st.set_page_config(
 # --- 2. PERSISTENT STORAGE FUNCTIONS ---
 def load_comments():
     if not os.path.exists("comments.json"):
-        return [{"u": "Academic Support", "m": "Welcome to Mohrah's Lab! Your feedback is valued.", "t": "09:00 AM"}]
+        # Initial comments including the ones for Mohrah and Shoaa
+        initial_data = [
+            {"u": "Academic Support", "m": "Welcome to Mohrah's Lab! Your feedback is valued.", "t": "09:00 AM"},
+            {"u": "مهره الجهني", "m": "أهلاً بكم في منصتي التعليمية، أتمنى أن تجدوا الفائدة والمتعة في تعلم علوم الحاسب.", "t": "10:30 AM"},
+            {"u": "شعاع", "m": "المشروع رائع جداً ومفيد، شكراً لكِ يا مهره على هذا المجهود المتميز.", "t": "11:15 AM"}
+        ]
+        with open("comments.json", "w", encoding="utf-8") as f:
+            json.dump(initial_data, f, ensure_ascii=False, indent=4)
+        return initial_data
     try:
         with open("comments.json", "r", encoding="utf-8") as f:
             return json.load(f)
@@ -25,9 +33,11 @@ def load_comments():
 
 def save_comment(name, msg):
     comments = load_comments()
-    comments.append({"u": name, "m": msg, "t": time.strftime("%H:%M")})
+    comments.append({"u": name, "m": msg, "t": time.strftime("%I:%M %p")})
     with open("comments.json", "w", encoding="utf-8") as f:
-        json.dump(comments, f, ensure_ascii=False)
+        json.dump(comments, f, ensure_ascii=False, indent=4)
+    # Trigger rerun to show new comment immediately
+    st.rerun()
 
 # --- 3. ADVANCED STYLING ---
 st.markdown("""
@@ -64,6 +74,7 @@ st.markdown("""
     .comment-box {
             background-color: #f8fafc; padding: 15px; border-radius: 10px; 
             border: 1px solid #e2e8f0; margin-bottom: 15px; line-height: 1.5;
+            direction: rtl; text-align: right;
         }
     .footer {
         text-align: center; padding: 40px; margin-top: 80px;
@@ -219,7 +230,6 @@ elif display_page == "Foundations of TOC":
             <li><b>Empty String (ε):</b> A unique string with length 0. It contains no symbols.</li>
             <li><b>Concatenation:</b> Joining two strings together. If u = "cat" and v = "dog", then uv = "catdog".</li>
             <li><b>Reverse (w<sup>R</sup>):</b> Writing symbols in reverse order. If w = "abc", then w<sup>R</sup> = "cba".</li>
-            <li><b>Prefix and Suffix:</b> A prefix is a substring at the beginning; a suffix is a substring at the end.</li>
         </ul>
         </div>
         """, unsafe_allow_html=True)
@@ -1016,13 +1026,24 @@ elif display_page == "Contact Developer":
 
 elif display_page == "Community Feedback":
     st.markdown("### 💬 Feedback Board")
-    with st.form("feedback_form"):
-        name = st.text_input("Name:"); msg = st.text_area("Feedback:")
-        if st.form_submit_button("Post"):
-            if name and msg: save_comment(name, msg); st.success("Comment saved!")
+    with st.form("feedback_form", clear_on_submit=True):
+        name = st.text_input("Name / الاسم:")
+        msg = st.text_area("Feedback / التعليق:")
+        submit = st.form_submit_button("Post / نشر")
+        if submit:
+            if name and msg:
+                save_comment(name, msg)
+                st.success("Comment saved! / تم حفظ التعليق بنجاح!")
+            else:
+                st.error("Please fill in both fields. / يرجى ملء جميع الحقول.")
     st.markdown("---")
-    for c in reversed(load_comments()):
-        st.markdown(f"""<div class="comment-box"><b>👤 {c['u']}</b> <small>({c['t']})</small><br>{c['m']}</div>""", unsafe_allow_html=True)
+    st.markdown("#### Recent Comments / التعليقات الأخيرة")
+    comments_list = load_comments()
+    if not comments_list:
+        st.write("No comments yet. Be the first to comment!")
+    else:
+        for c in reversed(comments_list):
+            st.markdown(f"""<div class="comment-box"><b>👤 {c['u']}</b> <small>({c['t']})</small><br>{c['m']}</div>""", unsafe_allow_html=True)
 
 # --- 7. FOOTER ---
 st.markdown(f"""

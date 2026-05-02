@@ -129,7 +129,8 @@ if main_subject == "Theory of Computation":
         "Select Lesson / اختر الدرس:",
         ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"]
     )
-    st.session_state.current_page = subject
+    if st.session_state.current_page not in ["Community Feedback", "Contact Developer"]:
+     st.session_state.current_page = subject
 elif main_subject == "Operating Systems":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",

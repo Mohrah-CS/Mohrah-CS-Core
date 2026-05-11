@@ -65,7 +65,7 @@ def save_comment(name, msg):
         with open("comments.json", "w", encoding="utf-8") as f:
             json.dump(comments, f, ensure_ascii=False, indent=4)
     except: pass
-    # st.rerun() # Removed as it causes redirection issues, handled by st.experimental_rerun() in the form submission
+    # st.rerun() # Removed as it causes redirection issues, handled by st.rerun() in the form submission
 
 # --- 3. ADVANCED STYLING ---
 st.markdown("""
@@ -2223,7 +2223,7 @@ elif display_page == "👥 Community Corner":
                 if q_name and q_text:
                     post_question(q_name, q_text, q_file)
                     st.success("تم نشر سؤالك مع المرفقات! انتظر إجابة زملائك.")
-                    st.experimental_rerun()
+                    st.rerun()
     
     st.markdown("### 💬 الأسئلة الحالية / Current Discussions")
     questions = load_questions()
@@ -2277,7 +2277,7 @@ elif display_page == "Community Feedback":
                 save_comment(name, msg)
                 st.success("Comment saved! / تم حفظ التعليق بنجاح!")
                 st.session_state.current_page = "Community Feedback" # Ensure we stay on the feedback page
-                st.experimental_rerun() # Rerun to show new comment and clear form
+                st.rerun() # Rerun to show new comment and clear form
             else:
                 st.error("Please fill in both fields. / يرجى ملء جميع الحقول.")
     st.markdown("---")

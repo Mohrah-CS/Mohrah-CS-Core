@@ -135,7 +135,7 @@ if main_subject == "Theory of Computation":
 elif main_subject == "Operating Systems":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",
-        ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services", "Operating Systems: Chapter 3 - Process Management", "Operating Systems: Chapter 4 - Threads"]
+        ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services", "Operating Systems: Chapter 3 - Process Management", "Operating Systems: Chapter 4 - Threads", "Operating Systems: Chapter 5 - CPU Scheduling"]
     )
     if st.session_state.current_page not in ["Community Feedback", "Contact Developer"]:
         st.session_state.current_page = subject
@@ -1356,6 +1356,205 @@ elif display_page == "Operating Systems: Chapter 4 - Threads":
             <li><b>OpenMP:</b> Set of compiler directives and an API for C, C++, FORTRAN.</li>
             <li><b>Grand Central Dispatch (GCD):</b> Apple technology for macOS and iOS.</li>
         </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+elif display_page == "Operating Systems: Chapter 5 - CPU Scheduling":
+    st.markdown("## ⏱️ Operating Systems: Chapter 5 - CPU Scheduling")
+    tab_basic, tab_criteria, tab_algorithms, tab_multiprocessor, tab_summary = st.tabs([
+        "📌 Basic Concepts",
+        "📊 Scheduling Criteria",
+        "⚙️ Scheduling Algorithms",
+        "🖥️ Multi-Processor Scheduling",
+        "📝 Chapter Summary"
+    ])
+
+    with tab_basic:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 5.1</div>
+        <h3>Basic Concepts</h3>
+        <p><b>CPU Scheduling</b> is one of the most important operating-system functions. Its main goal is to decide which ready process should get the CPU next, especially in a multiprogramming environment where many processes compete for processor time.</p>
+        <p>The operating system keeps the CPU busy by switching it among processes. When one process waits for I/O, another ready process can use the CPU. This improves <b>CPU utilization</b> and overall system performance.</p>
+        <h4>CPU-I/O Burst Cycle</h4>
+        <p>Process execution usually alternates between <b>CPU bursts</b> and <b>I/O bursts</b>. A CPU-bound process spends more time doing computations, while an I/O-bound process spends more time waiting for input/output operations.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>CPU Burst:</b> Time during which a process uses the CPU for computation.</div>
+            <div class="info-item"><b>I/O Burst:</b> Time during which a process waits for input/output completion.</div>
+            <div class="info-item"><b>Ready Queue:</b> The queue that contains processes ready to run on the CPU.</div>
+        </div>
+        <h4>CPU Scheduler and Dispatcher</h4>
+        <p>The <b>CPU Scheduler</b> selects a process from the ready queue. The <b>Dispatcher</b> gives control of the CPU to the selected process by performing a context switch, switching to user mode, and jumping to the correct program location.</p>
+        <p><b>Dispatch Latency:</b> The time needed by the dispatcher to stop one process and start another process.</p>
+        <h4>Preemptive and Non-Preemptive Scheduling</h4>
+        <ul>
+            <li><b>Non-Preemptive Scheduling:</b> Once a process gets the CPU, it keeps it until it terminates or waits for I/O.</li>
+            <li><b>Preemptive Scheduling:</b> The operating system can interrupt a running process and move it back to the ready queue.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_criteria:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 5.2</div>
+        <h3>Scheduling Criteria</h3>
+        <p>Different scheduling algorithms are evaluated using specific criteria. The best algorithm depends on the system goal, such as maximizing performance, improving response time, or supporting fairness among processes.</p>
+        <table class="summary-table">
+            <tr>
+                <th>Criterion</th>
+                <th>Meaning</th>
+                <th>Goal</th>
+            </tr>
+            <tr>
+                <td><b>CPU Utilization</b></td>
+                <td>Percentage of time the CPU is busy doing useful work.</td>
+                <td>Maximize</td>
+            </tr>
+            <tr>
+                <td><b>Throughput</b></td>
+                <td>Number of processes completed per time unit.</td>
+                <td>Maximize</td>
+            </tr>
+            <tr>
+                <td><b>Turnaround Time</b></td>
+                <td>Total time from process submission to process completion.</td>
+                <td>Minimize</td>
+            </tr>
+            <tr>
+                <td><b>Waiting Time</b></td>
+                <td>Total time a process spends waiting in the ready queue.</td>
+                <td>Minimize</td>
+            </tr>
+            <tr>
+                <td><b>Response Time</b></td>
+                <td>Time from submitting a request until the first response is produced.</td>
+                <td>Minimize</td>
+            </tr>
+        </table>
+        <div class="step-box">
+        <b>Important Note:</b> In interactive systems, response time is often more important than turnaround time because users care about how fast the system starts responding.
+        </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_algorithms:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 5.3</div>
+        <h3>Scheduling Algorithms</h3>
+        <p>Scheduling algorithms define the rules used by the operating system to choose the next process that will run on the CPU. Each algorithm has advantages and disadvantages depending on process behavior and system requirements.</p>
+        <h4>1. First-Come, First-Served (FCFS)</h4>
+        <p><b>FCFS</b> schedules processes in the order they arrive. It is simple and non-preemptive, but it may cause the <b>convoy effect</b>, where short processes wait behind a long process.</p>
+        <h4>2. Shortest-Job-First (SJF)</h4>
+        <p><b>SJF</b> selects the process with the smallest next CPU burst. It can produce minimum average waiting time, but it requires predicting the length of the next CPU burst.</p>
+        <h4>3. Shortest-Remaining-Time First (SRTF)</h4>
+        <p><b>SRTF</b> is the preemptive version of SJF. If a new process arrives with a CPU burst shorter than the remaining time of the current process, the current process is preempted.</p>
+        <h4>4. Priority Scheduling</h4>
+        <p>Each process is assigned a priority, and the CPU is allocated to the process with the highest priority. A problem called <b>starvation</b> may occur when low-priority processes wait for a very long time. <b>Aging</b> can solve this problem by gradually increasing the priority of waiting processes.</p>
+        <h4>5. Round Robin (RR)</h4>
+        <p><b>Round Robin</b> gives each process a small unit of CPU time called a <b>time quantum</b>. After the quantum expires, the process is preempted and placed at the end of the ready queue. RR is commonly used in time-sharing systems.</p>
+        <h4>6. Multilevel Queue Scheduling</h4>
+        <p>The ready queue is divided into separate queues, such as foreground and background queues. Each queue may have its own scheduling algorithm.</p>
+        <h4>7. Multilevel Feedback Queue Scheduling</h4>
+        <p>This algorithm allows processes to move between queues. It is flexible because it can favor interactive processes while still giving CPU time to longer jobs.</p>
+        <table class="summary-table">
+            <tr>
+                <th>Algorithm</th>
+                <th>Preemptive?</th>
+                <th>Main Advantage</th>
+                <th>Main Disadvantage</th>
+            </tr>
+            <tr>
+                <td>FCFS</td>
+                <td>No</td>
+                <td>Simple and fair by arrival order</td>
+                <td>Convoy effect</td>
+            </tr>
+            <tr>
+                <td>SJF</td>
+                <td>No</td>
+                <td>Low average waiting time</td>
+                <td>Difficult burst prediction</td>
+            </tr>
+            <tr>
+                <td>SRTF</td>
+                <td>Yes</td>
+                <td>Good for short jobs</td>
+                <td>More context switching</td>
+            </tr>
+            <tr>
+                <td>Priority</td>
+                <td>Both</td>
+                <td>Supports process importance</td>
+                <td>Starvation</td>
+            </tr>
+            <tr>
+                <td>Round Robin</td>
+                <td>Yes</td>
+                <td>Good response time</td>
+                <td>Performance depends on time quantum</td>
+            </tr>
+        </table>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_multiprocessor:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 5.4</div>
+        <h3>Multi-Processor Scheduling</h3>
+        <p><b>Multi-Processor Scheduling</b> becomes more complex because the operating system must schedule processes or threads on more than one CPU. The goal is to keep all processors busy while maintaining load balance and efficient execution.</p>
+        <h4>Approaches to Multiprocessor Scheduling</h4>
+        <ul>
+            <li><b>Asymmetric Multiprocessing:</b> One processor handles scheduling decisions, I/O processing, and system activities, while other processors execute user code.</li>
+            <li><b>Symmetric Multiprocessing (SMP):</b> Each processor schedules itself. This is common in modern operating systems.</li>
+        </ul>
+        <h4>Processor Affinity</h4>
+        <p><b>Processor Affinity</b> means keeping a process running on the same processor when possible. This is useful because data may remain in that processor's cache, improving performance.</p>
+        <ul>
+            <li><b>Soft Affinity:</b> The operating system tries to keep a process on the same processor but does not guarantee it.</li>
+            <li><b>Hard Affinity:</b> A process is restricted to run only on a specific processor or set of processors.</li>
+        </ul>
+        <h4>Load Balancing</h4>
+        <p><b>Load Balancing</b> attempts to distribute work evenly among processors so that no processor is overloaded while others are idle.</p>
+        <ul>
+            <li><b>Push Migration:</b> A task periodically checks processor load and moves processes from overloaded processors to less busy ones.</li>
+            <li><b>Pull Migration:</b> An idle processor pulls a waiting process from a busy processor.</li>
+        </ul>
+        <h4>Multicore Processors</h4>
+        <p>In multicore systems, multiple processing cores exist on the same chip. Scheduling should consider cache sharing, memory access, and parallel execution to improve performance.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_summary:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 5.5</div>
+        <h3>Chapter 5 Summary</h3>
+        <p>This chapter explains how operating systems choose which process should use the CPU. CPU scheduling is essential for multiprogramming because it improves CPU utilization and helps the system respond efficiently to users and applications.</p>
+        <table class="summary-table">
+            <tr>
+                <th>Topic</th>
+                <th>Key Idea</th>
+            </tr>
+            <tr>
+                <td>Basic Concepts</td>
+                <td>CPU scheduling selects a ready process and assigns the CPU to it.</td>
+            </tr>
+            <tr>
+                <td>Scheduling Criteria</td>
+                <td>Algorithms are compared using CPU utilization, throughput, turnaround time, waiting time, and response time.</td>
+            </tr>
+            <tr>
+                <td>Scheduling Algorithms</td>
+                <td>Common algorithms include FCFS, SJF, SRTF, Priority, Round Robin, Multilevel Queue, and Multilevel Feedback Queue.</td>
+            </tr>
+            <tr>
+                <td>Multi-Processor Scheduling</td>
+                <td>Scheduling on multiple CPUs requires load balancing, processor affinity, and efficient management of parallel execution.</td>
+            </tr>
+        </table>
         </div>
         """, unsafe_allow_html=True)
 

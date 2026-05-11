@@ -129,8 +129,12 @@ if 'current_page' not in st.session_state:
 main_subject = st.sidebar.selectbox(
     "Select Course / اختر المادة:",
     ["Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall"],
-    index=0 if st.session_state.current_page == "Home Page" else (1 if st.session_state.current_page in ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"] else 2)
+    index=["Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall"].index(st.session_state.current_page) if st.session_state.current_page in ["Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall"] else (1 if st.session_state.current_page in ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"] else (2 if "Operating Systems:" in st.session_state.current_page or st.session_state.current_page == "🎓 OS Course Completion" else 0))
 )
+
+if main_subject in ["🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall", "Home Page"]:
+    st.session_state.current_page = main_subject
+
 if main_subject == "Theory of Computation":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",
@@ -159,6 +163,7 @@ with col2:
     if st.button("💬 Feedback", key="feedback_btn"):
         st.session_state.current_page = "Community Feedback"
 display_page = st.session_state.current_page
+
 
 # --- 6. MODULES ---
 if display_page == "Home Page":

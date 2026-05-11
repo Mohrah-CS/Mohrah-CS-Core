@@ -2113,33 +2113,104 @@ elif display_page == "Memory Management":
 elif display_page == "Storage & I/O":
     st.info("Storage & I/O module is under development. Stay tuned!")
 
+
 elif display_page == "🚀 Smart Exam Prep":
-    st.markdown("## 🚀 Smart Exam Prep: Interactive Quizzes")
-    st.info("Test your knowledge with these quick interactive quizzes! / اختبر معلوماتك مع هذه الاختبارات السريعة!")
+    st.markdown("## 🚀 Smart Exam Prep: Advanced Quiz Bank")
+    st.warning("⚠️ Warning: These questions are designed to be challenging! / تحذير: هذه الأسئلة مصممة لتكون صعبة ومتقدمة!")
     
-    quiz_subject = st.radio("Select Subject / اختر المادة:", ["Theory of Computation", "Operating Systems"])
+    quiz_subject = st.selectbox("Select Subject / اختر المادة:", ["Operating Systems (OS)", "Theory of Computation (TOC)"])
     
-    if quiz_subject == "Operating Systems":
-        st.subheader("OS Quick Quiz")
-        q1 = st.radio("1. Which of the following is NOT a condition for Deadlock?", ["Mutual Exclusion", "Hold and Wait", "Preemption", "Circular Wait"])
-        if st.button("Check Answer / تحقق"):
-            if q1 == "Preemption":
-                st.success("Correct! Preemption is NOT a condition; 'No Preemption' is the condition.")
+    if quiz_subject == "Operating Systems (OS)":
+        st.subheader("🖥️ OS Advanced Challenge")
+        os_q = [
+            {
+                "q": "1. In the Banker's Algorithm, if the system is in a 'Safe State', it means:",
+                "o": ["Deadlock is impossible", "Deadlock is possible but unlikely", "The system can avoid deadlock by following a specific sequence", "All processes will finish at the same time"],
+                "a": "The system can avoid deadlock by following a specific sequence"
+            },
+            {
+                "q": "2. Which scheduling algorithm can suffer from the 'Convoy Effect'?",
+                "o": ["Round Robin", "SJF", "FCFS", "Priority Scheduling"],
+                "a": "FCFS"
+            },
+            {
+                "q": "3. A system has 3 processes and 4 resources of the same type. Each process needs 2 resources to complete. Is deadlock possible?",
+                "o": ["Yes", "No", "Depends on arrival time", "Only if preemption is allowed"],
+                "a": "No"
+            },
+            {
+                "q": "4. What is the main advantage of Inverted Page Tables?",
+                "o": ["Faster address translation", "Reduced memory overhead for page tables", "Easier implementation of shared memory", "Elimination of TLB misses"],
+                "a": "Reduced memory overhead for page tables"
+            },
+            {
+                "q": "5. In the context of Disk Scheduling, which algorithm is most prone to starvation?",
+                "o": ["SCAN", "C-SCAN", "SSTF", "FCFS"],
+                "a": "SSTF"
+            }
+        ]
+        
+        score = 0
+        for i, item in enumerate(os_q):
+            choice = st.radio(item["q"], item["o"], key=f"os_q_{i}")
+            if choice == item["a"]:
+                score += 1
+        
+        if st.button("Submit OS Quiz"):
+            st.write(f"### Your Score: {score}/{len(os_q)}")
+            if score == len(os_q):
+                st.success("🔥 Outstanding! You are a true OS Master!")
                 st.balloons()
+            elif score > len(os_q)//2:
+                st.info("Good job! But there is room for improvement.")
             else:
-                st.error("Try again! Remember the 4 conditions.")
-                
-    elif quiz_subject == "Theory of Computation":
-        st.subheader("TOC Quick Quiz")
-        q1 = st.radio("1. Which automaton has a stack memory?", ["DFA", "NFA", "PDA", "Turing Machine"])
-        if st.button("Check Answer / تحقق"):
-            if q1 == "PDA":
-                st.success("Correct! Pushdown Automata (PDA) use a stack.")
+                st.error("Keep studying! OS concepts require deep focus.")
+
+    elif quiz_subject == "Theory of Computation (TOC)":
+        st.subheader("🧠 TOC Theoretical Masterclass")
+        toc_q = [
+            {
+                "q": "1. If a language L is recognized by an NFA, then it MUST be:",
+                "o": ["Context-Free", "Regular", "Decidable", "Recursive"],
+                "a": "Regular"
+            },
+            {
+                "q": "2. The Pumping Lemma for Regular Languages is primarily used to prove:",
+                "o": ["A language is regular", "A language is NOT regular", "An NFA is equivalent to a DFA", "A grammar is ambiguous"],
+                "a": "A language is NOT regular"
+            },
+            {
+                "q": "3. Which of the following is TRUE about the Halting Problem?",
+                "o": ["It is decidable", "It is undecidable", "It can be solved by a PDA", "It only applies to finite strings"],
+                "a": "It is undecidable"
+            },
+            {
+                "q": "4. A Pushdown Automaton (PDA) is equivalent in power to which type of grammar?",
+                "o": ["Regular Grammar", "Context-Free Grammar", "Context-Sensitive Grammar", "Unrestricted Grammar"],
+                "a": "Context-Free Grammar"
+            },
+            {
+                "q": "5. Which machine can recognize the language {a^n b^n c^n | n >= 0}?",
+                "o": ["DFA", "PDA", "Turing Machine", "NFA"],
+                "a": "Turing Machine"
+            }
+        ]
+        
+        score = 0
+        for i, item in enumerate(toc_q):
+            choice = st.radio(item["q"], item["o"], key=f"toc_q_{i}")
+            if choice == item["a"]:
+                score += 1
+        
+        if st.button("Submit TOC Quiz"):
+            st.write(f"### Your Score: {score}/{len(toc_q)}")
+            if score == len(toc_q):
+                st.success("💎 Incredible! You've mastered the theoretical foundations!")
                 st.balloons()
+            elif score > len(toc_q)//2:
+                st.info("Great effort! Review the Pumping Lemma and Turing Machines.")
             else:
-                st.error("Think about which machine uses a Stack.")
-
-
+                st.error("TOC is challenging. Re-read the modules and try again!")
 elif display_page == "📚 Resource Hub":
     st.markdown("## 📚 Deep-Dive Resource Hub")
     st.write("هنا تجد ملخصات PDF عميقة وشاملة لكل شابتر، تم إعدادها بعناية لتكون مرجعك النهائي.")
@@ -2148,36 +2219,48 @@ elif display_page == "📚 Resource Hub":
     
     with tab_os_res:
         st.markdown("### 📄 Comprehensive OS Chapter Summaries")
-        os_chapters = [
-            "Chapter 1: Introduction to OS Concepts",
-            "Chapter 2: OS Structures & System Calls",
-            "Chapter 3: Process Management & IPC",
-            "Chapter 4: Threads & Multicore Programming",
-            "Chapter 5: CPU Scheduling Algorithms (Deep Analysis)",
-            "Chapter 6: Process Synchronization & Mutex",
-            "Chapter 7: Deadlocks: Prevention & Avoidance",
-            "Chapter 8: Memory Management & Paging",
-            "Chapter 9: Mass-Storage & RAID Structures",
-            "Chapter 10: File Systems & Allocation Methods"
-        ]
-        for ch in os_chapters:
+        os_chapters = {
+            "Chapter 1: Introduction to OS Concepts": "OS_Ch1.pdf",
+            "Chapter 2: OS Structures & System Calls": "OS_Ch2.pdf",
+            "Chapter 3: Process Management & IPC": "OS_Ch3.pdf",
+            "Chapter 4: Threads & Multicore Programming": "OS_Ch4.pdf",
+            "Chapter 5: CPU Scheduling Algorithms (Deep Analysis)": "OS_Ch5.pdf",
+            "Chapter 6: Process Synchronization & Mutex": "OS_Ch6.pdf",
+            "Chapter 7: Deadlocks: Prevention & Avoidance": "OS_Ch7.pdf",
+            "Chapter 8: Memory Management & Paging": "OS_Ch8.pdf",
+            "Chapter 9: Mass-Storage & RAID Structures": "OS_Ch9.pdf",
+            "Chapter 10: File Systems & Allocation Methods": "OS_Ch10.pdf"
+        }
+        for ch_name, file_name in os_chapters.items():
             col_a, col_b = st.columns([3, 1])
-            col_a.write(f"📂 **{ch}**")
-            col_b.button("Download PDF", key=ch)
+            col_a.write(f"📂 **{ch_name}**")
+            file_path = f"pdfs/{file_name}"
+            if os.path.exists(file_path):
+                with open(file_path, "rb") as f:
+                    col_b.download_button("Download PDF", f, file_name=file_name, key=f"dl_{file_name}")
+            else:
+                col_b.button("Coming Soon", key=f"soon_{file_name}", disabled=True)
+
             
     with tab_toc_res:
         st.markdown("### 📄 Advanced TOC Modules")
-        toc_modules = [
-            "Module 1: Mathematical Foundations",
-            "Module 2: Finite Automata (DFA/NFA) Masterclass",
-            "Module 3: Regular Expressions & Pumping Lemma",
-            "Module 4: Context-Free Grammars & PDA",
-            "Module 5: Turing Machines & Decidability"
-        ]
-        for mod in toc_modules:
+        toc_modules = {
+            "Module 1: Mathematical Foundations": "TOC_Mod1.pdf",
+            "Module 2: Finite Automata (DFA/NFA) Masterclass": "TOC_Mod2.pdf",
+            "Module 3: Regular Expressions & Pumping Lemma": "TOC_Mod3.pdf",
+            "Module 4: Context-Free Grammars & PDA": "TOC_Mod4.pdf",
+            "Module 5: Turing Machines & Decidability": "TOC_Mod5.pdf"
+        }
+        for mod_name, file_name in toc_modules.items():
             col_a, col_b = st.columns([3, 1])
-            col_a.write(f"📂 **{mod}**")
-            col_b.button("Download PDF", key=mod)
+            col_a.write(f"📂 **{mod_name}**")
+            file_path = f"pdfs/{file_name}"
+            if os.path.exists(file_path):
+                with open(file_path, "rb") as f:
+                    col_b.download_button("Download PDF", f, file_name=file_name, key=f"dl_{file_name}")
+            else:
+                col_b.button("Coming Soon", key=f"soon_{file_name}", disabled=True)
+
 
     st.markdown("""
     <div class="step-box">

@@ -114,55 +114,55 @@ st.markdown(f"""
     </div>
     """, unsafe_allow_html=True)
 
-# --- 5. SIDEBAR NAVIGATION (NESTED) ---
+
+# --- 5. SIDEBAR NAVIGATION ---
 st.sidebar.title("💎 Academic Navigation")
+
 # --- SEARCH FEATURE ---
-st.sidebar.write("---")
 search_query = st.sidebar.text_input("🔍 Search Platform / ابحث في المنصة:", placeholder="e.g. Deadlock, DFA...")
 if search_query:
     st.sidebar.info(f"Searching for: {search_query}")
-    # Simple search logic could be added here to redirect or highlight
 
 st.sidebar.write("---")
+
+# Initialize session state
 if 'current_page' not in st.session_state:
     st.session_state.current_page = "Home Page"
+
+# Main category selection
 main_subject = st.sidebar.selectbox(
     "Select Course / اختر المادة:",
     ["Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall"],
-    index=["Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall"].index(st.session_state.current_page) if st.session_state.current_page in ["Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall"] else (1 if st.session_state.current_page in ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"] else (2 if "Operating Systems:" in st.session_state.current_page or st.session_state.current_page == "🎓 OS Course Completion" else 0))
+    key="main_nav_select"
 )
 
-if main_subject in ["🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall", "Home Page"]:
-    st.session_state.current_page = main_subject
-
+# Handle sub-navigation or direct page assignment
 if main_subject == "Theory of Computation":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",
-        ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"],
-        index=0 if st.session_state.current_page not in ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"] else ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"].index(st.session_state.current_page)
+        ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"]
     )
-    if st.session_state.current_page not in ["Community Feedback", "Contact Developer"]:
-        st.session_state.current_page = subject
+    st.session_state.current_page = subject
 elif main_subject == "Operating Systems":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",
         ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services", "Operating Systems: Chapter 3 - Process Management", "Operating Systems: Chapter 4 - Threads", "Operating Systems: Chapter 5 - CPU Scheduling", "Operating Systems: Chapter 6 - Synchronization", "Operating Systems: Chapter 7 - Deadlocks", "Operating Systems: Chapter 8 - Memory Management", "Operating Systems: Chapter 9 - Mass-Storage", "Operating Systems: Chapter 10 - File Systems", "🎓 OS Course Completion"]
     )
-    if st.session_state.current_page not in ["Community Feedback", "Contact Developer"]:
-        st.session_state.current_page = subject
+    st.session_state.current_page = subject
 else:
-    if st.session_state.current_page not in ["Community Feedback", "Contact Developer"]:
-        st.session_state.current_page = "Home Page"
+    st.session_state.current_page = main_subject
+
+# Override if contact or feedback buttons are pressed
 st.sidebar.write("---")
 st.sidebar.write("### 📞 تواصل معي / Contact Me")
 col1, col2 = st.sidebar.columns(2)
-with col1:
-    if st.button("📧 Contact", key="contact_btn"):
-        st.session_state.current_page = "Contact Developer"
-with col2:
-    if st.button("💬 Feedback", key="feedback_btn"):
-        st.session_state.current_page = "Community Feedback"
+if col1.button("📧 Contact", key="contact_btn"):
+    st.session_state.current_page = "Contact Developer"
+if col2.button("💬 Feedback", key="feedback_btn"):
+    st.session_state.current_page = "Community Feedback"
+
 display_page = st.session_state.current_page
+
 
 
 # --- 6. MODULES ---

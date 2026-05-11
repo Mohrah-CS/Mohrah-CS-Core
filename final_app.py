@@ -116,12 +116,19 @@ st.markdown(f"""
 
 # --- 5. SIDEBAR NAVIGATION (NESTED) ---
 st.sidebar.title("💎 Academic Navigation")
+# --- SEARCH FEATURE ---
+st.sidebar.write("---")
+search_query = st.sidebar.text_input("🔍 Search Platform / ابحث في المنصة:", placeholder="e.g. Deadlock, DFA...")
+if search_query:
+    st.sidebar.info(f"Searching for: {search_query}")
+    # Simple search logic could be added here to redirect or highlight
+
 st.sidebar.write("---")
 if 'current_page' not in st.session_state:
     st.session_state.current_page = "Home Page"
 main_subject = st.sidebar.selectbox(
     "Select Course / اختر المادة:",
-    ["Home Page", "Theory of Computation", "Operating Systems"],
+    ["Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall"],
     index=0 if st.session_state.current_page == "Home Page" else (1 if st.session_state.current_page in ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"] else 2)
 )
 if main_subject == "Theory of Computation":
@@ -2043,6 +2050,76 @@ elif display_page == "Memory Management":
     st.info("Memory Management module is under development. Stay tuned!")
 elif display_page == "Storage & I/O":
     st.info("Storage & I/O module is under development. Stay tuned!")
+
+elif display_page == "🚀 Smart Exam Prep":
+    st.markdown("## 🚀 Smart Exam Prep: Interactive Quizzes")
+    st.info("Test your knowledge with these quick interactive quizzes! / اختبر معلوماتك مع هذه الاختبارات السريعة!")
+    
+    quiz_subject = st.radio("Select Subject / اختر المادة:", ["Theory of Computation", "Operating Systems"])
+    
+    if quiz_subject == "Operating Systems":
+        st.subheader("OS Quick Quiz")
+        q1 = st.radio("1. Which of the following is NOT a condition for Deadlock?", ["Mutual Exclusion", "Hold and Wait", "Preemption", "Circular Wait"])
+        if st.button("Check Answer / تحقق"):
+            if q1 == "Preemption":
+                st.success("Correct! Preemption is NOT a condition; 'No Preemption' is the condition.")
+                st.balloons()
+            else:
+                st.error("Try again! Remember the 4 conditions.")
+                
+    elif quiz_subject == "Theory of Computation":
+        st.subheader("TOC Quick Quiz")
+        q1 = st.radio("1. Which automaton has a stack memory?", ["DFA", "NFA", "PDA", "Turing Machine"])
+        if st.button("Check Answer / تحقق"):
+            if q1 == "PDA":
+                st.success("Correct! Pushdown Automata (PDA) use a stack.")
+                st.balloons()
+            else:
+                st.error("Think about which machine uses a Stack.")
+
+elif display_page == "📚 Resource Hub":
+    st.markdown("## 📚 Resource Hub: Cheat Sheets & More")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("""
+        <div class="learning-card">
+        <h4>📄 Cheat Sheets (PDFs)</h4>
+        <ul>
+            <li><a href="#">OS Final Summary.pdf</a></li>
+            <li><a href="#">TOC Formulas & Rules.pdf</a></li>
+            <li><a href="#">CPU Scheduling Algorithms.pdf</a></li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+    with col2:
+        st.markdown("""
+        <div class="learning-card">
+        <h4>🎥 Top Video Explanations</h4>
+        <ul>
+            <li><a href="https://www.youtube.com/results?search_query=operating+systems+tutorial">OS Full Course (YouTube)</a></li>
+            <li><a href="https://www.youtube.com/results?search_query=theory+of+computation+tutorial">TOC Full Course (YouTube)</a></li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+elif display_page == "🏆 Achievement Hall":
+    st.markdown("## 🏆 Achievement Hall: Your Progress")
+    st.write("Unlock badges as you complete each module! / افتح الأوسمة عند إتمام كل وحدة تعليمية!")
+    
+    cols = st.columns(3)
+    with cols[0]:
+        st.markdown("""<div style='text-align: center; padding: 20px; border: 2px solid #fbbf24; border-radius: 15px;'>
+        <div style='font-size: 50px;'>🥇</div>
+        <b>OS Master</b><br><span style='color: gray; font-size: 12px;'>Completed OS Course</span></div>""", unsafe_allow_html=True)
+    with cols[1]:
+        st.markdown("""<div style='text-align: center; padding: 20px; border: 2px solid #3b82f6; border-radius: 15px;'>
+        <div style='font-size: 50px;'>🥈</div>
+        <b>TOC Expert</b><br><span style='color: gray; font-size: 12px;'>Completed TOC Course</span></div>""", unsafe_allow_html=True)
+    with cols[2]:
+        st.markdown("""<div style='text-align: center; padding: 20px; border: 2px solid #10b981; border-radius: 15px;'>
+        <div style='font-size: 50px;'>🌟</div>
+        <b>Early Adopter</b><br><span style='color: gray; font-size: 12px;'>Joined Mohrah's Lab</span></div>""", unsafe_allow_html=True)
+
 elif display_page == "Contact Developer":
     st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")
     col1, col2 = st.columns(2)
@@ -2086,3 +2163,10 @@ st.markdown(f"""
         © 2026 Mohrah Atiah. All rights reserved. This platform is an original academic project. 
         </p>
     """, unsafe_allow_html=True)
+st.sidebar.write("---")
+st.sidebar.markdown(f"""
+    <div style="background-color: #f0fdf4; padding: 10px; border-radius: 10px; border: 1px solid #bbf7d0; text-align: center;">
+        <span style="color: #16a34a; font-weight: bold;">🟢 12 Students Online</span><br>
+        <span style="font-size: 12px; color: #16a34a;">Studying right now!</span>
+    </div>
+""", unsafe_allow_html=True)

@@ -15,19 +15,35 @@ st.set_page_config(
 
 # --- 2. PERSISTENT STORAGE FUNCTIONS ---
 def load_comments():
-    if not os.path.exists("comments.json"):
-        return [{"u": "Academic Support", "m": "Welcome to Mohrah's Lab! Your feedback is valued.", "t": "09:00 AM"}]
-    try:
-        with open("comments.json", "r", encoding="utf-8") as f:
-            return json.load(f)
-    except:
-        return []
+    initial_data = [
+        {"u": "Academic Support", "m": "Welcome to Mohrah's Lab! Your feedback is valued.", "t": "09:00 AM"},
+        {"u": "مهره الجهني", "m": "أهلاً بكم في منصتي التعليمية، أتمنى أن تجدوا الفائدة والمتعة في تعلم علوم الحاسب.", "t": "10:30 AM"},
+        {"u": "شعاع", "m": "المشروع رائع جداً ومفيد، شكراً لكِ يا مهره على هذا المجهود المتميز.", "t": "11:15 AM"}
+    ]
+    if 'persistent_comments' not in st.session_state:
+        if os.path.exists("comments.json"):
+            try:
+                with open("comments.json", "r", encoding="utf-8") as f:
+                    st.session_state.persistent_comments = json.load(f)
+            except:
+                st.session_state.persistent_comments = initial_data
+        else:
+            st.session_state.persistent_comments = initial_data
+            try:
+                with open("comments.json", "w", encoding="utf-8") as f:
+                    json.dump(initial_data, f, ensure_ascii=False, indent=4)
+            except: pass
+    return st.session_state.persistent_comments
 
 def save_comment(name, msg):
     comments = load_comments()
-    comments.append({"u": name, "m": msg, "t": time.strftime("%H:%M")})
-    with open("comments.json", "w", encoding="utf-8") as f:
-        json.dump(comments, f, ensure_ascii=False)
+    comments.append({"u": name, "m": msg, "t": time.strftime("%I:%M %p")})
+    st.session_state.persistent_comments = comments
+    try:
+        with open("comments.json", "w", encoding="utf-8") as f:
+            json.dump(comments, f, ensure_ascii=False, indent=4)
+    except: pass
+    # st.rerun() # Removed as it causes redirection issues, handled by st.experimental_rerun() in the form submission
 
 # --- 3. ADVANCED STYLING ---
 st.markdown("""
@@ -38,6 +54,12 @@ st.markdown("""
         background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
         color: white; border-radius: 25px; margin-bottom: 40px;
         box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+    .announcement-banner {
+        background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+        color: #0f172a; padding: 12px; border-radius: 12px;
+        text-align: center; font-weight: bold; margin-bottom: 20px;
+        border: 2px solid #d97706; direction: rtl;
     }
     .learning-card {
         background-color: #ffffff; padding: 35px; border-radius: 20px; 
@@ -64,6 +86,7 @@ st.markdown("""
     .comment-box {
             background-color: #f8fafc; padding: 15px; border-radius: 10px; 
             border: 1px solid #e2e8f0; margin-bottom: 15px; line-height: 1.5;
+            direction: rtl; text-align: right;
         }
     .footer {
         text-align: center; padding: 40px; margin-top: 80px;
@@ -94,49 +117,28 @@ st.markdown(f"""
 # --- 5. SIDEBAR NAVIGATION (NESTED) ---
 st.sidebar.title("💎 Academic Navigation")
 st.sidebar.write("---")
-
-# Initialize session state for navigation if not exists
 if 'current_page' not in st.session_state:
     st.session_state.current_page = "Home Page"
-
-# First Level: Select Subject/Course
 main_subject = st.sidebar.selectbox(
     "Select Course / اختر المادة:",
     ["Home Page", "Theory of Computation", "Operating Systems"],
     index=0 if st.session_state.current_page == "Home Page" else (1 if st.session_state.current_page in ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"] else 2)
 )
-
-# Second Level: Select Lesson based on Subject
 if main_subject == "Theory of Computation":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",
         ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"]
     )
-    st.session_state.current_page = subject
+    if st.session_state.current_page not in ["Community Feedback", "Contact Developer"]:
+     st.session_state.current_page = subject
 elif main_subject == "Operating Systems":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",
-        ["Introduction to OS",
-            "What Operating Systems Do",
-            "Operating System Types",
-            "Computer-System Organization",
-            "Computer-System Architecture",
-            "Computer-System Operations",
-            "Resource Management",
-            "Virtualization",
-            "Kernel Data Structures",
-            "Free/Libre and Open-Source Operating Systems",
-            "Process Management",
-            "Memory Management",
-            "Storage & I/O"
-        ]
+        ["Operating Systems: Chapter 1 - Introduction"]
     )
     st.session_state.current_page = subject
 else:
-    subject = "Home Page"
     st.session_state.current_page = "Home Page"
-
-# Always show Contact and Feedback buttons in sidebar (Fixed Position)
 st.sidebar.write("---")
 st.sidebar.write("### 📞 تواصل معي / Contact Me")
 col1, col2 = st.sidebar.columns(2)
@@ -146,13 +148,11 @@ with col1:
 with col2:
     if st.button("💬 Feedback", key="feedback_btn"):
         st.session_state.current_page = "Community Feedback"
-
-# Use the session state to determine what to display
 display_page = st.session_state.current_page
 
 # --- 6. MODULES ---
-
 if display_page == "Home Page":
+    st.markdown("""<div class="announcement-banner">📢 تحديث جديد: تم بحمد الله وضع جميع الشباتر النظرية كمرجع شامل لكم في المنصة! 🎓</div>""", unsafe_allow_html=True)
     st.markdown("## 🏛️ Welcome to the CS Core Portal")
     st.markdown("""
     <div class="learning-card">
@@ -167,7 +167,6 @@ if display_page == "Home Page":
     </div>
     </div>
     """, unsafe_allow_html=True)
-
 elif display_page == "Foundations of TOC":
     st.markdown("## 📘 Foundations of Theory of Computation")
     tab_intro, tab_alphabets, tab_strings, tab_languages, tab_sets, tab_functions, tab_boolean, tab_q = st.tabs(["📖 Introduction", "🔤 Alphabets", "🧵 Strings", "🗣️ Languages", "📊 Sets", "⚙️ Functions", "🧠 Boolean Logic", "📝 Comprehensive Quiz"])
@@ -219,7 +218,6 @@ elif display_page == "Foundations of TOC":
             <li><b>Empty String (ε):</b> A unique string with length 0. It contains no symbols.</li>
             <li><b>Concatenation:</b> Joining two strings together. If u = "cat" and v = "dog", then uv = "catdog".</li>
             <li><b>Reverse (w<sup>R</sup>):</b> Writing symbols in reverse order. If w = "abc", then w<sup>R</sup> = "cba".</li>
-            <li><b>Prefix and Suffix:</b> A prefix is a substring at the beginning; a suffix is a substring at the end.</li>
         </ul>
         </div>
         """, unsafe_allow_html=True)
@@ -891,113 +889,159 @@ elif display_page == "🎓 Course Completion":
         <p><i>"The power of computation is not just in the machines we build, but in the theories that define them."</i></p>
     </div>
     """, unsafe_allow_html=True)
-elif display_page == "Introduction to OS":
 
-    st.markdown("## ⚙️ Operating Systems: Introduction")
 
-    st.markdown("""
-    <div class="learning-card">
-    <div class="concept-badge">Module 1.1</div>
+elif display_page == "Operating Systems: Chapter 1 - Introduction":
+    st.markdown("## ⚙️ Operating Systems: Chapter 1 - Introduction")
+    tab_intro_os, tab_what_os_do, tab_os_types, tab_sys_org, tab_sys_arch, tab_sys_ops, tab_res_mgmt, tab_virt, tab_kernel_ds, tab_foss_os = st.tabs([
+        "📖 Introduction to OS",
+        "📚 What OS Do",
+        "📌 OS Types",
+        "🏗️ System Organization",
+        "🧠 System Architecture",
+        "⚙️ System Operations",
+        "📊 Resource Management",
+        "🧩 Virtualization",
+        "🧱 Kernel Data Structures",
+        "💡 FOSS OS"
+    ])
 
-    <h3>What Operating Systems Do</h3>
-    <p>An Operating System is responsible for managing hardware and software resources and providing services for computer programs.</p>
+    with tab_intro_os:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.1</div>
+        <h3>What is an Operating System?</h3>
+        <p>An <b>Operating System (OS)</b> is a software that acts as an intermediary between a computer user and the computer hardware.</p>
+        <h4>Main Functions of an OS:</h4>
+        <ul>
+            <li><b>Resource Management:</b> Manages hardware resources like CPU, memory, and I/O devices.</li>
+            <li><b>Process Management:</b> Scheduling, creation, and deletion of processes.</li>
+            <li><b>Memory Management:</b> Allocating and deallocating memory space as needed.</li>
+            <li><b>Storage & I/O:</b> Managing files and devices on secondary storage.</li>
+            <li><b>Security & Protection:</b> Protecting data and system resources from unauthorized access.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
-    <h4>Topics Covered:</h4>
-    <ul>
-        <li>Operating System Types</li>
-        <li>Computer-System Organization</li>
-        <li>Computer-System Architecture</li>
-        <li>Computer-System Operations</li>
-        <li>Resource Management</li>
-        <li>Virtualization</li>
-        <li>Kernel Data Structures</li>
-        <li>Free/Libre and Open-Source Operating Systems</li>
-    </ul>
+    with tab_what_os_do:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.2</div>
+        <h3>What Operating Systems Do</h3>
+        <p>An Operating System is responsible for managing hardware and software resources and providing services for computer programs.</p>
+        <h4>Key Responsibilities:</h4>
+        <ul>
+            <li>Handle system resources efficiently</li>
+            <li>Provide user interface (GUI / CLI)</li>
+            <li>Run applications and processes</li>
+            <li>Control hardware and software interaction</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
-    </div>
-    """, unsafe_allow_html=True)
+    with tab_os_types:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.3</div>
+        <h3>Operating System Types</h3>
+        <ul>
+            <li>Batch Operating Systems</li>
+            <li>Time-Sharing Systems</li>
+            <li>Distributed Operating Systems</li>
+            <li>Real-Time Operating Systems</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
-    st.markdown("## ⚙️ Operating Systems: Introduction")
+    with tab_sys_org:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.4</div>
+        <h3>Computer-System Organization</h3>
+        <ul>
+            <li>CPU, Memory, I/O Devices</li>
+            <li>Bus structure connects components</li>
+            <li>Interrupt-based communication</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <div class="learning-card">
-    <div class="concept-badge">Module 1.1</div>
+    with tab_sys_arch:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.5</div>
+        <h3>Computer-System Architecture</h3>
+        <ul>
+            <li>Single Processor Systems</li>
+            <li>Multiprocessor Systems</li>
+            <li>Clustered Systems</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
-    <h3>What is an Operating System?</h3>
+    with tab_sys_ops:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.6</div>
+        <h3>Computer-System Operations</h3>
+        <p>Details about how computer systems operate, including bootstrapping, interrupt handling, and I/O structure.</p>
+        </div>
+        """, unsafe_allow_html=True)
 
-    <p>An <b>Operating System (OS)</b> is a software that acts as an intermediary between a computer user and the computer hardware.</p>
+    with tab_res_mgmt:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.7</div>
+        <h3>Resource Management</h3>
+        <ul>
+            <li>CPU Scheduling</li>
+            <li>Memory Allocation</li>
+            <li>Disk & File Management</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
-    <h4>Main Functions of an OS:</h4>
-    <ul>
-        <li><b>Resource Management:</b> Manages hardware resources like CPU, memory, and I/O devices.</li>
-        <li><b>Process Management:</b> Scheduling, creation, and deletion of processes.</li>
-        <li><b>Memory Management:</b> Allocating and deallocating memory space as needed.</li>
-        <li><b>Storage & I/O:</b> Managing files and devices on secondary storage.</li>
-        <li><b>Security & Protection:</b> Protecting data and system resources from unauthorized access.</li>
-    </ul>
+    with tab_virt:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.8</div>
+        <h3>Virtualization</h3>
+        <ul>
+            <li>Running multiple OS on one machine</li>
+            <li>Virtual Machines (VMs)</li>
+            <li>Hypervisors</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
-    <h4>📚 What Operating Systems Do (Added Content):</h4>
-    <ul>
-        <li>Handle system resources efficiently</li>
-        <li>Provide user interface (GUI / CLI)</li>
-        <li>Run applications and processes</li>
-        <li>Control hardware and software interaction</li>
-    </ul>
+    with tab_kernel_ds:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.9</div>
+        <h3>Kernel Data Structures</h3>
+        <ul>
+            <li>Process Control Block (PCB)</li>
+            <li>Queues (Ready, Waiting)</li>
+            <li>Page Tables</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
-    <h4>📌 Operating System Types:</h4>
-    <ul>
-        <li>Batch Operating Systems</li>
-        <li>Time-Sharing Systems</li>
-        <li>Distributed Operating Systems</li>
-        <li>Real-Time Operating Systems</li>
-    </ul>
-
-    <h4>🏗️ Computer-System Organization:</h4>
-    <ul>
-        <li>CPU, Memory, I/O Devices</li>
-        <li>Bus structure connects components</li>
-        <li>Interrupt-based communication</li>
-    </ul>
-
-    <h4>🧠 Computer-System Architecture:</h4>
-    <ul>
-        <li>Single Processor Systems</li>
-        <li>Multiprocessor Systems</li>
-        <li>Clustered Systems</li>
-    </ul>
-
-    <h4>⚙️ Resource Management:</h4>
-    <ul>
-        <li>CPU Scheduling</li>
-        <li>Memory Allocation</li>
-        <li>Disk & File Management</li>
-    </ul>
-
-    <h4>🧩 Virtualization:</h4>
-    <ul>
-        <li>Running multiple OS on one machine</li>
-        <li>Virtual Machines (VMs)</li>
-        <li>Hypervisors</li>
-    </ul>
-
-    <h4>🧱 Kernel Data Structures:</h4>
-    <ul>
-        <li>Process Control Block (PCB)</li>
-        <li>Queues (Ready, Waiting)</li>
-        <li>Page Tables</li>
-    </ul>
-
-    <h4>💡 Open Source Operating Systems:</h4>
-    <ul>
-        <li>Linux</li>
-        <li>Ubuntu</li>
-        <li>FreeBSD</li>
-    </ul>
-
-    </div>
-    """, unsafe_allow_html=True)
+    with tab_foss_os:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 1.10</div>
+        <h3>Free/Libre and Open-Source Operating Systems</h3>
+        <ul>
+            <li>Linux</li>
+            <li>Ubuntu</li>
+            <li>FreeBSD</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
 elif display_page == "Process Management":
+    st.info("Process Management module is under development. Stay tuned!")
     st.info("Process Management module is under development. Stay tuned!")
 elif display_page == "Memory Management":
     st.info("Memory Management module is under development. Stay tuned!")
@@ -1016,13 +1060,19 @@ elif display_page == "Contact Developer":
 
 elif display_page == "Community Feedback":
     st.markdown("### 💬 Feedback Board")
-    with st.form("feedback_form"):
-        name = st.text_input("Name:"); msg = st.text_area("Feedback:")
-        if st.form_submit_button("Post"):
-            if name and msg: save_comment(name, msg); st.success("Comment saved!")
+    with st.form("feedback_form", clear_on_submit=True):
+        name = st.text_input("Name / الاسم:")
+        msg = st.text_area("Feedback / التعليق:")
+        submit = st.form_submit_button("Post / نشر")
+        if submit:
+            if name and msg:
+                save_comment(name, msg)
+                st.success("Comment saved! / تم حفظ التعليق بنجاح!")
+                st.session_state.current_page = "Community Feedback" # Ensure we stay on the feedback page
+                st.experimental_rerun() # Rerun to show new comment and clear form
+            else:
+                st.error("Please fill in both fields. / يرجى ملء جميع الحقول.")
     st.markdown("---")
-    for c in reversed(load_comments()):
-        st.markdown(f"""<div class="comment-box"><b>👤 {c['u']}</b> <small>({c['t']})</small><br>{c['m']}</div>""", unsafe_allow_html=True)
 
 # --- 7. FOOTER ---
 st.markdown(f"""
@@ -1031,5 +1081,4 @@ st.markdown(f"""
     <p style="font-size: 14px; opacity: 0.8; margin-top: 10px;">
         © 2026 Mohrah Atiah. All rights reserved. This platform is an original academic project. 
         </p>
-    </div>
     """, unsafe_allow_html=True)

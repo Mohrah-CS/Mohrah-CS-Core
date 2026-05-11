@@ -135,7 +135,7 @@ if main_subject == "Theory of Computation":
 elif main_subject == "Operating Systems":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",
-        ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services", "Operating Systems: Chapter 3 - Process Management", "Operating Systems: Chapter 4 - Threads", "Operating Systems: Chapter 5 - CPU Scheduling", "Operating Systems: Chapter 6 - Synchronization", "Operating Systems: Chapter 7 - Deadlocks", "Operating Systems: Chapter 8 - Memory Management"]
+        ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services", "Operating Systems: Chapter 3 - Process Management", "Operating Systems: Chapter 4 - Threads", "Operating Systems: Chapter 5 - CPU Scheduling", "Operating Systems: Chapter 6 - Synchronization", "Operating Systems: Chapter 7 - Deadlocks", "Operating Systems: Chapter 8 - Memory Management", "Operating Systems: Chapter 9 - Mass-Storage", "Operating Systems: Chapter 10 - File Systems", "🎓 OS Course Completion"]
     )
     if st.session_state.current_page not in ["Community Feedback", "Contact Developer"]:
         st.session_state.current_page = subject
@@ -1846,6 +1846,198 @@ elif display_page == "Operating Systems: Chapter 8 - Memory Management":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
+elif display_page == "Operating Systems: Chapter 9 - Mass-Storage":
+    st.markdown("## 💾 Operating Systems: Chapter 9 - Mass-Storage Systems")
+    tab_overview, tab_hdd, tab_nvm, tab_error, tab_raid = st.tabs([
+        "🏗️ Overview",
+        "💿 HDD Scheduling",
+        "⚡ NVM Scheduling",
+        "🔍 Error Detection",
+        "🛡️ RAID Structure"
+    ])
+
+    with tab_overview:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 9.1</div>
+        <h3>Overview of Mass Storage Structure</h3>
+        <p>Mass storage systems are used to store large amounts of data permanently. The most common types are <b>Hard Disk Drives (HDD)</b> and <b>Non-Volatile Memory (NVM)</b> like SSDs.</p>
+        <p>The operating system is responsible for using the storage hardware efficiently, providing fast access, and ensuring data reliability.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_hdd:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 9.2</div>
+        <h3>HDD Scheduling</h3>
+        <p>For HDD, the goal is to minimize <b>Seek Time</b> (the time for the disk arm to move the heads to the cylinder containing the desired sector).</p>
+        <h4>Scheduling Algorithms:</h4>
+        <ul>
+            <li><b>FCFS:</b> First-Come, First-Served. Simple but may cause long movements.</li>
+            <li><b>SCAN (Elevator Algorithm):</b> The disk arm moves from one end to the other, servicing requests along the way.</li>
+            <li><b>C-SCAN (Circular SCAN):</b> Similar to SCAN but only services requests in one direction, then jumps back to the start.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_nvm:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 9.3</div>
+        <h3>NVM Scheduling</h3>
+        <p><b>Non-Volatile Memory (NVM)</b> devices, like SSDs, have no moving parts. Therefore, seek time is not an issue. Scheduling for NVM focuses more on reducing latency and managing write endurance.</p>
+        <p>Most NVM devices use simple FCFS scheduling because the access time is nearly uniform across the entire device.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_error:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 9.4</div>
+        <h3>Error Detection and Correction</h3>
+        <p>Storage devices are prone to errors due to physical wear or electromagnetic interference. Systems use <b>Error-Correcting Codes (ECC)</b> to detect and fix small data corruptions automatically.</p>
+        <p><b>Checksums:</b> Used to verify the integrity of data blocks by comparing calculated values during read and write operations.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_raid:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 9.5</div>
+        <h3>RAID Structure</h3>
+        <p><b>RAID (Redundant Array of Independent Disks)</b> is a technology that combines multiple physical disk drives into a single logical unit for data redundancy and performance improvement.</p>
+        <ul>
+            <li><b>RAID 0:</b> Striping (Performance, no redundancy).</li>
+            <li><b>RAID 1:</b> Mirroring (High redundancy).</li>
+            <li><b>RAID 5:</b> Striping with distributed parity (Balance of performance and redundancy).</li>
+            <li><b>RAID 6:</b> Dual parity (Can survive two disk failures).</li>
+            <li><b>RAID 10:</b> A combination of mirroring and striping.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+elif display_page == "Operating Systems: Chapter 10 - File Systems":
+    st.markdown("## 📂 Operating Systems: Chapter 10 - File Systems")
+    tab_concept, tab_access, tab_dir, tab_alloc, tab_free = st.tabs([
+        "📄 File Concept",
+        "🖱️ Access Methods",
+        "📁 Directory Structure",
+        "📦 Allocation Methods",
+        "🆓 Free Space"
+    ])
+
+    with tab_concept:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 10.1</div>
+        <h3>File Concept</h3>
+        <p>A <b>File</b> is a logical storage unit mapped by the operating system onto physical devices. It is a collection of related information recorded on secondary storage.</p>
+        <p><b>Attributes:</b> Name, Identifier, Type, Location, Size, Protection, Time/Date/User ID.</p>
+        <p><b>Operations:</b> Create, Write, Read, Reposition (seek), Delete, Truncate.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_access:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 10.2</div>
+        <h3>Access Methods</h3>
+        <ul>
+            <li><b>Sequential Access:</b> Information in the file is processed in order, one record after the other (like a tape).</li>
+            <li><b>Direct Access (Relative Access):</b> A file is made up of fixed-length logical records that allow programs to read and write records rapidly in no particular order.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_dir:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 10.3</div>
+        <h3>Directory Structure</h3>
+        <p>The <b>Directory</b> is a symbol table that translates file names into their directory entries. It helps organize and provide information about all files in the system.</p>
+        <ul>
+            <li><b>Single-Level Directory:</b> All files are in the same directory (easy but naming conflicts).</li>
+            <li><b>Two-Level Directory:</b> Separate directory for each user.</li>
+            <li><b>Tree-Structured Directory:</b> Users can create their own subdirectories and organize files (most common).</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_alloc:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 10.4</div>
+        <h3>Allocation Methods</h3>
+        <p>Refers to how disk blocks are allocated for files:</p>
+        <ul>
+            <li><b>Contiguous Allocation:</b> Each file occupies a set of contiguous blocks (Fast but fragmentation).</li>
+            <li><b>Linked Allocation:</b> Each file is a linked list of disk blocks (No fragmentation but slow).</li>
+            <li><b>Indexed Allocation:</b> Brings all pointers together into one location: the index block (Supports direct access without fragmentation).</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_free:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 10.5</div>
+        <h3>Free Space Management</h3>
+        <p>The system maintains a <b>Free-Space List</b> to keep track of available disk blocks.</p>
+        <ul>
+            <li><b>Bit Vector:</b> Each block is represented by 1 bit (0=allocated, 1=free).</li>
+            <li><b>Linked List:</b> Link together all the free disk blocks.</li>
+            <li><b>Grouping:</b> Store the addresses of n free blocks in the first free block.</li>
+            <li><b>Counting:</b> Store the address of the first free block and the number of free blocks following it.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+elif display_page == "🎓 OS Course Completion":
+    st.balloons()
+    st.markdown("""
+    <div class="header-box" style="background: linear-gradient(135deg, #065f46 0%, #059669 100%);">
+        <h1 style="color: white; margin: 0;">🎓 Operating Systems: Final Review</h1>
+        <p style="color: #d1fae5; font-size: 20px;">Comprehensive Summary & Key Concepts</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("""
+        <div class="learning-card">
+        <h3>🌟 Core Pillars of OS</h3>
+        <p>Operating Systems manage the complex interaction between hardware and software. The main areas we covered are:</p>
+        <ul>
+            <li><b>Process Management:</b> Creation, scheduling, and synchronization of processes and threads.</li>
+            <li><b>Memory Management:</b> Paging, segmentation, and virtual memory to optimize RAM usage.</li>
+            <li><b>Storage Management:</b> Efficient data placement on HDDs/SSDs and file system organization.</li>
+            <li><b>Protection & Security:</b> Ensuring safe access to system resources.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+        <div class="learning-card">
+        <h3>📝 Exam Preparation Tips</h3>
+        <ul>
+            <li><b>Scheduling:</b> Practice Gantt charts for FCFS, SJF, and Round Robin.</li>
+            <li><b>Deadlocks:</b> Understand the 4 conditions and Banker's Algorithm.</li>
+            <li><b>Memory:</b> Be able to calculate physical addresses from logical addresses in Paging.</li>
+            <li><b>Synchronization:</b> Understand Mutex vs Semaphores and the Critical Section problem.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card" style="text-align: center;">
+        <h3>🏆 Congratulations! / تهانينا!</h3>
+        <p>لقد أتممت بنجاح مراجعة منهج <b>نظم التشغيل (Operating Systems)</b>. هذه المنصة صُممت لتكون مرجعك الدائم للفهم والتميز.</p>
+        <p><b>"Education is the most powerful weapon which you can use to change the world."</b></p>
+    </div>
+    """, unsafe_allow_html=True)
 
 elif display_page == "Memory Management":
     st.info("Memory Management module is under development. Stay tuned!")

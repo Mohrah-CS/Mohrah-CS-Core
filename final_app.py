@@ -2104,103 +2104,95 @@ elif display_page == "Storage & I/O":
     st.info("Storage & I/O module is under development. Stay tuned!")
 
 
+
 elif display_page == "🚀 Smart Exam Prep":
-    st.markdown("## 🚀 Smart Exam Prep: Advanced Quiz Bank")
-    st.warning("⚠️ Warning: These questions are designed to be challenging! / تحذير: هذه الأسئلة مصممة لتكون صعبة ومتقدمة!")
+    st.markdown("## 🚀 The Ultimate Challenge: Professional Quiz Bank")
+    st.error("🚨 LEVEL: IMPOSSIBLE | مستوى الصعوبة: مستحيل")
+    st.write("هذا القسم مصمم للمحترفين فقط. الأسئلة هنا تحاكي اختبارات الشهادات العالمية والاختبارات النهائية الأكثر تعقيداً.")
     
-    quiz_subject = st.selectbox("Select Subject / اختر المادة:", ["Operating Systems (OS)", "Theory of Computation (TOC)"])
+    quiz_subject = st.selectbox("Choose Your Battlefield / اختر المادة:", ["Operating Systems (OS)", "Theory of Computation (TOC)"])
     
     if quiz_subject == "Operating Systems (OS)":
-        st.subheader("🖥️ OS Advanced Challenge")
-        os_q = [
-            {
-                "q": "1. In the Banker's Algorithm, if the system is in a 'Safe State', it means:",
-                "o": ["Deadlock is impossible", "Deadlock is possible but unlikely", "The system can avoid deadlock by following a specific sequence", "All processes will finish at the same time"],
-                "a": "The system can avoid deadlock by following a specific sequence"
-            },
-            {
-                "q": "2. Which scheduling algorithm can suffer from the 'Convoy Effect'?",
-                "o": ["Round Robin", "SJF", "FCFS", "Priority Scheduling"],
-                "a": "FCFS"
-            },
-            {
-                "q": "3. A system has 3 processes and 4 resources of the same type. Each process needs 2 resources to complete. Is deadlock possible?",
-                "o": ["Yes", "No", "Depends on arrival time", "Only if preemption is allowed"],
-                "a": "No"
-            },
-            {
-                "q": "4. What is the main advantage of Inverted Page Tables?",
-                "o": ["Faster address translation", "Reduced memory overhead for page tables", "Easier implementation of shared memory", "Elimination of TLB misses"],
-                "a": "Reduced memory overhead for page tables"
-            },
-            {
-                "q": "5. In the context of Disk Scheduling, which algorithm is most prone to starvation?",
-                "o": ["SCAN", "C-SCAN", "SSTF", "FCFS"],
-                "a": "SSTF"
-            }
+        st.subheader("🖥️ OS Hardcore Challenge (20 Questions)")
+        os_bank = [
+            {"q": "1. In a system with 4 resources of the same type, shared by 3 processes, each needing at most 2 resources. The system is:", "o": ["Always deadlock-free", "Prone to deadlock", "In an unsafe state", "Inconsistent"], "a": "Always deadlock-free"},
+            {"q": "2. Which of these is NOT a necessary condition for deadlock?", "o": ["Mutual Exclusion", "Hold and Wait", "No Preemption", "Circular Wait", "Preemption"], "a": "Preemption"},
+            {"q": "3. If the hit ratio of a TLB is 80%, and it takes 20ns to search TLB and 100ns to access memory, what is the Effective Access Time (EAT)?", "o": ["120ns", "140ns", "100ns", "180ns"], "a": "140ns"},
+            {"q": "4. In UNIX, which system call is used to replace the process's memory space with a new program?", "o": ["fork()", "exec()", "wait()", "exit()"], "a": "exec()"},
+            {"q": "5. Which scheduling algorithm is optimal in terms of minimizing average waiting time?", "o": ["FCFS", "RR", "SJF (Non-preemptive)", "SRTF (Preemptive SJF)"], "a": "SRTF (Preemptive SJF)"},
+            {"q": "6. Belady's Anomaly is a phenomenon where adding more page frames results in:", "o": ["Fewer page faults", "More page faults", "Same page faults", "Faster execution"], "a": "More page faults"},
+            {"q": "7. A critical section is a program segment where:", "o": ["The OS kernel runs", "Shared data is accessed", "Deadlock occurs", "Processes are terminated"], "a": "Shared data is accessed"},
+            {"q": "8. Which RAID level provides no redundancy and focuses only on performance?", "o": ["RAID 0", "RAID 1", "RAID 5", "RAID 10"], "a": "RAID 0"},
+            {"q": "9. In the context of I/O, 'Spooling' stands for:", "o": ["Simultaneous Peripheral Operations On-Line", "Sequential Peripheral Output Line", "System Peripheral Operations Link", "Simple Process Output Line"], "a": "Simultaneous Peripheral Operations On-Line"},
+            {"q": "10. What is the main purpose of the 'Dirty Bit' in paging?", "o": ["To mark a page as read-only", "To indicate if a page has been modified", "To prevent page faults", "To speed up TLB search"], "a": "To indicate if a page has been modified"},
+            {"q": "11. A thread shares with other threads of the same process its:", "o": ["Stack", "Registers", "Code section", "Thread ID"], "a": "Code section"},
+            {"q": "12. In Banker's algorithm, the 'Need' matrix is calculated as:", "o": ["Max + Allocation", "Max - Allocation", "Allocation - Max", "Max * Allocation"], "a": "Max - Allocation"},
+            {"q": "13. Which of the following is a solution to the 'External Fragmentation' problem?", "o": ["Paging", "Segmentation", "Fixed Partitioning", "Compaction"], "a": "Compaction"},
+            {"q": "14. The 'Thrashing' occurs when:", "o": ["The CPU is idle", "A process is in a safe state", "The system spends more time paging than executing", "The disk is full"], "a": "The system spends more time paging than executing"},
+            {"q": "15. Which of the following is NOT a kernel structure?", "o": ["Monolithic", "Microkernel", "Exokernel", "Multithreaded"], "a": "Multithreaded"},
+            {"q": "16. A 'Zombie' process is a process that has:", "o": ["Not started yet", "Finished execution but still has an entry in the process table", "Been killed by the user", "No parent"], "a": "Finished execution but still has an entry in the process table"},
+            {"q": "17. The 'Wait' operation on a semaphore decreases its value. If the value becomes negative, the process is:", "o": ["Terminated", "Blocked", "Continued", "Restarted"], "a": "Blocked"},
+            {"q": "18. In the Buddy System memory allocation, memory is divided into blocks of size:", "o": ["Fixed 4KB", "Powers of 2", "Variable sizes based on process", "Prime numbers"], "a": "Powers of 2"},
+            {"q": "19. Which disk scheduling algorithm is also known as the 'Elevator Algorithm'?", "o": ["FCFS", "SSTF", "SCAN", "LOOK"], "a": "SCAN"},
+            {"q": "20. What is the purpose of the 'Medium-term Scheduler'?", "o": ["Selects processes from the pool to load into memory", "Selects processes from ready queue to execute", "Swaps processes in and out of memory", "Manages I/O devices"], "a": "Swaps processes in and out of memory"}
         ]
         
         score = 0
-        for i, item in enumerate(os_q):
-            choice = st.radio(item["q"], item["o"], key=f"os_q_{i}")
+        for i, item in enumerate(os_bank):
+            choice = st.radio(item["q"], item["o"], key=f"os_huge_{i}")
             if choice == item["a"]:
                 score += 1
         
-        if st.button("Submit OS Quiz"):
-            st.write(f"### Your Score: {score}/{len(os_q)}")
-            if score == len(os_q):
-                st.success("🔥 Outstanding! You are a true OS Master!")
+        if st.button("Submit OS Mega Quiz"):
+            st.write(f"### Final Result: {score}/{len(os_bank)}")
+            if score == len(os_bank):
+                st.success("🏆 LEGENDARY! You've conquered the OS Mega Bank!")
                 st.balloons()
-            elif score > len(os_q)//2:
-                st.info("Good job! But there is room for improvement.")
+            elif score >= 15:
+                st.info("Excellent! You have a very strong grasp of OS.")
             else:
-                st.error("Keep studying! OS concepts require deep focus.")
+                st.warning("Keep pushing! These questions are tough for a reason.")
 
     elif quiz_subject == "Theory of Computation (TOC)":
-        st.subheader("🧠 TOC Theoretical Masterclass")
-        toc_q = [
-            {
-                "q": "1. If a language L is recognized by an NFA, then it MUST be:",
-                "o": ["Context-Free", "Regular", "Decidable", "Recursive"],
-                "a": "Regular"
-            },
-            {
-                "q": "2. The Pumping Lemma for Regular Languages is primarily used to prove:",
-                "o": ["A language is regular", "A language is NOT regular", "An NFA is equivalent to a DFA", "A grammar is ambiguous"],
-                "a": "A language is NOT regular"
-            },
-            {
-                "q": "3. Which of the following is TRUE about the Halting Problem?",
-                "o": ["It is decidable", "It is undecidable", "It can be solved by a PDA", "It only applies to finite strings"],
-                "a": "It is undecidable"
-            },
-            {
-                "q": "4. A Pushdown Automaton (PDA) is equivalent in power to which type of grammar?",
-                "o": ["Regular Grammar", "Context-Free Grammar", "Context-Sensitive Grammar", "Unrestricted Grammar"],
-                "a": "Context-Free Grammar"
-            },
-            {
-                "q": "5. Which machine can recognize the language {a^n b^n c^n | n >= 0}?",
-                "o": ["DFA", "PDA", "Turing Machine", "NFA"],
-                "a": "Turing Machine"
-            }
+        st.subheader("🧠 TOC Theoretical Battlefield (20 Questions)")
+        toc_bank = [
+            {"q": "1. Which of the following is the most powerful machine?", "o": ["DFA", "PDA", "Turing Machine", "LBA"], "a": "Turing Machine"},
+            {"q": "2. The language L = {a^n b^n | n >= 0} is:", "o": ["Regular", "Context-Free", "Context-Sensitive", "Unrestricted"], "a": "Context-Free"},
+            {"q": "3. A language is 'Recursively Enumerable' if it is recognized by:", "o": ["DFA", "PDA", "Turing Machine", "Finite State Machine"], "a": "Turing Machine"},
+            {"q": "4. The 'Pumping Lemma' for Context-Free Languages uses the value:", "o": ["n", "p", "k", "m"], "a": "p"},
+            {"q": "5. Which of the following problems is 'Undecidable'?", "o": ["DFA Acceptance", "CFG Emptiness", "The Halting Problem", "NFA to DFA Conversion"], "a": "The Halting Problem"},
+            {"q": "6. A grammar is 'Ambiguous' if it produces:", "o": ["No strings", "More than one leftmost derivation for a string", "Only infinite strings", "Only regular languages"], "a": "More than one leftmost derivation for a string"},
+            {"q": "7. The intersection of two Regular Languages is always:", "o": ["Regular", "Context-Free", "Non-regular", "Recursive"], "a": "Regular"},
+            {"q": "8. Every Regular Language is also a Context-Free Language.", "o": ["True", "False"], "a": "True"},
+            {"q": "9. A Turing Machine that always halts is called:", "o": ["Universal TM", "Decider", "Recognizer", "Linear Bounded Automaton"], "a": "Decider"},
+            {"q": "10. Chomsky Normal Form (CNF) requires productions to be of the form:", "o": ["A -> BC or A -> a", "A -> aB", "A -> B", "A -> abc"], "a": "A -> BC or A -> a"},
+            {"q": "11. The set of all strings over {0,1} is:", "o": ["Finite", "Countably Infinite", "Uncountably Infinite", "Empty"], "a": "Countably Infinite"},
+            {"q": "12. Which machine uses two stacks to simulate a Turing Machine?", "o": ["DFA", "PDA", "2-stack PDA", "NFA"], "a": "2-stack PDA"},
+            {"q": "13. The 'Rice's Theorem' states that any non-trivial property of the language recognized by a TM is:", "o": ["Decidable", "Undecidable", "Regular", "Context-Free"], "a": "Undecidable"},
+            {"q": "14. What is the time complexity of the CYK algorithm for CFG parsing?", "o": ["O(n)", "O(n^2)", "O(n^3)", "O(2^n)"], "a": "O(n^3)"},
+            {"q": "15. A language is 'Regular' if and only if it is described by a:", "o": ["Regular Expression", "PDA", "Turing Machine", "Context-Free Grammar"], "a": "Regular Expression"},
+            {"q": "16. Greibach Normal Form (GNF) requires productions to start with:", "o": ["A non-terminal", "A terminal", "Two non-terminals", "An epsilon"], "a": "A terminal"},
+            {"q": "17. The 'Empty String' is denoted by:", "o": ["Sigma", "Delta", "Epsilon", "Phi"], "a": "Epsilon"},
+            {"q": "18. Which of the following is NOT a closure property of Context-Free Languages?", "o": ["Union", "Concatenation", "Kleene Star", "Intersection"], "a": "Intersection"},
+            {"q": "19. The 'Universal Turing Machine' (UTM) can simulate:", "o": ["Only DFAs", "Only PDAs", "Any other Turing Machine", "Only itself"], "a": "Any other Turing Machine"},
+            {"q": "20. The 'Church-Turing Thesis' states that:", "o": ["Everything is decidable", "Turing Machines define the limit of effective computation", "PDAs are as powerful as TMs", "DFAs are better than NFAs"], "a": "Turing Machines define the limit of effective computation"}
         ]
         
         score = 0
-        for i, item in enumerate(toc_q):
-            choice = st.radio(item["q"], item["o"], key=f"toc_q_{i}")
+        for i, item in enumerate(toc_bank):
+            choice = st.radio(item["q"], item["o"], key=f"toc_huge_{i}")
             if choice == item["a"]:
                 score += 1
         
-        if st.button("Submit TOC Quiz"):
-            st.write(f"### Your Score: {score}/{len(toc_q)}")
-            if score == len(toc_q):
-                st.success("💎 Incredible! You've mastered the theoretical foundations!")
+        if st.button("Submit TOC Mega Quiz"):
+            st.write(f"### Final Result: {score}/{len(toc_bank)}")
+            if score == len(toc_bank):
+                st.success("💎 GOD-LIKE! You have mastered the theory of computation!")
                 st.balloons()
-            elif score > len(toc_q)//2:
-                st.info("Great effort! Review the Pumping Lemma and Turing Machines.")
+            elif score >= 15:
+                st.info("Great job! You are ready for the final exam.")
             else:
-                st.error("TOC is challenging. Re-read the modules and try again!")
+                st.warning("Theory is deep. Re-read the modules and try again!")
 elif display_page == "📚 Resource Hub":
     st.markdown("## 📚 Deep-Dive Resource Hub")
     st.write("هنا تجد ملخصات PDF عميقة وشاملة لكل شابتر، تم إعدادها بعناية لتكون مرجعك النهائي.")

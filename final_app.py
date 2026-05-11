@@ -135,7 +135,7 @@ if main_subject == "Theory of Computation":
 elif main_subject == "Operating Systems":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",
-        ["Operating Systems: Chapter 1 - Introduction"]
+        ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services"]
     )
     if st.session_state.current_page not in ["Community Feedback", "Contact Developer"]:
         st.session_state.current_page = subject
@@ -1043,8 +1043,137 @@ elif display_page == "Operating Systems: Chapter 1 - Introduction":
         </div>
         """, unsafe_allow_html=True)
 
+elif display_page == "Operating Systems: Chapter 2 - Structure & Services":
+    st.markdown("## 🏗️ Operating Systems: Chapter 2 - Structure & Services")
+    tab_services, tab_interface, tab_calls, tab_sys_services, tab_link_load, tab_app_specific, tab_design, tab_structure, tab_boot = st.tabs([
+        "🛠️ OS Services",
+        "🖥️ OS Interface",
+        "📞 System Calls",
+        "⚙️ System Services",
+        "🔗 Linkers & Loaders",
+        "📱 App Specificity",
+        "🎨 Design & Impl",
+        "🏗️ OS Structure",
+        "🚀 Build & Boot"
+    ])
+
+    with tab_services:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 2.1</div>
+        <h3>Operating System Services</h3>
+        <p>Operating systems provide an environment for execution of programs and services to programs and users.</p>
+        <ul>
+            <li><b>User Interface:</b> CLI, GUI, or Touch.</li>
+            <li><b>Program Execution:</b> Loading and running programs.</li>
+            <li><b>I/O Operations:</b> Managing input and output devices.</li>
+            <li><b>File-System Manipulation:</b> Reading, writing, and creating files.</li>
+            <li><b>Communications:</b> Exchange of information between processes.</li>
+            <li><b>Error Detection:</b> Detecting and responding to hardware/software errors.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_interface:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 2.2</div>
+        <h3>User and Operating System Interface</h3>
+        <ul>
+            <li><b>Command Line Interface (CLI):</b> Allows direct command entry.</li>
+            <li><b>Graphical User Interface (GUI):</b> User-friendly desktop metaphor interface.</li>
+            <li><b>Touchscreen Interface:</b> Gesture-based interaction.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_calls:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 2.3</div>
+        <h3>System Calls</h3>
+        <p>Programming interface to the services provided by the OS. Typically written in C or C++.</p>
+        <h4>Types of System Calls:</h4>
+        <ul>
+            <li>Process Control</li>
+            <li>File Management</li>
+            <li>Device Management</li>
+            <li>Information Maintenance</li>
+            <li>Communications</li>
+            <li>Protection</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_sys_services:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 2.4</div>
+        <h3>System Services</h3>
+        <p>System programs provide a convenient environment for program development and execution.</p>
+        <ul>
+            <li>File manipulation</li>
+            <li>Status information</li>
+            <li>Programming language support</li>
+            <li>Program loading and execution</li>
+            <li>Communications</li>
+            <li>Background services</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_link_load:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 2.5</div>
+        <h3>Linkers and Loaders</h3>
+        <p><b>Linker:</b> Combines several object files into a single executable binary.</p>
+        <p><b>Loader:</b> Loads the executable binary into memory for execution.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_app_specific:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 2.6</div>
+        <h3>Why Applications are OS Specific</h3>
+        <p>Apps are often compiled for a specific OS because each OS provides different system calls, binary formats, and instruction sets.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_design:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 2.7</div>
+        <h3>Design and Implementation</h3>
+        <p>Design goals can be divided into <b>User Goals</b> (easy to use, reliable) and <b>System Goals</b> (easy to design, implement, and maintain).</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_structure:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 2.8</div>
+        <h3>Operating System Structure</h3>
+        <ul>
+            <li><b>Monolithic:</b> All OS services run in the kernel.</li>
+            <li><b>Layered:</b> OS is divided into a number of layers.</li>
+            <li><b>Microkernel:</b> Moves as much from the kernel into user space as possible.</li>
+            <li><b>Modules:</b> Uses object-oriented approach to load core components.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_boot:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 2.9</div>
+        <h3>Building and Booting an OS</h3>
+        <p>The process of starting a computer by loading the kernel. The <b>Bootstrap Loader</b> (stored in ROM or EEPROM) locates the kernel, loads it into memory, and starts it.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
 elif display_page == "Process Management":
-    st.info("Process Management module is under development. Stay tuned!")
     st.info("Process Management module is under development. Stay tuned!")
 elif display_page == "Memory Management":
     st.info("Memory Management module is under development. Stay tuned!")

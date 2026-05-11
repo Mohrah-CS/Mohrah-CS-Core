@@ -2077,48 +2077,110 @@ elif display_page == "🚀 Smart Exam Prep":
             else:
                 st.error("Think about which machine uses a Stack.")
 
+
 elif display_page == "📚 Resource Hub":
-    st.markdown("## 📚 Resource Hub: Cheat Sheets & More")
+    st.markdown("## 📚 Deep-Dive Resource Hub")
+    st.write("هنا تجد ملخصات PDF عميقة وشاملة لكل شابتر، تم إعدادها بعناية لتكون مرجعك النهائي.")
+    
+    tab_os_res, tab_toc_res = st.tabs(["🖥️ Operating Systems Resources", "🧠 Theory of Computation Resources"])
+    
+    with tab_os_res:
+        st.markdown("### 📄 Comprehensive OS Chapter Summaries")
+        os_chapters = [
+            "Chapter 1: Introduction to OS Concepts",
+            "Chapter 2: OS Structures & System Calls",
+            "Chapter 3: Process Management & IPC",
+            "Chapter 4: Threads & Multicore Programming",
+            "Chapter 5: CPU Scheduling Algorithms (Deep Analysis)",
+            "Chapter 6: Process Synchronization & Mutex",
+            "Chapter 7: Deadlocks: Prevention & Avoidance",
+            "Chapter 8: Memory Management & Paging",
+            "Chapter 9: Mass-Storage & RAID Structures",
+            "Chapter 10: File Systems & Allocation Methods"
+        ]
+        for ch in os_chapters:
+            col_a, col_b = st.columns([3, 1])
+            col_a.write(f"📂 **{ch}**")
+            col_b.button("Download PDF", key=ch)
+            
+    with tab_toc_res:
+        st.markdown("### 📄 Advanced TOC Modules")
+        toc_modules = [
+            "Module 1: Mathematical Foundations",
+            "Module 2: Finite Automata (DFA/NFA) Masterclass",
+            "Module 3: Regular Expressions & Pumping Lemma",
+            "Module 4: Context-Free Grammars & PDA",
+            "Module 5: Turing Machines & Decidability"
+        ]
+        for mod in toc_modules:
+            col_a, col_b = st.columns([3, 1])
+            col_a.write(f"📂 **{mod}**")
+            col_b.button("Download PDF", key=mod)
+
+    st.markdown("""
+    <div class="step-box">
+        <b>ملاحظة:</b> جميع هذه المصادر مستقاة من المناهج الأكاديمية المعتمدة ومحدثة لعام 2026.
+    </div>
+    """, unsafe_allow_html=True)
+
+
+elif display_page == "🏆 Achievement Hall":
+    st.markdown("## 🏆 Achievement Hall: Celebrate Your Academic Journey")
+    st.write("كل خطوة تخطوها في هذه المنصة هي لبنة في بناء مستقبلك المهني. هنا نحتفي بإنجازاتك!")
+    
+    st.markdown("""
+    <div class="learning-card">
+        <h4>🌟 فلسفة الإنجاز / Achievement Philosophy</h4>
+        <p>التعلم ليس مجرد حفظ للمعلومات، بل هو رحلة من التحدي والاستمرار. الحصول على هذه الأوسمة يعني أنك امتلكت الانضباط والشغف اللازمين لفهم أعقد مفاهيم علوم الحاسب.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
     col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
-        <div class="learning-card">
-        <h4>📄 Cheat Sheets (PDFs)</h4>
-        <ul>
-            <li><a href="#">OS Final Summary.pdf</a></li>
-            <li><a href="#">TOC Formulas & Rules.pdf</a></li>
-            <li><a href="#">CPU Scheduling Algorithms.pdf</a></li>
-        </ul>
+        <div class="learning-card" style="border-top: 5px solid #fbbf24;">
+            <h2 style="text-align: center;">🥇 OS Master</h2>
+            <p style="color: #d97706; font-weight: bold; text-align: center;">وسام خبير نظم التشغيل</p>
+            <p>يُمنح هذا الوسام للطالب الذي استطاع الإبحار في أعماق النواة (Kernel)، وفهم كيف تدار العمليات وتوزع الذاكرة. أنت الآن تدرك كيف يفكر "عقل" الحاسوب، وهذا يجعلك مبرمجاً أكثر كفاءة وقدرة على بناء أنظمة مستقرة.</p>
+            <ul style="font-size: 14px;">
+                <li>فهم عميق لجدولة العمليات (Scheduling)</li>
+                <li>إتقان مفاهيم المزامنة (Synchronization)</li>
+                <li>القدرة على تحليل مشاكل الذاكرة والتخزين</li>
+            </ul>
         </div>
         """, unsafe_allow_html=True)
-    with col2:
+        
         st.markdown("""
-        <div class="learning-card">
-        <h4>🎥 Top Video Explanations</h4>
-        <ul>
-            <li><a href="https://www.youtube.com/results?search_query=operating+systems+tutorial">OS Full Course (YouTube)</a></li>
-            <li><a href="https://www.youtube.com/results?search_query=theory+of+computation+tutorial">TOC Full Course (YouTube)</a></li>
-        </ul>
+        <div class="learning-card" style="border-top: 5px solid #10b981;">
+            <h2 style="text-align: center;">💎 Diamond Researcher</h2>
+            <p style="color: #059669; font-weight: bold; text-align: center;">وسام الباحث المتميز</p>
+            <p>هذا الوسام مخصص لمن لم يكتفِ بالقشور، بل غاص في المصادر الخارجية والملخصات العميقة. البحث هو مفتاح الابتكار، وأنت أثبتّ أنك تمتلك عقلية الباحث الذي لا يتوقف عن التعلم.</p>
         </div>
         """, unsafe_allow_html=True)
 
-elif display_page == "🏆 Achievement Hall":
-    st.markdown("## 🏆 Achievement Hall: Your Progress")
-    st.write("Unlock badges as you complete each module! / افتح الأوسمة عند إتمام كل وحدة تعليمية!")
-    
-    cols = st.columns(3)
-    with cols[0]:
-        st.markdown("""<div style='text-align: center; padding: 20px; border: 2px solid #fbbf24; border-radius: 15px;'>
-        <div style='font-size: 50px;'>🥇</div>
-        <b>OS Master</b><br><span style='color: gray; font-size: 12px;'>Completed OS Course</span></div>""", unsafe_allow_html=True)
-    with cols[1]:
-        st.markdown("""<div style='text-align: center; padding: 20px; border: 2px solid #3b82f6; border-radius: 15px;'>
-        <div style='font-size: 50px;'>🥈</div>
-        <b>TOC Expert</b><br><span style='color: gray; font-size: 12px;'>Completed TOC Course</span></div>""", unsafe_allow_html=True)
-    with cols[2]:
-        st.markdown("""<div style='text-align: center; padding: 20px; border: 2px solid #10b981; border-radius: 15px;'>
-        <div style='font-size: 50px;'>🌟</div>
-        <b>Early Adopter</b><br><span style='color: gray; font-size: 12px;'>Joined Mohrah's Lab</span></div>""", unsafe_allow_html=True)
+    with col2:
+        st.markdown("""
+        <div class="learning-card" style="border-top: 5px solid #3b82f6;">
+            <h2 style="text-align: center;">🥈 TOC Expert</h2>
+            <p style="color: #2563eb; font-weight: bold; text-align: center;">وسام مهندس الحوسبة النظرية</p>
+            <p>التعامل مع اللغات الرسمية والأوتوماتا يتطلب قدرات ذهنية تحليلية عالية. حصولك على هذا الوسام يعني أنك تغلبت على أحد أصعب التحديات الرياضية في علوم الحاسب، وأصبحت قادراً على فهم حدود الحوسبة ومنطق الآلات.</p>
+            <ul style="font-size: 14px;">
+                <li>تصميم وتحليل آلات DFA و NFA</li>
+                <li>فهم قواعد اللغات الحرة (CFG)</li>
+                <li>إدراك القوة الحوسبية لآلات تورينج</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+        <div class="learning-card" style="border-top: 5px solid #8b5cf6;">
+            <h2 style="text-align: center;">🚀 Early Adopter</h2>
+            <p style="color: #7c3aed; font-weight: bold; text-align: center;">وسام الريادة والسبق</p>
+            <p>أنت من أوائل الذين وضعوا ثقتهم في "Mohrah's Lab". هذا الوسام يعبر عن روح المبادرة لديك، واهتمامك بمواكبة الأدوات التعليمية الحديثة والمتطورة.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.info("💡 نصيحة: قم بتصوير إنجازاتك ومشاركتها مع زملائك لتحفيزهم على التعلم!")
 
 elif display_page == "Contact Developer":
     st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")

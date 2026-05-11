@@ -14,6 +14,28 @@ st.set_page_config(
 )
 
 # --- 2. PERSISTENT STORAGE FUNCTIONS ---
+
+def load_questions():
+    if 'community_q' not in st.session_state:
+        st.session_state.community_q = [
+            {"id": 1, "u": "أحمد", "q": "كيف أفرق بين الـ Paging والـ Segmentation؟", "r": "الـ Paging تقسيم ثابت للذاكرة، أما الـ Segmentation يعتمد على منطق البرنامج (Code, Stack, Data).", "t": "10:00 AM"},
+            {"id": 2, "u": "سارة", "q": "هل الـ DFA يقبل الـ Epsilon؟", "r": "لا، الـ NFA هو الذي يقبل الـ Epsilon transitions.", "t": "11:30 AM"}
+        ]
+    return st.session_state.community_q
+
+def post_question(name, question, attachment=None):
+    qs = load_questions()
+    new_id = len(qs) + 1
+    qs.append({
+        "id": new_id, 
+        "u": name, 
+        "q": question, 
+        "r": "", 
+        "t": time.strftime("%I:%M %p"),
+        "img": attachment
+    })
+    st.session_state.community_q = qs
+
 def load_comments():
     initial_data = [
         {"u": "Academic Support", "m": "Welcome to Mohrah's Lab! Your feedback is valued.", "t": "09:00 AM"},
@@ -132,7 +154,7 @@ if 'current_page' not in st.session_state:
 # Main category selection
 main_subject = st.sidebar.selectbox(
     "Select Course / اختر المادة:",
-    ["Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall"],
+    ["Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall", "👥 Community Corner"],
     key="main_nav_select"
 )
 
@@ -2187,6 +2209,53 @@ elif display_page == "🏆 Achievement Hall":
 
     st.info("💡 نصيحة: قم بتصوير إنجازاتك ومشاركتها مع زملائك لتحفيزهم على التعلم!")
 
+
+elif display_page == "👥 Community Corner":
+    st.markdown("## 👥 Community Corner: Ask & Learn")
+    st.write("هذا الركن مخصص لتبادل الخبرات والاستفسارات بين الطلاب. لا تتردد في طرح أي سؤال!")
+    
+    with st.expander("❓ طرح سؤال جديد / Ask a Question"):
+        with st.form("q_form", clear_on_submit=True):
+            q_name = st.text_input("الاسم / Name:")
+            q_text = st.text_area("سؤالك / Your Question:")
+            q_file = st.file_uploader("إرفاق صورة أو ملف / Attach Image or File:", type=["png", "jpg", "jpeg", "pdf", "zip"])
+            if st.form_submit_button("نشر السؤال / Post"):
+                if q_name and q_text:
+                    post_question(q_name, q_text, q_file)
+                    st.success("تم نشر سؤالك مع المرفقات! انتظر إجابة زملائك.")
+                    st.experimental_rerun()
+    
+    st.markdown("### 💬 الأسئلة الحالية / Current Discussions")
+    questions = load_questions()
+    for q in reversed(questions):
+        with st.container():
+            st.markdown(f"""
+            <div style="background-color: #ffffff; padding: 20px; border-radius: 15px 15px 0 0; border-left: 5px solid #1e3a8a; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <div style="display: flex; justify-content: space-between;">
+                    <b>👤 {q['u']}</b>
+                    <span style="font-size: 12px; color: gray;">{q['t']}</span>
+                </div>
+                <p style="margin-top: 10px; font-size: 18px; color: #1e3a8a;"><b>Q: {q['q']}</b></p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Display attachment if exists
+            if "img" in q and q["img"]:
+                with st.container():
+                    st.markdown('<div style="background-color: #ffffff; padding: 0 20px; border-left: 5px solid #1e3a8a; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">', unsafe_allow_html=True)
+                    if q["img"].type.startswith("image"):
+                        st.image(q["img"], caption=f"Attachment: {q['img'].name}", use_container_width=True)
+                    else:
+                        st.info(f"📎 Attached File: {q['img'].name}")
+                    st.markdown('</div>', unsafe_allow_html=True)
+
+            st.markdown(f"""
+            <div style="background-color: #ffffff; padding: 0 20px 20px 20px; border-radius: 0 0 15px 15px; border-left: 5px solid #1e3a8a; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <div style="background-color: #f0f9ff; padding: 10px; border-radius: 10px; border: 1px dashed #bae6fd;">
+                    <span style="color: #0369a1;"><b>Answer:</b> {q['r'] if q['r'] else "بانتظار الإجابة..."}</span>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 elif display_page == "Contact Developer":
     st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")
     col1, col2 = st.columns(2)

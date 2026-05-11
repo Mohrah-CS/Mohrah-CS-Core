@@ -135,7 +135,7 @@ if main_subject == "Theory of Computation":
 elif main_subject == "Operating Systems":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",
-        ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services", "Operating Systems: Chapter 3 - Process Management", "Operating Systems: Chapter 4 - Threads", "Operating Systems: Chapter 5 - CPU Scheduling", "Operating Systems: Chapter 6 - Synchronization"]
+        ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services", "Operating Systems: Chapter 3 - Process Management", "Operating Systems: Chapter 4 - Threads", "Operating Systems: Chapter 5 - CPU Scheduling", "Operating Systems: Chapter 6 - Synchronization", "Operating Systems: Chapter 7 - Deadlocks", "Operating Systems: Chapter 8 - Memory Management"]
     )
     if st.session_state.current_page not in ["Community Feedback", "Contact Developer"]:
         st.session_state.current_page = subject
@@ -1668,6 +1668,181 @@ elif display_page == "Operating Systems: Chapter 6 - Synchronization":
             <li><b>Deadlock:</b> Two or more processes are waiting indefinitely for an event that can be caused only by one of the waiting processes.</li>
             <li><b>Starvation:</b> A process is indefinitely delayed from receiving service because other processes are preferred.</li>
             <li><b>Priority Inversion:</b> A higher-priority process is delayed by a lower-priority process holding a required resource.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+elif display_page == "Operating Systems: Chapter 7 - Deadlocks":
+    st.markdown("## 🛑 Operating Systems: Chapter 7 - Deadlocks")
+    tab_model, tab_char, tab_handling, tab_prev, tab_avoid, tab_detect, tab_recovery = st.tabs([
+        "🏗️ System Model",
+        "🔍 Characterization",
+        "🛠️ Handling Methods",
+        "🛡️ Prevention",
+        "⚖️ Avoidance",
+        "📡 Detection",
+        "🔄 Recovery"
+    ])
+
+    with tab_model:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 7.1</div>
+        <h3>System Model</h3>
+        <p>A system consists of a finite number of resources to be distributed among several competing processes. Resources are partitioned into several types (CPU cycles, memory space, I/O devices).</p>
+        <p>A process must request a resource before using it and release it after using it. The sequence is: <b>Request → Use → Release</b>.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_char:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 7.2</div>
+        <h3>Deadlock Characterization</h3>
+        <p>A deadlock situation can arise if the following four conditions hold simultaneously in a system:</p>
+        <ul>
+            <li><b>Mutual Exclusion:</b> Only one process at a time can use a resource.</li>
+            <li><b>Hold and Wait:</b> A process holding at least one resource is waiting to acquire additional resources held by other processes.</li>
+            <li><b>No Preemption:</b> Resources cannot be preempted; they are released only voluntarily by the process holding them.</li>
+            <li><b>Circular Wait:</b> A set of waiting processes exists such that P0 is waiting for P1, P1 for P2, ..., and Pn for P0.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_handling:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 7.3</div>
+        <h3>Methods for Handling Deadlocks</h3>
+        <p>There are three main ways to deal with the deadlock problem:</p>
+        <ul>
+            <li>Ensure that the system will never enter a deadlock state (Prevention or Avoidance).</li>
+            <li>Allow the system to enter a deadlock state, detect it, and then recover.</li>
+            <li>Ignore the problem altogether and pretend that deadlocks never occur (used by most operating systems, including UNIX and Windows).</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_prev:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 7.4</div>
+        <h3>Deadlock Prevention</h3>
+        <p>Prevention provides a set of methods to ensure that at least one of the four necessary conditions for deadlock cannot hold.</p>
+        <ul>
+            <li><b>Mutual Exclusion:</b> Not required for sharable resources (e.g., read-only files).</li>
+            <li><b>Hold and Wait:</b> Must guarantee that whenever a process requests a resource, it does not hold any other resources.</li>
+            <li><b>No Preemption:</b> If a process holding resources requests another that cannot be immediately allocated, all currently held resources are released.</li>
+            <li><b>Circular Wait:</b> Impose a total ordering of all resource types and require that each process requests resources in an increasing order of enumeration.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_avoid:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 7.5</div>
+        <h3>Deadlock Avoidance</h3>
+        <p>Avoidance requires that the system has some additional a priori information available about which resources a process will request and use during its lifetime.</p>
+        <p><b>Safe State:</b> A state is safe if the system can allocate resources to each process in some order and still avoid a deadlock.</p>
+        <p><b>Banker’s Algorithm:</b> A classic avoidance algorithm used in systems with multiple instances of each resource type.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_detect:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 7.6</div>
+        <h3>Deadlock Detection</h3>
+        <p>If a system does not employ deadlock prevention or avoidance, a deadlock situation may occur. In this environment, the system must provide:</p>
+        <ul>
+            <li>An algorithm that examines the state of the system to determine whether a deadlock has occurred.</li>
+            <li>An algorithm to recover from the deadlock.</li>
+        </ul>
+        <p><b>Wait-for Graph:</b> Used for detection in systems with single instances of resource types.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_recovery:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 7.7</div>
+        <h3>Recovery from Deadlock</h3>
+        <p>When a detection algorithm determines that a deadlock exists, several alternatives are available:</p>
+        <ul>
+            <li><b>Process Termination:</b> Abort all deadlocked processes or abort one process at a time until the deadlock cycle is eliminated.</li>
+            <li><b>Resource Preemption:</b> Successively preempt some resources from processes and give them to other processes until the deadlock cycle is broken.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+elif display_page == "Operating Systems: Chapter 8 - Memory Management":
+    st.markdown("## 🧠 Operating Systems: Chapter 8 - Memory Management")
+    tab_address, tab_allocation, tab_logical, tab_virtual, tab_cache = st.tabs([
+        "📍 Address Space",
+        "📦 Allocation",
+        "🔀 Logical vs Physical",
+        "☁️ Virtual Memory",
+        "⚡ Cache & TLB"
+    ])
+
+    with tab_address:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 8.1</div>
+        <h3>Memory Address Space</h3>
+        <p>The <b>Address Space</b> is the set of all logical addresses generated by a program. Memory management ensures that programs have enough space to run and that they don't interfere with each other.</p>
+        <p><b>Binding:</b> The process of mapping program addresses to actual physical memory addresses. This can happen at Compile time, Load time, or Execution time.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_allocation:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 8.2</div>
+        <h3>Memory Allocation Techniques</h3>
+        <p>Main memory must provide for both the operating system and various user processes. We need to allocate memory in the most efficient way possible.</p>
+        <ul>
+            <li><b>Contiguous Allocation:</b> Each process is contained in a single contiguous section of memory.</li>
+            <li><b>Paging:</b> A memory-management scheme that permits the physical address space of a process to be non-contiguous.</li>
+            <li><b>Segmentation:</b> A memory-management scheme that supports the user view of memory as a collection of segments (code, data, stack).</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_logical:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 8.3</div>
+        <h3>Logical vs Physical Address</h3>
+        <p><b>Logical Address:</b> Generated by the CPU; also referred to as a virtual address.</p>
+        <p><b>Physical Address:</b> Address seen by the memory unit (the actual location in RAM).</p>
+        <p><b>Memory-Management Unit (MMU):</b> Hardware device that at run time maps virtual to physical addresses.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_virtual:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 8.4</div>
+        <h3>Virtual Memory vs Physical Memory</h3>
+        <p><b>Virtual Memory:</b> A technique that allows the execution of processes that are not completely in memory. It abstracts main memory into an extremely large, uniform array of storage, separating logical memory as viewed by the user from physical memory.</p>
+        <p><b>Physical Memory:</b> The actual RAM available in the system.</p>
+        <div class="step-box">
+        <b>Benefit:</b> Virtual memory allows programs to be larger than physical memory and increases CPU utilization by allowing more processes to run concurrently.
+        </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_cache:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 8.5</div>
+        <h3>Cache Line and TLB</h3>
+        <p>To speed up memory access, modern systems use specialized hardware buffers.</p>
+        <ul>
+            <li><b>Cache Line:</b> The smallest unit of data that can be transferred between the main memory and the cache.</li>
+            <li><b>Translation Look-aside Buffer (TLB):</b> A small, fast-lookup hardware cache that stores recent transitions from logical to physical addresses. It helps avoid the need to access the page table in main memory for every memory reference.</li>
         </ul>
         </div>
         """, unsafe_allow_html=True)

@@ -13,35 +13,33 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- 2. PERSISTENT STORAGE FUNCTIONS ---
 
+# --- 2. PERSISTENT STORAGE FUNCTIONS ---
+COMMENTS_FILE = os.path.join(os.getcwd(), "comments.json")
+QUESTIONS_FILE = os.path.join(os.getcwd(), "community_qs.json")
 
 def load_questions():
     initial_qs = [
         {"id": 1, "u": "أحمد", "q": "كيف أفرق بين الـ Paging والـ Segmentation؟", "r": [{"u": "سارة", "m": "الـ Paging تقسيم ثابت، الـ Segmentation منطقي.", "t": "10:05 AM"}], "t": "10:00 AM", "likes": 5},
         {"id": 2, "u": "سارة", "q": "هل الـ DFA يقبل الـ Epsilon؟", "r": [], "t": "11:30 AM", "likes": 3}
     ]
-    if 'persistent_qs' not in st.session_state:
-        if os.path.exists("community_qs.json"):
-            try:
-                with open("community_qs.json", "r", encoding="utf-8") as f:
-                    st.session_state.persistent_qs = json.load(f)
-            except: st.session_state.persistent_qs = initial_qs
-        else:
-            st.session_state.persistent_qs = initial_qs
-    return st.session_state.persistent_qs
+    if os.path.exists(QUESTIONS_FILE):
+        try:
+            with open(QUESTIONS_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except: return initial_qs
+    return initial_qs
 
 def save_qs(qs):
-    st.session_state.persistent_qs = qs
     try:
-        with open("community_qs.json", "w", encoding="utf-8") as f:
+        with open(QUESTIONS_FILE, "w", encoding="utf-8") as f:
             json.dump(qs, f, ensure_ascii=False, indent=4)
-    except: pass
+    except Exception as e:
+        st.error(f"Error saving: {e}")
 
 def post_question(name, question, attachment=None):
     qs = load_questions()
     new_id = len(qs) + 1
-    # Note: Images cannot be easily saved in JSON, so we store the name
     att_name = attachment.name if attachment else None
     qs.append({
         "id": new_id, 
@@ -70,36 +68,28 @@ def add_like(q_id):
             break
     save_qs(qs)
 
-
 def load_comments():
     initial_data = [
         {"u": "Academic Support", "m": "Welcome to Mohrah's Lab! Your feedback is valued.", "t": "09:00 AM"},
         {"u": "مهره الجهني", "m": "أهلاً بكم في منصتي التعليمية، أتمنى أن تجدوا الفائدة والمتعة في تعلم علوم الحاسب.", "t": "10:30 AM"},
         {"u": "شعاع", "m": "المشروع رائع جداً ومفيد، شكراً لكِ يا مهره على هذا المجهود المتميز.", "t": "11:15 AM"}
     ]
-    if 'persistent_comments' not in st.session_state:
-        if os.path.exists("comments.json"):
-            try:
-                with open("comments.json", "r", encoding="utf-8") as f:
-                    st.session_state.persistent_comments = json.load(f)
-            except:
-                st.session_state.persistent_comments = initial_data
-        else:
-            st.session_state.persistent_comments = initial_data
-            try:
-                with open("comments.json", "w", encoding="utf-8") as f:
-                    json.dump(initial_data, f, ensure_ascii=False, indent=4)
-            except: pass
-    return st.session_state.persistent_comments
+    if os.path.exists(COMMENTS_FILE):
+        try:
+            with open(COMMENTS_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except: return initial_data
+    return initial_data
 
 def save_comment(name, msg):
-    comments = load_comments()
+    comments = load_comments() # Load fresh from file
     comments.append({"u": name, "m": msg, "t": time.strftime("%I:%M %p")})
-    st.session_state.persistent_comments = comments
     try:
-        with open("comments.json", "w", encoding="utf-8") as f:
+        with open(COMMENTS_FILE, "w", encoding="utf-8") as f:
             json.dump(comments, f, ensure_ascii=False, indent=4)
-    except: pass
+    except Exception as e:
+        st.error(f"Error saving comment: {e}")
+
     # st.rerun() # Removed as it causes redirection issues, handled by st.rerun() in the form submission
 
 # --- 3. ADVANCED STYLING ---
@@ -2344,7 +2334,7 @@ elif display_page == "👥 Community Corner":
                     st.rerun()
     
     st.markdown("### 💬 الأسئلة الحالية / Current Discussions")
-    questions = load_questions()
+    questions = load_questions() # Load fresh from file
     for q in reversed(questions):
         with st.container():
             st.markdown(f"""
@@ -2412,7 +2402,7 @@ elif display_page == "Community Feedback":
             else:
                 st.error("Please fill in both fields. / يرجى ملء جميع الحقول.")
     st.markdown("---")
-    comments = load_comments()
+    comments = load_comments() # Load fresh from file
     for c in reversed(comments):
         st.markdown(f"""
         <div class="comment-box">

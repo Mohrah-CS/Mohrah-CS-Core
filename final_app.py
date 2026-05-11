@@ -135,7 +135,7 @@ if main_subject == "Theory of Computation":
 elif main_subject == "Operating Systems":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",
-        ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services", "Operating Systems: Chapter 3 - Process Management", "Operating Systems: Chapter 4 - Threads", "Operating Systems: Chapter 5 - CPU Scheduling"]
+        ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services", "Operating Systems: Chapter 3 - Process Management", "Operating Systems: Chapter 4 - Threads", "Operating Systems: Chapter 5 - CPU Scheduling", "Operating Systems: Chapter 6 - Synchronization"]
     )
     if st.session_state.current_page not in ["Community Feedback", "Contact Developer"]:
         st.session_state.current_page = subject
@@ -1555,6 +1555,120 @@ elif display_page == "Operating Systems: Chapter 5 - CPU Scheduling":
                 <td>Scheduling on multiple CPUs requires load balancing, processor affinity, and efficient management of parallel execution.</td>
             </tr>
         </table>
+        </div>
+        """, unsafe_allow_html=True)
+
+elif display_page == "Operating Systems: Chapter 6 - Synchronization":
+    st.markdown("## 🔄 Operating Systems: Chapter 6 - Synchronization")
+    tab_background, tab_critical, tab_hardware, tab_mutex, tab_semaphores, tab_monitors, tab_liveness = st.tabs([
+        "📖 Background",
+        "⚠️ Critical-Section",
+        "🛠️ Hardware Support",
+        "🔒 Mutex Locks",
+        "🚥 Semaphores",
+        "🖥️ Monitors",
+        "⚡ Liveness"
+    ])
+
+    with tab_background:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 6.1</div>
+        <h3>Background</h3>
+        <p>In a multitasking system, multiple processes or threads often share data. If they access and modify the same data concurrently, the outcome may depend on the specific order in which the access takes place. This situation is called a <b>Race Condition</b>.</p>
+        <p>The objective of <b>Process Synchronization</b> is to coordinate the execution of processes that share data to ensure data consistency and integrity.</p>
+        <div class="step-box">
+        <b>Example:</b> If two threads increment the same counter variable at the same time, the final value might be incorrect if the operations overlap.
+        </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_critical:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 6.2</div>
+        <h3>The Critical-Section Problem</h3>
+        <p>A <b>Critical Section</b> is a segment of code where a process accesses shared resources (like variables or files). No two processes should execute their critical sections at the same time.</p>
+        <h4>Requirements for a Solution:</h4>
+        <ul>
+            <li><b>Mutual Exclusion:</b> If process P is executing in its critical section, no other processes can be executing in theirs.</li>
+            <li><b>Progress:</b> If no process is in its critical section and some processes wish to enter, only those not in their remainder sections can participate in the decision, and the selection cannot be postponed indefinitely.</li>
+            <li><b>Bounded Waiting:</b> There must be a limit on the number of times other processes are allowed to enter their critical sections after a process has made a request to enter and before that request is granted.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_hardware:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 6.3</div>
+        <h3>Hardware Support for Synchronization</h3>
+        <p>Modern computer systems provide special hardware instructions to help solve the critical-section problem efficiently.</p>
+        <ul>
+            <li><b>Memory Barriers:</b> Instructions that force any changes in memory to be propagated to all other processors.</li>
+            <li><b>Atomic Instructions:</b> Non-interruptible instructions like <b>test-and-set</b> and <b>compare-and-swap (CAS)</b> that allow testing and modifying a variable in one atomic step.</li>
+            <li><b>Atomic Variables:</b> High-level tools built on atomic instructions to provide thread-safe operations on single variables.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_mutex:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 6.4</div>
+        <h3>Mutex Locks</h3>
+        <p>A <b>Mutex (Mutual Exclusion) Lock</b> is the simplest software tool to solve the critical-section problem. It protects a critical section by first requiring a process to <b>acquire</b> a lock and then <b>release</b> it after finishing.</p>
+        <ul>
+            <li><b>acquire():</b> Atomically checks if the lock is available.</li>
+            <li><b>release():</b> Atomically makes the lock available for others.</li>
+        </ul>
+        <p><b>Spinlock:</b> A type of mutex where a process "spins" (waits in a loop) while waiting for the lock. This is useful for short waits but wastes CPU cycles for long waits.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_semaphores:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 6.5</div>
+        <h3>Semaphores</h3>
+        <p>A <b>Semaphore</b> is a more robust tool than mutex locks. It uses an integer variable that can be accessed only through two atomic operations: <b>wait()</b> (or P) and <b>signal()</b> (or V).</p>
+        <h4>Types of Semaphores:</h4>
+        <ul>
+            <li><b>Binary Semaphore:</b> Can range only between 0 and 1. Behaves similarly to a mutex lock.</li>
+            <li><b>Counting Semaphore:</b> Can range over an unrestricted domain. Used to control access to a resource with a finite number of instances.</li>
+        </ul>
+        <div class="step-box">
+        <b>Wait Operation:</b> Decrements the semaphore value. If the value is negative, the process blocks.
+        <br><b>Signal Operation:</b> Increments the semaphore value. If there are blocked processes, one is woken up.
+        </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_monitors:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 6.6</div>
+        <h3>Monitors</h3>
+        <p>A <b>Monitor</b> is a high-level synchronization construct that provides a convenient and effective mechanism for process synchronization. It encapsulates shared data and the procedures that operate on that data.</p>
+        <ul>
+            <li>Only one process at a time can be active within the monitor.</li>
+            <li><b>Condition Variables:</b> Used within monitors to allow processes to wait for specific conditions (e.g., <code>condition.wait()</code> and <code>condition.signal()</code>).</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_liveness:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 6.7</div>
+        <h3>Liveness</h3>
+        <p><b>Liveness</b> refers to a set of properties that a system must satisfy to ensure that processes make progress during their execution.</p>
+        <h4>Liveness Failures:</h4>
+        <ul>
+            <li><b>Deadlock:</b> Two or more processes are waiting indefinitely for an event that can be caused only by one of the waiting processes.</li>
+            <li><b>Starvation:</b> A process is indefinitely delayed from receiving service because other processes are preferred.</li>
+            <li><b>Priority Inversion:</b> A higher-priority process is delayed by a lower-priority process holding a required resource.</li>
+        </ul>
         </div>
         """, unsafe_allow_html=True)
 

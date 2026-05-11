@@ -15,26 +15,61 @@ st.set_page_config(
 
 # --- 2. PERSISTENT STORAGE FUNCTIONS ---
 
+
 def load_questions():
-    if 'community_q' not in st.session_state:
-        st.session_state.community_q = [
-            {"id": 1, "u": "أحمد", "q": "كيف أفرق بين الـ Paging والـ Segmentation؟", "r": "الـ Paging تقسيم ثابت للذاكرة، أما الـ Segmentation يعتمد على منطق البرنامج (Code, Stack, Data).", "t": "10:00 AM"},
-            {"id": 2, "u": "سارة", "q": "هل الـ DFA يقبل الـ Epsilon؟", "r": "لا، الـ NFA هو الذي يقبل الـ Epsilon transitions.", "t": "11:30 AM"}
-        ]
-    return st.session_state.community_q
+    initial_qs = [
+        {"id": 1, "u": "أحمد", "q": "كيف أفرق بين الـ Paging والـ Segmentation؟", "r": [{"u": "سارة", "m": "الـ Paging تقسيم ثابت، الـ Segmentation منطقي.", "t": "10:05 AM"}], "t": "10:00 AM", "likes": 5},
+        {"id": 2, "u": "سارة", "q": "هل الـ DFA يقبل الـ Epsilon؟", "r": [], "t": "11:30 AM", "likes": 3}
+    ]
+    if 'persistent_qs' not in st.session_state:
+        if os.path.exists("community_qs.json"):
+            try:
+                with open("community_qs.json", "r", encoding="utf-8") as f:
+                    st.session_state.persistent_qs = json.load(f)
+            except: st.session_state.persistent_qs = initial_qs
+        else:
+            st.session_state.persistent_qs = initial_qs
+    return st.session_state.persistent_qs
+
+def save_qs(qs):
+    st.session_state.persistent_qs = qs
+    try:
+        with open("community_qs.json", "w", encoding="utf-8") as f:
+            json.dump(qs, f, ensure_ascii=False, indent=4)
+    except: pass
 
 def post_question(name, question, attachment=None):
     qs = load_questions()
     new_id = len(qs) + 1
+    # Note: Images cannot be easily saved in JSON, so we store the name
+    att_name = attachment.name if attachment else None
     qs.append({
         "id": new_id, 
         "u": name, 
         "q": question, 
-        "r": "", 
+        "r": [], 
         "t": time.strftime("%I:%M %p"),
-        "img": attachment
+        "img_name": att_name,
+        "likes": 0
     })
-    st.session_state.community_q = qs
+    save_qs(qs)
+
+def add_reply(q_id, name, reply):
+    qs = load_questions()
+    for q in qs:
+        if q['id'] == q_id:
+            q['r'].append({"u": name, "m": reply, "t": time.strftime("%I:%M %p")})
+            break
+    save_qs(qs)
+
+def add_like(q_id):
+    qs = load_questions()
+    for q in qs:
+        if q['id'] == q_id:
+            q['likes'] += 1
+            break
+    save_qs(qs)
+
 
 def load_comments():
     initial_data = [
@@ -2239,23 +2274,36 @@ elif display_page == "👥 Community Corner":
             </div>
             """, unsafe_allow_html=True)
             
-            # Display attachment if exists
-            if "img" in q and q["img"]:
-                with st.container():
-                    st.markdown('<div style="background-color: #ffffff; padding: 0 20px; border-left: 5px solid #1e3a8a; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">', unsafe_allow_html=True)
-                    if q["img"].type.startswith("image"):
-                        st.image(q["img"], caption=f"Attachment: {q['img'].name}", use_container_width=True)
-                    else:
-                        st.info(f"📎 Attached File: {q['img'].name}")
-                    st.markdown('</div>', unsafe_allow_html=True)
+            # Display attachment placeholder
+            if "img_name" in q and q["img_name"]:
+                st.info(f"📎 Attached: {q['img_name']}")
 
-            st.markdown(f"""
-            <div style="background-color: #ffffff; padding: 0 20px 20px 20px; border-radius: 0 0 15px 15px; border-left: 5px solid #1e3a8a; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                <div style="background-color: #f0f9ff; padding: 10px; border-radius: 10px; border: 1px dashed #bae6fd;">
-                    <span style="color: #0369a1;"><b>Answer:</b> {q['r'] if q['r'] else "بانتظار الإجابة..."}</span>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+            # Likes and Reply Button
+            col_l, col_r = st.columns([1, 4])
+            if col_l.button(f"❤️ {q['likes']}", key=f"like_{q['id']}"):
+                add_like(q['id'])
+                st.rerun()
+            
+            with col_r.expander("💬 Replies / الردود"):
+                for rep in q['r']:
+                    st.markdown(f"""
+                    <div style="background-color: #f8fafc; padding: 10px; border-radius: 10px; margin-bottom: 5px; border-right: 3px solid #3b82f6;">
+                        <b>{rep['u']}</b>: {rep['m']} <br>
+                        <small style="color: gray;">{rep['t']}</small>
+                    </div>
+                    """, unsafe_allow_html=True)
+                
+                with st.form(f"reply_form_{q['id']}", clear_on_submit=True):
+                    r_name = st.text_input("الاسم:", key=f"rn_{q['id']}")
+                    r_msg = st.text_area("ردك:", key=f"rm_{q['id']}")
+                    if st.form_submit_button("إرسال الرد"):
+                        if r_name and r_msg:
+                            add_reply(q['id'], r_name, r_msg)
+                            st.success("تم إضافة الرد!")
+                            st.rerun()
+            st.markdown("<br>", unsafe_allow_html=True)
+
+            
 elif display_page == "Contact Developer":
     st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")
     col1, col2 = st.columns(2)
@@ -2276,12 +2324,11 @@ elif display_page == "Community Feedback":
             if name and msg:
                 save_comment(name, msg)
                 st.success("Comment saved! / تم حفظ التعليق بنجاح!")
-                st.session_state.current_page = "Community Feedback" # Ensure we stay on the feedback page
-                st.rerun() # Rerun to show new comment and clear form
+                st.session_state.current_page = "Community Feedback" 
+                st.rerun()
             else:
                 st.error("Please fill in both fields. / يرجى ملء جميع الحقول.")
     st.markdown("---")
-    # Display comments
     comments = load_comments()
     for c in reversed(comments):
         st.markdown(f"""

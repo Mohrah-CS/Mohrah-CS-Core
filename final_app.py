@@ -155,12 +155,12 @@ display_page = st.session_state.current_page
 
 # --- 6. MODULES ---
 if display_page == "Home Page":
-    st.markdown("""<div class="announcement-banner">📢 تحديث جديد: تم بحمد الله وضع جميع الشباتر النظرية كمرجع شامل لكم في المنصة! 🎓</div>""", unsafe_allow_html=True)
+    st.markdown("""<div class="announcement-banner">🎊 إنجاز جديد: تم بحمد الله الانتهاء من إضافة كافة شباتر مادة نظم التشغيل (OS) كاملة! 🎓✨</div>""", unsafe_allow_html=True)
     st.markdown("## 🏛️ Welcome to the CS Core Portal")
     st.markdown("""
     <div class="learning-card">
     <h3>عن المنصة / About the Platform</h3>
-    <p>هذه المنصة هي <b>مبادرة طلابية تعليمية متقدمة</b> تهدف إلى سد الفجوة بين المفاهيم الرياضية المجردة والتطبيقات البرمجية التفاعلية في مجال نظرية الحوسبة (Theory of Computation).</p>
+    <p>هذه المنصة هي <b>مبادرة طلابية تعليمية متقدمة</b> تهدف إلى تبسيط المفاهيم المعقدة في علوم الحاسب، وتغطي حالياً وبشكل كامل مادتي <b>نظرية الحوسبة (TOC)</b> و <b>نظم التشغيل (OS)</b>.</p>
     <p><b>المصدر العلمي (Academic Source):</b>  
     تم استقاء كافة المعلومات العلمية، التعريفات الرياضية، والنماذج التوضيحية من المناهج الأكاديمية المعتمدة في <b>جامعة تبوك</b>. تم تصميم المحتوى ليكون مرجعاً شاملاً يساعد الطلاب على فهم تعقيدات الأوتوماتا واللغات الرسمية.</p>
     <div class="info-grid">

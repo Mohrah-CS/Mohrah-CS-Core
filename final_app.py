@@ -127,18 +127,21 @@ main_subject = st.sidebar.selectbox(
 if main_subject == "Theory of Computation":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",
-        ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"]
+        ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"],
+        index=0 if st.session_state.current_page not in ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"] else ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"].index(st.session_state.current_page)
     )
     if st.session_state.current_page not in ["Community Feedback", "Contact Developer"]:
-     st.session_state.current_page = subject
+        st.session_state.current_page = subject
 elif main_subject == "Operating Systems":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",
         ["Operating Systems: Chapter 1 - Introduction"]
     )
-    st.session_state.current_page = subject
+    if st.session_state.current_page not in ["Community Feedback", "Contact Developer"]:
+        st.session_state.current_page = subject
 else:
-    st.session_state.current_page = "Home Page"
+    if st.session_state.current_page not in ["Community Feedback", "Contact Developer"]:
+        st.session_state.current_page = "Home Page"
 st.sidebar.write("---")
 st.sidebar.write("### 📞 تواصل معي / Contact Me")
 col1, col2 = st.sidebar.columns(2)
@@ -1073,6 +1076,15 @@ elif display_page == "Community Feedback":
             else:
                 st.error("Please fill in both fields. / يرجى ملء جميع الحقول.")
     st.markdown("---")
+    # Display comments
+    comments = load_comments()
+    for c in reversed(comments):
+        st.markdown(f"""
+        <div class="comment-box">
+            <b>👤 {c['u']}</b> <span style="font-size: 12px; color: gray;">({c['t']})</span><br>
+            <p style="margin-top: 5px;">{c['m']}</p>
+        </div>
+        """, unsafe_allow_html=True)
 
 # --- 7. FOOTER ---
 st.markdown(f"""

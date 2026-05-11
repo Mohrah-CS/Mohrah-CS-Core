@@ -1,4 +1,4 @@
-import streamlit as st
+ import streamlit as st
 import time
 import graphviz
 import os
@@ -135,7 +135,7 @@ if main_subject == "Theory of Computation":
 elif main_subject == "Operating Systems":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",
-        ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services", "Operating Systems: Chapter 3 - Process Management"]
+        ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services", "Operating Systems: Chapter 3 - Process Management", "Operating Systems: Chapter 4 - Threads"]
     )
     if st.session_state.current_page not in ["Community Feedback", "Contact Developer"]:
         st.session_state.current_page = subject
@@ -1269,6 +1269,93 @@ elif display_page == "Operating Systems: Chapter 3 - Process Management":
             <li><b>receive(message)</b></li>
         </ul>
         <p>Communication link can be: Direct or Indirect, Synchronous or Asynchronous.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+elif display_page == "Operating Systems: Chapter 4 - Threads":
+    st.markdown("## 🧵 Operating Systems: Chapter 4 - Threads")
+    tab_overview, tab_multicore, tab_models, tab_libs, tab_implicit = st.tabs([
+        "🔍 Overview",
+        "💻 Multicore Programming",
+        "🏗️ Multithreading Models",
+        "📚 Thread Libraries",
+        "⚙️ Implicit Threading"
+    ])
+
+    with tab_overview:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 4.1</div>
+        <h3>Threads Overview</h3>
+        <p>A <b>Thread</b> is a basic unit of CPU utilization; it comprises a thread ID, a program counter, a register set, and a stack.</p>
+        <h4>Benefits:</h4>
+        <ul>
+            <li><b>Responsiveness:</b> Allows continued execution if part of a process is blocked.</li>
+            <li><b>Resource Sharing:</b> Threads share the memory and resources of the process they belong to.</li>
+            <li><b>Economy:</b> Creating threads is cheaper than creating processes.</li>
+            <li><b>Scalability:</b> Can take advantage of multicore architectures.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_multicore:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 4.2</div>
+        <h3>Multicore Programming</h3>
+        <p>Multicore systems put multiple computing cores on a single chip. This provides a mechanism for more efficient concurrency.</p>
+        <h4>Challenges for Programmers:</h4>
+        <ul>
+            <li>Identifying tasks</li>
+            <li>Balance</li>
+            <li>Data splitting</li>
+            <li>Data dependency</li>
+            <li>Testing and debugging</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_models:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 4.3</div>
+        <h3>Multithreading Models</h3>
+        <p>Support for threads may be provided either at the user level, for <b>User Threads</b>, or by the kernel, for <b>Kernel Threads</b>.</p>
+        <h4>Common Models:</h4>
+        <ul>
+            <li><b>Many-to-One:</b> Many user-level threads mapped to a single kernel thread.</li>
+            <li><b>One-to-One:</b> Each user-level thread maps to a kernel thread.</li>
+            <li><b>Many-to-Many:</b> Many user-level threads mapped to many kernel threads.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_libs:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 4.4</div>
+        <h3>Thread Libraries</h3>
+        <p>Provides the programmer with an API for creating and managing threads.</p>
+        <ul>
+            <li><b>POSIX Pthreads:</b> May be provided as either a user-level or kernel-level library.</li>
+            <li><b>Windows Threads:</b> Kernel-level library available on Windows systems.</li>
+            <li><b>Java Threads:</b> Managed by the JVM and typically implemented using the underlying OS thread library.</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_implicit:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 4.5</div>
+        <h3>Implicit Threading</h3>
+        <p>Transferring the creation and management of threads from developers to compilers and run-time libraries.</p>
+        <h4>Methods:</h4>
+        <ul>
+            <li><b>Thread Pools:</b> Create a number of threads at process startup and place them into a pool.</li>
+            <li><b>OpenMP:</b> Set of compiler directives and an API for C, C++, FORTRAN.</li>
+            <li><b>Grand Central Dispatch (GCD):</b> Apple technology for macOS and iOS.</li>
+        </ul>
         </div>
         """, unsafe_allow_html=True)
 

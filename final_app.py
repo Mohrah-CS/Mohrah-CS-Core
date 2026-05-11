@@ -135,7 +135,7 @@ if main_subject == "Theory of Computation":
 elif main_subject == "Operating Systems":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",
-        ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services"]
+        ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services", "Operating Systems: Chapter 3 - Process Management"]
     )
     if st.session_state.current_page not in ["Community Feedback", "Contact Developer"]:
         st.session_state.current_page = subject
@@ -1173,13 +1173,109 @@ elif display_page == "Operating Systems: Chapter 2 - Structure & Services":
         </div>
         """, unsafe_allow_html=True)
 
-elif display_page == "Process Management":
-    st.info("Process Management module is under development. Stay tuned!")
+elif display_page == "Operating Systems: Chapter 3 - Process Management":
+    st.markdown("## 📑 Operating Systems: Chapter 3 - Process Management")
+    tab_concept, tab_sched, tab_ops, tab_ipc, tab_shared, tab_msg = st.tabs([
+        "🔄 Process Concept",
+        "📅 Process Scheduling",
+        "🛠️ Process Operations",
+        "💬 IPC Concept",
+        "🧠 Shared Memory",
+        "✉️ Message Passing"
+    ])
+
+    with tab_concept:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 3.1</div>
+        <h3>Process Concept</h3>
+        <p>A <b>Process</b> is a program in execution. It is the unit of work in a modern time-sharing system.</p>
+        <h4>Process State:</h4>
+        <ul>
+            <li><b>New:</b> The process is being created.</li>
+            <li><b>Running:</b> Instructions are being executed.</li>
+            <li><b>Waiting:</b> The process is waiting for some event to occur.</li>
+            <li><b>Ready:</b> The process is waiting to be assigned to a processor.</li>
+            <li><b>Terminated:</b> The process has finished execution.</li>
+        </ul>
+        <p><b>Process Control Block (PCB):</b> Contains information associated with each process (Process state, Program counter, CPU registers, etc.).</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_sched:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 3.2</div>
+        <h3>Process Scheduling</h3>
+        <p>The objective of multi-programming is to have some process running at all times to maximize CPU utilization.</p>
+        <h4>Scheduling Queues:</h4>
+        <ul>
+            <li><b>Job Queue:</b> Set of all processes in the system.</li>
+            <li><b>Ready Queue:</b> Set of all processes residing in main memory, ready and waiting to execute.</li>
+            <li><b>Device Queues:</b> Set of processes waiting for an I/O device.</li>
+        </ul>
+        <p><b>Schedulers:</b> Long-term (Job), Short-term (CPU), and Medium-term schedulers.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_ops:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 3.3</div>
+        <h3>Operations on Processes</h3>
+        <ul>
+            <li><b>Process Creation:</b> Parent process creates children processes, which, in turn create other processes, forming a tree of processes.</li>
+            <li><b>Process Termination:</b> Process executes last statement and asks the operating system to delete it (exit).</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_ipc:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 3.4</div>
+        <h3>Interprocess Communication (IPC)</h3>
+        <p>Processes within a system may be <b>independent</b> or <b>cooperating</b>.</p>
+        <h4>Reasons for Cooperating Processes:</h4>
+        <ul>
+            <li>Information sharing</li>
+            <li>Computation speedup</li>
+            <li>Modularity</li>
+            <li>Convenience</li>
+        </ul>
+        <p>Two models of IPC: <b>Shared Memory</b> and <b>Message Passing</b>.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_shared:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 3.5</div>
+        <h3>IPC in Shared-Memory Systems</h3>
+        <p>Cooperating processes communicate by sharing a region of memory. The communication is under the control of the users processes, not the operating system.</p>
+        <p><b>Producer-Consumer Problem:</b> A common paradigm for cooperating processes.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_msg:
+        st.markdown("""
+        <div class="learning-card">
+        <div class="concept-badge">Module 3.6</div>
+        <h3>IPC in Message-Passing Systems</h3>
+        <p>Mechanism for processes to communicate and synchronize their actions without sharing the same address space.</p>
+        <h4>Two operations:</h4>
+        <ul>
+            <li><b>send(message)</b></li>
+            <li><b>receive(message)</b></li>
+        </ul>
+        <p>Communication link can be: Direct or Indirect, Synchronous or Asynchronous.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
 elif display_page == "Memory Management":
     st.info("Memory Management module is under development. Stay tuned!")
 elif display_page == "Storage & I/O":
     st.info("Storage & I/O module is under development. Stay tuned!")
-
 elif display_page == "Contact Developer":
     st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")
     col1, col2 = st.columns(2)

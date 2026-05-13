@@ -1,3 +1,337 @@
+LANDING_PAGE_HTML = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOHRAH CS CORE - Legendary Landing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-purple: #bc13fe;
+            --neon-blue: #00d2ff;
+            --neon-cyan: #00fff2;
+            --deep-space: #020617;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--deep-space);
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-weight: 900;
+            letter-spacing: 0.3rem;
+            background: linear-gradient(to bottom, #fff 30%, var(--neon-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.5));
+        }
+
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 30px var(--neon-cyan);
+            transform: scale(1.05);
+        }
+
+        .course-card {
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--neon-cyan);
+        }
+
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0, 255, 242, 0) 0%, rgba(0, 255, 242, 0.05) 50%, rgba(0, 255, 242, 0) 100%);
+            opacity: 0.1;
+            position: fixed;
+            bottom: 100%;
+            animation: scanline 10s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100%; }
+        }
+
+        .enter-btn {
+            background: linear-gradient(45deg, var(--neon-purple), var(--neon-blue));
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: white;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.5);
+            transition: 0.3s;
+        }
+
+        .enter-btn:hover {
+            box-shadow: 0 0 40px rgba(0, 210, 255, 0.8);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    <div class="scanline"></div>
+
+    <div class="content-wrapper">
+        <!-- Hero Section -->
+        <section class="min-h-screen flex flex-col items-center justify-center text-center px-4">
+            <div class="mb-8">
+                <h1 class="hero-title orbitron mb-4 opacity-0" id="main-title">MOHRAH CS CORE</h1>
+                <p class="text-xl md:text-3xl font-light tracking-widest text-blue-200 mb-12 opacity-0" id="sub-title">
+                    رحلتك المتكاملة في علوم الحاسب
+                </p>
+            </div>
+            
+            <div class="opacity-0" id="hero-btns">
+                <!-- This button will be handled by Streamlit, but we show a placeholder for the visual -->
+                <div class="text-gray-400 orbitron text-xs tracking-[0.5em] mb-4">INITIALIZING SYSTEM...</div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="py-20 px-4">
+            <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="glass p-8 rounded-2xl text-center stat-card opacity-0">
+                    <div class="text-4xl font-bold orbitron text-cyan-400 mb-2">5000+</div>
+                    <div class="text-gray-400 uppercase tracking-widest text-xs">Students</div>
+                </div>
+                <div class="glass p-8 rounded-2xl text-center stat-card opacity-0">
+                    <div class="text-4xl font-bold orbitron text-purple-400 mb-2">150+</div>
+                    <div class="text-gray-400 uppercase tracking-widest text-xs">Lessons</div>
+                </div>
+                <div class="glass p-8 rounded-2xl text-center stat-card opacity-0">
+                    <div class="text-4xl font-bold orbitron text-blue-400 mb-2">98%</div>
+                    <div class="text-gray-400 uppercase tracking-widest text-xs">Success Rate</div>
+                </div>
+                <div class="glass p-8 rounded-2xl text-center stat-card opacity-0">
+                    <div class="text-4xl font-bold orbitron text-pink-400 mb-2">24/7</div>
+                    <div class="text-gray-400 uppercase tracking-widest text-xs">AI Support</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Courses Section -->
+        <section class="py-20 px-4">
+            <h2 class="orbitron text-4xl text-center mb-16 tracking-widest opacity-0" id="courses-title">CORE MODULES</h2>
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass p-8 rounded-3xl course-card opacity-0">
+                    <h3 class="orbitron text-xl mb-4 text-cyan-400">Operating Systems</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Master process management, memory allocation, and kernel architectures.</p>
+                </div>
+                <div class="glass p-8 rounded-3xl course-card opacity-0">
+                    <h3 class="orbitron text-xl mb-4 text-purple-400">Theory of Computation</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Explore automata, formal languages, and the limits of computability.</p>
+                </div>
+                <div class="glass p-8 rounded-3xl course-card opacity-0">
+                    <h3 class="orbitron text-xl mb-4 text-blue-400">Computer Architecture</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Deep dive into CPU design, instruction sets, and hardware logic.</p>
+                </div>
+                <div class="glass p-8 rounded-3xl course-card opacity-0">
+                    <h3 class="orbitron text-xl mb-4 text-pink-400">Artificial Intelligence</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Neural networks, machine learning, and the future of intelligent systems.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Three.js Scene Setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        scene.add(ambientLight);
+        
+        const pointLight1 = new THREE.PointLight(0x00d2ff, 2);
+        pointLight1.position.set(5, 5, 5);
+        scene.add(pointLight1);
+
+        const pointLight2 = new THREE.PointLight(0xbc13fe, 2);
+        pointLight2.position.set(-5, -5, 5);
+        scene.add(pointLight2);
+
+        // Stars/Particles
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 3000;
+        const posArray = new Float32Array(particlesCount * 3);
+        for(let i=0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 20;
+        }
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.015,
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.5,
+            blending: THREE.AdditiveBlending
+        });
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        // Create 3D 'M' Shape
+        const mShape = new THREE.Shape();
+        mShape.moveTo(-1, -1);
+        mShape.lineTo(-1, 1);
+        mShape.lineTo(-0.5, 1);
+        mShape.lineTo(0, 0);
+        mShape.lineTo(0.5, 1);
+        mShape.lineTo(1, 1);
+        mShape.lineTo(1, -1);
+        mShape.lineTo(0.6, -1);
+        mShape.lineTo(0.6, 0.4);
+        mShape.lineTo(0, -0.5);
+        mShape.lineTo(-0.6, 0.4);
+        mShape.lineTo(-0.6, -1);
+        mShape.lineTo(-1, -1);
+
+        const extrudeSettings = {
+            steps: 2,
+            depth: 0.4,
+            bezelEnabled: true,
+            bevelThickness: 0.1,
+            bevelSize: 0.1,
+            bevelOffset: 0,
+            bevelSegments: 5
+        };
+
+        const geometry = new THREE.ExtrudeGeometry(mShape, extrudeSettings);
+        const material = new THREE.MeshStandardMaterial({
+            color: 0x00d2ff,
+            metalness: 0.9,
+            roughness: 0.1,
+            emissive: 0x00d2ff,
+            emissiveIntensity: 0.2
+        });
+        const mLogo = new THREE.Mesh(geometry, material);
+        mLogo.scale.set(1.5, 1.5, 1.5);
+        scene.add(mLogo);
+
+        // Wireframe for holographic effect
+        const wireframe = new THREE.WireframeGeometry(geometry);
+        const lineMaterial = new THREE.LineBasicMaterial({ color: 0xbc13fe, transparent: true, opacity: 0.3 });
+        const line = new THREE.LineSegments(wireframe, lineMaterial);
+        line.scale.set(1.5, 1.5, 1.5);
+        scene.add(line);
+
+        camera.position.z = 6;
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.001;
+            
+            mLogo.rotation.y = Math.sin(time * 0.5) * 0.5;
+            mLogo.position.y = Math.sin(time) * 0.2;
+            
+            line.rotation.y = mLogo.rotation.y;
+            line.position.y = mLogo.position.y;
+            
+            particlesMesh.rotation.y += 0.0005;
+            particlesMesh.rotation.x += 0.0002;
+            
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // GSAP Animations
+        window.addEventListener('DOMContentLoaded', () => {
+            const tl = gsap.timeline();
+            tl.to('#main-title', { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" })
+              .to('#sub-title', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=1")
+              .to('#hero-btns', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8");
+
+            gsap.to('.stat-card', {
+                scrollTrigger: { trigger: '.stat-card', start: "top 90%" },
+                opacity: 1, y: 0, duration: 0.8, stagger: 0.2
+            });
+
+            gsap.to('#courses-title', {
+                scrollTrigger: { trigger: '#courses-title', start: "top 90%" },
+                opacity: 1, duration: 1
+            });
+
+            gsap.to('.course-card', {
+                scrollTrigger: { trigger: '.course-card', start: "top 90%" },
+                opacity: 1, y: 0, duration: 0.8, stagger: 0.2
+            });
+        });
+
+        // Mouse Move Effect
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+            gsap.to(camera.position, { x: x * 2, y: -y * 2, duration: 2 });
+        });
+
+        // Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
+"""
+
 import streamlit as st
 import time
 import graphviz
@@ -174,12 +508,12 @@ st.sidebar.write("---")
 
 # Initialize session state
 if 'current_page' not in st.session_state:
-    st.session_state.current_page = "Home Page"
+    st.session_state.current_page = "Landing Page"
 
 # Main category selection
 main_subject = st.sidebar.selectbox(
     "Select Course / اختر المادة:",
-    ["Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall", "👥 Community Corner"],
+    ["Landing Page", "Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall", "👥 Community Corner"],
     key="main_nav_select"
 )
 
@@ -213,6 +547,13 @@ display_page = st.session_state.current_page
 
 
 # --- 6. MODULES ---
+if st.session_state.current_page == "Landing Page":
+    st.markdown(LANDING_PAGE_HTML, unsafe_allow_html=True)
+    if st.button("ENTER THE CORE / دخول المنصة", use_container_width=True):
+        st.session_state.current_page = "Home Page"
+        st.rerun()
+    st.stop()
+
 if display_page == "Home Page":
     st.markdown("""<div class="announcement-banner">🎊 إنجاز جديد: تم بحمد الله الانتهاء من إضافة كافة شباتر مادة نظم التشغيل (OS) كاملة! 🎓✨</div>""", unsafe_allow_html=True)
     st.markdown("## 🏛️ Welcome to the CS Core Portal")

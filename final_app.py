@@ -13,7 +13,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-
 # --- 2. PERSISTENT STORAGE FUNCTIONS ---
 COMMENTS_FILE = os.path.join(os.getcwd(), "comments.json")
 QUESTIONS_FILE = os.path.join(os.getcwd(), "community_qs.json")
@@ -82,15 +81,13 @@ def load_comments():
     return initial_data
 
 def save_comment(name, msg):
-    comments = load_comments() # Load fresh from file
+    comments = load_comments()
     comments.append({"u": name, "m": msg, "t": time.strftime("%I:%M %p")})
     try:
         with open(COMMENTS_FILE, "w", encoding="utf-8") as f:
             json.dump(comments, f, ensure_ascii=False, indent=4)
     except Exception as e:
         st.error(f"Error saving comment: {e}")
-
-    # st.rerun() # Removed as it causes redirection issues, handled by st.rerun() in the form submission
 
 # --- 3. PIXEL-PERFECT CYBERPUNK STYLING ---
 st.markdown("""
@@ -157,6 +154,47 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+# --- 5. SIDEBAR NAVIGATION (Moved up to define display_page first) ---
+st.sidebar.title("💎 Academic Navigation")
+search_query = st.sidebar.text_input("🔍 Search Platform / ابحث في المنصة:", placeholder="e.g. Deadlock, DFA...")
+if search_query:
+    st.sidebar.info(f"Searching for: {search_query}")
+st.sidebar.write("---")
+
+if 'current_page' not in st.session_state:
+    st.session_state.current_page = "Home Page"
+
+main_subject = st.sidebar.selectbox(
+    "Select Course / اختر المادة:",
+    ["Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall", "👥 Community Corner"],
+    key="main_nav_select"
+)
+
+if main_subject == "Theory of Computation":
+    subject = st.sidebar.selectbox(
+        "Select Lesson / اختر الدرس:",
+        ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"]
+    )
+    st.session_state.current_page = subject
+elif main_subject == "Operating Systems":
+    subject = st.sidebar.selectbox(
+        "Select Lesson / اختر الدرس:",
+        ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services", "Operating Systems: Chapter 3 - Process Management", "Operating Systems: Chapter 4 - Threads", "Operating Systems: Chapter 5 - CPU Scheduling", "Operating Systems: Chapter 6 - Synchronization", "Operating Systems: Chapter 7 - Deadlocks", "Operating Systems: Chapter 8 - Memory Management", "Operating Systems: Chapter 9 - Mass-Storage", "Operating Systems: Chapter 10 - File Systems", "🎓 OS Course Completion"]
+    )
+    st.session_state.current_page = subject
+else:
+    st.session_state.current_page = main_subject
+
+st.sidebar.write("---")
+st.sidebar.write("### 📞 تواصل معي / Contact Me")
+col1, col2 = st.sidebar.columns(2)
+if col1.button("📧 Contact", key="contact_btn"):
+    st.session_state.current_page = "Contact Developer"
+if col2.button("💬 Feedback", key="feedback_btn"):
+    st.session_state.current_page = "Community Feedback"
+
+display_page = st.session_state.current_page
+
 # --- 4. PIXEL-PERFECT HEADER & HERO ---
 if display_page == "Home Page":
     st.markdown("""
@@ -217,74 +255,25 @@ else:
         </div>
     """, unsafe_allow_html=True)
 
-
-# --- 5. SIDEBAR NAVIGATION ---
-st.sidebar.title("💎 Academic Navigation")
-
-# --- SEARCH FEATURE ---
-search_query = st.sidebar.text_input("🔍 Search Platform / ابحث في المنصة:", placeholder="e.g. Deadlock, DFA...")
-if search_query:
-    st.sidebar.info(f"Searching for: {search_query}")
-
-st.sidebar.write("---")
-
-# Initialize session state
-if 'current_page' not in st.session_state:
-    st.session_state.current_page = "Home Page"
-
-# Main category selection
-main_subject = st.sidebar.selectbox(
-    "Select Course / اختر المادة:",
-    ["Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall", "👥 Community Corner"],
-    key="main_nav_select"
-)
-
-# Handle sub-navigation or direct page assignment
-if main_subject == "Theory of Computation":
-    subject = st.sidebar.selectbox(
-        "Select Lesson / اختر الدرس:",
-        ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"]
-    )
-    st.session_state.current_page = subject
-elif main_subject == "Operating Systems":
-    subject = st.sidebar.selectbox(
-        "Select Lesson / اختر الدرس:",
-        ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services", "Operating Systems: Chapter 3 - Process Management", "Operating Systems: Chapter 4 - Threads", "Operating Systems: Chapter 5 - CPU Scheduling", "Operating Systems: Chapter 6 - Synchronization", "Operating Systems: Chapter 7 - Deadlocks", "Operating Systems: Chapter 8 - Memory Management", "Operating Systems: Chapter 9 - Mass-Storage", "Operating Systems: Chapter 10 - File Systems", "🎓 OS Course Completion"]
-    )
-    st.session_state.current_page = subject
-else:
-    st.session_state.current_page = main_subject
-
-# Override if contact or feedback buttons are pressed
-st.sidebar.write("---")
-st.sidebar.write("### 📞 تواصل معي / Contact Me")
-col1, col2 = st.sidebar.columns(2)
-if col1.button("📧 Contact", key="contact_btn"):
-    st.session_state.current_page = "Contact Developer"
-if col2.button("💬 Feedback", key="feedback_btn"):
-    st.session_state.current_page = "Community Feedback"
-
-display_page = st.session_state.current_page
-
-
-
 # --- 6. MODULES ---
 if display_page == "Home Page":
+    # The new Hero UI is already displayed above for Home Page.
+    # We can add the original announcement banner or other home-specific content here if needed.
     st.markdown("""<div class="announcement-banner">🎊 إنجاز جديد: تم بحمد الله الانتهاء من إضافة كافة شباتر مادة نظم التشغيل (OS) كاملة! 🎓✨</div>""", unsafe_allow_html=True)
-    st.markdown("## 🏛️ Welcome to the CS Core Portal")
-    st.markdown("""
-    <div class="learning-card">
-    <h3>عن المنصة / About the Platform</h3>
-    <p>هذه المنصة هي <b>مبادرة طلابية تعليمية متقدمة</b> تهدف إلى تبسيط المفاهيم المعقدة في علوم الحاسب، وتغطي حالياً وبشكل كامل مادتي <b>نظرية الحوسبة (TOC)</b> و <b>نظم التشغيل (OS)</b>.</p>
-    <p><b>المصدر العلمي (Academic Source):</b>  
-    تم استقاء كافة المعلومات العلمية، التعريفات الرياضية، والنماذج التوضيحية من المناهج الأكاديمية المعتمدة في <b>جامعة تبوك</b>. تم تصميم المحتوى ليكون مرجعاً شاملاً يساعد الطلاب على فهم تعقيدات الأوتوماتا واللغات الرسمية.</p>
-    <div class="info-grid">
-        <div class="info-item"><b>🎯 الهدف:</b> تبسيط المفاهيم المعقدة مثل DFA, NFA, و PDA.</div>
-        <div class="info-item"><b>🛠️ الأدوات:</b> محاكيات تفاعلية، رسومات بيانية حية، واختبارات تقييمية.</div>
-        <div class="info-item"><b>📚 المحتوى:</b> يغطي المنهج الكامل من الأساسيات الرياضية إلى نماذج الحوسبة المتقدمة وآلات تورينج.</div>
-    </div>
-    </div>
-    """, unsafe_allow_html=True)
+    with st.expander("ℹ️ عن المنصة / About the Platform"):
+        st.markdown("""
+        <div class="learning-card">
+        <h3>عن المنصة / About the Platform</h3>
+        <p>هذه المنصة هي <b>مبادرة طلابية تعليمية متقدمة</b> تهدف إلى تبسيط المفاهيم المعقدة في علوم الحاسب، وتغطي حالياً وبشكل كامل مادتي <b>نظرية الحوسبة (TOC)</b> و <b>نظم التشغيل (OS)</b>.</p>
+        <p><b>المصدر العلمي (Academic Source):</b>  
+        تم استقاء كافة المعلومات العلمية، التعريفات الرياضية، والنماذج التوضيحية من المناهج الأكاديمية المعتمدة في <b>جامعة تبوك</b>. تم تصميم المحتوى ليكون مرجعاً شاملاً يساعد الطلاب على فهم تعقيدات الأوتوماتا واللغات الرسمية.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>🎯 الهدف:</b> تبسيط المفاهيم المعقدة مثل DFA, NFA, و PDA.</div>
+            <div class="info-item"><b>🛠️ الأدوات:</b> محاكيات تفاعلية، رسومات بيانية حية، واختبارات تقييمية.</div>
+            <div class="info-item"><b>📚 المحتوى:</b> يغطي المنهج الكامل من الأساسيات الرياضية إلى نماذج الحوسبة المتقدمة وآلات تورينج.</div>
+        </div>
+        </div>
+        """, unsafe_allow_html=True)
 elif display_page == "Foundations of TOC":
     st.markdown("## 📘 Foundations of Theory of Computation")
     tab_intro, tab_alphabets, tab_strings, tab_languages, tab_sets, tab_functions, tab_boolean, tab_q = st.tabs(["📖 Introduction", "🔤 Alphabets", "🧵 Strings", "🗣️ Languages", "📊 Sets", "⚙️ Functions", "🧠 Boolean Logic", "📝 Comprehensive Quiz"])

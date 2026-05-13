@@ -96,310 +96,45 @@ def save_comment(name, msg):
 st.markdown("""
     <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    /* CYBERPUNK FUTURISTIC THEME */
-    .main { 
-        background: linear-gradient(135deg, #0a0e27 0%, #16213e 50%, #0f3460 100%);
-        background-attachment: fixed;
-        color: #e0e0e0;
-    }
-    
-    body {
-        background: linear-gradient(135deg, #0a0e27 0%, #16213e 50%, #0f3460 100%) !important;
-        font-family: 'Courier New', monospace;
-    }
-    
-    /* GLASSMORPHISM EFFECT */
-    .glass-effect {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-    }
-    
-    /* HEADER BOX - CYBERPUNK STYLE */
-    .header-box {
-        text-align: center; 
-        padding: 60px 40px;
-        background: linear-gradient(135deg, rgba(138, 43, 226, 0.15) 0%, rgba(0, 191, 255, 0.15) 100%);
-        border: 2px solid;
-        border-image: linear-gradient(135deg, #a82be2 0%, #00bfff 100%) 1;
-        color: #00ffff;
-        border-radius: 25px; 
-        margin-bottom: 40px;
-        box-shadow: 0 0 30px rgba(138, 43, 226, 0.5), 0 0 60px rgba(0, 191, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.1);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .header-box::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
-        animation: pulse 4s ease-in-out infinite;
-    }
-    
-    @keyframes pulse {
-        0%, 100% { transform: scale(1); opacity: 0.5; }
-        50% { transform: scale(1.1); opacity: 0.8; }
-    }
-    
-    /* ANNOUNCEMENT BANNER - NEON GLOW */
-    .announcement-banner {
-        background: linear-gradient(90deg, rgba(255, 0, 127, 0.2) 0%, rgba(0, 255, 255, 0.2) 100%);
-        color: #00ffff;
-        padding: 15px 20px;
-        border-radius: 15px;
-        text-align: center; 
-        font-weight: bold; 
-        margin-bottom: 20px;
-        border: 2px solid #00ffff;
-        direction: rtl;
-        box-shadow: 0 0 20px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.2);
-        text-shadow: 0 0 10px #00ffff, 0 0 20px #a82be2;
-    }
-    
-    /* LEARNING CARDS - GLASSMORPHISM + NEON */
-    .learning-card {
-        background: rgba(20, 33, 61, 0.6);
-        backdrop-filter: blur(15px);
-        padding: 35px; 
-        border-radius: 20px; 
-        border: 2px solid rgba(138, 43, 226, 0.5);
-        margin-bottom: 30px; 
-        box-shadow: 0 0 30px rgba(138, 43, 226, 0.4), 0 0 60px rgba(0, 191, 255, 0.2), inset 0 0 20px rgba(0, 255, 255, 0.05);
-        line-height: 1.8;
-        color: #e0e0e0;
-        transition: all 0.3s ease;
-    }
-    
-    .learning-card:hover {
-        border-color: rgba(0, 255, 255, 0.8);
-        box-shadow: 0 0 40px rgba(0, 255, 255, 0.6), 0 0 80px rgba(138, 43, 226, 0.3), inset 0 0 30px rgba(0, 255, 255, 0.1);
-    }
-    
-    /* CONCEPT BADGE - NEON PURPLE */
-    .concept-badge {
-        background: linear-gradient(135deg, rgba(138, 43, 226, 0.8) 0%, rgba(75, 0, 130, 0.8) 100%);
-        color: #00ffff;
-        padding: 8px 20px; 
-        border-radius: 25px; 
-        font-size: 14px; 
-        font-weight: bold; 
-        display: inline-block; 
-        margin-bottom: 15px;
-        border: 1px solid #00ffff;
-        box-shadow: 0 0 15px rgba(138, 43, 226, 0.8), 0 0 30px rgba(0, 255, 255, 0.4);
-        text-shadow: 0 0 5px #00ffff;
-    }
-    
-    /* STEP BOX - CYAN GLOW */
-    .step-box {
-        background: rgba(0, 191, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border: 2px solid #00bfff;
-        padding: 20px; 
-        border-radius: 15px; 
-        margin: 20px 0; 
-        color: #00ffff;
-        box-shadow: 0 0 20px rgba(0, 191, 255, 0.5), inset 0 0 10px rgba(0, 255, 255, 0.1);
-    }
-    
-    /* INFO GRID */
-    .info-grid {
-        display: grid; 
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-        gap: 20px; 
-        margin-top: 20px;
-    }
-    
-    /* INFO ITEM - GLASSMORPHISM */
-    .info-item {
-        background: rgba(30, 58, 138, 0.3);
-        backdrop-filter: blur(10px);
-        padding: 20px; 
-        border-radius: 15px; 
-        border: 1px solid rgba(0, 255, 255, 0.3);
-        box-shadow: 0 0 15px rgba(138, 43, 226, 0.2), inset 0 0 10px rgba(0, 255, 255, 0.05);
-        color: #e0e0e0;
-        transition: all 0.3s ease;
-    }
-    
-    .info-item:hover {
-        border-color: rgba(0, 255, 255, 0.8);
-        box-shadow: 0 0 25px rgba(0, 255, 255, 0.5), inset 0 0 15px rgba(0, 255, 255, 0.1);
-        background: rgba(30, 58, 138, 0.5);
-    }
-    
-    /* HEADINGS - CYAN GLOW */
-    h1, h2, h3, h4, h5, h6 { 
-        color: #00ffff; 
-        font-weight: 900;
-        text-shadow: 0 0 10px rgba(0, 255, 255, 0.6), 0 0 20px rgba(138, 43, 226, 0.3);
-    }
-    
-    /* HIGHLIGHT */
-    .highlight { 
-        color: #00ffff; 
-        font-weight: bold; 
-        background: rgba(0, 255, 255, 0.15);
-        padding: 2px 6px; 
-        border-radius: 4px;
-        border-left: 2px solid #00ffff;
-        box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-    }
-    
-    /* COMMENT BOX - GLASSMORPHISM */
-    .comment-box {
-        background: rgba(138, 43, 226, 0.1);
-        backdrop-filter: blur(10px);
-        padding: 15px; 
-        border-radius: 12px; 
-        border: 1px solid rgba(138, 43, 226, 0.5);
-        margin-bottom: 15px; 
-        line-height: 1.5;
-        direction: rtl; 
-        text-align: right;
-        color: #e0e0e0;
-        box-shadow: 0 0 15px rgba(138, 43, 226, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.05);
-    }
-    
-    /* FOOTER - DARK CYBERPUNK */
-    .footer {
-        text-align: center; 
-        padding: 40px; 
-        margin-top: 80px;
-        border-top: 2px solid;
-        border-image: linear-gradient(90deg, #a82be2 0%, #00bfff 100%) 1;
-        background: rgba(10, 14, 39, 0.8);
-        color: #00ffff;
-        box-shadow: 0 -10px 30px rgba(138, 43, 226, 0.2);
-    }
-    
-    /* SUMMARY TABLE - NEON STYLE */
-    .summary-table {
-        width: 100%; 
-        border-collapse: collapse; 
-        margin-top: 20px;
-        background: rgba(20, 33, 61, 0.5);
-        border: 1px solid rgba(138, 43, 226, 0.5);
-        border-radius: 10px;
-        overflow: hidden;
-    }
-    
-    .summary-table th, .summary-table td {
-        border: 1px solid rgba(0, 255, 255, 0.3); 
-        padding: 12px; 
-        text-align: left;
-        color: #e0e0e0;
-    }
-    
-    .summary-table th {
-        background: linear-gradient(135deg, rgba(138, 43, 226, 0.6) 0%, rgba(0, 191, 255, 0.6) 100%);
-        color: #00ffff;
-        font-weight: bold;
-        text-shadow: 0 0 5px #00ffff;
-        box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.2);
-    }
-    
-    .summary-table tr:hover {
-        background: rgba(0, 255, 255, 0.1);
-        box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.1);
-    }
-    
-    /* SIDEBAR STYLING */
-    [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, rgba(10, 14, 39, 0.95) 0%, rgba(15, 52, 96, 0.95) 100%) !important;
-        border-right: 2px solid rgba(0, 255, 255, 0.3) !important;
-        box-shadow: inset -10px 0 30px rgba(138, 43, 226, 0.2) !important;
-    }
-    
-    /* BUTTONS - NEON GLOW */
-    button {
-        background: linear-gradient(135deg, rgba(138, 43, 226, 0.7) 0%, rgba(0, 191, 255, 0.7) 100%) !important;
-        color: #00ffff !important;
-        border: 1px solid #00ffff !important;
-        border-radius: 10px !important;
-        padding: 10px 20px !important;
-        font-weight: bold !important;
-        box-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 191, 255, 0.3) !important;
-        text-shadow: 0 0 5px #00ffff !important;
-        transition: all 0.3s ease !important;
-    }
-    
-    button:hover {
-        box-shadow: 0 0 25px rgba(0, 255, 255, 0.8), 0 0 50px rgba(138, 43, 226, 0.5) !important;
-        background: linear-gradient(135deg, rgba(138, 43, 226, 0.9) 0%, rgba(0, 191, 255, 0.9) 100%) !important;
-    }
-    
-    /* INPUT FIELDS - GLASSMORPHISM */
-    input, textarea, select {
-        background: rgba(30, 58, 138, 0.4) !important;
-        border: 1px solid rgba(0, 255, 255, 0.4) !important;
-        color: #e0e0e0 !important;
-        border-radius: 10px !important;
-        padding: 10px 15px !important;
-        box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.1), 0 0 15px rgba(138, 43, 226, 0.2) !important;
-    }
-    
-    input:focus, textarea:focus, select:focus {
-        border-color: #00ffff !important;
-        box-shadow: inset 0 0 15px rgba(0, 255, 255, 0.2), 0 0 25px rgba(0, 255, 255, 0.5) !important;
-    }
-    
-    /* TABS - NEON STYLE */
-    [data-testid="stTabs"] {
-        border-bottom: 2px solid rgba(0, 255, 255, 0.3) !important;
-    }
-    
-    button[data-testid="stTab"] {
-        color: #00ffff !important;
-        border-bottom: 2px solid transparent !important;
-        transition: all 0.3s ease !important;
-    }
-    
-    button[data-testid="stTab"][aria-selected="true"] {
-        border-bottom-color: #00ffff !important;
-        box-shadow: 0 -5px 20px rgba(0, 255, 255, 0.6) !important;
-        color: #00ffff !important;
-        text-shadow: 0 0 10px #00ffff !important;
-    }
-    
-    /* SCROLLBAR - CYBERPUNK */
-    ::-webkit-scrollbar {
-        width: 12px;
-    }
-    
-    ::-webkit-scrollbar-track {
-        background: rgba(10, 14, 39, 0.5);
-    }
-    
-    ::-webkit-scrollbar-thumb {
-        background: linear-gradient(180deg, #a82be2 0%, #00bfff 100%);
-        border-radius: 6px;
-        box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-        box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
-    }
-    
+    .main { background: linear-gradient(135deg, #0a0e27 0%, #16213e 50%, #0f3460 100%) !important; background-attachment: fixed !important; }
+    body { background: linear-gradient(135deg, #0a0e27 0%, #16213e 50%, #0f3460 100%) !important; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important; }
+    .header-box { text-align: center; padding: 80px 40px; background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(0, 191, 255, 0.1) 100%); border: 2px solid rgba(0, 191, 255, 0.4); color: #00ffff; border-radius: 30px; margin-bottom: 40px; box-shadow: 0 0 40px rgba(138, 43, 226, 0.4), 0 0 80px rgba(0, 191, 255, 0.2), inset 0 0 30px rgba(0, 255, 255, 0.05); position: relative; overflow: hidden; }
+    .announcement-banner { background: linear-gradient(90deg, rgba(138, 43, 226, 0.2) 0%, rgba(0, 191, 255, 0.2) 100%); color: #00ffff; padding: 15px 20px; border-radius: 15px; text-align: center; font-weight: bold; margin-bottom: 20px; border: 2px solid #00ffff; direction: rtl; box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 10px rgba(0, 255, 255, 0.1); text-shadow: 0 0 10px #00ffff; }
+    .learning-card { background: rgba(20, 33, 61, 0.6); backdrop-filter: blur(15px); padding: 35px; border-radius: 20px; border: 2px solid rgba(0, 191, 255, 0.4); margin-bottom: 30px; box-shadow: 0 0 30px rgba(138, 43, 226, 0.3), 0 0 60px rgba(0, 191, 255, 0.15), inset 0 0 20px rgba(0, 255, 255, 0.03); line-height: 1.8; color: #e0e0e0; transition: all 0.3s ease; }
+    .learning-card:hover { border-color: rgba(0, 255, 255, 0.8); box-shadow: 0 0 40px rgba(0, 255, 255, 0.5), 0 0 80px rgba(138, 43, 226, 0.2), inset 0 0 30px rgba(0, 255, 255, 0.08); }
+    .concept-badge { background: linear-gradient(135deg, rgba(138, 43, 226, 0.8) 0%, rgba(75, 0, 130, 0.8) 100%); color: #00ffff; padding: 8px 20px; border-radius: 25px; font-size: 14px; font-weight: bold; display: inline-block; margin-bottom: 15px; border: 1px solid #00ffff; box-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 255, 255, 0.3); text-shadow: 0 0 5px #00ffff; }
+    .step-box { background: rgba(0, 191, 255, 0.1); backdrop-filter: blur(10px); border: 2px solid #00bfff; padding: 20px; border-radius: 15px; margin: 20px 0; color: #00ffff; box-shadow: 0 0 20px rgba(0, 191, 255, 0.4), inset 0 0 10px rgba(0, 255, 255, 0.08); }
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
+    .info-item { background: rgba(30, 58, 138, 0.3); backdrop-filter: blur(10px); padding: 20px; border-radius: 15px; border: 1px solid rgba(0, 255, 255, 0.3); box-shadow: 0 0 15px rgba(138, 43, 226, 0.2), inset 0 0 10px rgba(0, 255, 255, 0.03); color: #e0e0e0; transition: all 0.3s ease; }
+    .info-item:hover { border-color: rgba(0, 255, 255, 0.8); box-shadow: 0 0 25px rgba(0, 255, 255, 0.4), inset 0 0 15px rgba(0, 255, 255, 0.08); background: rgba(30, 58, 138, 0.5); }
+    h1, h2, h3, h4, h5, h6 { color: #00ffff; font-weight: 900; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5), 0 0 20px rgba(138, 43, 226, 0.2); }
+    .highlight { color: #00ffff; font-weight: bold; background: rgba(0, 255, 255, 0.15); padding: 2px 6px; border-radius: 4px; border-left: 2px solid #00ffff; box-shadow: 0 0 10px rgba(0, 255, 255, 0.2); }
+    .comment-box { background: rgba(138, 43, 226, 0.1); backdrop-filter: blur(10px); padding: 15px; border-radius: 12px; border: 1px solid rgba(138, 43, 226, 0.5); margin-bottom: 15px; line-height: 1.5; direction: rtl; text-align: right; color: #e0e0e0; box-shadow: 0 0 15px rgba(138, 43, 226, 0.2), inset 0 0 10px rgba(0, 255, 255, 0.03); }
+    .footer { text-align: center; padding: 40px; margin-top: 80px; border-top: 2px solid rgba(0, 191, 255, 0.4); background: rgba(10, 14, 39, 0.8); color: #00ffff; box-shadow: 0 -10px 30px rgba(138, 43, 226, 0.2); }
+    .summary-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: rgba(20, 33, 61, 0.5); border: 1px solid rgba(138, 43, 226, 0.4); border-radius: 10px; overflow: hidden; }
+    .summary-table th, .summary-table td { border: 1px solid rgba(0, 255, 255, 0.2); padding: 12px; text-align: left; color: #e0e0e0; }
+    .summary-table th { background: linear-gradient(135deg, rgba(138, 43, 226, 0.6) 0%, rgba(0, 191, 255, 0.6) 100%); color: #00ffff; font-weight: bold; text-shadow: 0 0 5px #00ffff; box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.1); }
+    .summary-table tr:hover { background: rgba(0, 255, 255, 0.08); box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.08); }
+    [data-testid="stSidebar"] { background: linear-gradient(180deg, rgba(10, 14, 39, 0.95) 0%, rgba(15, 52, 96, 0.95) 100%) !important; border-right: 2px solid rgba(0, 255, 255, 0.3) !important; box-shadow: inset -10px 0 30px rgba(138, 43, 226, 0.15) !important; }
+    button { background: linear-gradient(135deg, rgba(138, 43, 226, 0.7) 0%, rgba(0, 191, 255, 0.7) 100%) !important; color: #00ffff !important; border: 1px solid #00ffff !important; border-radius: 10px !important; padding: 10px 20px !important; font-weight: bold !important; box-shadow: 0 0 15px rgba(138, 43, 226, 0.5), 0 0 30px rgba(0, 191, 255, 0.2) !important; text-shadow: 0 0 5px #00ffff !important; transition: all 0.3s ease !important; }
+    button:hover { box-shadow: 0 0 25px rgba(0, 255, 255, 0.7), 0 0 50px rgba(138, 43, 226, 0.4) !important; background: linear-gradient(135deg, rgba(138, 43, 226, 0.9) 0%, rgba(0, 191, 255, 0.9) 100%) !important; }
+    input, textarea, select { background: rgba(30, 58, 138, 0.4) !important; border: 1px solid rgba(0, 255, 255, 0.4) !important; color: #e0e0e0 !important; border-radius: 10px !important; padding: 10px 15px !important; box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.08), 0 0 15px rgba(138, 43, 226, 0.15) !important; }
+    input:focus, textarea:focus, select:focus { border-color: #00ffff !important; box-shadow: inset 0 0 15px rgba(0, 255, 255, 0.15), 0 0 25px rgba(0, 255, 255, 0.4) !important; }
+    [data-testid="stTabs"] { border-bottom: 2px solid rgba(0, 255, 255, 0.3) !important; }
+    button[data-testid="stTab"] { color: #00ffff !important; border-bottom: 2px solid transparent !important; transition: all 0.3s ease !important; }
+    button[data-testid="stTab"][aria-selected="true"] { border-bottom-color: #00ffff !important; box-shadow: 0 -5px 20px rgba(0, 255, 255, 0.5) !important; color: #00ffff !important; text-shadow: 0 0 10px #00ffff !important; }
+    ::-webkit-scrollbar { width: 12px; }
+    ::-webkit-scrollbar-track { background: rgba(10, 14, 39, 0.5); }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #a82be2 0%, #00bfff 100%); border-radius: 6px; box-shadow: 0 0 10px rgba(0, 255, 255, 0.4); }
+    ::-webkit-scrollbar-thumb:hover { box-shadow: 0 0 20px rgba(0, 255, 255, 0.7); }
     </style>
     """, unsafe_allow_html=True)
 
 # --- 4. HEADER ---
 st.markdown(f"""
     <div class="header-box">
-        <div style="font-size: clamp(60px, 12vw, 120px); font-weight: 900; letter-spacing: 5px; margin-bottom: 20px; color: #00ffff; text-shadow: 0 0 20px #00ffff, 0 0 40px #a82be2, 0 0 60px #00bfff; font-family: 'Courier New', monospace;">M</div>
-        <div style="font-family: 'Courier New', monospace; font-size: clamp(28px, 6vw, 56px); font-weight: 900; letter-spacing: 3px; color: #00ffff; text-shadow: 0 0 15px #00ffff, 0 0 30px #a82be2;">MOHRAH CS CORE</div>
-        <div style="font-size: clamp(16px, 3vw, 24px); font-weight: 300; margin-top: 20px; border-top: 2px solid rgba(0, 255, 255, 0.5); display: inline-block; padding-top: 15px; color: #00bfff; text-shadow: 0 0 10px #00bfff;">
-            THE JEWEL OF COMPUTER SCIENCE | جوهرة علوم الحاسب
-        </div>
-        <div style="font-size: clamp(14px, 2vw, 20px); font-weight: 400; margin-top: 15px; color: #e0e0e0; letter-spacing: 2px;">
+        <div style="font-family: 'Georgia', serif; font-size: clamp(28px, 6vw, 56px); font-weight: 900; letter-spacing: 3px;">THE JEWEL OF COMPUTER SCIENCE</div>
+        <div style="font-size: clamp(18px, 3vw, 28px); font-weight: 300; margin-top: 20px; border-top: 2px solid rgba(255,255,255,0.4); display: inline-block; padding-top: 15px;">
             MOHRAH ATIAH AL-JUHANI | مهره عطيه الجهني
         </div>
     </div>

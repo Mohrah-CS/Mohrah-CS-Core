@@ -5,340 +5,6 @@ import os
 import json
 import pandas as pd
 
-LANDING_PAGE_HTML = """<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MOHRAH CS CORE - Legendary Landing</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --neon-purple: #bc13fe;
-            --neon-blue: #00d2ff;
-            --neon-cyan: #00fff2;
-            --deep-space: #020617;
-        }
-
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--deep-space);
-            color: white;
-            font-family: 'Rajdhani', sans-serif;
-            overflow-x: hidden;
-        }
-
-        .orbitron { font-family: 'Orbitron', sans-serif; }
-
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .content-wrapper {
-            position: relative;
-            z-index: 1;
-        }
-
-        .glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-        }
-
-        .hero-title {
-            font-size: clamp(2.5rem, 8vw, 6rem);
-            font-weight: 900;
-            letter-spacing: 0.3rem;
-            background: linear-gradient(to bottom, #fff 30%, var(--neon-blue) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.5));
-        }
-
-        .btn-glow {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .btn-glow:hover {
-            box-shadow: 0 0 30px var(--neon-cyan);
-            transform: scale(1.05);
-        }
-
-        .course-card {
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .course-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--neon-cyan);
-        }
-
-        .scanline {
-            width: 100%;
-            height: 100px;
-            z-index: 10;
-            background: linear-gradient(0deg, rgba(0, 255, 242, 0) 0%, rgba(0, 255, 242, 0.05) 50%, rgba(0, 255, 242, 0) 100%);
-            opacity: 0.1;
-            position: fixed;
-            bottom: 100%;
-            animation: scanline 10s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes scanline {
-            0% { bottom: 100%; }
-            100% { bottom: -100%; }
-        }
-
-        .enter-btn {
-            background: linear-gradient(45deg, var(--neon-purple), var(--neon-blue));
-            border: none;
-            padding: 1rem 3rem;
-            border-radius: 50px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: bold;
-            letter-spacing: 2px;
-            color: white;
-            text-transform: uppercase;
-            box-shadow: 0 0 20px rgba(188, 19, 254, 0.5);
-            transition: 0.3s;
-        }
-
-        .enter-btn:hover {
-            box-shadow: 0 0 40px rgba(0, 210, 255, 0.8);
-            transform: scale(1.1);
-        }
-    </style>
-</head>
-<body>
-    <div id="canvas-container"></div>
-    <div class="scanline"></div>
-
-    <div class="content-wrapper">
-        <!-- Hero Section -->
-        <section class="min-h-screen flex flex-col items-center justify-center text-center px-4">
-            <div class="mb-8">
-                <h1 class="hero-title orbitron mb-4 opacity-0" id="main-title">MOHRAH CS CORE</h1>
-                <p class="text-xl md:text-3xl font-light tracking-widest text-blue-200 mb-12 opacity-0" id="sub-title">
-                    رحلتك المتكاملة في علوم الحاسب
-                </p>
-            </div>
-            
-            <div class="opacity-0" id="hero-btns">
-                <!-- This button will be handled by Streamlit, but we show a placeholder for the visual -->
-                <div class="text-gray-400 orbitron text-xs tracking-[0.5em] mb-4">INITIALIZING SYSTEM...</div>
-            </div>
-        </section>
-
-        <!-- Stats Section -->
-        <section class="py-20 px-4">
-            <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div class="glass p-8 rounded-2xl text-center stat-card opacity-0">
-                    <div class="text-4xl font-bold orbitron text-cyan-400 mb-2">5000+</div>
-                    <div class="text-gray-400 uppercase tracking-widest text-xs">Students</div>
-                </div>
-                <div class="glass p-8 rounded-2xl text-center stat-card opacity-0">
-                    <div class="text-4xl font-bold orbitron text-purple-400 mb-2">150+</div>
-                    <div class="text-gray-400 uppercase tracking-widest text-xs">Lessons</div>
-                </div>
-                <div class="glass p-8 rounded-2xl text-center stat-card opacity-0">
-                    <div class="text-4xl font-bold orbitron text-blue-400 mb-2">98%</div>
-                    <div class="text-gray-400 uppercase tracking-widest text-xs">Success Rate</div>
-                </div>
-                <div class="glass p-8 rounded-2xl text-center stat-card opacity-0">
-                    <div class="text-4xl font-bold orbitron text-pink-400 mb-2">24/7</div>
-                    <div class="text-gray-400 uppercase tracking-widest text-xs">AI Support</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Courses Section -->
-        <section class="py-20 px-4">
-            <h2 class="orbitron text-4xl text-center mb-16 tracking-widest opacity-0" id="courses-title">CORE MODULES</h2>
-            <div class="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="glass p-8 rounded-3xl course-card opacity-0">
-                    <h3 class="orbitron text-xl mb-4 text-cyan-400">Operating Systems</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Master process management, memory allocation, and kernel architectures.</p>
-                </div>
-                <div class="glass p-8 rounded-3xl course-card opacity-0">
-                    <h3 class="orbitron text-xl mb-4 text-purple-400">Theory of Computation</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Explore automata, formal languages, and the limits of computability.</p>
-                </div>
-                <div class="glass p-8 rounded-3xl course-card opacity-0">
-                    <h3 class="orbitron text-xl mb-4 text-blue-400">Computer Architecture</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Deep dive into CPU design, instruction sets, and hardware logic.</p>
-                </div>
-                <div class="glass p-8 rounded-3xl course-card opacity-0">
-                    <h3 class="orbitron text-xl mb-4 text-pink-400">Artificial Intelligence</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Neural networks, machine learning, and the future of intelligent systems.</p>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <script>
-        // Three.js Scene Setup
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-        // Lights
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-        scene.add(ambientLight);
-        
-        const pointLight1 = new THREE.PointLight(0x00d2ff, 2);
-        pointLight1.position.set(5, 5, 5);
-        scene.add(pointLight1);
-
-        const pointLight2 = new THREE.PointLight(0xbc13fe, 2);
-        pointLight2.position.set(-5, -5, 5);
-        scene.add(pointLight2);
-
-        // Stars/Particles
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 3000;
-        const posArray = new Float32Array(particlesCount * 3);
-        for(let i=0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 20;
-        }
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.015,
-            color: 0xffffff,
-            transparent: true,
-            opacity: 0.5,
-            blending: THREE.AdditiveBlending
-        });
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-
-        // Create 3D 'M' Shape
-        const mShape = new THREE.Shape();
-        mShape.moveTo(-1, -1);
-        mShape.lineTo(-1, 1);
-        mShape.lineTo(-0.5, 1);
-        mShape.lineTo(0, 0);
-        mShape.lineTo(0.5, 1);
-        mShape.lineTo(1, 1);
-        mShape.lineTo(1, -1);
-        mShape.lineTo(0.6, -1);
-        mShape.lineTo(0.6, 0.4);
-        mShape.lineTo(0, -0.5);
-        mShape.lineTo(-0.6, 0.4);
-        mShape.lineTo(-0.6, -1);
-        mShape.lineTo(-1, -1);
-
-        const extrudeSettings = {
-            steps: 2,
-            depth: 0.4,
-            bezelEnabled: true,
-            bevelThickness: 0.1,
-            bevelSize: 0.1,
-            bevelOffset: 0,
-            bevelSegments: 5
-        };
-
-        const geometry = new THREE.ExtrudeGeometry(mShape, extrudeSettings);
-        const material = new THREE.MeshStandardMaterial({
-            color: 0x00d2ff,
-            metalness: 0.9,
-            roughness: 0.1,
-            emissive: 0x00d2ff,
-            emissiveIntensity: 0.2
-        });
-        const mLogo = new THREE.Mesh(geometry, material);
-        mLogo.scale.set(1.5, 1.5, 1.5);
-        scene.add(mLogo);
-
-        // Wireframe for holographic effect
-        const wireframe = new THREE.WireframeGeometry(geometry);
-        const lineMaterial = new THREE.LineBasicMaterial({ color: 0xbc13fe, transparent: true, opacity: 0.3 });
-        const line = new THREE.LineSegments(wireframe, lineMaterial);
-        line.scale.set(1.5, 1.5, 1.5);
-        scene.add(line);
-
-        camera.position.z = 6;
-
-        // Animation Loop
-        function animate() {
-            requestAnimationFrame(animate);
-            const time = Date.now() * 0.001;
-            
-            mLogo.rotation.y = Math.sin(time * 0.5) * 0.5;
-            mLogo.position.y = Math.sin(time) * 0.2;
-            
-            line.rotation.y = mLogo.rotation.y;
-            line.position.y = mLogo.position.y;
-            
-            particlesMesh.rotation.y += 0.0005;
-            particlesMesh.rotation.x += 0.0002;
-            
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        // GSAP Animations
-        window.addEventListener('DOMContentLoaded', () => {
-            const tl = gsap.timeline();
-            tl.to('#main-title', { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" })
-              .to('#sub-title', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=1")
-              .to('#hero-btns', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8");
-
-            gsap.to('.stat-card', {
-                scrollTrigger: { trigger: '.stat-card', start: "top 90%" },
-                opacity: 1, y: 0, duration: 0.8, stagger: 0.2
-            });
-
-            gsap.to('#courses-title', {
-                scrollTrigger: { trigger: '#courses-title', start: "top 90%" },
-                opacity: 1, duration: 1
-            });
-
-            gsap.to('.course-card', {
-                scrollTrigger: { trigger: '.course-card', start: "top 90%" },
-                opacity: 1, y: 0, duration: 0.8, stagger: 0.2
-            });
-        });
-
-        // Mouse Move Effect
-        document.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth) - 0.5;
-            const y = (e.clientY / window.innerHeight) - 0.5;
-            gsap.to(camera.position, { x: x * 2, y: -y * 2, duration: 2 });
-        });
-
-        // Resize
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-    </script>
-</body>
-</html>
-"""
-
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
     page_title="MOHRAH CS CORE - Ultimate Edition v11",
@@ -429,67 +95,311 @@ def save_comment(name, msg):
 # --- 3. ADVANCED STYLING ---
 st.markdown("""
     <style>
-    .main { background-color: #ffffff; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    /* CYBERPUNK FUTURISTIC THEME */
+    .main { 
+        background: linear-gradient(135deg, #0a0e27 0%, #16213e 50%, #0f3460 100%);
+        background-attachment: fixed;
+        color: #e0e0e0;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #0a0e27 0%, #16213e 50%, #0f3460 100%) !important;
+        font-family: 'Courier New', monospace;
+    }
+    
+    /* GLASSMORPHISM EFFECT */
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+    }
+    
+    /* HEADER BOX - CYBERPUNK STYLE */
     .header-box {
-        text-align: center; padding: 50px;
-        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-        color: white; border-radius: 25px; margin-bottom: 40px;
-        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        text-align: center; 
+        padding: 60px 40px;
+        background: linear-gradient(135deg, rgba(138, 43, 226, 0.15) 0%, rgba(0, 191, 255, 0.15) 100%);
+        border: 2px solid;
+        border-image: linear-gradient(135deg, #a82be2 0%, #00bfff 100%) 1;
+        color: #00ffff;
+        border-radius: 25px; 
+        margin-bottom: 40px;
+        box-shadow: 0 0 30px rgba(138, 43, 226, 0.5), 0 0 60px rgba(0, 191, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.1);
+        position: relative;
+        overflow: hidden;
     }
+    
+    .header-box::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+        animation: pulse 4s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 0.5; }
+        50% { transform: scale(1.1); opacity: 0.8; }
+    }
+    
+    /* ANNOUNCEMENT BANNER - NEON GLOW */
     .announcement-banner {
-        background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
-        color: #0f172a; padding: 12px; border-radius: 12px;
-        text-align: center; font-weight: bold; margin-bottom: 20px;
-        border: 2px solid #d97706; direction: rtl;
+        background: linear-gradient(90deg, rgba(255, 0, 127, 0.2) 0%, rgba(0, 255, 255, 0.2) 100%);
+        color: #00ffff;
+        padding: 15px 20px;
+        border-radius: 15px;
+        text-align: center; 
+        font-weight: bold; 
+        margin-bottom: 20px;
+        border: 2px solid #00ffff;
+        direction: rtl;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.2);
+        text-shadow: 0 0 10px #00ffff, 0 0 20px #a82be2;
     }
+    
+    /* LEARNING CARDS - GLASSMORPHISM + NEON */
     .learning-card {
-        background-color: #ffffff; padding: 35px; border-radius: 20px; 
-        border-right: 8px solid #1e3a8a; border-left: 8px solid #1e3a8a;
-        margin-bottom: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        background: rgba(20, 33, 61, 0.6);
+        backdrop-filter: blur(15px);
+        padding: 35px; 
+        border-radius: 20px; 
+        border: 2px solid rgba(138, 43, 226, 0.5);
+        margin-bottom: 30px; 
+        box-shadow: 0 0 30px rgba(138, 43, 226, 0.4), 0 0 60px rgba(0, 191, 255, 0.2), inset 0 0 20px rgba(0, 255, 255, 0.05);
         line-height: 1.8;
+        color: #e0e0e0;
+        transition: all 0.3s ease;
     }
+    
+    .learning-card:hover {
+        border-color: rgba(0, 255, 255, 0.8);
+        box-shadow: 0 0 40px rgba(0, 255, 255, 0.6), 0 0 80px rgba(138, 43, 226, 0.3), inset 0 0 30px rgba(0, 255, 255, 0.1);
+    }
+    
+    /* CONCEPT BADGE - NEON PURPLE */
     .concept-badge {
-        background-color: #1e3a8a; color: white; padding: 6px 18px; border-radius: 25px; 
-        font-size: 14px; font-weight: bold; display: inline-block; margin-bottom: 15px;
+        background: linear-gradient(135deg, rgba(138, 43, 226, 0.8) 0%, rgba(75, 0, 130, 0.8) 100%);
+        color: #00ffff;
+        padding: 8px 20px; 
+        border-radius: 25px; 
+        font-size: 14px; 
+        font-weight: bold; 
+        display: inline-block; 
+        margin-bottom: 15px;
+        border: 1px solid #00ffff;
+        box-shadow: 0 0 15px rgba(138, 43, 226, 0.8), 0 0 30px rgba(0, 255, 255, 0.4);
+        text-shadow: 0 0 5px #00ffff;
     }
+    
+    /* STEP BOX - CYAN GLOW */
     .step-box {
-        background-color: #f0f9ff; border: 2px solid #bae6fd; padding: 20px; 
-        border-radius: 15px; margin: 20px 0; color: #0369a1;
+        background: rgba(0, 191, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 2px solid #00bfff;
+        padding: 20px; 
+        border-radius: 15px; 
+        margin: 20px 0; 
+        color: #00ffff;
+        box-shadow: 0 0 20px rgba(0, 191, 255, 0.5), inset 0 0 10px rgba(0, 255, 255, 0.1);
     }
+    
+    /* INFO GRID */
     .info-grid {
-        display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+        gap: 20px; 
+        margin-top: 20px;
     }
+    
+    /* INFO ITEM - GLASSMORPHISM */
     .info-item {
-        background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;
+        background: rgba(30, 58, 138, 0.3);
+        backdrop-filter: blur(10px);
+        padding: 20px; 
+        border-radius: 15px; 
+        border: 1px solid rgba(0, 255, 255, 0.3);
+        box-shadow: 0 0 15px rgba(138, 43, 226, 0.2), inset 0 0 10px rgba(0, 255, 255, 0.05);
+        color: #e0e0e0;
+        transition: all 0.3s ease;
     }
-    h2, h3 { color: #1e3a8a; font-weight: 800; }
-    .highlight { color: #2563eb; font-weight: bold; background: #eff6ff; padding: 2px 6px; border-radius: 4px; }
+    
+    .info-item:hover {
+        border-color: rgba(0, 255, 255, 0.8);
+        box-shadow: 0 0 25px rgba(0, 255, 255, 0.5), inset 0 0 15px rgba(0, 255, 255, 0.1);
+        background: rgba(30, 58, 138, 0.5);
+    }
+    
+    /* HEADINGS - CYAN GLOW */
+    h1, h2, h3, h4, h5, h6 { 
+        color: #00ffff; 
+        font-weight: 900;
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.6), 0 0 20px rgba(138, 43, 226, 0.3);
+    }
+    
+    /* HIGHLIGHT */
+    .highlight { 
+        color: #00ffff; 
+        font-weight: bold; 
+        background: rgba(0, 255, 255, 0.15);
+        padding: 2px 6px; 
+        border-radius: 4px;
+        border-left: 2px solid #00ffff;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    }
+    
+    /* COMMENT BOX - GLASSMORPHISM */
     .comment-box {
-            background-color: #f8fafc; padding: 15px; border-radius: 10px; 
-            border: 1px solid #e2e8f0; margin-bottom: 15px; line-height: 1.5;
-            direction: rtl; text-align: right;
-        }
+        background: rgba(138, 43, 226, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 15px; 
+        border-radius: 12px; 
+        border: 1px solid rgba(138, 43, 226, 0.5);
+        margin-bottom: 15px; 
+        line-height: 1.5;
+        direction: rtl; 
+        text-align: right;
+        color: #e0e0e0;
+        box-shadow: 0 0 15px rgba(138, 43, 226, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.05);
+    }
+    
+    /* FOOTER - DARK CYBERPUNK */
     .footer {
-        text-align: center; padding: 40px; margin-top: 80px;
-        border-top: 3px solid #1e3a8a; background-color: #f1f5f9; color: #0f172a;
+        text-align: center; 
+        padding: 40px; 
+        margin-top: 80px;
+        border-top: 2px solid;
+        border-image: linear-gradient(90deg, #a82be2 0%, #00bfff 100%) 1;
+        background: rgba(10, 14, 39, 0.8);
+        color: #00ffff;
+        box-shadow: 0 -10px 30px rgba(138, 43, 226, 0.2);
     }
+    
+    /* SUMMARY TABLE - NEON STYLE */
     .summary-table {
-        width: 100%; border-collapse: collapse; margin-top: 20px;
+        width: 100%; 
+        border-collapse: collapse; 
+        margin-top: 20px;
+        background: rgba(20, 33, 61, 0.5);
+        border: 1px solid rgba(138, 43, 226, 0.5);
+        border-radius: 10px;
+        overflow: hidden;
     }
+    
     .summary-table th, .summary-table td {
-        border: 1px solid #e2e8f0; padding: 12px; text-align: left;
+        border: 1px solid rgba(0, 255, 255, 0.3); 
+        padding: 12px; 
+        text-align: left;
+        color: #e0e0e0;
     }
+    
     .summary-table th {
-        background-color: #1e3a8a; color: white;
+        background: linear-gradient(135deg, rgba(138, 43, 226, 0.6) 0%, rgba(0, 191, 255, 0.6) 100%);
+        color: #00ffff;
+        font-weight: bold;
+        text-shadow: 0 0 5px #00ffff;
+        box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.2);
     }
+    
+    .summary-table tr:hover {
+        background: rgba(0, 255, 255, 0.1);
+        box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.1);
+    }
+    
+    /* SIDEBAR STYLING */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, rgba(10, 14, 39, 0.95) 0%, rgba(15, 52, 96, 0.95) 100%) !important;
+        border-right: 2px solid rgba(0, 255, 255, 0.3) !important;
+        box-shadow: inset -10px 0 30px rgba(138, 43, 226, 0.2) !important;
+    }
+    
+    /* BUTTONS - NEON GLOW */
+    button {
+        background: linear-gradient(135deg, rgba(138, 43, 226, 0.7) 0%, rgba(0, 191, 255, 0.7) 100%) !important;
+        color: #00ffff !important;
+        border: 1px solid #00ffff !important;
+        border-radius: 10px !important;
+        padding: 10px 20px !important;
+        font-weight: bold !important;
+        box-shadow: 0 0 15px rgba(138, 43, 226, 0.6), 0 0 30px rgba(0, 191, 255, 0.3) !important;
+        text-shadow: 0 0 5px #00ffff !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    button:hover {
+        box-shadow: 0 0 25px rgba(0, 255, 255, 0.8), 0 0 50px rgba(138, 43, 226, 0.5) !important;
+        background: linear-gradient(135deg, rgba(138, 43, 226, 0.9) 0%, rgba(0, 191, 255, 0.9) 100%) !important;
+    }
+    
+    /* INPUT FIELDS - GLASSMORPHISM */
+    input, textarea, select {
+        background: rgba(30, 58, 138, 0.4) !important;
+        border: 1px solid rgba(0, 255, 255, 0.4) !important;
+        color: #e0e0e0 !important;
+        border-radius: 10px !important;
+        padding: 10px 15px !important;
+        box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.1), 0 0 15px rgba(138, 43, 226, 0.2) !important;
+    }
+    
+    input:focus, textarea:focus, select:focus {
+        border-color: #00ffff !important;
+        box-shadow: inset 0 0 15px rgba(0, 255, 255, 0.2), 0 0 25px rgba(0, 255, 255, 0.5) !important;
+    }
+    
+    /* TABS - NEON STYLE */
+    [data-testid="stTabs"] {
+        border-bottom: 2px solid rgba(0, 255, 255, 0.3) !important;
+    }
+    
+    button[data-testid="stTab"] {
+        color: #00ffff !important;
+        border-bottom: 2px solid transparent !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    button[data-testid="stTab"][aria-selected="true"] {
+        border-bottom-color: #00ffff !important;
+        box-shadow: 0 -5px 20px rgba(0, 255, 255, 0.6) !important;
+        color: #00ffff !important;
+        text-shadow: 0 0 10px #00ffff !important;
+    }
+    
+    /* SCROLLBAR - CYBERPUNK */
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: rgba(10, 14, 39, 0.5);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #a82be2 0%, #00bfff 100%);
+        border-radius: 6px;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+    }
+    
     </style>
     """, unsafe_allow_html=True)
 
 # --- 4. HEADER ---
 st.markdown(f"""
     <div class="header-box">
-        <div style="font-family: 'Georgia', serif; font-size: clamp(28px, 6vw, 56px); font-weight: 900; letter-spacing: 3px;">THE JEWEL OF COMPUTER SCIENCE</div>
-        <div style="font-size: clamp(18px, 3vw, 28px); font-weight: 300; margin-top: 20px; border-top: 2px solid rgba(255,255,255,0.4); display: inline-block; padding-top: 15px;">
+        <div style="font-size: clamp(60px, 12vw, 120px); font-weight: 900; letter-spacing: 5px; margin-bottom: 20px; color: #00ffff; text-shadow: 0 0 20px #00ffff, 0 0 40px #a82be2, 0 0 60px #00bfff; font-family: 'Courier New', monospace;">M</div>
+        <div style="font-family: 'Courier New', monospace; font-size: clamp(28px, 6vw, 56px); font-weight: 900; letter-spacing: 3px; color: #00ffff; text-shadow: 0 0 15px #00ffff, 0 0 30px #a82be2;">MOHRAH CS CORE</div>
+        <div style="font-size: clamp(16px, 3vw, 24px); font-weight: 300; margin-top: 20px; border-top: 2px solid rgba(0, 255, 255, 0.5); display: inline-block; padding-top: 15px; color: #00bfff; text-shadow: 0 0 10px #00bfff;">
+            THE JEWEL OF COMPUTER SCIENCE | جوهرة علوم الحاسب
+        </div>
+        <div style="font-size: clamp(14px, 2vw, 20px); font-weight: 400; margin-top: 15px; color: #e0e0e0; letter-spacing: 2px;">
             MOHRAH ATIAH AL-JUHANI | مهره عطيه الجهني
         </div>
     </div>
@@ -508,12 +418,12 @@ st.sidebar.write("---")
 
 # Initialize session state
 if 'current_page' not in st.session_state:
-    st.session_state.current_page = "Landing Page"
+    st.session_state.current_page = "Home Page"
 
 # Main category selection
 main_subject = st.sidebar.selectbox(
     "Select Course / اختر المادة:",
-    ["Landing Page", "Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall", "👥 Community Corner"],
+    ["Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall", "👥 Community Corner"],
     key="main_nav_select"
 )
 
@@ -547,14 +457,6 @@ display_page = st.session_state.current_page
 
 
 # --- 6. MODULES ---
-if st.session_state.current_page == "Landing Page":
-    st.markdown(LANDING_PAGE_HTML, unsafe_allow_html=True)
-    st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("ENTER THE CORE / دخول المنصة", use_container_width=True):
-        st.session_state.current_page = "Home Page"
-        st.rerun()
-    st.stop()
-
 if display_page == "Home Page":
     st.markdown("""<div class="announcement-banner">🎊 إنجاز جديد: تم بحمد الله الانتهاء من إضافة كافة شباتر مادة نظم التشغيل (OS) كاملة! 🎓✨</div>""", unsafe_allow_html=True)
     st.markdown("## 🏛️ Welcome to the CS Core Portal")

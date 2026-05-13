@@ -1,3 +1,10 @@
+import streamlit as st
+import time
+import graphviz
+import os
+import json
+import pandas as pd
+
 LANDING_PAGE_HTML = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -332,13 +339,6 @@ LANDING_PAGE_HTML = """<!DOCTYPE html>
 </html>
 """
 
-import streamlit as st
-import time
-import graphviz
-import os
-import json
-import pandas as pd
-
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
     page_title="MOHRAH CS CORE - Ultimate Edition v11",
@@ -549,6 +549,7 @@ display_page = st.session_state.current_page
 # --- 6. MODULES ---
 if st.session_state.current_page == "Landing Page":
     st.markdown(LANDING_PAGE_HTML, unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
     if st.button("ENTER THE CORE / دخول المنصة", use_container_width=True):
         st.session_state.current_page = "Home Page"
         st.rerun()

@@ -81,16 +81,63 @@ def load_comments():
         except: return initial_data
     return initial_data
 
+def detect_subject_from_comment(msg):
+    """Smart routing: detect if comment is about OS or TOC"""
+    msg_lower = msg.lower()
+    
+    os_keywords = ['operating system', 'نظم التشغيل', 'os', 'process', 'thread', 'scheduling', 'memory', 'deadlock', 'synchronization', 'file system', 'mass storage', 'cpu', 'جدولة', 'عملية', 'خيط', 'ذاكرة', 'تزامن', 'ملف']
+    toc_keywords = ['theory of computation', 'نظرية الحوسبة', 'toc', 'dfa', 'nfa', 'automata', 'regular', 'context free', 'turing', 'language', 'grammar', 'أوتوماتا', 'لغة', 'قواعد']
+    
+    os_score = sum(1 for keyword in os_keywords if keyword in msg_lower)
+    toc_score = sum(1 for keyword in toc_keywords if keyword in msg_lower)
+    
+    if os_score > toc_score and os_score > 0:
+        return "Operating Systems"
+    elif toc_score > os_score and toc_score > 0:
+        return "Theory of Computation"
+    return None
+
+def rate_comment(msg):
+    """Rate comment quality (1-5 stars)"""
+    length = len(msg.split())
+    has_question = '?' in msg
+    has_code = '`' in msg or 'code' in msg.lower()
+    has_reference = 'chapter' in msg.lower() or 'page' in msg.lower()
+    
+    rating = 1
+    if length > 10: rating += 1
+    if has_question: rating += 1
+    if has_code or has_reference: rating += 1
+    if length > 50: rating += 1
+    
+    return min(rating, 5)
+
 def save_comment(name, msg):
     comments = load_comments() # Load fresh from file
-    comments.append({"u": name, "m": msg, "t": time.strftime("%I:%M %p")})
+    rating = rate_comment(msg)
+    detected_subject = detect_subject_from_comment(msg)
+    
+    comments.append({
+        "u": name, 
+        "m": msg, 
+        "t": time.strftime("%I:%M %p"),
+        "rating": rating,
+        "subject": detected_subject
+    })
     try:
         with open(COMMENTS_FILE, "w", encoding="utf-8") as f:
             json.dump(comments, f, ensure_ascii=False, indent=4)
     except Exception as e:
         st.error(f"Error saving comment: {e}")
-
-    # st.rerun() # Removed as it causes redirection issues, handled by st.rerun() in the form submission
+    
+    # Auto-navigate to detected subject
+    if detected_subject:
+        if detected_subject == "Operating Systems":
+            st.session_state.current_page = "Operating Systems: Chapter 1 - Introduction"
+            st.session_state.auto_nav_triggered = True
+        elif detected_subject == "Theory of Computation":
+            st.session_state.current_page = "Foundations of TOC"
+            st.session_state.auto_nav_triggered = True
 
 # --- 3. ADVANCED STYLING ---
 st.markdown("""

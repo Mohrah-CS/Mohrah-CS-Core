@@ -113,31 +113,34 @@ def rate_comment(msg):
     return min(rating, 5)
 
 def save_comment(name, msg):
-    comments = load_comments() # Load fresh from file
-    rating = rate_comment(msg)
-    detected_subject = detect_subject_from_comment(msg)
-    
-    comments.append({
-        "u": name, 
-        "m": msg, 
-        "t": time.strftime("%I:%M %p"),
-        "rating": rating,
-        "subject": detected_subject
-    })
     try:
+        if os.path.exists(COMMENTS_FILE):
+            with open(COMMENTS_FILE, "r", encoding="utf-8") as f:
+                comments = json.load(f)
+        else:
+            comments = []
+        
+        rating = rate_comment(msg)
+        detected_subject = detect_subject_from_comment(msg)
+        
+        new_comment = {
+            "u": name, 
+            "m": msg, 
+            "t": time.strftime("%I:%M %p"),
+            "rating": rating,
+            "subject": detected_subject
+        }
+        
+        comments.append(new_comment)
+        
         with open(COMMENTS_FILE, "w", encoding="utf-8") as f:
             json.dump(comments, f, ensure_ascii=False, indent=4)
+        
+        st.session_state.comment_refresh = time.time()
+        return True, detected_subject
     except Exception as e:
         st.error(f"Error saving comment: {e}")
-    
-    # Auto-navigate to detected subject
-    if detected_subject:
-        if detected_subject == "Operating Systems":
-            st.session_state.current_page = "Operating Systems: Chapter 1 - Introduction"
-            st.session_state.auto_nav_triggered = True
-        elif detected_subject == "Theory of Computation":
-            st.session_state.current_page = "Foundations of TOC"
-            st.session_state.auto_nav_triggered = True
+        return False, None
 
 # --- 3. ADVANCED STYLING ---
 st.markdown("""
@@ -2435,10 +2438,11 @@ elif display_page == "Community Feedback":
         submit = st.form_submit_button("Post / نشر")
         if submit:
             if name and msg:
-                save_comment(name, msg)
-                st.success("✅ Comment saved! / تم حفظ التعليق بنجاح!")
-                st.session_state.current_page = "Community Feedback" 
-                st.rerun()
+                success, subject = save_comment(name, msg)
+                if success:
+                    st.success("✅ Comment saved! / تم حفظ التعليق بنجاح!")
+                    st.session_state.current_page = "Community Feedback"
+                    st.rerun()
             else:
                 st.error("❌ Please fill in both fields. / يرجى ملء جميع الحقول.")
     

@@ -13,6 +13,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+
 # --- 2. PERSISTENT STORAGE FUNCTIONS ---
 COMMENTS_FILE = os.path.join(os.getcwd(), "comments.json")
 QUESTIONS_FILE = os.path.join(os.getcwd(), "community_qs.json")
@@ -81,7 +82,7 @@ def load_comments():
     return initial_data
 
 def save_comment(name, msg):
-    comments = load_comments()
+    comments = load_comments() # Load fresh from file
     comments.append({"u": name, "m": msg, "t": time.strftime("%I:%M %p")})
     try:
         with open(COMMENTS_FILE, "w", encoding="utf-8") as f:
@@ -89,87 +90,100 @@ def save_comment(name, msg):
     except Exception as e:
         st.error(f"Error saving comment: {e}")
 
-# --- 3. PIXEL-PERFECT CYBERPUNK STYLING ---
+    # st.rerun() # Removed as it causes redirection issues, handled by st.rerun() in the form submission
+
+# --- 3. ADVANCED STYLING ---
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cairo:wght@300;400;700;900&display=swap');
-    
-    /* Global Overrides */
-    .main { background: #050816 !important; color: #ffffff !important; }
-    [data-testid="stAppViewContainer"] { background: radial-gradient(circle at 50% 50%, #0a0e27 0%, #050816 100%) !important; }
-    [data-testid="stHeader"] { background: rgba(0,0,0,0) !important; }
-    [data-testid="stSidebar"] { background: #050816 !important; border-right: 1px solid rgba(0, 255, 255, 0.2) !important; }
-    
-    /* Hero Section Layout */
-    .hero-container { display: flex; justify-content: space-between; align-items: center; padding: 60px 50px; min-height: 70vh; flex-direction: row; }
-    .hero-visual { flex: 0.8; display: flex; justify-content: center; align-items: center; }
-    .hero-text { flex: 1.2; text-align: right; padding-right: 40px; font-family: 'Cairo', sans-serif; }
-    
-    /* 3D M Logo */
-    .m-logo-3d { font-size: clamp(150px, 20vw, 280px); font-weight: 900; font-family: 'Orbitron', sans-serif; background: linear-gradient(135deg, #a82be2 0%, #00bfff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 30px rgba(168, 43, 226, 0.8)); animation: float 6s ease-in-out infinite; }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-    
-    /* Typography */
-    .hero-title { font-size: clamp(40px, 7vw, 75px); font-weight: 900; margin-bottom: 5px; background: linear-gradient(90deg, #00ffff, #a82be2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 20px rgba(0, 255, 255, 0.5); font-family: 'Orbitron', sans-serif; }
-    .hero-subtitle { font-size: clamp(20px, 3vw, 35px); color: #00ffff; margin-bottom: 25px; letter-spacing: 4px; font-family: 'Orbitron', sans-serif; }
-    .hero-desc { font-size: clamp(16px, 1.8vw, 22px); color: #6db3ff; margin-bottom: 35px; line-height: 1.6; }
-    
-    /* Buttons */
-    .btn-primary { background: linear-gradient(90deg, #a82be2, #00bfff); color: white !important; padding: 14px 35px; border-radius: 12px; font-weight: bold; text-decoration: none; box-shadow: 0 0 20px rgba(0, 191, 255, 0.6); transition: 0.3s; display: inline-block; margin-left: 15px; border: none; }
-    .btn-secondary { border: 2px solid #00bfff; color: #00bfff !important; padding: 12px 33px; border-radius: 12px; font-weight: bold; text-decoration: none; transition: 0.3s; display: inline-block; }
-    
-    /* Feature Grid */
-    .feature-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; padding: 30px 50px; }
-    .feature-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(0, 191, 255, 0.2); border-radius: 18px; padding: 20px; text-align: center; backdrop-filter: blur(10px); transition: 0.3s; }
-    .feature-card:hover { border-color: #00ffff; box-shadow: 0 0 25px rgba(0, 255, 255, 0.3); transform: translateY(-8px); }
-    .feature-icon { font-size: 30px; margin-bottom: 12px; color: #a82be2; filter: drop-shadow(0 0 8px #a82be2); }
-    
-    /* Stats Section */
-    .stats-container { display: flex; justify-content: space-around; padding: 35px 50px; background: rgba(0, 0, 0, 0.4); border-radius: 25px; margin: 0 50px; border: 1px solid rgba(0, 255, 255, 0.1); }
-    .stat-item { text-align: center; }
-    .stat-value { font-size: 38px; font-weight: 900; color: #00ffff; text-shadow: 0 0 12px #00ffff; font-family: 'Orbitron', sans-serif; }
-    .stat-label { font-size: 15px; color: #6db3ff; font-family: 'Cairo', sans-serif; }
-    
-    /* Track Cards */
-    .track-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 40px 50px; }
-    .track-card { background: rgba(20, 33, 61, 0.5); border-radius: 22px; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; transition: 0.3s; text-align: right; }
-    .track-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; }
-    .track-os::after { background: #a82be2; }
-    .track-toc::after { background: #00bfff; }
-    .track-arch::after { background: #00ffff; }
-    .track-ai::after { background: #ffaa00; }
-    
-    /* AI Assistant Section */
-    .ai-section { display: flex; align-items: center; padding: 50px; background: rgba(138, 43, 226, 0.08); border-radius: 35px; margin: 40px 50px; border: 1px solid rgba(168, 43, 226, 0.3); }
-    .ai-robot { flex: 0.8; text-align: center; font-size: 100px; filter: drop-shadow(0 0 20px #00ffff); }
-    .ai-content { flex: 1.2; text-align: right; font-family: 'Cairo', sans-serif; }
-    
-    /* Sidebar Overrides */
-    .stSelectbox label, .stTextInput label { color: #00ffff !important; font-family: 'Cairo', sans-serif !important; }
-    div[data-baseweb="select"] > div { background-color: rgba(30, 58, 138, 0.3) !important; border-color: rgba(0, 255, 255, 0.3) !important; color: white !important; }
-    
-    /* Original Content Styling */
-    .learning-card { background: rgba(20, 33, 61, 0.6); backdrop-filter: blur(15px); padding: 30px; border-radius: 20px; border: 1px solid rgba(0, 191, 255, 0.3); margin-bottom: 25px; color: #e0e0e0; text-align: right; direction: rtl; }
-    .announcement-banner { background: linear-gradient(90deg, rgba(138, 43, 226, 0.2) 0%, rgba(0, 191, 255, 0.2) 100%); color: #00ffff; padding: 12px; border-radius: 12px; text-align: center; font-weight: bold; margin-bottom: 20px; border: 1px solid #00ffff; text-shadow: 0 0 8px #00ffff; }
+    .main { background-color: #ffffff; }
+    .header-box {
+        text-align: center; padding: 50px;
+        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+        color: white; border-radius: 25px; margin-bottom: 40px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+    .announcement-banner {
+        background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+        color: #0f172a; padding: 12px; border-radius: 12px;
+        text-align: center; font-weight: bold; margin-bottom: 20px;
+        border: 2px solid #d97706; direction: rtl;
+    }
+    .learning-card {
+        background-color: #ffffff; padding: 35px; border-radius: 20px; 
+        border-right: 8px solid #1e3a8a; border-left: 8px solid #1e3a8a;
+        margin-bottom: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        line-height: 1.8;
+    }
+    .concept-badge {
+        background-color: #1e3a8a; color: white; padding: 6px 18px; border-radius: 25px; 
+        font-size: 14px; font-weight: bold; display: inline-block; margin-bottom: 15px;
+    }
+    .step-box {
+        background-color: #f0f9ff; border: 2px solid #bae6fd; padding: 20px; 
+        border-radius: 15px; margin: 20px 0; color: #0369a1;
+    }
+    .info-grid {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;
+    }
+    .info-item {
+        background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;
+    }
+    h2, h3 { color: #1e3a8a; font-weight: 800; }
+    .highlight { color: #2563eb; font-weight: bold; background: #eff6ff; padding: 2px 6px; border-radius: 4px; }
+    .comment-box {
+            background-color: #f8fafc; padding: 15px; border-radius: 10px; 
+            border: 1px solid #e2e8f0; margin-bottom: 15px; line-height: 1.5;
+            direction: rtl; text-align: right;
+        }
+    .footer {
+        text-align: center; padding: 40px; margin-top: 80px;
+        border-top: 3px solid #1e3a8a; background-color: #f1f5f9; color: #0f172a;
+    }
+    .summary-table {
+        width: 100%; border-collapse: collapse; margin-top: 20px;
+    }
+    .summary-table th, .summary-table td {
+        border: 1px solid #e2e8f0; padding: 12px; text-align: left;
+    }
+    .summary-table th {
+        background-color: #1e3a8a; color: white;
+    }
     </style>
     """, unsafe_allow_html=True)
 
-# --- 5. SIDEBAR NAVIGATION (Moved up to define display_page first) ---
+# --- 4. HEADER ---
+st.markdown(f"""
+    <div class="header-box">
+        <div style="font-family: 'Georgia', serif; font-size: clamp(28px, 6vw, 56px); font-weight: 900; letter-spacing: 3px;">THE JEWEL OF COMPUTER SCIENCE</div>
+        <div style="font-size: clamp(18px, 3vw, 28px); font-weight: 300; margin-top: 20px; border-top: 2px solid rgba(255,255,255,0.4); display: inline-block; padding-top: 15px;">
+            MOHRAH ATIAH AL-JUHANI | مهره عطيه الجهني
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# --- 5. SIDEBAR NAVIGATION ---
 st.sidebar.title("💎 Academic Navigation")
+
+# --- SEARCH FEATURE ---
 search_query = st.sidebar.text_input("🔍 Search Platform / ابحث في المنصة:", placeholder="e.g. Deadlock, DFA...")
 if search_query:
     st.sidebar.info(f"Searching for: {search_query}")
+
 st.sidebar.write("---")
 
+# Initialize session state
 if 'current_page' not in st.session_state:
     st.session_state.current_page = "Home Page"
 
+# Main category selection
 main_subject = st.sidebar.selectbox(
     "Select Course / اختر المادة:",
     ["Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall", "👥 Community Corner"],
     key="main_nav_select"
 )
 
+# Handle sub-navigation or direct page assignment
 if main_subject == "Theory of Computation":
     subject = st.sidebar.selectbox(
         "Select Lesson / اختر الدرس:",
@@ -185,6 +199,7 @@ elif main_subject == "Operating Systems":
 else:
     st.session_state.current_page = main_subject
 
+# Override if contact or feedback buttons are pressed
 st.sidebar.write("---")
 st.sidebar.write("### 📞 تواصل معي / Contact Me")
 col1, col2 = st.sidebar.columns(2)
@@ -195,85 +210,25 @@ if col2.button("💬 Feedback", key="feedback_btn"):
 
 display_page = st.session_state.current_page
 
-# --- 4. PIXEL-PERFECT HEADER & HERO ---
-if display_page == "Home Page":
-    st.markdown("""
-        <div class="hero-container">
-            <div class="hero-visual">
-                <div class="m-logo-3d">M</div>
-            </div>
-            <div class="hero-text">
-                <div style="color: #a82be2; font-weight: bold; margin-bottom: 10px; font-size: 18px;">✨ منصة تعليمية ذكية</div>
-                <div class="hero-title">MOHRAH</div>
-                <div class="hero-subtitle">< CS CORE /></div>
-                <div class="hero-desc">
-                    رحلتك المتكاملة في علوم الحاسب<br>
-                    تعلم بذكاء.. افهم بعمق.. وطور مهاراتك مع محتوى تفاعلي<br>
-                    مصمم خصيصاً لطلاب علوم الحاسب.
-                </div>
-                <div>
-                    <a href="#" class="btn-primary">🚀 ابدأ رحلتك الآن</a>
-                    <a href="#" class="btn-secondary">🔍 استكشف المحتوى</a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="feature-grid">
-            <div class="feature-card"><div class="feature-icon">⭐</div><h3 style="color: white; font-size: 18px;">تقدمك</h3><p style="color: #6db3ff; font-size: 13px;">تتبع تقدمك واحصل على شارات</p></div>
-            <div class="feature-card"><div class="feature-icon">🤖</div><h3 style="color: white; font-size: 18px;">مساعد ذكي</h3><p style="color: #6db3ff; font-size: 13px;">AI يساعدك في فهم المفاهيم</p></div>
-            <div class="feature-card"><div class="feature-icon">🛤️</div><h3 style="color: white; font-size: 18px;">مسارات مخصصة</h3><p style="color: #6db3ff; font-size: 13px;">تعلم حسب مستواك وأهدافك</p></div>
-            <div class="feature-card"><div class="feature-icon">▶️</div><h3 style="color: white; font-size: 18px;">محتوى تفاعلي</h3><p style="color: #6db3ff; font-size: 13px;">تعلم من خلال أمثلة وتطبيقات عملية</p></div>
-            <div class="feature-card"><div class="feature-icon">📝</div><h3 style="color: white; font-size: 18px;">اختبارات ذكية</h3><p style="color: #6db3ff; font-size: 13px;">اختبر نفسك وتابع تقدمك</p></div>
-        </div>
-        
-        <div class="stats-container">
-            <div class="stat-item"><div class="stat-value">4.9/5</div><div class="stat-label">تقييم الطلاب</div></div>
-            <div class="stat-item"><div class="stat-value">+300</div><div class="stat-label">ساعة محتوى</div></div>
-            <div class="stat-item"><div class="stat-value">+120</div><div class="stat-label">مادة تعليمية</div></div>
-            <div class="stat-item"><div class="stat-value">+1500</div><div class="stat-label">طالب نشط</div></div>
-        </div>
-        
-        <h2 style='text-align: center; margin-top: 60px; color: #00ffff; font-family: Cairo; font-weight: 900;'>اختر مسارك وابدأ التعلم</h2>
-        
-        <div class="track-grid">
-            <div class="track-card track-ai"><div style="color: #ffaa00; font-weight: bold; font-size: 14px;">اختيارية</div><h3 style="color: white; margin: 10px 0; font-size: 20px;">الذكاء الاصطناعي</h3><p style="color: #6db3ff; font-size: 13px;">AI Concepts, ML, Neural Networks...</p><div style="margin-top: 15px; color: #ffaa00; font-weight: bold;">30% Progress</div></div>
-            <div class="track-card track-arch"><div style="color: #00ffff; font-weight: bold; font-size: 14px;">أساسية</div><h3 style="color: white; margin: 10px 0; font-size: 20px;">تركيبات الحاسوب</h3><p style="color: #6db3ff; font-size: 13px;">Digital Logic, Computer Organization...</p><div style="margin-top: 15px; color: #00ffff; font-weight: bold;">45% Progress</div></div>
-            <div class="track-card track-toc"><div style="color: #00bfff; font-weight: bold; font-size: 14px;">أساسية</div><h3 style="color: white; margin: 10px 0; font-size: 20px;">نظرية الحوسبة</h3><p style="color: #6db3ff; font-size: 13px;">Automata, CFG, PDA, Turing Machine...</p><div style="margin-top: 15px; color: #00bfff; font-weight: bold;">60% Progress</div></div>
-            <div class="track-card track-os"><div style="color: #a82be2; font-weight: bold; font-size: 14px;">أساسية</div><h3 style="color: white; margin: 10px 0; font-size: 20px;">نظم التشغيل</h3><p style="color: #6db3ff; font-size: 13px;">OS Concepts, Processes, Memory...</p><div style="margin-top: 15px; color: #a82be2; font-weight: bold;">75% Progress</div></div>
-        </div>
-        
-        <div class="ai-section">
-            <div class="ai-content"><h2 style="color: #00ffff; font-family: Cairo; font-size: 32px;">مساعدك الذكي</h2><p style="color: #6db3ff; font-size: 20px;">اطرح أي سؤال في علوم الحاسب واحصل على إجابات فورية وشرح مبسط</p><a href="#" class="btn-primary" style="margin-top: 20px;">✨ اسأل الآن</a></div>
-            <div class="ai-robot">🤖</div>
-        </div>
-    """, unsafe_allow_html=True)
-else:
-    st.markdown(f"""
-        <div style="text-align: center; padding: 50px; background: rgba(138, 43, 226, 0.1); border-radius: 25px; border: 1px solid #a82be2; margin-bottom: 40px; box-shadow: 0 0 30px rgba(168, 43, 226, 0.2);">
-            <h1 style="color: #00ffff; font-family: Orbitron; font-size: 45px; text-shadow: 0 0 15px #00ffff;">{display_page}</h1>
-            <p style="color: #6db3ff; font-size: 18px; letter-spacing: 2px;">MOHRAH CS CORE - ACADEMIC PORTAL</p>
-        </div>
-    """, unsafe_allow_html=True)
+
 
 # --- 6. MODULES ---
 if display_page == "Home Page":
-    # The new Hero UI is already displayed above for Home Page.
-    # We can add the original announcement banner or other home-specific content here if needed.
     st.markdown("""<div class="announcement-banner">🎊 إنجاز جديد: تم بحمد الله الانتهاء من إضافة كافة شباتر مادة نظم التشغيل (OS) كاملة! 🎓✨</div>""", unsafe_allow_html=True)
-    with st.expander("ℹ️ عن المنصة / About the Platform"):
-        st.markdown("""
-        <div class="learning-card">
-        <h3>عن المنصة / About the Platform</h3>
-        <p>هذه المنصة هي <b>مبادرة طلابية تعليمية متقدمة</b> تهدف إلى تبسيط المفاهيم المعقدة في علوم الحاسب، وتغطي حالياً وبشكل كامل مادتي <b>نظرية الحوسبة (TOC)</b> و <b>نظم التشغيل (OS)</b>.</p>
-        <p><b>المصدر العلمي (Academic Source):</b>  
-        تم استقاء كافة المعلومات العلمية، التعريفات الرياضية، والنماذج التوضيحية من المناهج الأكاديمية المعتمدة في <b>جامعة تبوك</b>. تم تصميم المحتوى ليكون مرجعاً شاملاً يساعد الطلاب على فهم تعقيدات الأوتوماتا واللغات الرسمية.</p>
-        <div class="info-grid">
-            <div class="info-item"><b>🎯 الهدف:</b> تبسيط المفاهيم المعقدة مثل DFA, NFA, و PDA.</div>
-            <div class="info-item"><b>🛠️ الأدوات:</b> محاكيات تفاعلية، رسومات بيانية حية، واختبارات تقييمية.</div>
-            <div class="info-item"><b>📚 المحتوى:</b> يغطي المنهج الكامل من الأساسيات الرياضية إلى نماذج الحوسبة المتقدمة وآلات تورينج.</div>
-        </div>
-        </div>
-        """, unsafe_allow_html=True)
+    st.markdown("## 🏛️ Welcome to the CS Core Portal")
+    st.markdown("""
+    <div class="learning-card">
+    <h3>عن المنصة / About the Platform</h3>
+    <p>هذه المنصة هي <b>مبادرة طلابية تعليمية متقدمة</b> تهدف إلى تبسيط المفاهيم المعقدة في علوم الحاسب، وتغطي حالياً وبشكل كامل مادتي <b>نظرية الحوسبة (TOC)</b> و <b>نظم التشغيل (OS)</b>.</p>
+    <p><b>المصدر العلمي (Academic Source):</b>  
+    تم استقاء كافة المعلومات العلمية، التعريفات الرياضية، والنماذج التوضيحية من المناهج الأكاديمية المعتمدة في <b>جامعة تبوك</b>. تم تصميم المحتوى ليكون مرجعاً شاملاً يساعد الطلاب على فهم تعقيدات الأوتوماتا واللغات الرسمية.</p>
+    <div class="info-grid">
+        <div class="info-item"><b>🎯 الهدف:</b> تبسيط المفاهيم المعقدة مثل DFA, NFA, و PDA.</div>
+        <div class="info-item"><b>🛠️ الأدوات:</b> محاكيات تفاعلية، رسومات بيانية حية، واختبارات تقييمية.</div>
+        <div class="info-item"><b>📚 المحتوى:</b> يغطي المنهج الكامل من الأساسيات الرياضية إلى نماذج الحوسبة المتقدمة وآلات تورينج.</div>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
 elif display_page == "Foundations of TOC":
     st.markdown("## 📘 Foundations of Theory of Computation")
     tab_intro, tab_alphabets, tab_strings, tab_languages, tab_sets, tab_functions, tab_boolean, tab_q = st.tabs(["📖 Introduction", "🔤 Alphabets", "🧵 Strings", "🗣️ Languages", "📊 Sets", "⚙️ Functions", "🧠 Boolean Logic", "📝 Comprehensive Quiz"])

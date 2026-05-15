@@ -2429,6 +2429,45 @@ elif display_page == "Contact Developer":
         st.success("📩 **Personal Email**")
         st.code("mohrah.atiiah@icloud.com")
 
+elif display_page == "📺 Channel Rating":
+    st.markdown("### 📺 Rate Our Channel / قيّم قناتنا")
+    st.write("شارك رأيك وساعدنا على التحسن!")
+    
+    with st.form("rating_form", clear_on_submit=True):
+        r_name = st.text_input("Name / الاسم:")
+        r_stars = st.slider("Rating / التقييم:", 1, 5, 5)
+        r_msg = st.text_area("Feedback / تعليقك:")
+        if st.form_submit_button("Submit / إرسال"):
+            if r_name and r_msg:
+                try:
+                    rf = "channel_ratings.json"
+                    if os.path.exists(rf):
+                        with open(rf, "r", encoding="utf-8") as f:
+                            ratings = json.load(f)
+                    else:
+                        ratings = []
+                    ratings.append({"u": r_name, "r": r_stars, "m": r_msg, "t": time.strftime("%I:%M %p")})
+                    with open(rf, "w", encoding="utf-8") as f:
+                        json.dump(ratings, f, ensure_ascii=False, indent=4)
+                    st.success("✅ شكراً على تقييمك!")
+                    st.rerun()
+                except:
+                    st.error("Error")
+    
+    st.markdown("---")
+    try:
+        if os.path.exists("channel_ratings.json"):
+            with open("channel_ratings.json", "r", encoding="utf-8") as f:
+                ratings = json.load(f)
+            if ratings:
+                avg = sum(r["r"] for r in ratings) / len(ratings)
+                st.metric("Average Rating", f"{avg:.1f} ⭐")
+                for r in reversed(ratings):
+                    stars = "⭐" * r["r"] + "☆" * (5 - r["r"])
+                    st.markdown(f"**{r['u']}** {stars} ({r['t']})\n\n{r['m']}")
+    except:
+        pass
+
 elif display_page == "Community Feedback":
     st.markdown("### 💬 Feedback Board / لوحة التعليقات")
     

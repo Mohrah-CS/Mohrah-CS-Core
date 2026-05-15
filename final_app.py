@@ -2427,7 +2427,8 @@ elif display_page == "Contact Developer":
         st.code("mohrah.atiiah@icloud.com")
 
 elif display_page == "Community Feedback":
-    st.markdown("### 💬 Feedback Board")
+    st.markdown("### 💬 Feedback Board / لوحة التعليقات")
+    
     with st.form("feedback_form", clear_on_submit=True):
         name = st.text_input("Name / الاسم:")
         msg = st.text_area("Feedback / التعليق:")
@@ -2435,20 +2436,43 @@ elif display_page == "Community Feedback":
         if submit:
             if name and msg:
                 save_comment(name, msg)
-                st.success("Comment saved! / تم حفظ التعليق بنجاح!")
+                st.success("✅ Comment saved! / تم حفظ التعليق بنجاح!")
                 st.session_state.current_page = "Community Feedback" 
                 st.rerun()
             else:
-                st.error("Please fill in both fields. / يرجى ملء جميع الحقول.")
+                st.error("❌ Please fill in both fields. / يرجى ملء جميع الحقول.")
+    
     st.markdown("---")
-    comments = load_comments() # Load fresh from file
-    for c in reversed(comments):
-        st.markdown(f"""
-        <div class="comment-box">
-            <b>👤 {c['u']}</b> <span style="font-size: 12px; color: gray;">({c['t']})</span><br>
-            <p style="margin-top: 5px;">{c['m']}</p>
-        </div>
-        """, unsafe_allow_html=True)
+    st.markdown("### 📊 All Feedback / جميع التعليقات")
+    
+    comments = load_comments()
+    
+    if not comments:
+        st.info("No feedback yet. Be the first to share your thoughts!")
+    else:
+        for idx, c in enumerate(reversed(comments)):
+            rating = c.get('rating', 0)
+            subject = c.get('subject', 'General')
+            stars = "⭐" * rating + "☆" * (5 - rating)
+            
+            st.markdown(f"""
+            <div class="comment-box" style="border-left: 5px solid #1e3a8a; background-color: #f0f9ff;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <b>👤 {c['u']}</b> 
+                        <span style="font-size: 12px; color: gray;">({c['t']})</span>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="font-size: 16px;">{stars}</span>
+                        <span style="font-size: 12px; color: #7c3aed; font-weight: bold; margin-left: 10px;">📌 {subject if subject else 'General'}</span>
+                    </div>
+                </div>
+                <p style="margin-top: 10px; font-size: 15px; line-height: 1.6;">{c['m']}</p>
+                <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #e0e0e0;">
+                    <small style="color: #666;">Quality Rating: {rating}/5 ⭐</small>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
 # --- 7. FOOTER ---
 st.markdown(f"""

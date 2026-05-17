@@ -114,11 +114,7 @@ def rate_comment(msg):
 
 def save_comment(name, msg):
     try:
-        if os.path.exists(COMMENTS_FILE):
-            with open(COMMENTS_FILE, "r", encoding="utf-8") as f:
-                comments = json.load(f)
-        else:
-            comments = []
+        comments = load_comments()
         
         rating = rate_comment(msg)
         detected_subject = detect_subject_from_comment(msg)
@@ -141,7 +137,6 @@ def save_comment(name, msg):
     except Exception as e:
         st.error(f"Error saving comment: {e}")
         return False, None
-
 # --- 3. ADVANCED STYLING ---
 st.markdown("""
     <style>
@@ -2489,6 +2484,17 @@ elif display_page == "Community Feedback":
     st.markdown("### 📊 All Feedback / جميع التعليقات")
     
     comments = load_comments()
+    
+    # --- BACKUP FEATURE ---
+    if comments:
+        df_backup = pd.DataFrame(comments)
+        csv = df_backup.to_csv(index=False).encode('utf-8-sig')
+        st.download_button(
+            label="📥 Download Comments Backup (Excel/CSV)",
+            data=csv,
+            file_name=f"mohrah_comments_backup_{time.strftime('%Y%m%d')}.csv",
+            mime='text/csv',
+        )
     
     if not comments:
         st.info("No feedback yet. Be the first to share your thoughts!")

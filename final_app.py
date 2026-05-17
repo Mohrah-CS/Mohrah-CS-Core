@@ -4,6 +4,7 @@ import graphviz
 import os
 import json
 import pandas as pd
+from openai import OpenAI
 
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
@@ -13,10 +14,33 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-
 # --- 2. PERSISTENT STORAGE FUNCTIONS ---
 COMMENTS_FILE = os.path.join(os.getcwd(), "comments.json")
 QUESTIONS_FILE = os.path.join(os.getcwd(), "community_qs.json")
+
+# Initialize OpenAI Client (using environment variable)
+client = OpenAI()
+
+def get_mohrah_ai_response(user_input):
+    """Mohrah AI Assistant logic"""
+    try:
+        system_prompt = """
+        You are 'Mohrah AI Assistant' (مساعد مهره الذكي), an expert in Computer Science, specifically in Theory of Computation (TOC) and Operating Systems (OS).
+        You are part of Mohrah Atiah Al-Juhani's educational platform.
+        Your tone should be professional, encouraging, and academic. 
+        Always mention that you are Mohrah's assistant.
+        Respond in the language the user uses (Arabic or English).
+        """
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_input}
+            ]
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"أعتذر، واجهت مشكلة تقنية: {str(e)}"
 
 def load_questions():
     initial_qs = [
@@ -132,6 +156,10 @@ def save_comment(name, msg):
         with open(COMMENTS_FILE, "w", encoding="utf-8") as f:
             json.dump(comments, f, ensure_ascii=False, indent=4)
         
+        # --- GOOGLE SHEETS SYNC (OPTIONAL) ---
+        # If you want to sync with Google Sheets, you can add the code here.
+        # For now, we use the download backup feature as a reliable alternative.
+        
         st.session_state.comment_refresh = time.time()
         return True, detected_subject
     except Exception as e:
@@ -224,7 +252,7 @@ if 'current_page' not in st.session_state:
 # Main category selection
 main_subject = st.sidebar.selectbox(
     "Select Course / اختر المادة:",
-    ["Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall", "👥 Community Corner"],
+    ["Home Page", "🤖 Mohrah AI Assistant", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall", "👥 Community Corner"],
     key="main_nav_select"
 )
 
@@ -2463,9 +2491,43 @@ elif display_page == "📺 Channel Rating":
     except:
         pass
 
+elif display_page == "🤖 Mohrah AI Assistant":
+    st.markdown("### 🤖 Mohrah AI Assistant / مساعد مهره الذكي")
+    st.info("أهلاً بك! أنا مساعد مهره الذكي، اسألني أي سؤال في علوم الحاسب وسأجيبك فوراً.")
+    
+    if "ai_messages" not in st.session_state:
+        st.session_state.ai_messages = []
+
+    for message in st.session_state.ai_messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    if prompt := st.chat_input("Ask Mohrah AI... / اسأل مساعد مهره"):
+        st.session_state.ai_messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        with st.chat_message("assistant"):
+            response = get_mohrah_ai_response(prompt)
+            st.markdown(response)
+        st.session_state.ai_messages.append({"role": "assistant", "content": response})
+
 elif display_page == "Community Feedback":
     st.markdown("### 💬 Feedback Board / لوحة التعليقات")
     
+    # --- BACKUP FEATURE FOR PERSISTENCE ---
+    comments = load_comments()
+    if comments:
+        df_backup = pd.DataFrame(comments)
+        csv = df_backup.to_csv(index=False).encode('utf-8-sig')
+        st.sidebar.download_button(
+            label="📥 Download Comments Backup",
+            data=csv,
+            file_name=f"mohrah_comments_backup_{time.strftime('%Y%m%d')}.csv",
+            mime='text/csv',
+            key="backup_btn_sidebar"
+        )
+
     with st.form("feedback_form", clear_on_submit=True):
         name = st.text_input("Name / الاسم:")
         msg = st.text_area("Feedback / التعليق:")
@@ -2484,18 +2546,6 @@ elif display_page == "Community Feedback":
     st.markdown("### 📊 All Feedback / جميع التعليقات")
     
     comments = load_comments()
-    
-    # --- BACKUP FEATURE FOR PERSISTENCE ---
-    if comments:
-        df_backup = pd.DataFrame(comments)
-        csv = df_backup.to_csv(index=False).encode('utf-8-sig')
-        st.download_button(
-            label="📥 Download Comments Backup (Excel/CSV)",
-            data=csv,
-            file_name=f"mohrah_comments_backup_{time.strftime('%Y%m%d')}.csv",
-            mime='text/csv',
-            key="backup_btn_feedback"
-        )
     
     if not comments:
         st.info("No feedback yet. Be the first to share your thoughts!")

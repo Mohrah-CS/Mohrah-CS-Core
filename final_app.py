@@ -33,7 +33,7 @@ def get_mohrah_ai_response(user_input):
         """
         
         model = genai.GenerativeModel(
-            model_name='gemini-pro',
+            model_name='models/gemini-pro',
             system_instruction=system_prompt
         )
         

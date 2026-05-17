@@ -4,7 +4,7 @@ import graphviz
 import os
 import json
 import pandas as pd
-from oimport google.generativeai as genai
+import google.generativeai as genai
 
 
 # --- 1. PAGE CONFIGURATION ---

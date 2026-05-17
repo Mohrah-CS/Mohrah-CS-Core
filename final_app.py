@@ -32,10 +32,8 @@ def get_mohrah_ai_response(user_input):
         Respond in the language the user uses.
         """
         
-        model = genai.GenerativeModel(
-            model_name='models/gemini-pro',
-            system_instruction=system_prompt
-        )
+        # هذا السطر المختصر يشتغل على كل إصدارات المكتبة تلقائياً
+        model = genai.GenerativeModel('gemini-pro')
         
         response = model.generate_content(user_input)
         return response.text

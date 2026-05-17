@@ -1,4 +1,4 @@
 graphviz
 streamlit
 pandas
-openai
+google-generativeai

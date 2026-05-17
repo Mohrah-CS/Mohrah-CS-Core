@@ -2485,7 +2485,7 @@ elif display_page == "Community Feedback":
     
     comments = load_comments()
     
-    # --- BACKUP FEATURE ---
+    # --- BACKUP FEATURE FOR PERSISTENCE ---
     if comments:
         df_backup = pd.DataFrame(comments)
         csv = df_backup.to_csv(index=False).encode('utf-8-sig')
@@ -2494,6 +2494,7 @@ elif display_page == "Community Feedback":
             data=csv,
             file_name=f"mohrah_comments_backup_{time.strftime('%Y%m%d')}.csv",
             mime='text/csv',
+            key="backup_btn_feedback"
         )
     
     if not comments:

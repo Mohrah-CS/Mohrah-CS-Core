@@ -4,7 +4,7 @@ import graphviz
 import os
 import json
 import pandas as pd
-from openai import OpenAI
+from oimport google.generativeai as genai
 
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
@@ -18,30 +18,29 @@ st.set_page_config(
 COMMENTS_FILE = os.path.join(os.getcwd(), "comments.json")
 QUESTIONS_FILE = os.path.join(os.getcwd(), "community_qs.json")
 
-# Initialize OpenAI Client (using environment variable)
-client = OpenAI()
+GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
+genai.configure(api_key=GOOGLE_API_KEY)
 
 def get_mohrah_ai_response(user_input):
-    """Mohrah AI Assistant logic"""
     try:
         system_prompt = """
-        You are 'Mohrah AI Assistant' (مساعد مهره الذكي), an expert in Computer Science, specifically in Theory of Computation (TOC) and Operating Systems (OS).
-        You are part of Mohrah Atiah Al-Juhani's educational platform.
-        Your tone should be professional, encouraging, and academic. 
-        Always mention that you are Mohrah's assistant.
-        Respond in the language the user uses (Arabic or English).
+        You are 'Mohrah AI Assistant' (مساعد مهره الذكي).
+        You are part of Mohrah Atiah Al-Juhani's CS-Core platform.
+        Your tone should be professional, encouraging, and academic.
+        Always mention that you are Mohrah's AI assistant.
+        Respond in the language the user uses.
         """
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_input}
-            ]
+        
+        model = genai.GenerativeModel(
+            model_name='gemini-1.5-flash',
+            system_instruction=system_prompt
         )
-        return response.choices[0].message.content
+        
+        response = model.generate_content(user_input)
+        return response.text
+        
     except Exception as e:
-        return f"أعتذر، واجهت مشكلة تقنية: {str(e)}"
-
+        return f"اعتذر، واجهت مشكلة تقنية: {e}"
 def load_questions():
     initial_qs = [
         {"id": 1, "u": "أحمد", "q": "كيف أفرق بين الـ Paging والـ Segmentation؟", "r": [{"u": "سارة", "m": "الـ Paging تقسيم ثابت، الـ Segmentation منطقي.", "t": "10:05 AM"}], "t": "10:00 AM", "likes": 5},

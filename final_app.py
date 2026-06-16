@@ -92,7 +92,14 @@ LANGUAGES = {
         "why_title": "🎯 为什么选择 CS 门户？",
         "source_disp": "资源分散",
         "concept_diff": "概念难度",
-        "instant_eval": "即时评估"
+        "instant_eval": "即时评估",
+        "about_title": "关于平台",
+        "about_desc": "本平台是一项先进的学生教育倡议，旨在简化复杂的计算机科学概念。目前全面涵盖了计算理论 (TOC) 和操作系统 (OS)。",
+        "academic_source": "学术来源：所有科学信息、数学定义和说明模型均取自塔布克大学批准的学术课程。内容旨在成为帮助学生理解自动机和正式语言复杂性的综合参考。",
+        "goal_target": "🎯 目标：简化 DFA、NFA 和 PDA 等复杂概念。",
+        "tool_desc": "🛠️ 工具：交互式模拟器、实时图形和评估测试。",
+        "content_desc": "📚 内容：涵盖从数学基础到高级计算模型和图灵机的完整课程。",
+        "announcement": "🎊 新成就：操作系统 (OS) 的所有章节已成功添加！🎓✨"
     }
 }
 
@@ -368,18 +375,26 @@ display_page = st.session_state.current_page
 
 # --- 6. MODULES ---
 if display_page == "Home Page":
-    st.markdown(f"""<div class="announcement-banner">🎊 {t('home')} 🎓✨</div>""", unsafe_allow_html=True)
+    # Translate Home Page Content
+    announcement_text = t("announcement") if st.session_state.lang == "中文" else "🎊 إنجاز جديد: تم بحمد الله الانتهاء من إضافة كافة شباتر مادة نظم التشغيل (OS) كاملة! 🎓✨"
+    about_title = t("about_title") if st.session_state.lang == "中文" else "عن المنصة / About the Platform"
+    about_desc = t("about_desc") if st.session_state.lang == "中文" else "هذه المنصة هي <b>مبادرة طلابية تعليمية متقدمة</b> تهدف إلى تبسيط المفاهيم المعقدة في علوم الحاسب، وتغطي حالياً وبشكل كامل مادتي <b>نظرية الحوسبة (TOC)</b> و <b>نظم التشغيل (OS)</b>."
+    academic_source = t("academic_source") if st.session_state.lang == "中文" else "<b>المصدر العلمي (Academic Source):</b> تم استقاء كافة المعلومات العلمية، التعريفات الرياضية، والنماذج التوضيحية من المناهج الأكاديمية المعتمدة في <b>جامعة تبوك</b>. تم تصميم المحتوى ليكون مرجعاً شاملاً يساعد الطلاب على فهم تعقيدات الأوتوماتا واللغات الرسمية."
+    goal_target = t("goal_target") if st.session_state.lang == "中文" else "<b>🎯 الهدف:</b> تبسيط المفاهيم المعقدة مثل DFA, NFA, و PDA."
+    tool_desc = t("tool_desc") if st.session_state.lang == "中文" else "<b>🛠️ الأدوات:</b> محاكيات تفاعلية، رسومات بيانية حية، واختبارات تقييمية."
+    content_desc = t("content_desc") if st.session_state.lang == "中文" else "<b>📚 المحتوى:</b> يغطي المنهج الكامل من الأساسيات الرياضية إلى نماذج الحوسبة المتقدمة وآلات تورينج."
+
+    st.markdown(f"""<div class="announcement-banner">{announcement_text}</div>""", unsafe_allow_html=True)
     st.markdown(f"## {t('dash_title')}")
-    st.markdown("""
+    st.markdown(f"""
     <div class="learning-card">
-    <h3>عن المنصة / About the Platform</h3>
-    <p>هذه المنصة هي <b>مبادرة طلابية تعليمية متقدمة</b> تهدف إلى تبسيط المفاهيم المعقدة في علوم الحاسب، وتغطي حالياً وبشكل كامل مادتي <b>نظرية الحوسبة (TOC)</b> و <b>نظم التشغيل (OS)</b>.</p>
-    <p><b>المصدر العلمي (Academic Source):</b>  
-    تم استقاء كافة المعلومات العلمية، التعريفات الرياضية، والنماذج التوضيحية من المناهج الأكاديمية المعتمدة في <b>جامعة تبوك</b>. تم تصميم المحتوى ليكون مرجعاً شاملاً يساعد الطلاب على فهم تعقيدات الأوتوماتا واللغات الرسمية.</p>
+    <h3>{about_title}</h3>
+    <p>{about_desc}</p>
+    <p>{academic_source}</p>
     <div class="info-grid">
-        <div class="info-item"><b>🎯 الهدف:</b> تبسيط المفاهيم المعقدة مثل DFA, NFA, و PDA.</div>
-        <div class="info-item"><b>🛠️ الأدوات:</b> محاكيات تفاعلية، رسومات بيانية حية، واختبارات تقييمية.</div>
-        <div class="info-item"><b>📚 المحتوى:</b> يغطي المنهج الكامل من الأساسيات الرياضية إلى نماذج الحوسبة المتقدمة وآلات تورينج.</div>
+        <div class="info-item">{goal_target}</div>
+        <div class="info-item">{tool_desc}</div>
+        <div class="info-item">{content_desc}</div>
     </div>
     </div>
     """, unsafe_allow_html=True)

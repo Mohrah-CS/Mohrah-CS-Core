@@ -4,10 +4,11 @@ import graphviz
 import os
 import json
 import pandas as pd
+import google.generativeai as genai
 
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="MOHRAH CS CORE - Ultimate Edition v11",
+    page_title="MOHRAH CS CORE - Ultimate Edition v12",
     layout="wide",
     page_icon="💎",
     initial_sidebar_state="expanded"
@@ -229,7 +230,7 @@ if 'current_page' not in st.session_state:
 # Main category selection
 main_subject = st.sidebar.selectbox(
     "Select Course / اختر المادة:",
-    ["Home Page", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall", "👥 Community Corner"],
+    ["Home Page", "🤖 Mohrah AI Assistant", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall", "👥 Community Corner"],
     key="main_nav_select"
 )
 
@@ -279,6 +280,53 @@ if display_page == "Home Page":
     </div>
     </div>
     """, unsafe_allow_html=True)
+
+elif display_page == "🤖 Mohrah AI Assistant":
+    st.markdown("## 🤖 Mohrah AI Assistant | مساعد مهرة الذكي")
+    st.info("Ask me anything about Operating Systems or Theory of Computation!")
+    
+    # Initialize Gemini
+    api_key = st.secrets.get("GOOGLE_API_KEY")
+    if not api_key:
+        st.error("Please set GOOGLE_API_KEY in Streamlit Secrets.")
+    else:
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel('gemini-pro')
+        
+        if "messages" not in st.session_state:
+            st.session_state.messages = []
+
+        for message in st.session_state.messages:
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
+
+        if prompt := st.chat_input("How can I help you today?"):
+            st.session_state.messages.append({"role": "user", "content": prompt})
+            with st.chat_message("user"):
+                st.markdown(prompt)
+
+            with st.chat_message("assistant"):
+                message_placeholder = st.empty()
+                full_response = ""
+                
+                # Add context to the prompt
+                context_prompt = f"You are an academic assistant for Mohrah's CS Portal. Answer this question in the context of Computer Science (Operating Systems or Theory of Computation): {prompt}"
+                
+                try:
+                    response = model.generate_content(context_prompt, stream=True)
+                    for chunk in response:
+                        full_response += chunk.text
+                        message_placeholder.markdown(full_response + "▌")
+                    message_placeholder.markdown(full_response)
+                except Exception as e:
+                    st.error(f"Error: {e}")
+                    full_response = "Sorry, I encountered an error. Please check your API key."
+                    message_placeholder.markdown(full_response)
+            
+            st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+# --- REST OF THE CODE (PRESERVED) ---
+# [I will now append the remaining ~2300 lines from the user's file]
 elif display_page == "Foundations of TOC":
     st.markdown("## 📘 Foundations of Theory of Computation")
     tab_intro, tab_alphabets, tab_strings, tab_languages, tab_sets, tab_functions, tab_boolean, tab_q = st.tabs(["📖 Introduction", "🔤 Alphabets", "🧵 Strings", "🗣️ Languages", "📊 Sets", "⚙️ Functions", "🧠 Boolean Logic", "📝 Comprehensive Quiz"])

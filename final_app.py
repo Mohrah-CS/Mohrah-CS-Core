@@ -8,12 +8,99 @@ import google.generativeai as genai
 
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="MOHRAH CS CORE - Ultimate Edition v12",
+    page_title="MOHRAH CS CORE - Ultimate Edition v13",
     layout="wide",
     page_icon="💎",
     initial_sidebar_state="expanded"
 )
 
+# --- LANGUAGE TRANSLATIONS ---
+LANGUAGES = {
+    "English": {
+        "nav_title": "💎 Academic Navigation",
+        "select_lang": "Choose Language:",
+        "search_placeholder": "Search Platform...",
+        "course_select": "Select Course:",
+        "lesson_select": "Select Lesson:",
+        "contact": "Contact Me",
+        "feedback": "Feedback",
+        "home": "Home Page",
+        "ai_asst": "🤖 Mohrah AI Assistant",
+        "toc": "Theory of Computation",
+        "os": "Operating Systems",
+        "exam_prep": "🚀 Smart Exam Prep",
+        "res_hub": "📚 Resource Hub",
+        "ach_hall": "🏆 Achievement Hall",
+        "community": "👥 Community Corner",
+        "dash_title": "🏛️ CS Portal Dashboard",
+        "total_lessons": "Total Lessons",
+        "students": "Students Benefited",
+        "success_rate": "Quiz Success Rate",
+        "analytics": "📊 Platform Analytics",
+        "why_title": "🎯 Why CS Portal?",
+        "source_disp": "Source Dispersion",
+        "concept_diff": "Concept Difficulty",
+        "instant_eval": "Instant Evaluation"
+    },
+    "العربية": {
+        "nav_title": "💎 التنقل الأكاديمي",
+        "select_lang": "اختر اللغة:",
+        "search_placeholder": "ابحث في المنصة...",
+        "course_select": "اختر المادة:",
+        "lesson_select": "اختر الدرس:",
+        "contact": "تواصل معي",
+        "feedback": "الآراء والملاحظات",
+        "home": "الصفحة الرئيسية",
+        "ai_asst": "🤖 مساعد مهرة الذكي",
+        "toc": "نظرية الحوسبة",
+        "os": "نظم التشغيل",
+        "exam_prep": "🚀 الاستعداد الذكي للاختبارات",
+        "res_hub": "📚 مركز المصادر",
+        "ach_hall": "🏆 قاعة الإنجازات",
+        "community": "👥 ركن المجتمع",
+        "dash_title": "🏛️ لوحة تحكم بوابة علوم الحاسب",
+        "total_lessons": "إجمالي الدروس",
+        "students": "الطلاب المستفيدون",
+        "success_rate": "نسبة النجاح",
+        "analytics": "📊 تحليلات المنصة",
+        "why_title": "🎯 لماذا هذه المنصة؟",
+        "source_disp": "تشتت المصادر",
+        "concept_diff": "صعوبة المفاهيم",
+        "instant_eval": "تقييم فوري"
+    },
+    "中文": {
+        "nav_title": "💎 学术导航",
+        "select_lang": "选择语言:",
+        "search_placeholder": "搜索平台...",
+        "course_select": "选择课程:",
+        "lesson_select": "选择课程:",
+        "contact": "联系我",
+        "feedback": "反馈",
+        "home": "主页",
+        "ai_asst": "🤖 Mohrah AI 助手",
+        "toc": "计算理论",
+        "os": "操作系统",
+        "exam_prep": "🚀 智能备考",
+        "res_hub": "📚 资源中心",
+        "ach_hall": "🏆 成就大厅",
+        "community": "👥 社区角落",
+        "dash_title": "🏛️ 计算机科学门户仪表板",
+        "total_lessons": "总课程",
+        "students": "受益学生",
+        "success_rate": "测验成功率",
+        "analytics": "📊 平台分析",
+        "why_title": "🎯 为什么选择 CS 门户？",
+        "source_disp": "资源分散",
+        "concept_diff": "概念难度",
+        "instant_eval": "即时评估"
+    }
+}
+
+if 'lang' not in st.session_state:
+    st.session_state.lang = "English"
+
+def t(key):
+    return LANGUAGES[st.session_state.lang].get(key, key)
 
 # --- 2. PERSISTENT STORAGE FUNCTIONS ---
 COMMENTS_FILE = os.path.join(os.getcwd(), "comments.json")
@@ -214,10 +301,13 @@ st.markdown(f"""
 
 
 # --- 5. SIDEBAR NAVIGATION ---
-st.sidebar.title("💎 Academic Navigation")
+# Language Selector
+st.session_state.lang = st.sidebar.selectbox(t("select_lang"), ["English", "العربية", "中文"], index=0 if st.session_state.lang == "English" else (1 if st.session_state.lang == "العربية" else 2))
+
+st.sidebar.title(t("nav_title"))
 
 # --- SEARCH FEATURE ---
-search_query = st.sidebar.text_input("🔍 Search Platform / ابحث في المنصة:", placeholder="e.g. Deadlock, DFA...")
+search_query = st.sidebar.text_input(f"🔍 {t('search_placeholder')}", placeholder="e.g. Deadlock, DFA...")
 if search_query:
     st.sidebar.info(f"Searching for: {search_query}")
 
@@ -227,23 +317,36 @@ st.sidebar.write("---")
 if 'current_page' not in st.session_state:
     st.session_state.current_page = "Home Page"
 
+# Navigation mapping
+nav_map = {
+    t("home"): "Home Page",
+    t("ai_asst"): "🤖 Mohrah AI Assistant",
+    t("toc"): "Theory of Computation",
+    t("os"): "Operating Systems",
+    t("exam_prep"): "🚀 Smart Exam Prep",
+    t("res_hub"): "📚 Resource Hub",
+    t("ach_hall"): "🏆 Achievement Hall",
+    t("community"): "👥 Community Corner"
+}
+
 # Main category selection
-main_subject = st.sidebar.selectbox(
-    "Select Course / اختر المادة:",
-    ["Home Page", "🤖 Mohrah AI Assistant", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall", "👥 Community Corner"],
+main_subject_label = st.sidebar.selectbox(
+    t("course_select"),
+    list(nav_map.keys()),
     key="main_nav_select"
 )
+main_subject = nav_map[main_subject_label]
 
 # Handle sub-navigation or direct page assignment
 if main_subject == "Theory of Computation":
     subject = st.sidebar.selectbox(
-        "Select Lesson / اختر الدرس:",
+        t("lesson_select"),
         ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"]
     )
     st.session_state.current_page = subject
 elif main_subject == "Operating Systems":
     subject = st.sidebar.selectbox(
-        "Select Lesson / اختر الدرس:",
+        t("lesson_select"),
         ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services", "Operating Systems: Chapter 3 - Process Management", "Operating Systems: Chapter 4 - Threads", "Operating Systems: Chapter 5 - CPU Scheduling", "Operating Systems: Chapter 6 - Synchronization", "Operating Systems: Chapter 7 - Deadlocks", "Operating Systems: Chapter 8 - Memory Management", "Operating Systems: Chapter 9 - Mass-Storage", "Operating Systems: Chapter 10 - File Systems", "🎓 OS Course Completion"]
     )
     st.session_state.current_page = subject
@@ -252,11 +355,11 @@ else:
 
 # Override if contact or feedback buttons are pressed
 st.sidebar.write("---")
-st.sidebar.write("### 📞 تواصل معي / Contact Me")
+st.sidebar.write(f"### 📞 {t('contact')}")
 col1, col2 = st.sidebar.columns(2)
-if col1.button("📧 Contact", key="contact_btn"):
+if col1.button(t("contact"), key="contact_btn"):
     st.session_state.current_page = "Contact Developer"
-if col2.button("💬 Feedback", key="feedback_btn"):
+if col2.button(t("feedback"), key="feedback_btn"):
     st.session_state.current_page = "Community Feedback"
 
 display_page = st.session_state.current_page
@@ -265,8 +368,8 @@ display_page = st.session_state.current_page
 
 # --- 6. MODULES ---
 if display_page == "Home Page":
-    st.markdown("""<div class="announcement-banner">🎊 إنجاز جديد: تم بحمد الله الانتهاء من إضافة كافة شباتر مادة نظم التشغيل (OS) كاملة! 🎓✨</div>""", unsafe_allow_html=True)
-    st.markdown("## 🏛️ Welcome to the CS Core Portal")
+    st.markdown(f"""<div class="announcement-banner">🎊 {t('home')} 🎓✨</div>""", unsafe_allow_html=True)
+    st.markdown(f"## {t('dash_title')}")
     st.markdown("""
     <div class="learning-card">
     <h3>عن المنصة / About the Platform</h3>
@@ -282,51 +385,53 @@ if display_page == "Home Page":
     """, unsafe_allow_html=True)
 
 elif display_page == "🤖 Mohrah AI Assistant":
-    st.markdown("## 🤖 Mohrah AI Assistant | مساعد مهرة الذكي")
+    st.markdown(f"## {t('ai_asst')}")
     st.info("Ask me anything about Operating Systems or Theory of Computation!")
     
     # Initialize Gemini
-    api_key = st.secrets.get("GOOGLE_API_KEY")
-    if not api_key:
-        st.error("Please set GOOGLE_API_KEY in Streamlit Secrets.")
-    else:
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        
-        if "messages" not in st.session_state:
-            st.session_state.messages = []
-
-        for message in st.session_state.messages:
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
-
-        if prompt := st.chat_input("How can I help you today?"):
-            st.session_state.messages.append({"role": "user", "content": prompt})
-            with st.chat_message("user"):
-                st.markdown(prompt)
-
-            with st.chat_message("assistant"):
-                message_placeholder = st.empty()
-                full_response = ""
-                
-                # Add context to the prompt
-                context_prompt = f"You are an academic assistant for Mohrah's CS Portal. Answer this question in the context of Computer Science (Operating Systems or Theory of Computation): {prompt}"
-                
-                try:
-                    response = model.generate_content(context_prompt, stream=True)
-                    for chunk in response:
-                        full_response += chunk.text
-                        message_placeholder.markdown(full_response + "▌")
-                    message_placeholder.markdown(full_response)
-                except Exception as e:
-                    st.error(f"Error: {e}")
-                    full_response = "Sorry, I encountered an error. Please check your API key."
-                    message_placeholder.markdown(full_response)
+    try:
+        api_key = st.secrets.get("GOOGLE_API_KEY")
+        if not api_key:
+            st.warning("⚠️ مفتاح الذكاء الاصطناعي غير موجود. يرجى إضافته في إعدادات Streamlit Cloud (Secrets) تحت اسم GOOGLE_API_KEY.")
+        else:
+            genai.configure(api_key=api_key)
+            model = genai.GenerativeModel('gemini-1.5-flash')
             
-            st.session_state.messages.append({"role": "assistant", "content": full_response})
+            if "messages" not in st.session_state:
+                st.session_state.messages = []
+
+            for message in st.session_state.messages:
+                with st.chat_message(message["role"]):
+                    st.markdown(message["content"])
+
+            if prompt := st.chat_input("How can I help you today?"):
+                st.session_state.messages.append({"role": "user", "content": prompt})
+                with st.chat_message("user"):
+                    st.markdown(prompt)
+
+                with st.chat_message("assistant"):
+                    message_placeholder = st.empty()
+                    full_response = ""
+                    
+                    context_prompt = f"You are an academic assistant for Mohrah's CS Portal. Answer this question in the context of Computer Science (Operating Systems or Theory of Computation): {prompt}"
+                    
+                    try:
+                        response = model.generate_content(context_prompt, stream=True)
+                        for chunk in response:
+                            full_response += chunk.text
+                            message_placeholder.markdown(full_response + "▌")
+                        message_placeholder.markdown(full_response)
+                    except Exception as e:
+                        st.error(f"Error: {e}")
+                        full_response = "Sorry, I encountered an error. Please check your API key."
+                        message_placeholder.markdown(full_response)
+                
+                st.session_state.messages.append({"role": "assistant", "content": full_response})
+    except Exception as e:
+        st.error(f"AI Setup Error: {e}")
 
 # --- REST OF THE CODE (PRESERVED) ---
-# [I will now append the remaining ~2300 lines from the user's file]
+# [Remaining lines from original file will be appended below]
 elif display_page == "Foundations of TOC":
     st.markdown("## 📘 Foundations of Theory of Computation")
     tab_intro, tab_alphabets, tab_strings, tab_languages, tab_sets, tab_functions, tab_boolean, tab_q = st.tabs(["📖 Introduction", "🔤 Alphabets", "🧵 Strings", "🗣️ Languages", "📊 Sets", "⚙️ Functions", "🧠 Boolean Logic", "📝 Comprehensive Quiz"])

@@ -13,95 +13,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- LANGUAGE TRANSLATIONS ---
-LANGUAGES = {
-    "English": {
-        "nav_title": "💎 Academic Navigation",
-        "select_lang": "Choose Language / اختر اللغة:",
-        "search_placeholder": "Search Platform...",
-        "course_select": "Select Course:",
-        "lesson_select": "Select Lesson:",
-        "contact": "Contact Me",
-        "feedback": "Feedback",
-        "home": "Home Page",
-        "ai_asst": "🤖 Mohrah AI Assistant",
-        "toc": "Theory of Computation",
-        "os": "Operating Systems",
-        "exam_prep": "🚀 Smart Exam Prep",
-        "res_hub": "📚 Resource Hub",
-        "ach_hall": "🏆 Achievement Hall",
-        "community": "👥 Community Corner",
-        "dash_title": "🏛️ CS Portal Dashboard",
-        "total_lessons": "Total Lessons",
-        "students": "Students Benefited",
-        "success_rate": "Quiz Success Rate",
-        "analytics": "📊 Platform Analytics",
-        "why_title": "🎯 Why CS Portal?",
-        "source_disp": "Source Dispersion",
-        "concept_diff": "Concept Difficulty",
-        "instant_eval": "Instant Evaluation"
-    },
-    "العربية": {
-        "nav_title": "💎 التنقل الأكاديمي",
-        "select_lang": "اختر اللغة:",
-        "search_placeholder": "ابحث في المنصة...",
-        "course_select": "اختر المادة:",
-        "lesson_select": "اختر الدرس:",
-        "contact": "تواصل معي",
-        "feedback": "الآراء والملاحظات",
-        "home": "الصفحة الرئيسية",
-        "ai_asst": "🤖 مساعد مهرة الذكي",
-        "toc": "نظرية الحوسبة",
-        "os": "نظم التشغيل",
-        "exam_prep": "🚀 الاستعداد الذكي للاختبارات",
-        "res_hub": "📚 مركز المصادر",
-        "ach_hall": "🏆 قاعة الإنجازات",
-        "community": "👥 ركن المجتمع",
-        "dash_title": "🏛️ لوحة تحكم بوابة علوم الحاسب",
-        "total_lessons": "إجمالي الدروس",
-        "students": "الطلاب المستفيدون",
-        "success_rate": "نسبة النجاح",
-        "analytics": "📊 تحليلات المنصة",
-        "why_title": "🎯 لماذا هذه المنصة؟",
-        "source_disp": "تشتت المصادر",
-        "concept_diff": "صعوبة المفاهيم",
-        "instant_eval": "تقييم فوري"
-    },
-    "中文": {
-        "nav_title": "💎 学术导航",
-        "select_lang": "选择语言:",
-        "search_placeholder": "搜索平台...",
-        "course_select": "选择课程:",
-        "lesson_select": "选择课程:",
-        "contact": "联系我",
-        "feedback": "反馈",
-        "home": "主页",
-        "ai_asst": "🤖 Mohrah AI 助手",
-        "toc": "计算理论",
-        "os": "操作系统",
-        "exam_prep": "🚀 智能备考",
-        "res_hub": "📚 资源中心",
-        "ach_hall": "🏆 成就大厅",
-        "community": "👥 社区角落",
-        "dash_title": "🏛️ 计算机科学门户仪表板",
-        "total_lessons": "总课程",
-        "students": "受益学生",
-        "success_rate": "测验成功率",
-        "analytics": "📊 平台分析",
-        "why_title": "🎯 为什么选择 CS 门户？",
-        "source_disp": "资源分散",
-        "concept_diff": "概念难度",
-        "instant_eval": "即时评估"
-    }
-}
-
-if 'lang' not in st.session_state:
-    st.session_state.lang = "English"
-
-def t(key):
-    return LANGUAGES[st.session_state.lang].get(key, key)
-
-
 # Injecting Theme and Hiding Streamlit Elements via CSS
 st.markdown("""
     <style>
@@ -337,14 +248,10 @@ st.sidebar.markdown(f"""
         <h2 style="color: #1e3a8a; margin-top: 15px; font-family: 'Georgia', serif;">CS Portal</h2>
     </div>
     """, unsafe_allow_html=True)
-
-# Language Selector
-st.session_state.lang = st.sidebar.selectbox(t("select_lang"), ["English", "العربية", "中文"], index=0 if st.session_state.lang == "English" else (1 if st.session_state.lang == "العربية" else 2))
-
-st.sidebar.title(t("nav_title"))
+st.sidebar.title("💎 Academic Navigation")
 
 # --- SEARCH FEATURE ---
-search_query = st.sidebar.text_input(f"🔍 {t('search_placeholder')}", placeholder="e.g. Deadlock, DFA...")
+search_query = st.sidebar.text_input("🔍 Search Platform / ابحث في المنصة:", placeholder="e.g. Deadlock, DFA...")
 if search_query:
     st.sidebar.info(f"Searching for: {search_query}")
 
@@ -354,36 +261,23 @@ st.sidebar.write("---")
 if 'current_page' not in st.session_state:
     st.session_state.current_page = "Home Page"
 
-# Navigation mapping
-nav_map = {
-    t("home"): "Home Page",
-    t("ai_asst"): "🤖 Mohrah AI Assistant",
-    t("toc"): "Theory of Computation",
-    t("os"): "Operating Systems",
-    t("exam_prep"): "🚀 Smart Exam Prep",
-    t("res_hub"): "📚 Resource Hub",
-    t("ach_hall"): "🏆 Achievement Hall",
-    t("community"): "👥 Community Corner"
-}
-
 # Main category selection
-main_subject_label = st.sidebar.selectbox(
-    t("course_select"),
-    list(nav_map.keys()),
+main_subject = st.sidebar.selectbox(
+    "Select Course / اختر المادة:",
+    ["Home Page", "🤖 Mohrah AI Assistant", "Theory of Computation", "Operating Systems", "🚀 Smart Exam Prep", "📚 Resource Hub", "🏆 Achievement Hall", "👥 Community Corner"],
     key="main_nav_select"
 )
-main_subject = nav_map[main_subject_label]
 
 # Handle sub-navigation or direct page assignment
 if main_subject == "Theory of Computation":
     subject = st.sidebar.selectbox(
-        t("lesson_select"),
+        "Select Lesson / اختر الدرس:",
         ["Foundations of TOC", "DFA Explorer", "NFA Masterclass", "Regular Expressions", "DFA to RE & Pumping Lemma", "CFG & Chomsky Form", "PDA & CFL Theory", "Turing Machines & Algorithms", "🎓 Course Completion"]
     )
     st.session_state.current_page = subject
 elif main_subject == "Operating Systems":
     subject = st.sidebar.selectbox(
-        t("lesson_select"),
+        "Select Lesson / اختر الدرس:",
         ["Operating Systems: Chapter 1 - Introduction", "Operating Systems: Chapter 2 - Structure & Services", "Operating Systems: Chapter 3 - Process Management", "Operating Systems: Chapter 4 - Threads", "Operating Systems: Chapter 5 - CPU Scheduling", "Operating Systems: Chapter 6 - Synchronization", "Operating Systems: Chapter 7 - Deadlocks", "Operating Systems: Chapter 8 - Memory Management", "Operating Systems: Chapter 9 - Mass-Storage", "Operating Systems: Chapter 10 - File Systems", "🎓 OS Course Completion"]
     )
     st.session_state.current_page = subject
@@ -392,11 +286,11 @@ else:
 
 # Override if contact or feedback buttons are pressed
 st.sidebar.write("---")
-st.sidebar.write(f"### 📞 {t('contact')}")
+st.sidebar.write("### 📞 تواصل معي / Contact Me")
 col1, col2 = st.sidebar.columns(2)
-if col1.button(t("contact"), key="contact_btn"):
+if col1.button("📧 Contact", key="contact_btn"):
     st.session_state.current_page = "Contact Developer"
-if col2.button(t("feedback"), key="feedback_btn"):
+if col2.button("💬 Feedback", key="feedback_btn"):
     st.session_state.current_page = "Community Feedback"
 
 display_page = st.session_state.current_page
@@ -438,39 +332,20 @@ if display_page == "🤖 Mohrah AI Assistant":
             message_placeholder = st.empty()
             full_response = ""
             
-            # Simulated Academic Response with citations based on language
-            if st.session_state.lang == "العربية":
-                academic_intro = "بناءً على المناهج الأكاديمية المعتمدة في علوم الحاسب [Silberschatz et al., مفاهيم نظم التشغيل / Sipser، نظرية الحوسبة]:\n\n"
-                response_text = f"أقوم بتحليل طلبك بخصوص '{prompt}'. في السياق الأكاديمي، يرتبط هذا بمبادئ الحوسبة الأساسية. "
-                if "Banker" in prompt or "بانكر" in prompt:
-                    response_text += "خوارزمية المصرفي (Banker's Algorithm) هي خوارزمية لتخصيص الموارد وتجنب الجمود (Deadlock Avoidance) تعمل عن طريق محاكاة التخصيص للمبالغ القصوى المحددة مسبقاً لجميع الموارد."
-                elif "DFA" in prompt:
-                    response_text += "الأوتوماتا المحددة المحدودة (DFA) هي نماذج نظرية للحوسبة تستخدم للتعرف على اللغات المنتظمة. كل حالة لها انتقال واحد بالضبط لكل رمز إدخال."
-                else:
-                    response_text += "هذا المفهوم أساسي لفهم كيفية عمل أنظمة الحوسبة الحديثة بكفاءة وأمان."
-                ref_text = "\n\n*المرجع: قاعدة البيانات الأكاديمية لبوابة CS إصدار 2026*"
-            elif st.session_state.lang == "中文":
-                academic_intro = "基于标准计算机科学课程和学术参考资料 [Silberschatz 等人，《操作系统概念》/ Sipser，《计算理论》]：\n\n"
-                response_text = f"我正在分析您关于 '{prompt}' 的请求。在学术背景下，这涉及核心计算原理。 "
-                if "Banker" in prompt or "银行家" in prompt:
-                    response_text += "银行家算法（Banker's Algorithm）是一种资源分配和死锁避免算法，通过模拟所有资源预定的最大可能分配量来测试安全性。"
-                elif "DFA" in prompt:
-                    response_text += "确定性有限自动机（DFA）是用于识别正则语言的计算理论模型。每个状态对于每个输入符号都有且仅有一个转换。"
-                else:
-                    response_text += "这一概念对于理解现代计算系统如何高效安全地运行至关重要。"
-                ref_text = "\n\n*参考：CS 门户学术数据库 v2026*"
-            else:
-                academic_intro = "Based on standard Computer Science curricula and academic references [Silberschatz et al., Operating System Concepts / Sipser, Theory of Computation]:\n\n"
-                response_text = f"I am analyzing your request about '{prompt}'. In an academic context, this relates to core computational principles. "
-                if "Banker" in prompt:
-                    response_text += "The Banker's Algorithm is a resource allocation and deadlock avoidance algorithm that tests for safety by simulating the allocation for predetermined maximum possible amounts of all resources."
-                elif "DFA" in prompt:
-                    response_text += "Deterministic Finite Automata (DFA) are theoretical models of computation used to recognize regular languages. Every state has exactly one transition for each input symbol."
-                else:
-                    response_text += "This concept is fundamental to understanding how modern computing systems operate efficiently and securely."
-                ref_text = "\n\n*Reference: CS Portal Academic Database v2026*"
+            # Simulated Academic Response with citations
+            academic_intro = "Based on standard Computer Science curricula and academic references [Silberschatz et al., Operating System Concepts / Sipser, Theory of Computation]:\n\n"
+            response_text = f"I am analyzing your request about '{prompt}'. In an academic context, this relates to core computational principles. "
             
-            full_response = academic_intro + response_text + ref_text
+            # This is a placeholder for actual LLM integration if available, 
+            # otherwise it demonstrates the "Academic" style requested.
+            if "Banker" in prompt:
+                response_text += "The Banker's Algorithm is a resource allocation and deadlock avoidance algorithm that tests for safety by simulating the allocation for predetermined maximum possible amounts of all resources."
+            elif "DFA" in prompt:
+                response_text += "Deterministic Finite Automata (DFA) are theoretical models of computation used to recognize regular languages. Every state has exactly one transition for each input symbol."
+            else:
+                response_text += "This concept is fundamental to understanding how modern computing systems operate efficiently and securely."
+            
+            full_response = academic_intro + response_text + "\n\n*Reference: CS Portal Academic Database v2026*"
             
             # Simulate typing
             for chunk in full_response.split():
@@ -484,24 +359,24 @@ if display_page == "🤖 Mohrah AI Assistant":
 
 # --- 6. MODULES ---
 if display_page == "Home Page":
-    st.markdown(f"""<div class="announcement-banner">🎊 {t('home')} 🎓✨</div>""", unsafe_allow_html=True)
-    st.markdown(f"## {t('dash_title')}")
+    st.markdown("""<div class="announcement-banner">🎊 إنجاز جديد: تم بحمد الله الانتهاء من إضافة كافة شباتر مادة نظم التشغيل (OS) كاملة! 🎓✨</div>""", unsafe_allow_html=True)
+    st.markdown("## 🏛️ CS Portal Dashboard")
     
     # --- QUICK STATS DASHBOARD ---
     import plotly.graph_objects as go
     
     col_stat1, col_stat2, col_stat3 = st.columns(3)
     with col_stat1:
-        st.metric(label=t("total_lessons"), value="21", delta="Full Coverage")
+        st.metric(label="Total Lessons", value="21", delta="Full Coverage")
     with col_stat2:
-        st.metric(label=t("students"), value="1,240+", delta="Rising")
+        st.metric(label="Students Benefited", value="1,240+", delta="Rising")
     with col_stat3:
-        st.metric(label=t("success_rate"), value="88%", delta="High")
+        st.metric(label="Quiz Success Rate", value="88%", delta="High")
 
     # --- ANALYTICS CHART ---
-    st.markdown(f"### {t('analytics')}")
+    st.markdown("### 📊 Platform Analytics")
     chart_data = pd.DataFrame({
-        'Subject': [t('os'), t('toc'), t('exam_prep'), t('community')],
+        'Subject': ['Operating Systems', 'Theory of Computation', 'Smart Quizzes', 'Community'],
         'Engagement': [450, 380, 520, 290]
     })
     
@@ -510,33 +385,33 @@ if display_page == "Home Page":
         y=chart_data['Engagement'],
         marker_color=['#1e3a8a', '#3b82f6', '#2563eb', '#60a5fa']
     )])
-    fig.update_layout(title=t('analytics'), template="plotly_white", height=350)
+    fig.update_layout(title="Most Searched Topics", template="plotly_white", height=350)
     st.plotly_chart(fig, use_container_width=True)
 
     # --- WHY THIS PLATFORM CARDS ---
-    st.markdown(f"### {t('why_title')}")
+    st.markdown("### 🎯 Why CS Portal?")
     col_c1, col_c2, col_c3 = st.columns(3)
     
     with col_c1:
-        st.markdown(f"""
+        st.markdown("""
         <div style="background: white; padding: 25px; border-radius: 15px; border-bottom: 5px solid #1e3a8a; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 250px;">
-            <h4 style="color: #1e3a8a;">📚 {t('source_disp')}</h4>
+            <h4 style="color: #1e3a8a;">📚 Source Dispersion</h4>
             <p style="font-size: 14px; color: #64748b;">Solving the problem of scattered resources by providing a unified academic reference.</p>
         </div>
         """, unsafe_allow_html=True)
         
     with col_c2:
-        st.markdown(f"""
+        st.markdown("""
         <div style="background: white; padding: 25px; border-radius: 15px; border-bottom: 5px solid #3b82f6; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 250px;">
-            <h4 style="color: #3b82f6;">🧠 {t('concept_diff')}</h4>
+            <h4 style="color: #3b82f6;">🧠 Concept Difficulty</h4>
             <p style="font-size: 14px; color: #64748b;">Simplifying complex concepts like DFA, Deadlocks, and Memory Paging through interactive visuals.</p>
         </div>
         """, unsafe_allow_html=True)
         
     with col_c3:
-        st.markdown(f"""
+        st.markdown("""
         <div style="background: white; padding: 25px; border-radius: 15px; border-bottom: 5px solid #2563eb; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 250px;">
-            <h4 style="color: #2563eb;">⚡ {t('instant_eval')}</h4>
+            <h4 style="color: #2563eb;">⚡ Instant Evaluation</h4>
             <p style="font-size: 14px; color: #64748b;">Providing immediate feedback on quizzes to enhance the learning experience and retention.</p>
         </div>
         """, unsafe_allow_html=True)

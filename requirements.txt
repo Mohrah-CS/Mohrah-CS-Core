@@ -2,3 +2,4 @@ graphviz
 streamlit
 pandas
 google-generativeai
+plotly

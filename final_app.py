@@ -5,13 +5,15 @@ import os
 import json
 import pandas as pd
 import google.generativeai as genai
+
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="MOHRAH CS CORE",
+    page_title="MOHRAH CS CORE - Ultimate Edition v13",
     layout="wide",
     page_icon="💎",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
+
 # --- LANGUAGE TRANSLATIONS ---
 LANGUAGES = {
     "English": {
@@ -100,13 +102,17 @@ LANGUAGES = {
         "announcement": "🎊 新成就：操作系统 (OS) 的所有章节已成功添加！🎓✨"
     }
 }
+
 if 'lang' not in st.session_state:
     st.session_state.lang = "English"
+
 def t(key):
     return LANGUAGES[st.session_state.lang].get(key, key)
+
 # --- 2. PERSISTENT STORAGE FUNCTIONS ---
 COMMENTS_FILE = os.path.join(os.getcwd(), "comments.json")
 QUESTIONS_FILE = os.path.join(os.getcwd(), "community_qs.json")
+
 def load_questions():
     initial_qs = [
         {"id": 1, "u": "أحمد", "q": "كيف أفرق بين الـ Paging والـ Segmentation؟", "r": [{"u": "سارة", "m": "الـ Paging تقسيم ثابت، الـ Segmentation منطقي.", "t": "10:05 AM"}], "t": "10:00 AM", "likes": 5},
@@ -118,12 +124,14 @@ def load_questions():
                 return json.load(f)
         except: return initial_qs
     return initial_qs
+
 def save_qs(qs):
     try:
         with open(QUESTIONS_FILE, "w", encoding="utf-8") as f:
             json.dump(qs, f, ensure_ascii=False, indent=4)
     except Exception as e:
         st.error(f"Error saving: {e}")
+
 def post_question(name, question, attachment=None):
     qs = load_questions()
     new_id = len(qs) + 1
@@ -138,6 +146,7 @@ def post_question(name, question, attachment=None):
         "likes": 0
     })
     save_qs(qs)
+
 def add_reply(q_id, name, reply):
     qs = load_questions()
     for q in qs:
@@ -145,6 +154,7 @@ def add_reply(q_id, name, reply):
             q['r'].append({"u": name, "m": reply, "t": time.strftime("%I:%M %p")})
             break
     save_qs(qs)
+
 def add_like(q_id):
     qs = load_questions()
     for q in qs:
@@ -152,6 +162,7 @@ def add_like(q_id):
             q['likes'] += 1
             break
     save_qs(qs)
+
 def load_comments():
     initial_data = [
         {"u": "Academic Support", "m": "Welcome to Mohrah's Lab! Your feedback is valued.", "t": "09:00 AM"},
@@ -164,30 +175,38 @@ def load_comments():
                 return json.load(f)
         except: return initial_data
     return initial_data
+
 def detect_subject_from_comment(msg):
     """Smart routing: detect if comment is about OS or TOC"""
     msg_lower = msg.lower()
+    
     os_keywords = ['operating system', 'نظم التشغيل', 'os', 'process', 'thread', 'scheduling', 'memory', 'deadlock', 'synchronization', 'file system', 'mass storage', 'cpu', 'جدولة', 'عملية', 'خيط', 'ذاكرة', 'تزامن', 'ملف']
     toc_keywords = ['theory of computation', 'نظرية الحوسبة', 'toc', 'dfa', 'nfa', 'automata', 'regular', 'context free', 'turing', 'language', 'grammar', 'أوتوماتا', 'لغة', 'قواعد']
+    
     os_score = sum(1 for keyword in os_keywords if keyword in msg_lower)
     toc_score = sum(1 for keyword in toc_keywords if keyword in msg_lower)
+    
     if os_score > toc_score and os_score > 0:
         return "Operating Systems"
     elif toc_score > os_score and toc_score > 0:
         return "Theory of Computation"
     return None
+
 def rate_comment(msg):
     """Rate comment quality (1-5 stars)"""
     length = len(msg.split())
     has_question = '?' in msg
     has_code = '`' in msg or 'code' in msg.lower()
     has_reference = 'chapter' in msg.lower() or 'page' in msg.lower()
+    
     rating = 1
     if length > 10: rating += 1
     if has_question: rating += 1
     if has_code or has_reference: rating += 1
     if length > 50: rating += 1
+    
     return min(rating, 5)
+
 def save_comment(name, msg):
     try:
         if os.path.exists(COMMENTS_FILE):
@@ -195,8 +214,10 @@ def save_comment(name, msg):
                 comments = json.load(f)
         else:
             comments = []
+        
         rating = rate_comment(msg)
         detected_subject = detect_subject_from_comment(msg)
+        
         new_comment = {
             "u": name, 
             "m": msg, 
@@ -204,183 +225,105 @@ def save_comment(name, msg):
             "rating": rating,
             "subject": detected_subject
         }
+        
         comments.append(new_comment)
+        
         with open(COMMENTS_FILE, "w", encoding="utf-8") as f:
             json.dump(comments, f, ensure_ascii=False, indent=4)
+        
         st.session_state.comment_refresh = time.time()
         return True, detected_subject
     except Exception as e:
         st.error(f"Error saving comment: {e}")
         return False, None
-# --- 3. ADVANCED STYLING ---
 
+# --- 3. ADVANCED STYLING ---
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Poppins:wght@400;600;800&family=Inter:wght@400;600&display=swap');
-    
-    :root {
-        --primary-blue: #0f172a;
-        --accent-gold: #fbbf24;
-        --soft-white: #f8fafc;
-        --deep-blue: #1e293b;
-        --glow-blue: #3b82f6;
+    .main { background-color: #ffffff; }
+    .header-box {
+        text-align: center; padding: 50px;
+        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+        color: white; border-radius: 25px; margin-bottom: 40px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
     }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { direction: rtl; scroll-behavior: smooth; }
-    body, [data-testid="stAppViewContainer"] { 
-        background-color: var(--primary-blue);
-        color: var(--soft-white);
-        font-family: 'Cairo', 'Inter', sans-serif;
+    .announcement-banner {
+        background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+        color: #0f172a; padding: 12px; border-radius: 12px;
+        text-align: center; font-weight: bold; margin-bottom: 20px;
+        border: 2px solid #d97706; direction: rtl;
     }
-    [data-testid="stHeader"] { background: transparent; }
-    [data-testid="stSidebar"] { display: none; }
-    
-    /* Logo Branding */
-    .logo-container {
-        display: flex; align-items: center; gap: 15px;
-        font-family: 'Poppins', sans-serif;
+    .learning-card {
+        background-color: #ffffff; padding: 35px; border-radius: 20px; 
+        border-right: 8px solid #1e3a8a; border-left: 8px solid #1e3a8a;
+        margin-bottom: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        line-height: 1.8;
     }
-    .logo-diamond {
-        width: 45px; height: 45px;
-        background: linear-gradient(135deg, var(--accent-gold), #d97706);
-        clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-        display: flex; align-items: center; justify-content: center;
-        box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
-        position: relative;
+    .concept-badge {
+        background-color: #1e3a8a; color: white; padding: 6px 18px; border-radius: 25px; 
+        font-size: 14px; font-weight: bold; display: inline-block; margin-bottom: 15px;
     }
-    .logo-diamond::after {
-        content: ''; position: absolute; width: 100%; height: 100%;
-        border: 2px solid rgba(255,255,255,0.3); clip-path: inherit;
+    .step-box {
+        background-color: #f0f9ff; border: 2px solid #bae6fd; padding: 20px; 
+        border-radius: 15px; margin: 20px 0; color: #0369a1;
     }
-    .logo-text { line-height: 1; }
-    .logo-main { font-size: 24px; font-weight: 800; color: white; letter-spacing: 1px; }
-    .logo-sub { font-size: 12px; color: var(--accent-gold); font-weight: 600; text-transform: uppercase; }
-
-    /* Navbar */
-    .nav-bar {
-        display: flex; justify-content: space-between; align-items: center;
-        padding: 15px 6%; background: rgba(15, 23, 42, 0.95);
-        position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-        backdrop-filter: blur(15px);
+    .info-grid {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;
     }
-    .nav-links { display: flex; gap: 35px; align-items: center; }
-    .nav-links a { 
-        color: var(--soft-white); text-decoration: none; font-size: 15px; font-weight: 600; 
-        transition: 0.3s; position: relative; opacity: 0.8;
+    .info-item {
+        background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;
     }
-    .nav-links a:hover { opacity: 1; color: var(--accent-gold); }
-    .nav-links a.active { opacity: 1; color: var(--accent-gold); }
-    .nav-links a.active::after {
-        content: ''; position: absolute; bottom: -8px; right: 0; width: 100%; height: 3px; background: var(--accent-gold); border-radius: 10px;
+    h2, h3 { color: #1e3a8a; font-weight: 800; }
+    .highlight { color: #2563eb; font-weight: bold; background: #eff6ff; padding: 2px 6px; border-radius: 4px; }
+    .comment-box {
+            background-color: #f8fafc; padding: 15px; border-radius: 10px; 
+            border: 1px solid #e2e8f0; margin-bottom: 15px; line-height: 1.5;
+            direction: rtl; text-align: right;
+        }
+    .footer {
+        text-align: center; padding: 40px; margin-top: 80px;
+        border-top: 3px solid #1e3a8a; background-color: #f1f5f9; color: #0f172a;
     }
-
-    /* Hero Section */
-    .hero-wrap {
-        padding: 160px 6% 100px; display: grid; grid-template-columns: 1.2fr 1fr;
-        gap: 80px; align-items: center; position: relative;
+    .summary-table {
+        width: 100%; border-collapse: collapse; margin-top: 20px;
     }
-    .hero-content { animation: fadeInRight 1s ease-out; }
-    .hero-content h1 { 
-        font-size: 72px; font-weight: 800; font-family: 'Poppins', sans-serif;
-        background: linear-gradient(to left, #fff, var(--accent-gold));
-        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        margin-bottom: 10px; line-height: 1;
+    .summary-table th, .summary-table td {
+        border: 1px solid #e2e8f0; padding: 12px; text-align: left;
     }
-    .hero-content h2 { font-size: 32px; color: var(--soft-white); margin-bottom: 30px; font-weight: 600; }
-    .hero-content p { font-size: 18px; color: #94a3b8; line-height: 1.8; margin-bottom: 45px; max-width: 600px; }
-    
-    .btn-group { display: flex; gap: 20px; }
-    .btn-main { 
-        background: var(--accent-gold); color: var(--primary-blue); padding: 16px 40px; 
-        border-radius: 14px; font-weight: 800; text-decoration: none; transition: 0.4s;
-        box-shadow: 0 10px 25px rgba(251, 191, 36, 0.3); cursor: pointer; border: none;
+    .summary-table th {
+        background-color: #1e3a8a; color: white;
     }
-    .btn-main:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(251, 191, 36, 0.5); }
-    .btn-sec { 
-        border: 2px solid rgba(255,255,255,0.2); color: white; padding: 16px 40px; 
-        border-radius: 14px; font-weight: 800; text-decoration: none; transition: 0.4s;
-        cursor: pointer; background: transparent;
-    }
-    .btn-sec:hover { background: rgba(255,255,255,0.05); border-color: var(--accent-gold); }
-
-    /* Stats Section */
-    .stats-container {
-        display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
-        padding: 60px 6%; margin-top: -60px; position: relative; z-index: 10;
-    }
-    .stat-box {
-        background: var(--deep-blue); padding: 40px; border-radius: 24px;
-        text-align: center; border: 1px solid rgba(255,255,255,0.05);
-        transition: 0.4s; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    }
-    .stat-box:hover { transform: translateY(-10px); border-color: var(--accent-gold); }
-    .stat-box .icon { font-size: 40px; margin-bottom: 20px; display: block; }
-    .stat-box h3 { font-size: 36px; font-weight: 800; color: white; margin-bottom: 5px; }
-    .stat-box p { color: #94a3b8; font-size: 16px; font-weight: 600; }
-
-    /* Track Cards */
-    .track-section { padding: 100px 6%; }
-    .track-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
-    .track-card {
-        background: var(--deep-blue); padding: 30px 20px; border-radius: 20px;
-        text-align: center; transition: 0.3s; border: 1px solid rgba(255,255,255,0.05);
-        cursor: pointer;
-    }
-    .track-card:hover { background: var(--accent-gold); }
-    .track-card:hover * { color: var(--primary-blue) !important; }
-    .track-card .icon { font-size: 32px; margin-bottom: 15px; display: block; }
-    .track-card h4 { font-size: 14px; font-weight: 800; }
-
-    /* Animations */
-    @keyframes fadeInRight {
-        from { opacity: 0; transform: translateX(50px); }
-        to { opacity: 1; transform: translateX(0); }
-    }
-
-    /* Hide Streamlit */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    .stButton>button { background: none; border: none; padding: 0; width: 100%; color: inherit; }
     </style>
+    """, unsafe_allow_html=True)
 
-    <div class="nav-bar">
-        <div class="nav-links">
-            <a href="#">عن المنصة</a>
-            <a href="#">المواد</a>
-            <a href="#">المسارات</a>
-            <a href="#" class="active">الرئيسية</a>
-        </div>
-        <div class="logo-container">
-            <div class="logo-text" style="text-align: right;">
-                <div class="logo-main">MOHRAH</div>
-                <div class="logo-sub">CS CORE</div>
-            </div>
-            <div class="logo-diamond">💎</div>
-        </div>
-    </div>
-""", unsafe_allow_html=True)
 # --- 4. HEADER ---
 st.markdown(f"""
     <div class="header-box">
+        <div style="font-family: 'Georgia', serif; font-size: clamp(28px, 6vw, 56px); font-weight: 900; letter-spacing: 3px;">THE JEWEL OF COMPUTER SCIENCE</div>
         <div style="font-size: clamp(18px, 3vw, 28px); font-weight: 300; margin-top: 20px; border-top: 2px solid rgba(255,255,255,0.4); display: inline-block; padding-top: 15px;">
+            MOHRAH ATIAH AL-JUHANI | مهره عطيه الجهني
         </div>
     </div>
     """, unsafe_allow_html=True)
+
+
 # --- 5. SIDEBAR NAVIGATION ---
 # Language Selector
 st.session_state.lang = st.sidebar.selectbox(t("select_lang"), ["English", "العربية", "中文"], index=0 if st.session_state.lang == "English" else (1 if st.session_state.lang == "العربية" else 2))
+
 st.sidebar.title(t("nav_title"))
+
 # --- SEARCH FEATURE ---
 search_query = st.sidebar.text_input(f"🔍 {t('search_placeholder')}", placeholder="e.g. Deadlock, DFA...")
 if search_query:
     st.sidebar.info(f"Searching for: {search_query}")
+
 st.sidebar.write("---")
+
 # Initialize session state
 if 'current_page' not in st.session_state:
     st.session_state.current_page = "Home Page"
+
 # Navigation mapping
 nav_map = {
     t("home"): "Home Page",
@@ -392,6 +335,7 @@ nav_map = {
     t("ach_hall"): "🏆 Achievement Hall",
     t("community"): "👥 Community Corner"
 }
+
 # Main category selection
 main_subject_label = st.sidebar.selectbox(
     t("course_select"),
@@ -399,6 +343,7 @@ main_subject_label = st.sidebar.selectbox(
     key="main_nav_select"
 )
 main_subject = nav_map[main_subject_label]
+
 # Handle sub-navigation or direct page assignment
 if main_subject == "Theory of Computation":
     subject = st.sidebar.selectbox(
@@ -414,6 +359,7 @@ elif main_subject == "Operating Systems":
     st.session_state.current_page = subject
 else:
     st.session_state.current_page = main_subject
+
 # Override if contact or feedback buttons are pressed
 st.sidebar.write("---")
 st.sidebar.write(f"### 📞 {t('contact')}")
@@ -422,10 +368,41 @@ if col1.button(t("contact"), key="contact_btn"):
     st.session_state.current_page = "Contact Developer"
 if col2.button(t("feedback"), key="feedback_btn"):
     st.session_state.current_page = "Community Feedback"
+
 display_page = st.session_state.current_page
-if display_page == "🤖 Mohrah AI Assistant":
+
+
+
+# --- 6. MODULES ---
+if display_page == "Home Page":
+    # Translate Home Page Content
+    announcement_text = t("announcement") if st.session_state.lang == "中文" else "🎊 إنجاز جديد: تم بحمد الله الانتهاء من إضافة كافة شباتر مادة نظم التشغيل (OS) كاملة! 🎓✨"
+    about_title = t("about_title") if st.session_state.lang == "中文" else "عن المنصة / About the Platform"
+    about_desc = t("about_desc") if st.session_state.lang == "中文" else "هذه المنصة هي <b>مبادرة طلابية تعليمية متقدمة</b> تهدف إلى تبسيط المفاهيم المعقدة في علوم الحاسب، وتغطي حالياً وبشكل كامل مادتي <b>نظرية الحوسبة (TOC)</b> و <b>نظم التشغيل (OS)</b>."
+    academic_source = t("academic_source") if st.session_state.lang == "中文" else "<b>المصدر العلمي (Academic Source):</b> تم استقاء كافة المعلومات العلمية، التعريفات الرياضية، والنماذج التوضيحية من المناهج الأكاديمية المعتمدة في <b>جامعة تبوك</b>. تم تصميم المحتوى ليكون مرجعاً شاملاً يساعد الطلاب على فهم تعقيدات الأوتوماتا واللغات الرسمية."
+    goal_target = t("goal_target") if st.session_state.lang == "中文" else "<b>🎯 الهدف:</b> تبسيط المفاهيم المعقدة مثل DFA, NFA, و PDA."
+    tool_desc = t("tool_desc") if st.session_state.lang == "中文" else "<b>🛠️ الأدوات:</b> محاكيات تفاعلية، رسومات بيانية حية، واختبارات تقييمية."
+    content_desc = t("content_desc") if st.session_state.lang == "中文" else "<b>📚 المحتوى:</b> يغطي المنهج الكامل من الأساسيات الرياضية إلى نماذج الحوسبة المتقدمة وآلات تورينج."
+
+    st.markdown(f"""<div class="announcement-banner">{announcement_text}</div>""", unsafe_allow_html=True)
+    st.markdown(f"## {t('dash_title')}")
+    st.markdown(f"""
+    <div class="learning-card">
+    <h3>{about_title}</h3>
+    <p>{about_desc}</p>
+    <p>{academic_source}</p>
+    <div class="info-grid">
+        <div class="info-item">{goal_target}</div>
+        <div class="info-item">{tool_desc}</div>
+        <div class="info-item">{content_desc}</div>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+elif display_page == "🤖 Mohrah AI Assistant":
     st.markdown(f"## {t('ai_asst')}")
     st.info("Ask me anything about Operating Systems or Theory of Computation!")
+    
     # Initialize Gemini
     try:
         api_key = st.secrets.get("GOOGLE_API_KEY")
@@ -434,19 +411,25 @@ if display_page == "🤖 Mohrah AI Assistant":
         else:
             genai.configure(api_key=api_key)
             model = genai.GenerativeModel('gemini-1.5-flash')
+            
             if "messages" not in st.session_state:
                 st.session_state.messages = []
+
             for message in st.session_state.messages:
                 with st.chat_message(message["role"]):
                     st.markdown(message["content"])
+
             if prompt := st.chat_input("How can I help you today?"):
                 st.session_state.messages.append({"role": "user", "content": prompt})
                 with st.chat_message("user"):
                     st.markdown(prompt)
+
                 with st.chat_message("assistant"):
                     message_placeholder = st.empty()
                     full_response = ""
+                    
                     context_prompt = f"You are an academic assistant for Mohrah's CS Portal. Answer this question in the context of Computer Science (Operating Systems or Theory of Computation): {prompt}"
+                    
                     try:
                         response = model.generate_content(context_prompt, stream=True)
                         for chunk in response:
@@ -457,14 +440,17 @@ if display_page == "🤖 Mohrah AI Assistant":
                         st.error(f"Error: {e}")
                         full_response = "Sorry, I encountered an error. Please check your API key."
                         message_placeholder.markdown(full_response)
+                
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
     except Exception as e:
         st.error(f"AI Setup Error: {e}")
+
 # --- REST OF THE CODE (PRESERVED) ---
 # [Remaining lines from original file will be appended below]
 elif display_page == "Foundations of TOC":
     st.markdown("## 📘 Foundations of Theory of Computation")
     tab_intro, tab_alphabets, tab_strings, tab_languages, tab_sets, tab_functions, tab_boolean, tab_q = st.tabs(["📖 Introduction", "🔤 Alphabets", "🧵 Strings", "🗣️ Languages", "📊 Sets", "⚙️ Functions", "🧠 Boolean Logic", "📝 Comprehensive Quiz"])
+    
     with tab_intro:
         st.markdown("""
         <div class="learning-card">
@@ -479,6 +465,7 @@ elif display_page == "Foundations of TOC":
         <p>This branch focuses on the resources (time and space) required to solve computational problems. It classifies problems based on their inherent difficulty, distinguishing between problems that can be solved efficiently (e.g., in polynomial time) and those that are inherently difficult (e.g., NP-hard problems).</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_alphabets:
         st.markdown("""
         <div class="learning-card">
@@ -498,6 +485,7 @@ elif display_page == "Foundations of TOC":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_strings:
         st.markdown("""
         <div class="learning-card">
@@ -513,6 +501,7 @@ elif display_page == "Foundations of TOC":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_languages:
         st.markdown("""
         <div class="learning-card">
@@ -528,6 +517,7 @@ elif display_page == "Foundations of TOC":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_sets:
         st.markdown("""
         <div class="learning-card">
@@ -544,6 +534,7 @@ elif display_page == "Foundations of TOC":
         </div>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_functions:
         st.markdown("""
         <div class="learning-card">
@@ -558,6 +549,7 @@ elif display_page == "Foundations of TOC":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_boolean:
         st.markdown("""
         <div class="learning-card">
@@ -572,6 +564,7 @@ elif display_page == "Foundations of TOC":
         </div>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_q:
         st.markdown("### 📝 Foundations Quiz (10 Questions)")
         f_qs = [
@@ -592,6 +585,7 @@ elif display_page == "Foundations of TOC":
             if u_ans == ans: f_score += 1
         if st.button("Submit Foundations Quiz"):
             st.success(f"Your Score: {f_score}/10")
+
 elif display_page == "DFA Explorer":
     st.markdown("## ⚙️ Deterministic Finite Automata (DFA)")
     tab_info, tab_viz, tab_sim, tab_q = st.tabs(["📖 Definition", "🎨 Visuals", "🚀 Simulator", "📝 Quiz"])
@@ -638,6 +632,7 @@ elif display_page == "DFA Explorer":
             dot.edge('q2', 'q3', label='1'); dot.edge('q2', 'q0', label='0')
             dot.edge('q3', 'q1', label='1'); dot.edge('q3', 'q0', label='0')
             return dot
+        
         input_str = st.text_input("Enter binary string (e.g., 110101):", "101")
         speed = st.slider("Simulation Speed (seconds):", 0.5, 3.0, 1.0)
         if st.button("Start DFA Simulation"):
@@ -676,6 +671,7 @@ elif display_page == "DFA Explorer":
             if u_ans == ans: d_score += 1
         if st.button("Submit DFA Quiz"):
             st.success(f"Your Score: {d_score}/10")
+
 elif display_page == "NFA Masterclass":
     st.markdown("## 🧠 Non-Deterministic Finite Automata (NFA)")
     tab_info, tab_viz, tab_sim, tab_q = st.tabs(["📖 Definition", "🎨 Visuals", "🚀 Simulator", "📝 Quiz"])
@@ -723,6 +719,7 @@ elif display_page == "NFA Masterclass":
                 dot.node(s, f"{label}\n({s})", shape=shape, color=color, penwidth=penwidth)
             dot.edge('q0', 'q0', label='0,1'); dot.edge('q0', 'q1', label='0'); dot.edge('q1', 'q2', label='1')
             return dot
+        
         n_input = st.text_input("Enter binary string for NFA:", "001")
         n_speed = st.slider("NFA Speed:", 0.5, 3.0, 1.0)
         if st.button("Start NFA Simulation"):
@@ -763,6 +760,7 @@ elif display_page == "NFA Masterclass":
             if u_ans == ans: n_score += 1
         if st.button("Submit NFA Quiz"):
             st.success(f"Your Score: {n_score}/10")
+
 elif display_page == "Regular Expressions":
     st.markdown("## 🧩 Regular Expressions & Operations")
     tab_ops, tab_re, tab_conv, tab_q = st.tabs(["⚙️ Operations", "📝 REs", "🔄 RE to NFA", "📝 Quiz"])
@@ -839,6 +837,7 @@ elif display_page == "Regular Expressions":
             if u_ans == ans: r_score += 1
         if st.button("Submit RE Quiz"):
             st.success(f"Your Score: {r_score}/10")
+
 elif display_page == "DFA to RE & Pumping Lemma":
     st.markdown("## 🔄 DFA to RE & Pumping Lemma")
     tab_conv, tab_pump, tab_q = st.tabs(["🔄 Conversion", "🧪 Pumping Lemma", "📝 Quiz"])
@@ -904,6 +903,7 @@ elif display_page == "DFA to RE & Pumping Lemma":
             if u_ans == ans: dp_score += 1
         if st.button("Submit Module 5 Quiz"):
             st.success(f"Your Score: {dp_score}/10")
+
 elif display_page == "CFG & Chomsky Form":
     st.markdown("## 📜 Context-Free Grammars & Chomsky Form")
     tab_cfg, tab_cnf, tab_q = st.tabs(["📝 CFG", "📐 CNF", "📝 Quiz"])
@@ -965,6 +965,7 @@ elif display_page == "CFG & Chomsky Form":
             if u_ans == ans: c_score += 1
         if st.button("Submit CFG Quiz"):
             st.success(f"Your Score: {c_score}/10")
+
 elif display_page == "PDA & CFL Theory":
     st.markdown("## ⚙️ Pushdown Automata & CFL Theory")
     tab_pda, tab_theory, tab_q = st.tabs(["🤖 PDA", "🧪 CFL Theory", "📝 Quiz"])
@@ -1014,9 +1015,11 @@ elif display_page == "PDA & CFL Theory":
             if u_ans == ans: pc_score += 1
         if st.button("Submit Module 7 Quiz"):
             st.success(f"Your Score: {pc_score}/10")
+
 elif display_page == "Turing Machines & Algorithms":
     st.markdown("## 📟 Turing Machines & Algorithms")
     tab_tm, tab_dec, tab_var, tab_alg, tab_q = st.tabs(["📟 TM Definition", "🛑 Decidability", "🔄 Variants", "⚙️ Algorithms & Encoding", "📝 Quiz"])
+    
     with tab_tm:
         st.markdown("""
         <div class="learning-card">
@@ -1044,6 +1047,7 @@ elif display_page == "Turing Machines & Algorithms":
         tm_diag.edge('Control', 'Head', label='Move L/R')
         tm_diag.edge('Head', 'Tape', label='Read/Write')
         st.graphviz_chart(tm_diag)
+
     with tab_dec:
         st.markdown("""
         <div class="learning-card">
@@ -1067,6 +1071,7 @@ elif display_page == "Turing Machines & Algorithms":
         </div>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_var:
         st.markdown("""
         <div class="learning-card">
@@ -1081,6 +1086,7 @@ elif display_page == "Turing Machines & Algorithms":
         <p><b>Church-Turing Thesis:</b> Any algorithmic process can be simulated by a Turing Machine.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_alg:
         st.markdown("""
         <div class="learning-card">
@@ -1100,6 +1106,7 @@ elif display_page == "Turing Machines & Algorithms":
         </ol>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_q:
         st.markdown("### 📝 Turing Machine Quiz (10 Questions)")
         tm_qs = [
@@ -1120,6 +1127,7 @@ elif display_page == "Turing Machines & Algorithms":
             if u_ans == ans: t_score += 1
         if st.button("Submit TM Quiz"):
             st.success(f"Your Score: {t_score}/10")
+
 elif display_page == "🎓 Course Completion":
     st.balloons()
     st.markdown("## 🎓 تهانينا! تم إتمام مقرر نظرية الحوسبة")
@@ -1161,6 +1169,8 @@ elif display_page == "🎓 Course Completion":
         <p><i>"The power of computation is not just in the machines we build, but in the theories that define them."</i></p>
     </div>
     """, unsafe_allow_html=True)
+
+
 elif display_page == "Operating Systems: Chapter 1 - Introduction":
     st.markdown("## ⚙️ Operating Systems: Chapter 1 - Introduction")
     tab_intro_os, tab_what_os_do, tab_os_types, tab_sys_org, tab_sys_arch, tab_sys_ops, tab_res_mgmt, tab_virt, tab_kernel_ds, tab_foss_os = st.tabs([
@@ -1175,6 +1185,7 @@ elif display_page == "Operating Systems: Chapter 1 - Introduction":
         "🧱 Kernel Data Structures",
         "💡 FOSS OS"
     ])
+
     with tab_intro_os:
         st.markdown("""
         <div class="learning-card">
@@ -1191,6 +1202,7 @@ elif display_page == "Operating Systems: Chapter 1 - Introduction":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_what_os_do:
         st.markdown("""
         <div class="learning-card">
@@ -1206,6 +1218,7 @@ elif display_page == "Operating Systems: Chapter 1 - Introduction":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_os_types:
         st.markdown("""
         <div class="learning-card">
@@ -1219,6 +1232,7 @@ elif display_page == "Operating Systems: Chapter 1 - Introduction":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_sys_org:
         st.markdown("""
         <div class="learning-card">
@@ -1231,6 +1245,7 @@ elif display_page == "Operating Systems: Chapter 1 - Introduction":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_sys_arch:
         st.markdown("""
         <div class="learning-card">
@@ -1243,6 +1258,7 @@ elif display_page == "Operating Systems: Chapter 1 - Introduction":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_sys_ops:
         st.markdown("""
         <div class="learning-card">
@@ -1251,6 +1267,7 @@ elif display_page == "Operating Systems: Chapter 1 - Introduction":
         <p>Details about how computer systems operate, including bootstrapping, interrupt handling, and I/O structure.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_res_mgmt:
         st.markdown("""
         <div class="learning-card">
@@ -1263,6 +1280,7 @@ elif display_page == "Operating Systems: Chapter 1 - Introduction":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_virt:
         st.markdown("""
         <div class="learning-card">
@@ -1275,6 +1293,7 @@ elif display_page == "Operating Systems: Chapter 1 - Introduction":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_kernel_ds:
         st.markdown("""
         <div class="learning-card">
@@ -1287,6 +1306,7 @@ elif display_page == "Operating Systems: Chapter 1 - Introduction":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_foss_os:
         st.markdown("""
         <div class="learning-card">
@@ -1299,6 +1319,7 @@ elif display_page == "Operating Systems: Chapter 1 - Introduction":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
 elif display_page == "Operating Systems: Chapter 2 - Structure & Services":
     st.markdown("## 🏗️ Operating Systems: Chapter 2 - Structure & Services")
     tab_services, tab_interface, tab_calls, tab_sys_services, tab_link_load, tab_app_specific, tab_design, tab_structure, tab_boot = st.tabs([
@@ -1312,6 +1333,7 @@ elif display_page == "Operating Systems: Chapter 2 - Structure & Services":
         "🏗️ OS Structure",
         "🚀 Build & Boot"
     ])
+
     with tab_services:
         st.markdown("""
         <div class="learning-card">
@@ -1328,6 +1350,7 @@ elif display_page == "Operating Systems: Chapter 2 - Structure & Services":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_interface:
         st.markdown("""
         <div class="learning-card">
@@ -1340,6 +1363,7 @@ elif display_page == "Operating Systems: Chapter 2 - Structure & Services":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_calls:
         st.markdown("""
         <div class="learning-card">
@@ -1357,6 +1381,7 @@ elif display_page == "Operating Systems: Chapter 2 - Structure & Services":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_sys_services:
         st.markdown("""
         <div class="learning-card">
@@ -1373,6 +1398,7 @@ elif display_page == "Operating Systems: Chapter 2 - Structure & Services":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_link_load:
         st.markdown("""
         <div class="learning-card">
@@ -1382,6 +1408,7 @@ elif display_page == "Operating Systems: Chapter 2 - Structure & Services":
         <p><b>Loader:</b> Loads the executable binary into memory for execution.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_app_specific:
         st.markdown("""
         <div class="learning-card">
@@ -1390,6 +1417,7 @@ elif display_page == "Operating Systems: Chapter 2 - Structure & Services":
         <p>Apps are often compiled for a specific OS because each OS provides different system calls, binary formats, and instruction sets.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_design:
         st.markdown("""
         <div class="learning-card">
@@ -1398,6 +1426,7 @@ elif display_page == "Operating Systems: Chapter 2 - Structure & Services":
         <p>Design goals can be divided into <b>User Goals</b> (easy to use, reliable) and <b>System Goals</b> (easy to design, implement, and maintain).</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_structure:
         st.markdown("""
         <div class="learning-card">
@@ -1411,6 +1440,7 @@ elif display_page == "Operating Systems: Chapter 2 - Structure & Services":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_boot:
         st.markdown("""
         <div class="learning-card">
@@ -1419,6 +1449,7 @@ elif display_page == "Operating Systems: Chapter 2 - Structure & Services":
         <p>The process of starting a computer by loading the kernel. The <b>Bootstrap Loader</b> (stored in ROM or EEPROM) locates the kernel, loads it into memory, and starts it.</p>
         </div>
         """, unsafe_allow_html=True)
+
 elif display_page == "Operating Systems: Chapter 3 - Process Management":
     st.markdown("## 📑 Operating Systems: Chapter 3 - Process Management")
     tab_concept, tab_sched, tab_ops, tab_ipc, tab_shared, tab_msg = st.tabs([
@@ -1429,6 +1460,7 @@ elif display_page == "Operating Systems: Chapter 3 - Process Management":
         "🧠 Shared Memory",
         "✉️ Message Passing"
     ])
+
     with tab_concept:
         st.markdown("""
         <div class="learning-card">
@@ -1446,6 +1478,7 @@ elif display_page == "Operating Systems: Chapter 3 - Process Management":
         <p><b>Process Control Block (PCB):</b> Contains information associated with each process (Process state, Program counter, CPU registers, etc.).</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_sched:
         st.markdown("""
         <div class="learning-card">
@@ -1461,6 +1494,7 @@ elif display_page == "Operating Systems: Chapter 3 - Process Management":
         <p><b>Schedulers:</b> Long-term (Job), Short-term (CPU), and Medium-term schedulers.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_ops:
         st.markdown("""
         <div class="learning-card">
@@ -1472,6 +1506,7 @@ elif display_page == "Operating Systems: Chapter 3 - Process Management":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_ipc:
         st.markdown("""
         <div class="learning-card">
@@ -1488,6 +1523,7 @@ elif display_page == "Operating Systems: Chapter 3 - Process Management":
         <p>Two models of IPC: <b>Shared Memory</b> and <b>Message Passing</b>.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_shared:
         st.markdown("""
         <div class="learning-card">
@@ -1497,6 +1533,7 @@ elif display_page == "Operating Systems: Chapter 3 - Process Management":
         <p><b>Producer-Consumer Problem:</b> A common paradigm for cooperating processes.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_msg:
         st.markdown("""
         <div class="learning-card">
@@ -1511,6 +1548,7 @@ elif display_page == "Operating Systems: Chapter 3 - Process Management":
         <p>Communication link can be: Direct or Indirect, Synchronous or Asynchronous.</p>
         </div>
         """, unsafe_allow_html=True)
+
 elif display_page == "Operating Systems: Chapter 4 - Threads":
     st.markdown("## 🧵 Operating Systems: Chapter 4 - Threads")
     tab_overview, tab_multicore, tab_models, tab_libs, tab_implicit = st.tabs([
@@ -1520,6 +1558,7 @@ elif display_page == "Operating Systems: Chapter 4 - Threads":
         "📚 Thread Libraries",
         "⚙️ Implicit Threading"
     ])
+
     with tab_overview:
         st.markdown("""
         <div class="learning-card">
@@ -1535,6 +1574,7 @@ elif display_page == "Operating Systems: Chapter 4 - Threads":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_multicore:
         st.markdown("""
         <div class="learning-card">
@@ -1551,6 +1591,7 @@ elif display_page == "Operating Systems: Chapter 4 - Threads":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_models:
         st.markdown("""
         <div class="learning-card">
@@ -1565,6 +1606,7 @@ elif display_page == "Operating Systems: Chapter 4 - Threads":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_libs:
         st.markdown("""
         <div class="learning-card">
@@ -1578,6 +1620,7 @@ elif display_page == "Operating Systems: Chapter 4 - Threads":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_implicit:
         st.markdown("""
         <div class="learning-card">
@@ -1592,6 +1635,7 @@ elif display_page == "Operating Systems: Chapter 4 - Threads":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
 elif display_page == "Operating Systems: Chapter 5 - CPU Scheduling":
     st.markdown("## ⏱️ Operating Systems: Chapter 5 - CPU Scheduling")
     tab_basic, tab_criteria, tab_algorithms, tab_multiprocessor, tab_summary = st.tabs([
@@ -1601,6 +1645,7 @@ elif display_page == "Operating Systems: Chapter 5 - CPU Scheduling":
         "🖥️ Multi-Processor Scheduling",
         "📝 Chapter Summary"
     ])
+
     with tab_basic:
         st.markdown("""
         <div class="learning-card">
@@ -1625,6 +1670,7 @@ elif display_page == "Operating Systems: Chapter 5 - CPU Scheduling":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_criteria:
         st.markdown("""
         <div class="learning-card">
@@ -1668,6 +1714,7 @@ elif display_page == "Operating Systems: Chapter 5 - CPU Scheduling":
         </div>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_algorithms:
         st.markdown("""
         <div class="learning-card">
@@ -1728,6 +1775,7 @@ elif display_page == "Operating Systems: Chapter 5 - CPU Scheduling":
         </table>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_multiprocessor:
         st.markdown("""
         <div class="learning-card">
@@ -1755,6 +1803,7 @@ elif display_page == "Operating Systems: Chapter 5 - CPU Scheduling":
         <p>In multicore systems, multiple processing cores exist on the same chip. Scheduling should consider cache sharing, memory access, and parallel execution to improve performance.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_summary:
         st.markdown("""
         <div class="learning-card">
@@ -1785,6 +1834,7 @@ elif display_page == "Operating Systems: Chapter 5 - CPU Scheduling":
         </table>
         </div>
         """, unsafe_allow_html=True)
+
 elif display_page == "Operating Systems: Chapter 6 - Synchronization":
     st.markdown("## 🔄 Operating Systems: Chapter 6 - Synchronization")
     tab_background, tab_critical, tab_hardware, tab_mutex, tab_semaphores, tab_monitors, tab_liveness = st.tabs([
@@ -1796,6 +1846,7 @@ elif display_page == "Operating Systems: Chapter 6 - Synchronization":
         "🖥️ Monitors",
         "⚡ Liveness"
     ])
+
     with tab_background:
         st.markdown("""
         <div class="learning-card">
@@ -1808,6 +1859,7 @@ elif display_page == "Operating Systems: Chapter 6 - Synchronization":
         </div>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_critical:
         st.markdown("""
         <div class="learning-card">
@@ -1822,6 +1874,7 @@ elif display_page == "Operating Systems: Chapter 6 - Synchronization":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_hardware:
         st.markdown("""
         <div class="learning-card">
@@ -1835,6 +1888,7 @@ elif display_page == "Operating Systems: Chapter 6 - Synchronization":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_mutex:
         st.markdown("""
         <div class="learning-card">
@@ -1848,6 +1902,7 @@ elif display_page == "Operating Systems: Chapter 6 - Synchronization":
         <p><b>Spinlock:</b> A type of mutex where a process "spins" (waits in a loop) while waiting for the lock. This is useful for short waits but wastes CPU cycles for long waits.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_semaphores:
         st.markdown("""
         <div class="learning-card">
@@ -1865,6 +1920,7 @@ elif display_page == "Operating Systems: Chapter 6 - Synchronization":
         </div>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_monitors:
         st.markdown("""
         <div class="learning-card">
@@ -1877,6 +1933,7 @@ elif display_page == "Operating Systems: Chapter 6 - Synchronization":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_liveness:
         st.markdown("""
         <div class="learning-card">
@@ -1891,6 +1948,7 @@ elif display_page == "Operating Systems: Chapter 6 - Synchronization":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
 elif display_page == "Operating Systems: Chapter 7 - Deadlocks":
     st.markdown("## 🛑 Operating Systems: Chapter 7 - Deadlocks")
     tab_model, tab_char, tab_handling, tab_prev, tab_avoid, tab_detect, tab_recovery = st.tabs([
@@ -1902,6 +1960,7 @@ elif display_page == "Operating Systems: Chapter 7 - Deadlocks":
         "📡 Detection",
         "🔄 Recovery"
     ])
+
     with tab_model:
         st.markdown("""
         <div class="learning-card">
@@ -1911,6 +1970,7 @@ elif display_page == "Operating Systems: Chapter 7 - Deadlocks":
         <p>A process must request a resource before using it and release it after using it. The sequence is: <b>Request → Use → Release</b>.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_char:
         st.markdown("""
         <div class="learning-card">
@@ -1925,6 +1985,7 @@ elif display_page == "Operating Systems: Chapter 7 - Deadlocks":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_handling:
         st.markdown("""
         <div class="learning-card">
@@ -1938,6 +1999,7 @@ elif display_page == "Operating Systems: Chapter 7 - Deadlocks":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_prev:
         st.markdown("""
         <div class="learning-card">
@@ -1952,6 +2014,7 @@ elif display_page == "Operating Systems: Chapter 7 - Deadlocks":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_avoid:
         st.markdown("""
         <div class="learning-card">
@@ -1962,6 +2025,7 @@ elif display_page == "Operating Systems: Chapter 7 - Deadlocks":
         <p><b>Banker’s Algorithm:</b> A classic avoidance algorithm used in systems with multiple instances of each resource type.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_detect:
         st.markdown("""
         <div class="learning-card">
@@ -1975,6 +2039,7 @@ elif display_page == "Operating Systems: Chapter 7 - Deadlocks":
         <p><b>Wait-for Graph:</b> Used for detection in systems with single instances of resource types.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_recovery:
         st.markdown("""
         <div class="learning-card">
@@ -1987,6 +2052,7 @@ elif display_page == "Operating Systems: Chapter 7 - Deadlocks":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
 elif display_page == "Operating Systems: Chapter 8 - Memory Management":
     st.markdown("## 🧠 Operating Systems: Chapter 8 - Memory Management")
     tab_address, tab_allocation, tab_logical, tab_virtual, tab_cache = st.tabs([
@@ -1996,6 +2062,7 @@ elif display_page == "Operating Systems: Chapter 8 - Memory Management":
         "☁️ Virtual Memory",
         "⚡ Cache & TLB"
     ])
+
     with tab_address:
         st.markdown("""
         <div class="learning-card">
@@ -2005,6 +2072,7 @@ elif display_page == "Operating Systems: Chapter 8 - Memory Management":
         <p><b>Binding:</b> The process of mapping program addresses to actual physical memory addresses. This can happen at Compile time, Load time, or Execution time.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_allocation:
         st.markdown("""
         <div class="learning-card">
@@ -2018,6 +2086,7 @@ elif display_page == "Operating Systems: Chapter 8 - Memory Management":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_logical:
         st.markdown("""
         <div class="learning-card">
@@ -2028,6 +2097,7 @@ elif display_page == "Operating Systems: Chapter 8 - Memory Management":
         <p><b>Memory-Management Unit (MMU):</b> Hardware device that at run time maps virtual to physical addresses.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_virtual:
         st.markdown("""
         <div class="learning-card">
@@ -2040,6 +2110,7 @@ elif display_page == "Operating Systems: Chapter 8 - Memory Management":
         </div>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_cache:
         st.markdown("""
         <div class="learning-card">
@@ -2052,6 +2123,7 @@ elif display_page == "Operating Systems: Chapter 8 - Memory Management":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
 elif display_page == "Operating Systems: Chapter 9 - Mass-Storage":
     st.markdown("## 💾 Operating Systems: Chapter 9 - Mass-Storage Systems")
     tab_overview, tab_hdd, tab_nvm, tab_error, tab_raid = st.tabs([
@@ -2061,6 +2133,7 @@ elif display_page == "Operating Systems: Chapter 9 - Mass-Storage":
         "🔍 Error Detection",
         "🛡️ RAID Structure"
     ])
+
     with tab_overview:
         st.markdown("""
         <div class="learning-card">
@@ -2070,6 +2143,7 @@ elif display_page == "Operating Systems: Chapter 9 - Mass-Storage":
         <p>The operating system is responsible for using the storage hardware efficiently, providing fast access, and ensuring data reliability.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_hdd:
         st.markdown("""
         <div class="learning-card">
@@ -2084,6 +2158,7 @@ elif display_page == "Operating Systems: Chapter 9 - Mass-Storage":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_nvm:
         st.markdown("""
         <div class="learning-card">
@@ -2093,6 +2168,7 @@ elif display_page == "Operating Systems: Chapter 9 - Mass-Storage":
         <p>Most NVM devices use simple FCFS scheduling because the access time is nearly uniform across the entire device.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_error:
         st.markdown("""
         <div class="learning-card">
@@ -2102,6 +2178,7 @@ elif display_page == "Operating Systems: Chapter 9 - Mass-Storage":
         <p><b>Checksums:</b> Used to verify the integrity of data blocks by comparing calculated values during read and write operations.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_raid:
         st.markdown("""
         <div class="learning-card">
@@ -2117,6 +2194,7 @@ elif display_page == "Operating Systems: Chapter 9 - Mass-Storage":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
 elif display_page == "Operating Systems: Chapter 10 - File Systems":
     st.markdown("## 📂 Operating Systems: Chapter 10 - File Systems")
     tab_concept, tab_access, tab_dir, tab_alloc, tab_free = st.tabs([
@@ -2126,6 +2204,7 @@ elif display_page == "Operating Systems: Chapter 10 - File Systems":
         "📦 Allocation Methods",
         "🆓 Free Space"
     ])
+
     with tab_concept:
         st.markdown("""
         <div class="learning-card">
@@ -2136,6 +2215,7 @@ elif display_page == "Operating Systems: Chapter 10 - File Systems":
         <p><b>Operations:</b> Create, Write, Read, Reposition (seek), Delete, Truncate.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_access:
         st.markdown("""
         <div class="learning-card">
@@ -2147,6 +2227,7 @@ elif display_page == "Operating Systems: Chapter 10 - File Systems":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_dir:
         st.markdown("""
         <div class="learning-card">
@@ -2160,6 +2241,7 @@ elif display_page == "Operating Systems: Chapter 10 - File Systems":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_alloc:
         st.markdown("""
         <div class="learning-card">
@@ -2173,6 +2255,7 @@ elif display_page == "Operating Systems: Chapter 10 - File Systems":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     with tab_free:
         st.markdown("""
         <div class="learning-card">
@@ -2187,6 +2270,7 @@ elif display_page == "Operating Systems: Chapter 10 - File Systems":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
 elif display_page == "🎓 OS Course Completion":
     st.balloons()
     st.markdown("""
@@ -2195,6 +2279,7 @@ elif display_page == "🎓 OS Course Completion":
         <p style="color: #d1fae5; font-size: 20px;">Comprehensive Summary & Key Concepts</p>
     </div>
     """, unsafe_allow_html=True)
+
     col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
@@ -2209,6 +2294,7 @@ elif display_page == "🎓 OS Course Completion":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+    
     with col2:
         st.markdown("""
         <div class="learning-card">
@@ -2221,6 +2307,7 @@ elif display_page == "🎓 OS Course Completion":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+
     st.markdown("""
     <div class="learning-card" style="text-align: center;">
         <h3>🏆 Congratulations! / تهانينا!</h3>
@@ -2228,15 +2315,21 @@ elif display_page == "🎓 OS Course Completion":
         <p><b>"Education is the most powerful weapon which you can use to change the world."</b></p>
     </div>
     """, unsafe_allow_html=True)
+
 elif display_page == "Memory Management":
     st.info("Memory Management module is under development. Stay tuned!")
 elif display_page == "Storage & I/O":
     st.info("Storage & I/O module is under development. Stay tuned!")
+
+
+
 elif display_page == "🚀 Smart Exam Prep":
     st.markdown("## 🚀 The Ultimate Challenge: Professional Quiz Bank")
     st.error("🚨 LEVEL: IMPOSSIBLE | مستوى الصعوبة: مستحيل")
     st.write("هذا القسم مصمم للمحترفين فقط. الأسئلة هنا تحاكي اختبارات الشهادات العالمية والاختبارات النهائية الأكثر تعقيداً.")
+    
     quiz_subject = st.selectbox("Choose Your Battlefield / اختر المادة:", ["Operating Systems (OS)", "Theory of Computation (TOC)"])
+    
     if quiz_subject == "Operating Systems (OS)":
         st.subheader("🖥️ OS Hardcore Challenge (20 Questions)")
         os_bank = [
@@ -2261,11 +2354,13 @@ elif display_page == "🚀 Smart Exam Prep":
             {"q": "19. Which disk scheduling algorithm is also known as the 'Elevator Algorithm'?", "o": ["FCFS", "SSTF", "SCAN", "LOOK"], "a": "SCAN"},
             {"q": "20. What is the purpose of the 'Medium-term Scheduler'?", "o": ["Selects processes from the pool to load into memory", "Selects processes from ready queue to execute", "Swaps processes in and out of memory", "Manages I/O devices"], "a": "Swaps processes in and out of memory"}
         ]
+        
         score = 0
         for i, item in enumerate(os_bank):
             choice = st.radio(item["q"], item["o"], key=f"os_huge_{i}")
             if choice == item["a"]:
                 score += 1
+        
         if st.button("Submit OS Mega Quiz"):
             st.write(f"### Final Result: {score}/{len(os_bank)}")
             if score == len(os_bank):
@@ -2275,6 +2370,7 @@ elif display_page == "🚀 Smart Exam Prep":
                 st.info("Excellent! You have a very strong grasp of OS.")
             else:
                 st.warning("Keep pushing! These questions are tough for a reason.")
+
     elif quiz_subject == "Theory of Computation (TOC)":
         st.subheader("🧠 TOC Theoretical Battlefield (20 Questions)")
         toc_bank = [
@@ -2299,11 +2395,13 @@ elif display_page == "🚀 Smart Exam Prep":
             {"q": "19. The 'Universal Turing Machine' (UTM) can simulate:", "o": ["Only DFAs", "Only PDAs", "Any other Turing Machine", "Only itself"], "a": "Any other Turing Machine"},
             {"q": "20. The 'Church-Turing Thesis' states that:", "o": ["Everything is decidable", "Turing Machines define the limit of effective computation", "PDAs are as powerful as TMs", "DFAs are better than NFAs"], "a": "Turing Machines define the limit of effective computation"}
         ]
+        
         score = 0
         for i, item in enumerate(toc_bank):
             choice = st.radio(item["q"], item["o"], key=f"toc_huge_{i}")
             if choice == item["a"]:
                 score += 1
+        
         if st.button("Submit TOC Mega Quiz"):
             st.write(f"### Final Result: {score}/{len(toc_bank)}")
             if score == len(toc_bank):
@@ -2316,7 +2414,9 @@ elif display_page == "🚀 Smart Exam Prep":
 elif display_page == "📚 Resource Hub":
     st.markdown("## 📚 Deep-Dive Resource Hub")
     st.write("هنا تجد ملخصات PDF عميقة وشاملة لكل شابتر، تم إعدادها بعناية لتكون مرجعك النهائي.")
+    
     tab_os_res, tab_toc_res = st.tabs(["🖥️ Operating Systems Resources", "🧠 Theory of Computation Resources"])
+    
     with tab_os_res:
         st.markdown("### 📄 Comprehensive OS Chapter Summaries")
         os_chapters = {
@@ -2340,6 +2440,8 @@ elif display_page == "📚 Resource Hub":
                     col_b.download_button("Download PDF", f, file_name=file_name, key=f"dl_{file_name}")
             else:
                 col_b.button("Coming Soon", key=f"soon_{file_name}", disabled=True)
+
+            
     with tab_toc_res:
         st.markdown("### 📄 Advanced TOC Modules")
         toc_modules = {
@@ -2358,20 +2460,26 @@ elif display_page == "📚 Resource Hub":
                     col_b.download_button("Download PDF", f, file_name=file_name, key=f"dl_{file_name}")
             else:
                 col_b.button("Coming Soon", key=f"soon_{file_name}", disabled=True)
+
+
     st.markdown("""
     <div class="step-box">
         <b>ملاحظة:</b> جميع هذه المصادر مستقاة من المناهج الأكاديمية المعتمدة ومحدثة لعام 2026.
     </div>
     """, unsafe_allow_html=True)
+
+
 elif display_page == "🏆 Achievement Hall":
     st.markdown("## 🏆 Achievement Hall: Celebrate Your Academic Journey")
     st.write("كل خطوة تخطوها في هذه المنصة هي لبنة في بناء مستقبلك المهني. هنا نحتفي بإنجازاتك!")
+    
     st.markdown("""
     <div class="learning-card">
         <h4>🌟 فلسفة الإنجاز / Achievement Philosophy</h4>
         <p>التعلم ليس مجرد حفظ للمعلومات، بل هو رحلة من التحدي والاستمرار. الحصول على هذه الأوسمة يعني أنك امتلكت الانضباط والشغف اللازمين لفهم أعقد مفاهيم علوم الحاسب.</p>
     </div>
     """, unsafe_allow_html=True)
+
     col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
@@ -2386,6 +2494,7 @@ elif display_page == "🏆 Achievement Hall":
             </ul>
         </div>
         """, unsafe_allow_html=True)
+        
         st.markdown("""
         <div class="learning-card" style="border-top: 5px solid #10b981;">
             <h2 style="text-align: center;">💎 Diamond Researcher</h2>
@@ -2393,6 +2502,7 @@ elif display_page == "🏆 Achievement Hall":
             <p>هذا الوسام مخصص لمن لم يكتفِ بالقشور، بل غاص في المصادر الخارجية والملخصات العميقة. البحث هو مفتاح الابتكار، وأنت أثبتّ أنك تمتلك عقلية الباحث الذي لا يتوقف عن التعلم.</p>
         </div>
         """, unsafe_allow_html=True)
+
     with col2:
         st.markdown("""
         <div class="learning-card" style="border-top: 5px solid #3b82f6;">
@@ -2406,6 +2516,7 @@ elif display_page == "🏆 Achievement Hall":
             </ul>
         </div>
         """, unsafe_allow_html=True)
+
         st.markdown("""
         <div class="learning-card" style="border-top: 5px solid #8b5cf6;">
             <h2 style="text-align: center;">🚀 Early Adopter</h2>
@@ -2413,10 +2524,14 @@ elif display_page == "🏆 Achievement Hall":
             <p>أنت من أوائل الذين وضعوا ثقتهم في "Mohrah's Lab". هذا الوسام يعبر عن روح المبادرة لديك، واهتمامك بمواكبة الأدوات التعليمية الحديثة والمتطورة.</p>
         </div>
         """, unsafe_allow_html=True)
+
     st.info("💡 نصيحة: قم بتصوير إنجازاتك ومشاركتها مع زملائك لتحفيزهم على التعلم!")
+
+
 elif display_page == "👥 Community Corner":
     st.markdown("## 👥 Community Corner: Ask & Learn")
     st.write("هذا الركن مخصص لتبادل الخبرات والاستفسارات بين الطلاب. لا تتردد في طرح أي سؤال!")
+    
     with st.expander("❓ طرح سؤال جديد / Ask a Question"):
         with st.form("q_form", clear_on_submit=True):
             q_name = st.text_input("الاسم / Name:")
@@ -2427,6 +2542,7 @@ elif display_page == "👥 Community Corner":
                     post_question(q_name, q_text, q_file)
                     st.success("تم نشر سؤالك مع المرفقات! انتظر إجابة زملائك.")
                     st.rerun()
+    
     st.markdown("### 💬 الأسئلة الحالية / Current Discussions")
     questions = load_questions() # Load fresh from file
     for q in reversed(questions):
@@ -2440,14 +2556,17 @@ elif display_page == "👥 Community Corner":
                 <p style="margin-top: 10px; font-size: 18px; color: #1e3a8a;"><b>Q: {q['q']}</b></p>
             </div>
             """, unsafe_allow_html=True)
+            
             # Display attachment placeholder
             if "img_name" in q and q["img_name"]:
                 st.info(f"📎 Attached: {q['img_name']}")
+
             # Likes and Reply Button
             col_l, col_r = st.columns([1, 4])
             if col_l.button(f"❤️ {q['likes']}", key=f"like_{q['id']}"):
                 add_like(q['id'])
                 st.rerun()
+            
             with col_r.expander("💬 Replies / الردود"):
                 for rep in q['r']:
                     st.markdown(f"""
@@ -2456,6 +2575,7 @@ elif display_page == "👥 Community Corner":
                         <small style="color: gray;">{rep['t']}</small>
                     </div>
                     """, unsafe_allow_html=True)
+                
                 with st.form(f"reply_form_{q['id']}", clear_on_submit=True):
                     r_name = st.text_input("الاسم:", key=f"rn_{q['id']}")
                     r_msg = st.text_area("ردك:", key=f"rm_{q['id']}")
@@ -2465,6 +2585,8 @@ elif display_page == "👥 Community Corner":
                             st.success("تم إضافة الرد!")
                             st.rerun()
             st.markdown("<br>", unsafe_allow_html=True)
+
+            
 elif display_page == "Contact Developer":
     st.markdown("### 📧 Contact the Developer / تواصل مع المبرمجة")
     col1, col2 = st.columns(2)
@@ -2474,9 +2596,11 @@ elif display_page == "Contact Developer":
     with col2:
         st.success("📩 **Personal Email**")
         st.code("mohrah.atiiah@icloud.com")
+
 elif display_page == "📺 Channel Rating":
     st.markdown("### 📺 Rate Our Channel / قيّم قناتنا")
     st.write("شارك رأيك وساعدنا على التحسن!")
+    
     with st.form("rating_form", clear_on_submit=True):
         r_name = st.text_input("Name / الاسم:")
         r_stars = st.slider("Rating / التقييم:", 1, 5, 5)
@@ -2497,6 +2621,7 @@ elif display_page == "📺 Channel Rating":
                     st.rerun()
                 except:
                     st.error("Error")
+    
     st.markdown("---")
     try:
         if os.path.exists("channel_ratings.json"):
@@ -2510,8 +2635,10 @@ elif display_page == "📺 Channel Rating":
                     st.markdown(f"**{r['u']}** {stars} ({r['t']})\n\n{r['m']}")
     except:
         pass
+
 elif display_page == "Community Feedback":
     st.markdown("### 💬 Feedback Board / لوحة التعليقات")
+    
     with st.form("feedback_form", clear_on_submit=True):
         name = st.text_input("Name / الاسم:")
         msg = st.text_area("Feedback / التعليق:")
@@ -2525,9 +2652,12 @@ elif display_page == "Community Feedback":
                     st.rerun()
             else:
                 st.error("❌ Please fill in both fields. / يرجى ملء جميع الحقول.")
+    
     st.markdown("---")
     st.markdown("### 📊 All Feedback / جميع التعليقات")
+    
     comments = load_comments()
+    
     if not comments:
         st.info("No feedback yet. Be the first to share your thoughts!")
     else:
@@ -2535,6 +2665,7 @@ elif display_page == "Community Feedback":
             rating = c.get('rating', 0)
             subject = c.get('subject', 'General')
             stars = "⭐" * rating + "☆" * (5 - rating)
+            
             st.markdown(f"""
             <div class="comment-box" style="border-left: 5px solid #1e3a8a; background-color: #f0f9ff;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -2553,6 +2684,7 @@ elif display_page == "Community Feedback":
                 </div>
             </div>
             """, unsafe_allow_html=True)
+
 # --- 7. FOOTER ---
 st.markdown(f"""
         <div class="footer">

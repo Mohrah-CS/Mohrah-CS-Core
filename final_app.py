@@ -463,19 +463,19 @@ if display_page == "Home Page":
     </div>
     """, unsafe_allow_html=True)
 
-    elif display_page == "🤖 Mohrah AI Assistant":
-        st.markdown(f"## {t('ai_asst')}")
-        
-        # Suggestion Chips
-        st.markdown("##### 💡 اقتراحات سريعة:")
-        cols = st.columns(3)
-        suggestions = ["اشرح لي خوارزمية Banker's بالتفصيل", "ما الفرق بين DFA و NFA؟", "كيف يعمل الـ Paging في الذاكرة؟"]
-        for i, sug in enumerate(suggestions):
-            if cols[i%3].button(sug, key=f"sug_{i}"):
-                st.session_state.temp_prompt = sug
-                st.rerun()
+elif display_page == "🤖 Mohrah AI Assistant":
+    st.markdown(f"## {t('ai_asst')}")
+    
+    # Suggestion Chips
+    st.markdown("##### 💡 اقتراحات سريعة:")
+    cols = st.columns(3)
+    suggestions = ["اشرح لي خوارزمية Banker's بالتفصيل", "ما الفرق بين DFA و NFA؟", "كيف يعمل الـ Paging في الذاكرة؟"]
+    for i, sug in enumerate(suggestions):
+        if cols[i%3].button(sug, key=f"sug_{i}"):
+            st.session_state.temp_prompt = sug
+            st.rerun()
 
-        st.info("اسألني أي شيء عن نظم التشغيل أو نظرية الحوسبة!")
+    st.info("اسألني أي شيء عن نظم التشغيل أو نظرية الحوسبة!")
     
     # Initialize Gemini
     try:

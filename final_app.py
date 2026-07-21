@@ -60,7 +60,7 @@ LANGUAGES = {
         "res_hub": "📚 مركز المصادر",
         "ach_hall": "🏆 قاعة الإنجازات",
         "community": "👥 ركن المجتمع",
-        "dash_title": "🏛️ لوحة تحكم بوابة علوم الحاسب",
+        "dash_title": "🏛️ Computer Science Portal Dashboard",
         "total_lessons": "إجمالي الدروس",
         "students": "الطلاب المستفيدون",
         "success_rate": "نسبة النجاح",

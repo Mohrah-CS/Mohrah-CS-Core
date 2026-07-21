@@ -2887,25 +2887,237 @@ elif display_page == "Chapter 1: Introduction to Database Systems":
 
 elif display_page == "Chapter 2: Database Architecture":
     st.markdown("## 📚 Chapter 2: Database Architecture")
-    st.info("Content for Chapter 2: Database Architecture is being loaded...")
+    st.info("Detailed exploration of database system concepts, architectures, and classifications.")
+    
+    # --- 1. Data Models, Schemas, and Instances ---
     st.markdown("""
     <div class="learning-card">
-        <h3>Database Architecture</h3>
+        <div class="concept-badge">1. Data Models, Schemas, and Instances</div>
+        <p>Fundamental to the study of database systems is the distinction between the description of the database and the data itself.</p>
+        <div class="info-grid">
+            <div class="info-item">
+                <b>Data Model:</b> A collection of concepts used to describe the structure of a database (data types, relationships, constraints) and operations for manipulating them.
+            </div>
+            <div class="info-item">
+                <b>Database Schema:</b> The description of the database (also called <i>intension</i>). It changes very infrequently.
+            </div>
+            <div class="info-item">
+                <b>Database Instance:</b> The actual data stored at a particular moment (also called <i>state</i> or <i>snapshot</i>). It changes with every update.
+            </div>
+        </div>
+        <div class="step-box">
+            <b>Categories of Data Models:</b>
+            <ul>
+                <li><b>Conceptual (High-level):</b> Close to how users perceive data (e.g., Entity-Relationship Model).</li>
+                <li><b>Implementation (Representational):</b> Used by commercial DBMSs (e.g., Relational, Network, Hierarchical).</li>
+                <li><b>Physical (Low-level):</b> Describe how data is stored on computer storage media.</li>
+            </ul>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 2. Three-Schema Architecture and Data Independence ---
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Three-Schema Architecture and Data Independence</div>
+        <p>Proposed to separate user applications from the physical database, providing three levels of abstraction:</p>
+        <table class="summary-table">
+            <tr><th>Level</th><th>Schema</th><th>Description</th></tr>
+            <tr><td><b>External</b></td><td>External Schema</td><td>Describes user views; hides the rest of the database from specific user groups.</td></tr>
+            <tr><td><b>Conceptual</b></td><td>Conceptual Schema</td><td>Describes the structure of the whole database for all users; hides physical details.</td></tr>
+            <tr><td><b>Internal</b></td><td>Internal Schema</td><td>Describes physical storage structure and access paths (e.g., indexes).</td></tr>
+        </table>
+        <div class="step-box" style="margin-top:20px;">
+            <b>Data Independence:</b>
+            <ul>
+                <li><b>Logical Data Independence:</b> Capacity to change the conceptual schema without changing external schemas or applications.</li>
+                <li><b>Physical Data Independence:</b> Capacity to change the internal schema without changing the conceptual schema.</li>
+            </ul>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 3. Database Languages and Interfaces ---
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Database Languages and Interfaces</div>
+        <div class="info-grid">
+            <div class="info-item">
+                <b>DDL (Data Definition Language):</b> Used by DBA and designers to define the conceptual and internal schemas.
+            </div>
+            <div class="info-item">
+                <b>DML (Data Manipulation Language):</b> Used for retrievals, insertions, deletions, and updates.
+            </div>
+        </div>
+        <p style="margin-top:15px;"><b>Types of DML:</b></p>
         <ul>
-            <li>بنية قواعد البيانات</li><li>Three-Schema Architecture</li><li>أنواع المستخدمين</li>
+            <li><b>High-level (Non-procedural):</b> Declarative; specifies <i>what</i> data to get (e.g., SQL).</li>
+            <li><b>Low-level (Procedural):</b> Record-at-a-time; specifies <i>how</i> to retrieve data (requires loops).</li>
+        </ul>
+        <div class="step-box">
+            <b>DBMS Interfaces:</b>
+            <ul>
+                <li>Menu-based (for web browsing)</li>
+                <li>Forms-based (for naive users like bank tellers)</li>
+                <li>Graphical User Interfaces (GUI)</li>
+                <li>Natural Language interfaces</li>
+                <li>DBA interfaces (for account management and tuning)</li>
+            </ul>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 4. The Database System Environment ---
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. The Database System Environment</div>
+        <p>A DBMS is a complex software system. Typical component modules include:</p>
+        <ul>
+            <li><b>Query Compiler:</b> Parses and optimizes queries.</li>
+            <li><b>Runtime Database Processor:</b> Executes the privileged commands.</li>
+            <li><b>Data Manager:</b> Handles buffer management and disk I/O.</li>
+            <li><b>System Catalog:</b> Stores meta-data (schema descriptions).</li>
+        </ul>
+        <div class="step-box">
+            <b>Database Utilities:</b> Loading, Backup, Reorganization, Performance Monitoring, and Report Generation.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 5. Centralized and Client/Server Architectures ---
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. Centralized and Client/Server Architectures</div>
+        <div class="info-grid">
+            <div class="info-item">
+                <b>Centralized Architecture:</b> DBMS, hardware, and application software all reside on a single machine.
+            </div>
+            <div class="info-item">
+                <b>Client/Server Architecture:</b> Distributes processing between client machines (UI/Apps) and server machines (DBMS).
+            </div>
+        </div>
+        <p style="margin-top:15px;"><b>Multi-tier Architectures:</b></p>
+        <ul>
+            <li><b>Two-tier:</b> Client (User Interface + Apps) ↔ Server (DBMS).</li>
+            <li><b>Three-tier:</b> Client (Web Browser) ↔ Application/Web Server ↔ Database Server (DBMS). Common for web applications.</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 3: Entity Relationship Model (ERD)":
-    st.markdown("## 📚 Chapter 3: Entity Relationship Model (ERD)")
-    st.info("Content for Chapter 3: Entity Relationship Model (ERD) is being loaded...")
+    # --- 6. Classification of Database Management Systems ---
     st.markdown("""
     <div class="learning-card">
-        <h3>ERD Model</h3>
+        <div class="concept-badge">6. Classification of DBMSs</div>
+        <p>DBMSs can be classified based on several criteria:</p>
+        <table class="summary-table">
+            <tr><th>Criteria</th><th>Categories</th></tr>
+            <tr><td><b>Data Model</b></td><td>Relational, Object-oriented, Object-relational, NoSQL (Key-value, Document, Graph), XML.</td></tr>
+            <tr><td><b>Number of Users</b></td><td>Single-user vs. Multi-user systems.</td></tr>
+            <tr><td><b>Site Distribution</b></td><td>Centralized vs. Distributed (Homogeneous or Heterogeneous).</td></tr>
+            <tr><td><b>Cost</b></td><td>Open-source vs. Proprietary commercial systems.</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+elif display_page == "Chapter 3: Entity Relationship Model (ERD)":
+    st.markdown("## 📚 Chapter 3: Relational Model Concepts")
+    st.info("Comprehensive study of the Relational Model, its notation, constraints, and update operations.")
+    
+    # --- 1. Relational Model Concepts & Modeling Concepts ---
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Relational Model Concepts</div>
+        <p>The Relational Model was proposed by <b>Dr. E.F. Codd</b> in 1970. It is based on the mathematical concept of a <b>Relation</b> (represented as a table).</p>
+        <div class="info-grid">
+            <div class="info-item">
+                <b>Relation:</b> A table of values. Each row represents a real-world fact (Entity or Relationship).
+            </div>
+            <div class="info-item">
+                <b>Tuple:</b> A row in a relation. Formally, an ordered set of values.
+            </div>
+            <div class="info-item">
+                <b>Attribute:</b> A column header that gives meaning to the data items in that column.
+            </div>
+            <div class="info-item">
+                <b>Domain:</b> A set of atomic values (data types) that an attribute can take.
+            </div>
+        </div>
+        <div class="step-box">
+            <b>Formal vs. Informal Terms:</b>
+            <table class="summary-table">
+                <tr><th>Informal Term</th><th>Formal Term</th></tr>
+                <tr><td>Table</td><td>Relation</td></tr>
+                <tr><td>Row</td><td>Tuple</td></tr>
+                <tr><td>Column Header</td><td>Attribute</td></tr>
+                <tr><td>Table Definition</td><td>Relation Schema</td></tr>
+                <tr><td>Populated Table</td><td>Relation State</td></tr>
+            </table>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 2. Notation of the Relational Model ---
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Notation of the Relational Model</div>
+        <p>Precise notation is used to define schemas and access data:</p>
         <ul>
-            <li>الكيانات (Entities)</li><li>الصفات (Attributes)</li><li>العلاقات (Relationships)</li><li>رسم مخطط ERD</li>
+            <li><b>Relation Schema:</b> Denoted by <code>R(A1, A2, ..., An)</code>. Example: <code>STUDENT(Name, SSN, Home_phone, Address)</code>.</li>
+            <li><b>Tuple Notation:</b> A tuple <i>t</i> is represented as <code>&lt;v1, v2, ..., vn&gt;</code>.</li>
+            <li><b>Attribute Access:</b> <code>t[Ai]</code> or <code>t.Ai</code> refers to the value of attribute <i>Ai</i> in tuple <i>t</i>.</li>
+            <li><b>Relation State:</b> Denoted by <i>r(R)</i>, representing the set of tuples currently in the relation.</li>
         </ul>
+        <div class="step-box">
+            <b>Characteristics:</b>
+            <ul>
+                <li>Tuples in a relation are <b>unordered</b>.</li>
+                <li>Values in a tuple are <b>atomic</b> (indivisible).</li>
+                <li>A special <b>NULL</b> value represents unknown or inapplicable data.</li>
+            </ul>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 3. Relational Constraints ---
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Relational Constraints</div>
+        <p>Constraints are conditions that must hold for all valid relation states. They are crucial for data integrity.</p>
+        <div class="info-grid">
+            <div class="info-item">
+                <b>Key Constraints:</b> A <i>Superkey</i> is a set of attributes that uniquely identifies a tuple. A <i>Key</i> is a minimal superkey. The <i>Primary Key</i> is the chosen key to identify tuples (underlined in schema).
+            </div>
+            <div class="info-item">
+                <b>Entity Integrity:</b> The Primary Key cannot have NULL values. This ensures every tuple can be identified.
+            </div>
+            <div class="info-item">
+                <b>Referential Integrity:</b> Specified between two relations. A <i>Foreign Key</i> in one table must match a Primary Key in another table or be NULL.
+            </div>
+            <div class="info-item">
+                <b>Domain Constraints:</b> Every value in a tuple must be from the domain of its attribute.
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 4. Update Operations & Handling Violations ---
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. Update Operations & Handling Violations</div>
+        <p>There are three basic operations that can change the state of a relation:</p>
+        <ol>
+            <li><b>INSERT:</b> Adding a new tuple. Can violate any of the four constraints.</li>
+            <li><b>DELETE:</b> Removing an existing tuple. Can violate referential integrity (if the deleted tuple is referenced by others).</li>
+            <li><b>UPDATE:</b> Changing values in an existing tuple. Can violate any constraint.</li>
+        </ol>
+        <div class="step-box">
+            <b>How Violations are Handled:</b>
+            <ul>
+                <li><b>Reject:</b> The operation is simply cancelled, and the user is informed of the violation.</li>
+                <li><b>Cascade:</b> (For Delete/Update) The change is propagated to all referencing tuples.</li>
+                <li><b>Set-NULL / Set-Default:</b> (For Delete/Update) The foreign keys in referencing tuples are set to NULL or a default value.</li>
+            </ul>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 

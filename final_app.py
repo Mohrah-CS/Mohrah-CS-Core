@@ -2746,13 +2746,142 @@ elif display_page == "Community Feedback":
 
 elif display_page == "Chapter 1: Introduction to Database Systems":
     st.markdown("## 📚 Chapter 1: Introduction to Database Systems")
-    st.info("Content for Chapter 1: Introduction to Database Systems is being loaded...")
+    st.info("Comprehensive guide to fundamental database concepts and the DBMS approach.")
+    
+    # --- 1. Introduction ---
     st.markdown("""
     <div class="learning-card">
-        <h3>Introduction</h3>
+        <div class="concept-badge">1. Introduction</div>
+        <p>A <b>Database</b> is a collection of related data that represents some aspect of the real world (often called the <b>mini-world</b> or Universe of Discourse). A <b>Database Management System (DBMS)</b> is a collection of programs that enables users to create and maintain a database.</p>
+        <div class="info-grid">
+            <div class="info-item">
+                <b>Data:</b> Known facts that can be recorded and have an implicit meaning.
+            </div>
+            <div class="info-item">
+                <b>Database System:</b> The combination of the DBMS software and the data itself.
+            </div>
+        </div>
+        <div class="step-box">
+            <b>Core Functionalities:</b>
+            <ul>
+                <li><b>Defining:</b> Specifying data types, structures, and constraints.</li>
+                <li><b>Constructing:</b> Storing the data on some storage medium.</li>
+                <li><b>Manipulating:</b> Querying to retrieve data and updating to reflect changes.</li>
+                <li><b>Sharing:</b> Allowing multiple users and programs to access the data concurrently.</li>
+            </ul>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 2. An Example ---
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. An Example (UNIVERSITY Database)</div>
+        <p>Consider a university environment. The database would store data concerning:</p>
+        <table class="summary-table">
+            <tr><th>Entities</th><th>Relationships</th></tr>
+            <tr><td>STUDENT, COURSE, SECTION, GRADE_REPORT, PREREQUISITE</td><td>Students take sections, Sections are of courses, Courses have prerequisites</td></tr>
+        </table>
+        <p style="margin-top:15px;">In a traditional <b>File Processing System</b>, each department might have its own files. For example, the Accounting office has student billing files, while the Registrar's office has academic record files. This leads to <b>Data Redundancy</b> and <b>Inconsistency</b>.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 3. Characteristics of the Database Approach ---
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Characteristics of the Database Approach</div>
+        <p>The database approach differs significantly from traditional file processing:</p>
         <ul>
-            <li>مقدمة في قواعد البيانات</li><li>مكونات نظام قاعدة البيانات</li><li>DBMS وخصائصه</li>
+            <li><b>Self-describing nature:</b> A DBMS catalog stores the description of the database (meta-data), allowing it to work with different databases.</li>
+            <li><b>Insulation between programs and data:</b> Also known as <b>Program-Data Independence</b>. Changing data structures doesn't require changing the access programs.</li>
+            <li><b>Data Abstraction:</b> A data model hides storage details and provides a conceptual view to users.</li>
+            <li><b>Support of multiple views:</b> Different users see different perspectives of the same data.</li>
+            <li><b>Sharing and multi-user transaction processing:</b> Allows multiple users to access the database simultaneously while ensuring data integrity via concurrency control.</li>
         </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 4. Actors on the Scene ---
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. Actors on the Scene</div>
+        <p>People whose jobs involve day-to-day use of the database:</p>
+        <div class="info-grid">
+            <div class="info-item">
+                <b>Database Administrators (DBA):</b> Responsible for authorizing access, coordinating use, and acquiring resources.
+            </div>
+            <div class="info-item">
+                <b>Database Designers:</b> Responsible for identifying data to be stored and choosing appropriate structures.
+            </div>
+            <div class="info-item">
+                <b>End Users:</b> People who require access for querying, updating, and reporting (Casual, Naive, Sophisticated, Stand-alone).
+            </div>
+            <div class="info-item">
+                <b>System Analysts & Programmers:</b> Determine requirements and implement canned transactions.
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 5. Workers behind the Scene ---
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. Workers behind the Scene</div>
+        <p>Those who work to maintain the database system environment but don't use the database itself:</p>
+        <ul>
+            <li><b>DBMS System Designers and Implementers:</b> Design and implement the DBMS software modules.</li>
+            <li><b>Tool Developers:</b> Design and implement tools for modeling, performance monitoring, etc.</li>
+            <li><b>Operators and Maintenance Personnel:</b> Responsible for the actual running and maintenance of the hardware and software.</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 6. Advantages of Using the DBMS Approach ---
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. Advantages of Using the DBMS Approach</div>
+        <table class="summary-table">
+            <tr><th>Advantage</th><th>Description</th></tr>
+            <tr><td><b>Controlling Redundancy</b></td><td>Reducing duplication of data to save space and maintain consistency.</td></tr>
+            <tr><td><b>Restricting Unauthorized Access</b></td><td>Security and authorization subsystems.</td></tr>
+            <tr><td><b>Persistent Storage</b></td><td>Providing storage for program objects.</td></tr>
+            <tr><td><b>Inference and Actions</b></td><td>Using rules to trigger actions (Active Databases).</td></tr>
+            <tr><td><b>Multiple User Interfaces</b></td><td>GUI, Query Languages, Web interfaces.</td></tr>
+            <tr><td><b>Representing Complex Relationships</b></td><td>Linking related data items efficiently.</td></tr>
+            <tr><td><b>Enforcing Integrity Constraints</b></td><td>Ensuring data follows business rules.</td></tr>
+            <tr><td><b>Backup and Recovery</b></td><td>Ensuring data is not lost after a crash.</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 7. A Brief History of Database Applications ---
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. A Brief History of Database Applications</div>
+        <ul>
+            <li><b>Early Days (1960s):</b> Hierarchical and Network models (IMS, IDS).</li>
+            <li><b>Relational Revolution (1970s):</b> E.F. Codd introduced the Relational Model; SQL development began.</li>
+            <li><b>Object-Oriented Era (1980s-90s):</b> OODBMS for complex data types.</li>
+            <li><b>Web & ERP (Late 90s):</b> Databases became the backbone of the internet and enterprise systems.</li>
+            <li><b>Big Data & NoSQL (2000s-Present):</b> Handling unstructured data, high velocity, and massive scale (Hadoop, MongoDB).</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 8. When Not to Use a DBMS ---
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. When Not to Use a DBMS</div>
+        <p>DBMS involves significant overhead. It may not be appropriate when:</p>
+        <div class="step-box">
+            <ul>
+                <li>High initial investment in hardware, software, and training.</li>
+                <li>The overhead of providing security, concurrency control, and recovery is not needed.</li>
+                <li>The database and applications are simple and well-defined.</li>
+                <li>Real-time requirements cannot be met due to DBMS overhead.</li>
+                <li>Multiple-user access is not required.</li>
+            </ul>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 

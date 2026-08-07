@@ -44,7 +44,7 @@ LANGUAGES = {
         "instant_eval": "Instant Evaluation"
     },
     "العربية": {
-        "nav_title": "💎 التنقل الأكاديمي",
+        "nav_title": "💎 Academic Navigation",
         "select_lang": "اختر اللغة:",
         "search_placeholder": "ابحث في المنصة...",
         "course_select": "اختر المادة:",
@@ -411,7 +411,7 @@ elif main_subject == "Operating Systems":
 elif main_subject == "Database Systems":
     subject = st.sidebar.selectbox(
         t("lesson_select"),
-        ['Chapter 1: Introduction to Database Systems', 'Chapter 2: Database Architecture', 'Chapter 3: Entity Relationship Model (ERD)', 'Chapter 4: Enhanced ER Model (EER)', 'Chapter 5: Relational Model', 'Chapter 6: Relational Algebra', 'Chapter 7: SQL Basics', 'Chapter 8: Advanced SQL', 'Chapter 9: Functional Dependencies', 'Chapter 10: Normalization', 'Chapter 11: Transactions and Concurrency Control', 'Chapter 12: Database Recovery and Security']
+        ['Chapter 1: Introduction to Database Systems', 'Chapter 2: Database Architecture', 'Chapter 3: Relational Model Concepts', 'Chapter 4: Relational Algebra', 'Chapter 5: Relational Model', 'Chapter 6: Enhanced ER Model (EER)', 'Chapter 7: SQL Basics', 'Chapter 8: Advanced SQL', 'Chapter 9: Functional Dependencies', 'Chapter 10: Normalization', 'Chapter 11: Transactions and Concurrency Control', 'Chapter 12: Database Recovery and Security']
     )
     st.session_state.current_page = subject
 else:
@@ -3121,17 +3121,171 @@ elif display_page == "Chapter 3: Entity Relationship Model (ERD)":
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 4: Enhanced ER Model (EER)":
-    st.markdown("## 📚 Chapter 4: Enhanced ER Model (EER)")
-    st.info("Content for Chapter 4: Enhanced ER Model (EER) is being loaded...")
-    st.markdown("""
-    <div class="learning-card">
-        <h3>EER Model</h3>
-        <ul>
-            <li>Specialization</li><li>Generalization</li><li>Aggregation</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
+elif display_page == "Chapter 4: Relational Algebra":
+    st.markdown("## 📚 Chapter 4: Relational Algebra")
+    st.info("Relational Algebra is a formal, procedural query language that works on relations to produce new relations.")
+    
+    tab_intro, tab_unary, tab_set, tab_binary, tab_additional, tab_examples = st.tabs([
+        "📖 Introduction",
+        "🔘 Unary Operations",
+        "🔢 Set Theory",
+        "🔗 Binary Operations",
+        "➕ Additional Ops",
+        "📝 Query Examples"
+    ])
+
+    with tab_intro:
+        st.markdown("""
+        <div class="learning-card">
+            <span class="concept-badge">Formal Definition</span>
+            <h3>What is Relational Algebra?</h3>
+            <p>Relational algebra is a <b>procedural query language</b>. It takes one or more relations as input and produces a new relation as output. It forms the theoretical basis for SQL and relational databases.</p>
+            <div class="step-box">
+                <b>Core Characteristics:</b>
+                <ul>
+                    <li><b>Procedural:</b> You specify <i>how</i> to get the data.</li>
+                    <li><b>Closure Property:</b> The result of any operation is another relation.</li>
+                    <li><b>Foundation:</b> Used for query optimization in DBMS.</li>
+                </ul>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_unary:
+        st.markdown("""
+        <div class="learning-card">
+            <h3>Unary Relational Operations</h3>
+            <p>These operations work on a single relation at a time.</p>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="concept-badge">SELECT (σ)</span>
+                    <p>Used to select a subset of <b>tuples (rows)</b> from a relation that satisfy a specific condition.</p>
+                    <p><b>Notation:</b> σ<sub>&lt;condition&gt;</sub>(R)</p>
+                    <p><i>Example:</i> σ<sub>Salary > 5000</sub>(Employee)</p>
+                </div>
+                <div class="info-item">
+                    <span class="concept-badge">PROJECT (π)</span>
+                    <p>Used to select specific <b>attributes (columns)</b> from a relation and discard others.</p>
+                    <p><b>Notation:</b> π<sub>&lt;list&gt;</sub>(R)</p>
+                    <p><i>Example:</i> π<sub>Name, Salary</sub>(Employee)</p>
+                </div>
+                <div class="info-item">
+                    <span class="concept-badge">RENAME (ρ)</span>
+                    <p>Used to change the name of the relation or its attributes.</p>
+                    <p><b>Notation:</b> ρ<sub>S(B1, B2, ..., Bn)</sub>(R)</p>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_set:
+        st.markdown("""
+        <div class="learning-card">
+            <h3>Operations from Set Theory</h3>
+            <p>Relations must be <b>Union-Compatible</b> (same number of attributes and matching domains).</p>
+            <table class="summary-table">
+                <tr>
+                    <th>Operation</th>
+                    <th>Notation</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><b>UNION</b></td>
+                    <td>R ∪ S</td>
+                    <td>Includes all tuples that are in R or S or both. Duplicates are removed.</td>
+                </tr>
+                <tr>
+                    <td><b>INTERSECTION</b></td>
+                    <td>R ∩ S</td>
+                    <td>Includes all tuples that are in both R and S.</td>
+                </tr>
+                <tr>
+                    <td><b>DIFFERENCE</b></td>
+                    <td>R - S</td>
+                    <td>Includes tuples that are in R but not in S.</td>
+                </tr>
+                <tr>
+                    <td><b>CARTESIAN PRODUCT</b></td>
+                    <td>R × S</td>
+                    <td>Combines every tuple in R with every tuple in S. Result size: |R| * |S|.</td>
+                </tr>
+            </table>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_binary:
+        st.markdown("""
+        <div class="learning-card">
+            <h3>Binary Relational Operations</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="concept-badge">JOIN (⨝)</span>
+                    <p>Used to combine related tuples from two relations into single tuples.</p>
+                    <ul>
+                        <li><b>Theta Join:</b> Based on a general condition.</li>
+                        <li><b>Equijoin:</b> Join condition involves equality (=).</li>
+                        <li><b>Natural Join (*):</b> Equijoin on all attributes with the same name.</li>
+                    </ul>
+                </div>
+                <div class="info-item">
+                    <span class="concept-badge">DIVISION (÷)</span>
+                    <p>Used for queries that involve the word "all".</p>
+                    <p><b>Example:</b> Find students who have taken <i>all</i> courses in the CS department.</p>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_additional:
+        st.markdown("""
+        <div class="learning-card">
+            <h3>Additional Relational Operations</h3>
+            <div class="step-box">
+                <h4>1. Generalized Projection</h4>
+                <p>Allows functions (like arithmetic) to be used in the projection list.</p>
+            </div>
+            <div class="step-box">
+                <h4>2. Aggregate Functions (ℑ)</h4>
+                <p>Used to perform calculations on a group of tuples.</p>
+                <ul>
+                    <li>SUM, AVERAGE, COUNT, MIN, MAX.</li>
+                </ul>
+            </div>
+            <div class="step-box">
+                <h4>3. Outer Join Operations</h4>
+                <p>Used when we want to keep tuples in the result even if they don't have a matching tuple in the other relation.</p>
+                <ul>
+                    <li><b>Left Outer Join:</b> Keeps all tuples from the left relation.</li>
+                    <li><b>Right Outer Join:</b> Keeps all tuples from the right relation.</li>
+                    <li><b>Full Outer Join:</b> Keeps all tuples from both.</li>
+                </ul>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab_examples:
+        st.markdown("""
+        <div class="learning-card">
+            <h3>Examples of Queries</h3>
+            <div class="step-box">
+                <b>Query 1:</b> List the names of employees who work in department 5 and earn more than $30,000.
+                <br><code style="color: #1e3a8a;">π<sub>Fname, Lname</sub> (σ<sub>Dno=5 AND Salary > 30000</sub> (EMPLOYEE))</code>
+            </div>
+            <div class="step-box">
+                <b>Query 2:</b> For every project located in 'Stafford', list the project number, the controlling department number, and the department manager's last name.
+                <br><code style="color: #1e3a8a;">
+                TEMP ← σ<sub>Plocation='Stafford'</sub>(PROJECT)<br>
+                RESULT ← π<sub>Pnumber, Dnum, Lname</sub>(TEMP ⨝<sub>Dnum=Dnumber</sub> DEPARTMENT)
+                </code>
+            </div>
+            <div class="step-box">
+                <b>Query 3:</b> Find the names of employees who work on all projects.
+                <br><code style="color: #1e3a8a;">
+                π<sub>Fname, Lname</sub> (EMPLOYEE ⨝ (π<sub>Ssn, Pno</sub>(WORKS_ON) ÷ π<sub>Pnumber</sub>(PROJECT)))
+                </code>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
 elif display_page == "Chapter 5: Relational Model":
     st.markdown("## 📚 Chapter 5: Relational Model")

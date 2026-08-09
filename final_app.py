@@ -3385,7 +3385,7 @@ elif display_page == "Chapter 12: Database Recovery and Security":
 # --- 7. FOOTER ---
 st.markdown(f"""
         <div class="footer">
-     <p>© 2026 | <b>تطوير وبرمجة: مهره عطيه الجهني</b></p>
+     <p>© 2026 | <b>Designed & Developed by Mohrah Atiyah Al-Juhani</b></p>
     <p style="font-size: 14px; opacity: 0.8; margin-top: 10px;">
         © 2026 Mohrah Atiah. All rights reserved. This platform is an original academic project. 
         </p>

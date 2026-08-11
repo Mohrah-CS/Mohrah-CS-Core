@@ -17,7 +17,7 @@ st.set_page_config(
 # --- LANGUAGE TRANSLATIONS ---
 LANGUAGES = {
     "English": {
-        "nav_title": "💎 Academic Navigation",
+        "nav_title": "💎 Acadsmik Navigstion",
         "select_lang": "Choose Language:",
         "search_placeholder": "Search Platform...",
         "course_select": "Select Course:",
@@ -44,7 +44,7 @@ LANGUAGES = {
         "instant_eval": "Instant Evaluation"
     },
     "العربية": {
-        "nav_title": "💎 Academic Navigation",
+        "nav_title": "💎 Acadsmik Navigstion",
         "select_lang": "اختر اللغة:",
         "search_placeholder": "ابحث في المنصة...",
         "course_select": "اختر المادة:",
@@ -334,7 +334,47 @@ st.markdown("""
         object-fit: cover;
         background-color: white;
     }
-    </style>
+    
+<style>
+/* Professional Sidebar Icons and Styling */
+[data-testid="stSidebar"] .stButton button {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding-left: 20px !important;
+}
+
+/* Custom SVG Icon Container */
+.nav-icon {
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-icon svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    width: 100%;
+    height: 100%;
+}
+
+/* White color for non-active icons */
+[data-testid="stSidebar"] .stButton button {
+    color: #ffffff !important;
+}
+
+/* Gold color for active icon/text */
+.sidebar-active [data-testid="stButton"] button {
+    color: #f3c76a !important;
+}
+</style>
+
+</style>
     </style>
     """, unsafe_allow_html=True)
 
@@ -390,13 +430,13 @@ sidebar_query = st.sidebar.text_input(
 current_page = st.session_state.get("current_page", "Home Page")
 # The wrapper gives the Home row the same visual active state shown in the reference.
 st.sidebar.markdown('<div class="sidebar-active">' if current_page == "Home Page" else '<div>', unsafe_allow_html=True)
-if st.sidebar.button("🏠  Home", key="reference_nav_home"):
+if st.sidebar.button("⌂  Home", key="reference_nav_home"):
     set_page("Home Page", "Home Page")
 st.sidebar.markdown('</div>', unsafe_allow_html=True)
 
-if st.sidebar.button("📖  Courses", key="reference_nav_courses"):
+if st.sidebar.button("▤  Courses", key="reference_nav_courses"):
     set_page("Courses", "Courses")
-if st.sidebar.button("🔍  Search", key="reference_nav_search"):
+if st.sidebar.button("⚲  Search", key="reference_nav_search"):
     set_page("Search", "Search")
 if st.sidebar.button("ⓘ  About", key="reference_nav_about"):
     set_page("About", "About")
@@ -440,7 +480,7 @@ elif main_subject == "Select Course" and current_page not in ('Home Page', 'Cour
     st.session_state.current_page = "Home Page"
 
 st.sidebar.markdown('<div class="sidebar-contact">', unsafe_allow_html=True)
-if st.sidebar.button("🎧  Contact Us", key="reference_contact"):
+if st.sidebar.button("☎  Contact Us", key="reference_contact"):
     set_page("Contact Developer")
 st.sidebar.markdown('</div>', unsafe_allow_html=True)
 

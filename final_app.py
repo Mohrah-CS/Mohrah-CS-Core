@@ -411,7 +411,7 @@ elif main_subject == "Operating Systems":
 elif main_subject == "Database Systems":
     subject = st.sidebar.selectbox(
         t("lesson_select"),
-        ['Chapter 1: Introduction to Database Systems', 'Chapter 2: Database Architecture', 'Chapter 3: Relational Model Concepts', 'Chapter 4: Relational Algebra', 'Chapter 5: Entity-Relationship Model', 'Chapter 5: Relational Model', 'Chapter 6: Enhanced ER Model (EER)', 'Chapter 7: SQL Basics', 'Chapter 8: Advanced SQL', 'Chapter 9: Functional Dependencies', 'Chapter 10: Normalization', 'Chapter 11: Transactions and Concurrency Control', 'Chapter 12: Database Recovery and Security']
+        ['Chapter 1: Introduction to Database Systems', 'Chapter 2: Database Architecture', 'Chapter 3: Relational Model Concepts', 'Chapter 4: Relational Algebra', 'Chapter 5: Entity-Relationship Model', 'Chapter 6: Relational Model', 'Chapter 7: Enhanced ER Model (EER)', 'Chapter 8: SQL Basics', 'Chapter 9: Advanced SQL', 'Chapter 10: Functional Dependencies', 'Chapter 11: Normalization', 'Chapter 12: Transactions and Concurrency Control', 'Chapter 13: Database Recovery and Security']
     )
     st.session_state.current_page = subject
 else:
@@ -3019,7 +3019,7 @@ elif display_page == "Chapter 2: Database Architecture":
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 3: Entity Relationship Model (ERD)":
+elif display_page == "Chapter 3: Relational Model Concepts":
     st.markdown("## 📚 Chapter 3: Relational Model Concepts")
     st.info("Comprehensive study of the Relational Model, its notation, constraints, and update operations.")
     
@@ -4266,9 +4266,9 @@ elif display_page == "Chapter 5: Entity-Relationship Model":
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 5: Relational Model":
-    st.markdown("## 📚 Chapter 5: Relational Model")
-    st.info("Content for Chapter 5: Relational Model is being loaded...")
+elif display_page == "Chapter 6: Relational Model":
+    st.markdown("## 📚 Chapter 6: Relational Model")
+    st.info("Content for Chapter 6: Relational Model is being loaded...")
     st.markdown("""
     <div class="learning-card">
         <h3>Relational Model</h3>
@@ -4278,20 +4278,20 @@ elif display_page == "Chapter 5: Relational Model":
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 6: Relational Algebra":
-    st.markdown("## 📚 Chapter 6: Relational Algebra")
-    st.info("Content for Chapter 6: Relational Algebra is being loaded...")
+elif display_page == "Chapter 7: Enhanced ER Model (EER)":
+    st.markdown("## 📚 Chapter 7: Enhanced ER Model (EER)")
+    st.info("Content for Chapter 7: Enhanced ER Model (EER) is being loaded...")
     st.markdown("""
     <div class="learning-card">
-        <h3>Relational Algebra</h3>
+        <h3>Enhanced ER Model (EER)</h3>
         <ul>
             <li>Select (σ)</li><li>Project (π)</li><li>Union</li><li>Difference</li><li>Join</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 7: SQL Basics":
-    st.markdown("## 📚 Chapter 7: SQL Basics")
+elif display_page == "Chapter 8: SQL Basics":
+    st.markdown("## 📚 Chapter 8: SQL Basics")
     st.info("Content for Chapter 7: SQL Basics is being loaded...")
     st.markdown("""
     <div class="learning-card">
@@ -4302,8 +4302,8 @@ elif display_page == "Chapter 7: SQL Basics":
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 8: Advanced SQL":
-    st.markdown("## 📚 Chapter 8: Advanced SQL")
+elif display_page == "Chapter 9: Advanced SQL":
+    st.markdown("## 📚 Chapter 9: Advanced SQL")
     st.info("Content for Chapter 8: Advanced SQL is being loaded...")
     st.markdown("""
     <div class="learning-card">
@@ -4314,8 +4314,8 @@ elif display_page == "Chapter 8: Advanced SQL":
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 9: Functional Dependencies":
-    st.markdown("## 📚 Chapter 9: Functional Dependencies")
+elif display_page == "Chapter 10: Functional Dependencies":
+    st.markdown("## 📚 Chapter 10: Functional Dependencies")
     st.info("Content for Chapter 9: Functional Dependencies is being loaded...")
     st.markdown("""
     <div class="learning-card">
@@ -4326,8 +4326,8 @@ elif display_page == "Chapter 9: Functional Dependencies":
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 10: Normalization":
-    st.markdown("## 📚 Chapter 10: Normalization")
+elif display_page == "Chapter 11: Normalization":
+    st.markdown("## 📚 Chapter 11: Normalization")
     st.info("Content for Chapter 10: Normalization is being loaded...")
     st.markdown("""
     <div class="learning-card">
@@ -4338,8 +4338,8 @@ elif display_page == "Chapter 10: Normalization":
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 11: Transactions and Concurrency Control":
-    st.markdown("## 📚 Chapter 11: Transactions and Concurrency Control")
+elif display_page == "Chapter 12: Transactions and Concurrency Control":
+    st.markdown("## 📚 Chapter 12: Transactions and Concurrency Control")
     st.info("Content for Chapter 11: Transactions and Concurrency Control is being loaded...")
     st.markdown("""
     <div class="learning-card">
@@ -4350,8 +4350,8 @@ elif display_page == "Chapter 11: Transactions and Concurrency Control":
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 12: Database Recovery and Security":
-    st.markdown("## 📚 Chapter 12: Database Recovery and Security")
+elif display_page == "Chapter 13: Database Recovery and Security":
+    st.markdown("## 📚 Chapter 13: Database Recovery and Security")
     st.info("Content for Chapter 12: Database Recovery and Security is being loaded...")
     st.markdown("""
     <div class="learning-card">

@@ -411,7 +411,7 @@ elif main_subject == "Operating Systems":
 elif main_subject == "Database Systems":
     subject = st.sidebar.selectbox(
         t("lesson_select"),
-        ['Chapter 1: Introduction to Database Systems', 'Chapter 2: Database Architecture', 'Chapter 3: Relational Model Concepts', 'Chapter 4: Relational Algebra', 'Chapter 5: Entity-Relationship Model', 'Chapter 6: Relational Model', 'Chapter 7: Enhanced ER Model (EER)', 'Chapter 8: SQL Basics', 'Chapter 9: Advanced SQL', 'Chapter 10: Functional Dependencies', 'Chapter 11: Normalization', 'Chapter 12: Transactions and Concurrency Control', 'Chapter 13: Database Recovery and Security']
+        ['Chapter 1: Introduction to Database Systems', 'Chapter 2: Database Architecture', 'Chapter 3: Relational Model Concepts', 'Chapter 4: Relational Algebra', 'Chapter 5: Entity-Relationship Model', 'Chapter 6: Enhanced ER Model (EER)', 'Chapter 7: Relational Model', 'Chapter 8: SQL Basics', 'Chapter 9: Advanced SQL', 'Chapter 10: Functional Dependencies', 'Chapter 11: Normalization', 'Chapter 12: Transactions and Concurrency Control', 'Chapter 13: Database Recovery and Security']
     )
     st.session_state.current_page = subject
 else:
@@ -3290,1152 +3290,1142 @@ elif display_page == "Chapter 4: Relational Algebra":
 elif display_page == "Chapter 5: Entity-Relationship Model":
     st.markdown("## 📚 Chapter 5: Entity-Relationship (ER) Model")
     st.info("Comprehensive guide to database design using the Entity-Relationship Model, including design process, ER concepts, weak entities, and alternative notations.")
-    
+
     # --- 1. Overview of Database Design Process ---
     st.markdown("""
     <div class="learning-card">
-        <div class="concept-badge">5.1 Overview of Database Design Process</div>
-        <h3>Database Design Phases</h3>
-        <p>Database design is a critical phase in the development of any database system. It involves transforming user requirements into a structured database schema that efficiently stores and retrieves data. The design process typically consists of three main phases:</p>
-        
-        <h4>Phase 1: Conceptual Design</h4>
-        <p>The conceptual design phase focuses on understanding the problem domain and capturing the requirements of the system without considering implementation details. During this phase, designers work closely with stakeholders to identify entities, attributes, relationships, and constraints. The primary deliverable of this phase is a <b>Conceptual Schema</b>, typically represented using the <b>Entity-Relationship (ER) Model</b>. This high-level representation is independent of any specific database management system and serves as a bridge between user requirements and the logical database design.</p>
-        
-        <div class="info-grid">
-            <div class="info-item">
-                <b>Key Activities:</b> Requirements gathering, entity identification, relationship modeling, constraint specification.
-            </div>
-            <div class="info-item">
-                <b>Stakeholders:</b> Database designers, business analysts, system architects, domain experts.
-            </div>
-            <div class="info-item">
-                <b>Deliverable:</b> ER diagram representing the conceptual schema.
-            </div>
-        </div>
-        
-        <h4>Phase 2: Logical Design</h4>
-        <p>The logical design phase transforms the conceptual schema into a logical schema that conforms to a specific data model (such as the Relational Model). This phase involves mapping ER model constructs to relational tables, defining attributes, specifying primary keys and foreign keys, and applying normalization techniques to eliminate redundancy and ensure data integrity. The logical schema is still independent of the specific DBMS but follows the rules and constraints of the chosen data model.</p>
-        
-        <div class="info-grid">
-            <div class="info-item">
-                <b>Key Activities:</b> ER-to-relational mapping, attribute specification, key definition, normalization.
-            </div>
-            <div class="info-item">
-                <b>Techniques:</b> Normalization (1NF, 2NF, 3NF, BCNF), dependency analysis.
-            </div>
-            <div class="info-item">
-                <b>Deliverable:</b> Relational schema with normalized tables.
-            </div>
-        </div>
-        
-        <h4>Phase 3: Physical Design</h4>
-        <p>The physical design phase addresses implementation-specific details such as file organization, indexing strategies, storage allocation, and query optimization. During this phase, designers make decisions about how data will be physically stored on disk, which indexes to create for performance optimization, and how to configure the database for efficient access. This phase is DBMS-specific and depends on the particular database management system being used.</p>
-        
-        <div class="info-grid">
-            <div class="info-item">
-                <b>Key Activities:</b> Index design, file organization, query optimization, performance tuning.
-            </div>
-            <div class="info-item">
-                <b>Considerations:</b> Storage efficiency, query performance, transaction throughput, backup and recovery.
-            </div>
-            <div class="info-item">
-                <b>Deliverable:</b> Physical database schema with implementation specifications.
-            </div>
-        </div>
-        
-        <div class="step-box">
-            <b>Design Methodology Overview:</b>
-            <p>The three-phase approach ensures that database design is systematic, well-documented, and maintainable. Each phase builds upon the previous one, allowing for iterative refinement and validation of design decisions. This structured approach minimizes errors, reduces redundancy, and produces efficient, scalable database systems.</p>
-        </div>
+    <div class="concept-badge">5.1 Overview of Database Design Process</div>
+    <h3>Database Design Phases</h3>
+    <p>Database design is a critical phase in the development of any database system. It involves transforming user requirements into a structured database schema that efficiently stores and retrieves data. The design process typically consists of three main phases:</p>
+
+    <h4>Phase 1: Conceptual Design</h4>
+    <p>The conceptual design phase focuses on understanding the problem domain and capturing the requirements of the system without considering implementation details. During this phase, designers work closely with stakeholders to identify entities, attributes, relationships, and constraints. The primary deliverable of this phase is a <b>Conceptual Schema</b>, typically represented using the <b>Entity-Relationship (ER) Model</b>. This high-level representation is independent of any specific database management system and serves as a bridge between user requirements and the logical database design.</p>
+
+    <div class="info-grid">
+    <div class="info-item">
+    <b>Key Activities:</b> Requirements gathering, entity identification, relationship modeling, constraint specification.
     </div>
-    """, unsafe_allow_html=True)
-    
-    # --- 2. Example Database Application (COMPANY) ---
-    st.markdown("""
-    <div class="learning-card">
-        <div class="concept-badge">5.2 Example Database Application (COMPANY)</div>
-        <h3>The COMPANY Database Schema</h3>
-        <p>Throughout this chapter, we will use the <b>COMPANY</b> database as our running example to illustrate ER model concepts. The COMPANY database represents a typical organizational system that manages employees, departments, projects, and their relationships. This example is widely used in database education because it captures many common real-world scenarios and demonstrates various ER modeling techniques.</p>
-        
-        <h4>Requirements for the COMPANY Database</h4>
-        <p>The company has the following requirements:</p>
-        <ul>
-            <li>The company is organized into <b>departments</b>. Each department has a unique name, a unique number, and a location. A department manages multiple projects.</li>
-            <li>The company employs <b>employees</b>. Each employee has a name, social security number (SSN), address, salary, and birth date. An employee works for exactly one department but may work on multiple projects.</li>
-            <li>The company undertakes <b>projects</b>. Each project has a name, a unique number, a location, and a budget. A project is managed by one department and involves multiple employees.</li>
-            <li>The company maintains information about <b>dependents</b> of employees. Each dependent has a name, birth date, and relationship to the employee.</li>
-            <li>We need to track the <b>work history</b> of employees, including which projects they have worked on and for how long.</li>
-        </ul>
-        
-        <h4>Key Entities in COMPANY Database</h4>
-        <table class="summary-table">
-            <tr>
-                <th>Entity</th>
-                <th>Description</th>
-                <th>Key Attributes</th>
-            </tr>
-            <tr>
-                <td><b>DEPARTMENT</b></td>
-                <td>Represents a department in the company</td>
-                <td>DName, DNumber, Location</td>
-            </tr>
-            <tr>
-                <td><b>EMPLOYEE</b></td>
-                <td>Represents an employee</td>
-                <td>EName, SSN, Address, Salary, BDate</td>
-            </tr>
-            <tr>
-                <td><b>PROJECT</b></td>
-                <td>Represents a project</td>
-                <td>PName, PNumber, Location, Budget</td>
-            </tr>
-            <tr>
-                <td><b>DEPENDENT</b></td>
-                <td>Represents a dependent of an employee</td>
-                <td>DependentName, BDate, Relationship</td>
-            </tr>
-        </table>
-        
-        <h4>Key Relationships in COMPANY Database</h4>
-        <table class="summary-table">
-            <tr>
-                <th>Relationship</th>
-                <th>Entities Involved</th>
-                <th>Description</th>
-            </tr>
-            <tr>
-                <td><b>MANAGES</b></td>
-                <td>DEPARTMENT - EMPLOYEE</td>
-                <td>A department manages employees; an employee works for one department</td>
-            </tr>
-            <tr>
-                <td><b>WORKS_ON</b></td>
-                <td>EMPLOYEE - PROJECT</td>
-                <td>An employee works on projects; a project involves multiple employees</td>
-            </tr>
-            <tr>
-                <td><b>CONTROLS</b></td>
-                <td>DEPARTMENT - PROJECT</td>
-                <td>A department controls projects; a project is controlled by one department</td>
-            </tr>
-            <tr>
-                <td><b>DEPENDENT_OF</b></td>
-                <td>DEPENDENT - EMPLOYEE</td>
-                <td>A dependent belongs to an employee; an employee may have multiple dependents</td>
-            </tr>
-        </table>
-        
-        <div class="step-box">
-            <b>Note:</b> The COMPANY database example will be used throughout the remaining sections to demonstrate ER model concepts, constraints, and design techniques.
-        </div>
+    <div class="info-item">
+    <b>Stakeholders:</b> Database designers, business analysts, system architects, domain experts.
     </div>
-    """, unsafe_allow_html=True)
-    
-    # --- 3. ER Model Concepts ---
-    st.markdown("""
-    <div class="learning-card">
-        <div class="concept-badge">5.3 ER Model Concepts</div>
-        <h3>Introduction to the Entity-Relationship Model</h3>
-        <p>The <b>Entity-Relationship (ER) Model</b> was proposed by <b>Peter Chen</b> in 1976 as a high-level conceptual data model. It provides a way to describe the structure of a database at a conceptual level, independent of any specific database implementation. The ER model is based on the perception that the real world consists of entities and relationships among entities.</p>
-        
-        <p>The ER model is widely used for database design because it:</p>
-        <ul>
-            <li>Provides a clear and intuitive representation of data requirements</li>
-            <li>Facilitates communication between database designers and stakeholders</li>
-            <li>Serves as a bridge between user requirements and logical database design</li>
-            <li>Helps identify entities, attributes, and relationships early in the design process</li>
-            <li>Supports the identification of constraints and business rules</li>
-        </ul>
-        
-        <h4>Core Concepts of the ER Model</h4>
-        <p>The ER model is built on three fundamental concepts:</p>
-        
-        <div class="info-grid">
-            <div class="info-item">
-                <b>Entities:</b> Objects or things in the real world that are distinguishable and have an independent existence. Entities can be concrete (e.g., a person, a car) or abstract (e.g., a project, a department).
-            </div>
-            <div class="info-item">
-                <b>Attributes:</b> Properties or characteristics of entities. Each attribute has a domain, which is the set of possible values it can take.
-            </div>
-            <div class="info-item">
-                <b>Relationships:</b> Associations or connections between entities. Relationships describe how entities interact with each other.
-            </div>
-        </div>
-        
-        <div class="step-box">
-            <b>Importance of ER Model:</b> The ER model provides a systematic way to capture the structure and constraints of a database system. It serves as a communication tool between database designers, system analysts, and business stakeholders, ensuring that all parties have a shared understanding of the database requirements.
-        </div>
+    <div class="info-item">
+    <b>Deliverable:</b> ER diagram representing the conceptual schema.
     </div>
-    """, unsafe_allow_html=True)
-    
-    # --- 4. Entities and Attributes ---
-    st.markdown("""
-    <div class="learning-card">
-        <div class="concept-badge">5.4 Entities and Attributes</div>
-        <h3>Understanding Entities and Attributes</h3>
-        
-        <h4>Entities</h4>
-        <p>An <b>entity</b> is a thing or object in the real world that has an independent existence and is distinguishable from other entities. In the context of a database, an entity represents a concept or a real-world object that we want to store information about. Entities are typically nouns that represent people, places, things, or concepts.</p>
-        
-        <p><b>Examples of entities:</b></p>
-        <ul>
-            <li>EMPLOYEE - represents a person working for the company</li>
-            <li>DEPARTMENT - represents a division of the company</li>
-            <li>PROJECT - represents a work initiative</li>
-            <li>CUSTOMER - represents a client of the business</li>
-            <li>PRODUCT - represents an item sold by the company</li>
-        </ul>
-        
-        <h4>Entity Types vs. Entity Instances</h4>
-        <p>It is important to distinguish between an <b>entity type</b> and an <b>entity instance</b>:</p>
-        <ul>
-            <li><b>Entity Type:</b> A category or class of entities. For example, EMPLOYEE is an entity type that represents all employees in the company.</li>
-            <li><b>Entity Instance:</b> A specific occurrence of an entity type. For example, "John Smith" is an instance of the EMPLOYEE entity type.</li>
-        </ul>
-        
-        <h4>Attributes</h4>
-        <p>An <b>attribute</b> is a property or characteristic of an entity. Each attribute has a name and is associated with a domain, which specifies the set of possible values the attribute can take. Attributes describe the properties of entities and provide the detailed information we want to store about each entity.</p>
-        
-        <p><b>Examples of attributes for the EMPLOYEE entity:</b></p>
-        <ul>
-            <li>EName - the name of the employee (domain: string)</li>
-            <li>SSN - the social security number (domain: string of digits)</li>
-            <li>Address - the home address (domain: string)</li>
-            <li>Salary - the annual salary (domain: numeric)</li>
-            <li>BDate - the birth date (domain: date)</li>
-        </ul>
-        
-        <h4>Types of Attributes</h4>
-        <p>Attributes can be classified into several types:</p>
-        
-        <table class="summary-table">
-            <tr>
-                <th>Attribute Type</th>
-                <th>Description</th>
-                <th>Example</th>
-            </tr>
-            <tr>
-                <td><b>Simple Attribute</b></td>
-                <td>An attribute that cannot be divided into smaller components. It is atomic and indivisible.</td>
-                <td>Age, Salary, SSN</td>
-            </tr>
-            <tr>
-                <td><b>Composite Attribute</b></td>
-                <td>An attribute that can be divided into smaller components, each with its own meaning.</td>
-                <td>Address (Street, City, State, ZipCode), Name (FirstName, LastName)</td>
-            </tr>
-            <tr>
-                <td><b>Single-Valued Attribute</b></td>
-                <td>An attribute that has only one value for each entity instance.</td>
-                <td>SSN, BDate, Salary</td>
-            </tr>
-            <tr>
-                <td><b>Multi-Valued Attribute</b></td>
-                <td>An attribute that can have multiple values for a single entity instance.</td>
-                <td>Phone_Numbers (an employee may have multiple phone numbers)</td>
-            </tr>
-            <tr>
-                <td><b>Derived Attribute</b></td>
-                <td>An attribute whose value can be derived from other attributes or entities.</td>
-                <td>Age (can be derived from BDate), Years_Employed (can be derived from hire date)</td>
-            </tr>
-            <tr>
-                <td><b>Stored Attribute</b></td>
-                <td>An attribute whose value is explicitly stored in the database.</td>
-                <td>BDate, Salary, Address</td>
-            </tr>
-        </table>
-        
-        <div class="step-box">
-            <b>Attribute Notation:</b> In ER diagrams, attributes are typically represented as ovals connected to entity rectangles. Simple attributes are shown with single lines, composite attributes are shown with branches, multi-valued attributes are shown with double ovals, and derived attributes are shown with dashed ovals.
-        </div>
     </div>
-    """, unsafe_allow_html=True)
-    
-    # --- 5. Entity Types, Value Sets, and Key Attributes ---
-    st.markdown("""
-    <div class="learning-card">
-        <div class="concept-badge">5.5 Entity Types, Value Sets, and Key Attributes</div>
-        <h3>Entity Types and Their Characteristics</h3>
-        
-        <h4>Entity Type</h4>
-        <p>An <b>entity type</b> is a collection of entities that share the same attributes and relationships. It defines the structure and properties that all entities of that type must have. In database terminology, an entity type is similar to a class in object-oriented programming or a table in a relational database.</p>
-        
-        <p><b>Notation:</b> Entity types are typically denoted by capital letters. For example, EMPLOYEE, DEPARTMENT, PROJECT, and DEPENDENT are entity types in the COMPANY database.</p>
-        
-        <h4>Value Sets (Domains)</h4>
-        <p>A <b>value set</b> (or <b>domain</b>) is the set of possible values that an attribute can take. Each attribute is associated with a value set that constrains the values that can be assigned to that attribute. Value sets ensure data consistency and validity.</p>
-        
-        <p><b>Examples of value sets:</b></p>
-        <ul>
-            <li>The value set for the Salary attribute might be: {x | x ≥ 0 and x ≤ 1,000,000}</li>
-            <li>The value set for the Gender attribute might be: {M, F, Other}</li>
-            <li>The value set for the Department attribute might be: {Engineering, Sales, HR, Finance}</li>
-            <li>The value set for the BDate attribute might be: {dates between 1950 and 2010}</li>
-        </ul>
-        
-        <h4>Key Attributes</h4>
-        <p>A <b>key attribute</b> (or <b>identifier</b>) is an attribute or a set of attributes that uniquely identifies each entity instance within an entity type. Key attributes are essential for distinguishing one entity from another and for maintaining data integrity.</p>
-        
-        <h4>Types of Keys</h4>
-        <table class="summary-table">
-            <tr>
-                <th>Key Type</th>
-                <th>Definition</th>
-                <th>Example</th>
-            </tr>
-            <tr>
-                <td><b>Candidate Key</b></td>
-                <td>An attribute or set of attributes that can uniquely identify an entity. An entity type can have multiple candidate keys.</td>
-                <td>SSN, Email (both can uniquely identify an EMPLOYEE)</td>
-            </tr>
-            <tr>
-                <td><b>Primary Key</b></td>
-                <td>The candidate key chosen to uniquely identify entities. There is exactly one primary key per entity type.</td>
-                <td>SSN is the primary key for EMPLOYEE</td>
-            </tr>
-            <tr>
-                <td><b>Composite Key</b></td>
-                <td>A primary key that consists of multiple attributes. No single attribute can uniquely identify the entity.</td>
-                <td>In a WORKS_ON relationship: (SSN, PNumber) uniquely identifies a work assignment</td>
-            </tr>
-            <tr>
-                <td><b>Superkey</b></td>
-                <td>A set of attributes that contains a candidate key. A superkey can uniquely identify entities but may contain extra attributes.</td>
-                <td>{SSN, Name} is a superkey for EMPLOYEE (SSN alone is sufficient)</td>
-            </tr>
-        </table>
-        
-        <h4>Key Attributes in ER Diagrams</h4>
-        <p>In ER diagrams, key attributes are typically underlined to distinguish them from non-key attributes. For example:</p>
-        <ul>
-            <li>EMPLOYEE: <u>SSN</u>, EName, Address, Salary, BDate</li>
-            <li>DEPARTMENT: <u>DNumber</u>, DName, Location</li>
-            <li>PROJECT: <u>PNumber</u>, PName, Location, Budget</li>
-        </ul>
-        
-        <div class="step-box">
-            <b>Importance of Keys:</b> Key attributes are crucial for database design because they:
-            <ul>
-                <li>Ensure entity uniqueness and prevent duplicate records</li>
-                <li>Enable efficient searching and retrieval of entities</li>
-                <li>Facilitate relationships between entities</li>
-                <li>Support referential integrity constraints</li>
-            </ul>
-        </div>
+
+    <h4>Phase 2: Logical Design</h4>
+    <p>The logical design phase transforms the conceptual schema into a logical schema that conforms to a specific data model (such as the Relational Model). This phase involves mapping ER model constructs to relational tables, defining attributes, specifying primary keys and foreign keys, and applying normalization techniques to eliminate redundancy and ensure data integrity. The logical schema is still independent of the specific DBMS but follows the rules and constraints of the chosen data model.</p>
+
+    <div class="info-grid">
+    <div class="info-item">
+    <b>Key Activities:</b> ER-to-relational mapping, attribute specification, key definition, normalization.
     </div>
-    """, unsafe_allow_html=True)
-    
-    # --- 6. Relationships and Relationship Types ---
-    st.markdown("""
-    <div class="learning-card">
-        <div class="concept-badge">5.6 Relationships and Relationship Types</div>
-        <h3>Understanding Relationships</h3>
-        
-        <h4>Relationship</h4>
-        <p>A <b>relationship</b> is an association or connection between two or more entities. Relationships describe how entities interact with each other and are essential for capturing the business logic and constraints of the database. In the real world, entities do not exist in isolation; they are connected through various relationships.</p>
-        
-        <p><b>Examples of relationships:</b></p>
-        <ul>
-            <li>An EMPLOYEE works for a DEPARTMENT</li>
-            <li>An EMPLOYEE works on a PROJECT</li>
-            <li>A DEPARTMENT manages a PROJECT</li>
-            <li>An EMPLOYEE has DEPENDENTS</li>
-        </ul>
-        
-        <h4>Relationship Type</h4>
-        <p>A <b>relationship type</b> is a collection of relationships of the same kind. It defines the structure and properties that all relationships of that type must have. Relationship types are typically named with verbs or verb phrases that describe the nature of the association.</p>
-        
-        <h4>Degree of a Relationship</h4>
-        <p>The <b>degree</b> of a relationship is the number of entity types participating in the relationship. Relationships can have different degrees:</p>
-        
-        <table class="summary-table">
-            <tr>
-                <th>Degree</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Example</th>
-            </tr>
-            <tr>
-                <td><b>1</b></td>
-                <td>Unary (Recursive)</td>
-                <td>A relationship between an entity type and itself.</td>
-                <td>EMPLOYEE supervises EMPLOYEE (a manager supervises employees)</td>
-            </tr>
-            <tr>
-                <td><b>2</b></td>
-                <td>Binary</td>
-                <td>A relationship between two entity types. Most common type.</td>
-                <td>EMPLOYEE works for DEPARTMENT</td>
-            </tr>
-            <tr>
-                <td><b>3</b></td>
-                <td>Ternary</td>
-                <td>A relationship between three entity types.</td>
-                <td>EMPLOYEE works on PROJECT for DEPARTMENT</td>
-            </tr>
-            <tr>
-                <td><b>n</b></td>
-                <td>n-ary</td>
-                <td>A relationship involving more than three entity types.</td>
-                <td>Rare in practice; usually decomposed into multiple binary relationships</td>
-            </tr>
-        </table>
-        
-        <h4>Cardinality Ratio</h4>
-        <p>The <b>cardinality ratio</b> of a relationship specifies the number of relationship instances that an entity can participate in. It defines the constraints on the number of entities that can be related through a relationship. The most common cardinality ratios are:</p>
-        
-        <table class="summary-table">
-            <tr>
-                <th>Cardinality Ratio</th>
-                <th>Notation</th>
-                <th>Description</th>
-                <th>Example</th>
-            </tr>
-            <tr>
-                <td><b>One-to-One (1:1)</b></td>
-                <td>1:1</td>
-                <td>Each entity of type A is related to at most one entity of type B, and vice versa.</td>
-                <td>EMPLOYEE has one OFFICE; OFFICE is assigned to one EMPLOYEE</td>
-            </tr>
-            <tr>
-                <td><b>One-to-Many (1:N)</b></td>
-                <td>1:N</td>
-                <td>Each entity of type A can be related to many entities of type B, but each entity of type B is related to at most one entity of type A.</td>
-                <td>DEPARTMENT has many EMPLOYEEs; EMPLOYEE works for one DEPARTMENT</td>
-            </tr>
-            <tr>
-                <td><b>Many-to-One (N:1)</b></td>
-                <td>N:1</td>
-                <td>Many entities of type A can be related to one entity of type B.</td>
-                <td>Many EMPLOYEEs work for one DEPARTMENT</td>
-            </tr>
-            <tr>
-                <td><b>Many-to-Many (M:N)</b></td>
-                <td>M:N</td>
-                <td>Entities of type A can be related to many entities of type B, and vice versa.</td>
-                <td>EMPLOYEE works on many PROJECTs; PROJECT involves many EMPLOYEEs</td>
-            </tr>
-        </table>
-        
-        <h4>Participation Constraint</h4>
-        <p>The <b>participation constraint</b> specifies whether the participation of an entity type in a relationship is total or partial:</p>
-        
-        <div class="info-grid">
-            <div class="info-item">
-                <b>Total Participation:</b> Every entity of the entity type must participate in the relationship. Denoted by a double line in ER diagrams. Example: Every EMPLOYEE must work for a DEPARTMENT.
-            </div>
-            <div class="info-item">
-                <b>Partial Participation:</b> Some entities of the entity type may not participate in the relationship. Denoted by a single line in ER diagrams. Example: Not every EMPLOYEE manages a DEPARTMENT.
-            </div>
-        </div>
-        
-        <div class="step-box">
-            <b>Cardinality and Participation Notation:</b> In ER diagrams, the cardinality ratio and participation constraint are typically shown on the lines connecting entities to relationships. For example, a line labeled "1" with a double line indicates a one-to-one relationship with total participation.
-        </div>
+    <div class="info-item">
+    <b>Techniques:</b> Normalization (1NF, 2NF, 3NF, BCNF), dependency analysis.
     </div>
-    """, unsafe_allow_html=True)
-    
-    # --- 7. Weak Entity Types ---
-    st.markdown("""
-    <div class="learning-card">
-        <div class="concept-badge">5.7 Weak Entity Types</div>
-        <h3>Understanding Weak Entities</h3>
-        
-        <h4>Weak Entity Type</h4>
-        <p>A <b>weak entity type</b> is an entity type that does not have a key attribute of its own. Instead, it depends on a related entity (called the <b>owner</b> or <b>identifying entity</b>) for its unique identification. Weak entities cannot exist independently; they must be associated with an owner entity.</p>
-        
-        <p><b>Characteristics of weak entities:</b></p>
-        <ul>
-            <li>No primary key of their own</li>
-            <li>Depend on a related entity for identification</li>
-            <li>Have total participation in the identifying relationship</li>
-            <li>Identified by a combination of their own partial key and the owner's key</li>
-        </ul>
-        
-        <h4>Partial Key (Discriminator)</h4>
-        <p>A <b>partial key</b> (also called a <b>discriminator</b>) is an attribute or set of attributes of a weak entity that can uniquely identify weak entity instances that are related to the same owner entity. The partial key, combined with the primary key of the owner entity, forms the primary key of the weak entity.</p>
-        
-        <p><b>Example:</b> In the COMPANY database, DEPENDENT is a weak entity type. A dependent is identified by a combination of:
-        <ul>
-            <li>The employee's SSN (the owner's primary key)</li>
-            <li>The dependent's name (the partial key)</li>
-        </ul>
-        </p>
-        
-        <h4>Identifying Relationship</h4>
-        <p>An <b>identifying relationship</b> is a relationship between a weak entity and its owner entity. This relationship is essential for identifying the weak entity. Identifying relationships have the following characteristics:</p>
-        <ul>
-            <li>The weak entity has total participation in the relationship</li>
-            <li>The cardinality ratio is typically 1:N (one owner to many weak entities)</li>
-            <li>The relationship is denoted by a double line in ER diagrams</li>
-        </ul>
-        
-        <h4>Examples of Weak Entities</h4>
-        <table class="summary-table">
-            <tr>
-                <th>Weak Entity</th>
-                <th>Owner Entity</th>
-                <th>Partial Key</th>
-                <th>Identifying Relationship</th>
-            </tr>
-            <tr>
-                <td><b>DEPENDENT</b></td>
-                <td>EMPLOYEE</td>
-                <td>DependentName</td>
-                <td>DEPENDENT_OF</td>
-            </tr>
-            <tr>
-                <td><b>BUILDING_ROOM</b></td>
-                <td>BUILDING</td>
-                <td>RoomNumber</td>
-                <td>CONTAINS</td>
-            </tr>
-            <tr>
-                <td><b>COURSE_SECTION</b></td>
-                <td>COURSE</td>
-                <td>SectionNumber</td>
-                <td>HAS_SECTION</td>
-            </tr>
-        </table>
-        
-        <h4>Weak Entities in ER Diagrams</h4>
-        <p>Weak entities and their identifying relationships are represented differently in ER diagrams:</p>
-        <ul>
-            <li>Weak entity types are denoted by double rectangles</li>
-            <li>Partial keys are denoted by dashed underlines</li>
-            <li>Identifying relationships are denoted by double lines</li>
-        </ul>
-        
-        <div class="step-box">
-            <b>When to Use Weak Entities:</b> Weak entities should be used when:
-            <ul>
-                <li>An entity cannot be uniquely identified without reference to another entity</li>
-                <li>The entity is logically dependent on another entity</li>
-                <li>The entity's existence is tied to the existence of the owner entity (existence dependency)</li>
-            </ul>
-        </div>
+    <div class="info-item">
+    <b>Deliverable:</b> Relational schema with normalized tables.
     </div>
-    """, unsafe_allow_html=True)
-    
-    # --- 8. Roles and Attributes in Relationship Types ---
-    st.markdown("""
-    <div class="learning-card">
-        <div class="concept-badge">5.8 Roles and Attributes in Relationship Types</div>
-        <h3>Roles in Relationships</h3>
-        
-        <h4>Role</h4>
-        <p>A <b>role</b> is the function that an entity plays in a relationship. In most relationships, the role of each entity type is implicit and clear. However, in recursive (unary) relationships, where an entity type is related to itself, roles become important for distinguishing the different functions that entities play in the relationship.</p>
-        
-        <h4>Role Names</h4>
-        <p>Role names are labels that explicitly specify the function of an entity in a relationship. They are particularly useful in the following situations:</p>
-        <ul>
-            <li><b>Recursive relationships:</b> When an entity type is related to itself, role names clarify the different functions. For example, in an EMPLOYEE supervises EMPLOYEE relationship, one role is "supervisor" and the other is "subordinate".</li>
-            <li><b>Ambiguous relationships:</b> When the purpose of a relationship might not be immediately clear, role names provide explicit clarification.</li>
-            <li><b>Multiple relationships:</b> When two entity types are related through multiple relationships, role names help distinguish between them.</li>
-        </ul>
-        
-        <h4>Examples of Roles</h4>
-        <p><b>Example 1: Recursive Relationship</b></p>
-        <p>EMPLOYEE supervises EMPLOYEE</p>
-        <ul>
-            <li>Role 1: "supervisor" - the employee who supervises</li>
-            <li>Role 2: "subordinate" - the employee being supervised</li>
-        </ul>
-        
-        <p><b>Example 2: Multiple Relationships</b></p>
-        <p>EMPLOYEE and EMPLOYEE can be related through multiple relationships:</p>
-        <ul>
-            <li>SUPERVISES: supervisor and subordinate roles</li>
-            <li>MENTORS: mentor and mentee roles</li>
-            <li>COLLABORATES_WITH: colleague roles</li>
-        </ul>
-        
-        <h4>Attributes of Relationship Types</h4>
-        <p>In addition to the attributes of entities, relationships themselves can have attributes. These are called <b>relationship attributes</b> or <b>descriptive attributes</b>. Relationship attributes represent properties of the relationship that cannot be assigned to either entity alone.</p>
-        
-        <h4>Examples of Relationship Attributes</h4>
-        <p><b>Example 1: WORKS_ON Relationship</b></p>
-        <p>The WORKS_ON relationship between EMPLOYEE and PROJECT can have the following attributes:</p>
-        <ul>
-            <li>Hours - the number of hours the employee works on the project</li>
-            <li>StartDate - the date the employee started working on the project</li>
-            <li>EndDate - the date the employee stopped working on the project</li>
-        </ul>
-        
-        <p><b>Example 2: MANAGES Relationship</b></p>
-        <p>The MANAGES relationship between EMPLOYEE and DEPARTMENT can have the following attributes:</p>
-        <ul>
-            <li>StartDate - the date the employee started managing the department</li>
-            <li>EndDate - the date the employee stopped managing the department</li>
-        </ul>
-        
-        <h4>Representing Relationship Attributes in ER Diagrams</h4>
-        <p>Relationship attributes are typically represented as ovals connected to the relationship diamond (or line) rather than to the entity rectangles. This distinguishes them from entity attributes.</p>
-        
-        <div class="step-box">
-            <b>When to Use Relationship Attributes:</b> Relationship attributes should be used when:
-            <ul>
-                <li>The attribute describes a property of the relationship, not of either entity</li>
-                <li>The attribute value depends on both entities in the relationship</li>
-                <li>The attribute is not a property of either entity alone</li>
-            </ul>
-        </div>
     </div>
-    """, unsafe_allow_html=True)
-    
-    # --- 9. ER Diagrams - Notation ---
-    st.markdown("""
-    <div class="learning-card">
-        <div class="concept-badge">5.9 ER Diagrams - Notation</div>
-        <h3>Understanding ER Diagram Notation</h3>
-        
-        <h4>Components of ER Diagrams</h4>
-        <p>ER diagrams use a standardized set of symbols to represent entities, attributes, relationships, and constraints. Understanding this notation is essential for reading and creating ER diagrams.</p>
-        
-        <h4>Basic Symbols in ER Diagrams</h4>
-        <table class="summary-table">
-            <tr>
-                <th>Symbol</th>
-                <th>Name</th>
-                <th>Represents</th>
-                <th>Example</th>
-            </tr>
-            <tr>
-                <td>Rectangle</td>
-                <td>Entity Type</td>
-                <td>A strong entity type</td>
-                <td>EMPLOYEE, DEPARTMENT</td>
-            </tr>
-            <tr>
-                <td>Double Rectangle</td>
-                <td>Weak Entity Type</td>
-                <td>An entity type that depends on another entity for identification</td>
-                <td>DEPENDENT</td>
-            </tr>
-            <tr>
-                <td>Oval/Ellipse</td>
-                <td>Attribute</td>
-                <td>A property of an entity or relationship</td>
-                <td>EName, Salary, BDate</td>
-            </tr>
-            <tr>
-                <td>Dashed Oval</td>
-                <td>Derived Attribute</td>
-                <td>An attribute whose value can be computed from other attributes</td>
-                <td>Age (derived from BDate)</td>
-            </tr>
-            <tr>
-                <td>Double Oval</td>
-                <td>Multi-Valued Attribute</td>
-                <td>An attribute that can have multiple values</td>
-                <td>PhoneNumbers</td>
-            </tr>
-            <tr>
-                <td>Underlined Oval</td>
-                <td>Key Attribute</td>
-                <td>An attribute that uniquely identifies entities</td>
-                <td>SSN, DNumber</td>
-            </tr>
-            <tr>
-                <td>Diamond/Rhombus</td>
-                <td>Relationship Type</td>
-                <td>An association between entities</td>
-                <td>WORKS_FOR, MANAGES</td>
-            </tr>
-            <tr>
-                <td>Double Diamond</td>
-                <td>Identifying Relationship</td>
-                <td>A relationship that identifies a weak entity</td>
-                <td>DEPENDENT_OF</td>
-            </tr>
-            <tr>
-                <td>Line</td>
-                <td>Connection</td>
-                <td>Connects entities to relationships and attributes</td>
-                <td>Links between symbols</td>
-            </tr>
-            <tr>
-                <td>Double Line</td>
-                <td>Total Participation</td>
-                <td>Every entity must participate in the relationship</td>
-                <td>Connects weak entity to identifying relationship</td>
-            </tr>
-        </table>
-        
-        <h4>Cardinality Notation</h4>
-        <p>Different notations are used to represent cardinality ratios in ER diagrams. The most common notations are:</p>
-        
-        <p><b>Chen's Notation (Original):</b></p>
-        <ul>
-            <li>1:1 - a line with "1" at each end</li>
-            <li>1:N - a line with "1" at one end and "N" at the other</li>
-            <li>M:N - a line with "M" at one end and "N" at the other</li>
-        </ul>
-        
-        <p><b>Crow's Foot Notation (Popular in Practice):</b></p>
-        <ul>
-            <li>One-to-one: single line at both ends</li>
-            <li>One-to-many: single line at one end, crow's foot (three lines) at the other</li>
-            <li>Many-to-many: crow's feet at both ends</li>
-        </ul>
-        
-        <h4>Participation Constraints</h4>
-        <p>Participation constraints are indicated by the type of line used:</p>
-        <ul>
-            <li><b>Single line:</b> Partial participation (not all entities must participate)</li>
-            <li><b>Double line:</b> Total participation (all entities must participate)</li>
-        </ul>
-        
-        <div class="step-box">
-            <b>Reading ER Diagrams:</b> When reading an ER diagram:
-            <ol>
-                <li>Identify all entity types (rectangles)</li>
-                <li>Identify all attributes for each entity (ovals connected to rectangles)</li>
-                <li>Identify key attributes (underlined ovals)</li>
-                <li>Identify all relationships (diamonds)</li>
-                <li>Determine the cardinality ratio for each relationship</li>
-                <li>Determine the participation constraint for each entity in each relationship</li>
-                <li>Identify any weak entities (double rectangles) and their identifying relationships (double diamonds)</li>
-            </ol>
-        </div>
+
+    <h4>Phase 3: Physical Design</h4>
+    <p>The physical design phase addresses implementation-specific details such as file organization, indexing strategies, storage allocation, and query optimization. During this phase, designers make decisions about how data will be physically stored on disk, which indexes to create for performance optimization, and how to configure the database for efficient access. This phase is DBMS-specific and depends on the particular database management system being used.</p>
+
+    <div class="info-grid">
+    <div class="info-item">
+    <b>Key Activities:</b> Index design, file organization, query optimization, performance tuning.
     </div>
-    """, unsafe_allow_html=True)
-    
-    # --- 10. ER Diagram for COMPANY Schema ---
-    st.markdown("""
-    <div class="learning-card">
-        <div class="concept-badge">5.10 ER Diagram for COMPANY Schema</div>
-        <h3>Complete ER Diagram for the COMPANY Database</h3>
-        
-        <h4>COMPANY Database ER Diagram Description</h4>
-        <p>The complete ER diagram for the COMPANY database incorporates all the concepts discussed so far. It includes strong entities (EMPLOYEE, DEPARTMENT, PROJECT), a weak entity (DEPENDENT), various relationships with different cardinality ratios, and relationship attributes.</p>
-        
-        <h4>Entities in the COMPANY ER Diagram</h4>
-        <p><b>1. EMPLOYEE Entity</b></p>
-        <ul>
-            <li>Key Attribute: SSN (underlined)</li>
-            <li>Simple Attributes: EName, Address, Salary, BDate</li>
-            <li>Relationships: WORKS_FOR (with DEPARTMENT), WORKS_ON (with PROJECT), SUPERVISES (recursive with EMPLOYEE), DEPENDENT_OF (with DEPENDENT)</li>
-        </ul>
-        
-        <p><b>2. DEPARTMENT Entity</b></p>
-        <ul>
-            <li>Key Attribute: DNumber (underlined)</li>
-            <li>Simple Attributes: DName, Location</li>
-            <li>Relationships: MANAGES (with EMPLOYEE), CONTROLS (with PROJECT)</li>
-        </ul>
-        
-        <p><b>3. PROJECT Entity</b></p>
-        <ul>
-            <li>Key Attribute: PNumber (underlined)</li>
-            <li>Simple Attributes: PName, Location, Budget</li>
-            <li>Relationships: WORKS_ON (with EMPLOYEE), CONTROLS (with DEPARTMENT)</li>
-        </ul>
-        
-        <p><b>4. DEPENDENT Entity (Weak Entity)</b></p>
-        <ul>
-            <li>Partial Key: DependentName (dashed underline)</li>
-            <li>Simple Attributes: BDate, Relationship</li>
-            <li>Identifying Relationship: DEPENDENT_OF (with EMPLOYEE)</li>
-        </ul>
-        
-        <h4>Relationships in the COMPANY ER Diagram</h4>
-        <table class="summary-table">
-            <tr>
-                <th>Relationship</th>
-                <th>Entities</th>
-                <th>Cardinality</th>
-                <th>Participation</th>
-                <th>Attributes</th>
-            </tr>
-            <tr>
-                <td><b>WORKS_FOR</b></td>
-                <td>EMPLOYEE - DEPARTMENT</td>
-                <td>N:1</td>
-                <td>Total (EMPLOYEE), Partial (DEPARTMENT)</td>
-                <td>None</td>
-            </tr>
-            <tr>
-                <td><b>MANAGES</b></td>
-                <td>EMPLOYEE - DEPARTMENT</td>
-                <td>1:1</td>
-                <td>Partial (both)</td>
-                <td>StartDate, EndDate</td>
-            </tr>
-            <tr>
-                <td><b>CONTROLS</b></td>
-                <td>DEPARTMENT - PROJECT</td>
-                <td>1:N</td>
-                <td>Total (PROJECT), Partial (DEPARTMENT)</td>
-                <td>None</td>
-            </tr>
-            <tr>
-                <td><b>WORKS_ON</b></td>
-                <td>EMPLOYEE - PROJECT</td>
-                <td>M:N</td>
-                <td>Partial (both)</td>
-                <td>Hours, StartDate, EndDate</td>
-            </tr>
-            <tr>
-                <td><b>SUPERVISES</b></td>
-                <td>EMPLOYEE - EMPLOYEE</td>
-                <td>1:N</td>
-                <td>Partial (both)</td>
-                <td>None</td>
-            </tr>
-            <tr>
-                <td><b>DEPENDENT_OF</b></td>
-                <td>DEPENDENT - EMPLOYEE</td>
-                <td>N:1</td>
-                <td>Total (DEPENDENT), Partial (EMPLOYEE)</td>
-                <td>None</td>
-            </tr>
-        </table>
-        
-        <h4>Key Observations about the COMPANY ER Diagram</h4>
-        <ul>
-            <li>The WORKS_FOR relationship is a one-to-many relationship where each employee works for exactly one department, but each department can have multiple employees.</li>
-            <li>The MANAGES relationship is a one-to-one relationship where a department may have a manager (an employee), and an employee may manage at most one department.</li>
-            <li>The CONTROLS relationship is a one-to-many relationship where each project is controlled by exactly one department, but each department can control multiple projects.</li>
-            <li>The WORKS_ON relationship is a many-to-many relationship where employees can work on multiple projects and projects can involve multiple employees. This relationship has attributes (Hours, StartDate, EndDate) that describe the work assignment.</li>
-            <li>The SUPERVISES relationship is a recursive one-to-many relationship where an employee can supervise multiple employees, but each employee can have at most one supervisor.</li>
-            <li>The DEPENDENT_OF relationship is an identifying relationship where a dependent is uniquely identified by combining the employee's SSN and the dependent's name.</li>
-        </ul>
-        
-        <div class="step-box">
-            <b>ER Diagram Design Principles:</b> When designing an ER diagram:
-            <ul>
-                <li>Identify all entities and their attributes carefully</li>
-                <li>Determine appropriate key attributes for each entity</li>
-                <li>Identify all relationships and their cardinality ratios</li>
-                <li>Specify participation constraints for each relationship</li>
-                <li>Include relationship attributes where appropriate</li>
-                <li>Identify weak entities and their identifying relationships</li>
-                <li>Use clear and consistent notation throughout the diagram</li>
-            </ul>
-        </div>
+    <div class="info-item">
+    <b>Considerations:</b> Storage efficiency, query performance, transaction throughput, backup and recovery.
     </div>
-    """, unsafe_allow_html=True)
-    
-    # --- 11. Alternative Notations - UML and Others ---
-    st.markdown("""
-    <div class="learning-card">
-        <div class="concept-badge">5.11 Alternative Notations - UML Class Diagrams and Others</div>
-        <h3>Alternative Notations for Database Design</h3>
-        
-        <h4>Unified Modeling Language (UML) Class Diagrams</h4>
-        <p>The <b>Unified Modeling Language (UML)</b> is a standardized modeling language used in software engineering for visualizing, specifying, constructing, and documenting software systems. UML class diagrams can be used to represent database schemas and are particularly useful when the database is part of a larger object-oriented system.</p>
-        
-        <h4>Comparison: ER Model vs. UML Class Diagrams</h4>
-        <table class="summary-table">
-            <tr>
-                <th>Aspect</th>
-                <th>ER Model</th>
-                <th>UML Class Diagram</th>
-            </tr>
-            <tr>
-                <td><b>Purpose</b></td>
-                <td>Conceptual modeling of databases</td>
-                <td>Modeling of object-oriented systems</td>
-            </tr>
-            <tr>
-                <td><b>Primary Use</b></td>
-                <td>Database design</td>
-                <td>Software design and architecture</td>
-            </tr>
-            <tr>
-                <td><b>Entity Representation</b></td>
-                <td>Rectangle with name and attributes</td>
-                <td>Class box with attributes, methods, and visibility</td>
-            </tr>
-            <tr>
-                <td><b>Relationship Representation</b></td>
-                <td>Diamond with relationship name and cardinality</td>
-                <td>Line with role names and multiplicity notation</td>
-            </tr>
-            <tr>
-                <td><b>Cardinality Notation</b></td>
-                <td>1:1, 1:N, M:N or Crow's Foot notation</td>
-                <td>Multiplicity (0..1, 1, 0..*, 1..*, etc.)</td>
-            </tr>
-            <tr>
-                <td><b>Key Attributes</b></td>
-                <td>Underlined in the attribute list</td>
-                <td>Often marked with {id} or similar stereotype</td>
-            </tr>
-            <tr>
-                <td><b>Weak Entities</b></td>
-                <td>Double rectangle with identifying relationship</td>
-                <td>Represented using composition or aggregation</td>
-            </tr>
-        </table>
-        
-        <h4>UML Class Diagram Notation</h4>
-        <p>In UML class diagrams, the following notation is used:</p>
-        
-        <p><b>Class Representation:</b></p>
-        <ul>
-            <li>Classes are represented as boxes divided into three sections: class name, attributes, and methods</li>
-            <li>Attributes are listed with their visibility (+, -, #, ~) and type</li>
-            <li>Methods are listed with their visibility and signature</li>
-        </ul>
-        
-        <p><b>Relationship Representation:</b></p>
-        <ul>
-            <li><b>Association:</b> A line connecting two classes, representing a relationship</li>
-            <li><b>Aggregation:</b> A hollow diamond at the aggregate end, representing a "part-of" relationship</li>
-            <li><b>Composition:</b> A filled diamond at the composite end, representing a strong "part-of" relationship</li>
-            <li><b>Inheritance:</b> A line with a hollow triangle pointing to the parent class</li>
-        </ul>
-        
-        <p><b>Multiplicity Notation:</b></p>
-        <ul>
-            <li>0..1 - zero or one</li>
-            <li>1 - exactly one</li>
-            <li>0..* - zero or more</li>
-            <li>1..* - one or more</li>
-            <li>* - many (zero or more)</li>
-        </ul>
-        
-        <h4>Mapping ER Concepts to UML</h4>
-        <table class="summary-table">
-            <tr>
-                <th>ER Concept</th>
-                <th>UML Equivalent</th>
-                <th>Example</th>
-            </tr>
-            <tr>
-                <td><b>Entity Type</b></td>
-                <td>Class</td>
-                <td>EMPLOYEE becomes class Employee</td>
-            </tr>
-            <tr>
-                <td><b>Attribute</b></td>
-                <td>Class attribute</td>
-                <td>EName becomes attribute name: String</td>
-            </tr>
-            <tr>
-                <td><b>Key Attribute</b></td>
-                <td>Attribute with {id} stereotype</td>
-                <td>SSN becomes ssn: String {id}</td>
-            </tr>
-            <tr>
-                <td><b>Relationship</b></td>
-                <td>Association</td>
-                <td>WORKS_FOR becomes association between Employee and Department</td>
-            </tr>
-            <tr>
-                <td><b>Weak Entity</b></td>
-                <td>Composition or aggregation</td>
-                <td>DEPENDENT becomes a composed class of EMPLOYEE</td>
-            </tr>
-            <tr>
-                <td><b>Recursive Relationship</b></td>
-                <td>Self-association</td>
-                <td>SUPERVISES becomes self-association on Employee class</td>
-            </tr>
-        </table>
-        
-        <h4>Other Alternative Notations</h4>
-        
-        <p><b>1. Crow's Foot Notation (Information Engineering Notation)</b></p>
-        <p>This notation uses crow's foot symbols to represent cardinality and is popular in database design tools:</p>
-        <ul>
-            <li>Single line: one</li>
-            <li>Crow's foot (three lines): many</li>
-            <li>Circle: zero or one</li>
-            <li>Circle with line: zero or many</li>
-        </ul>
-        
-        <p><b>2. IDEF1X Notation</b></p>
-        <p>IDEF1X is a data modeling methodology that uses specific notation for entities, relationships, and attributes. It is often used in government and military projects.</p>
-        
-        <p><b>3. Object-Role Modeling (ORM)</b></p>
-        <p>ORM is an alternative approach to data modeling that focuses on roles that objects play in relationships. It uses a different notation system based on fact types and constraints.</p>
-        
-        <div class="step-box">
-            <b>Choosing a Notation:</b> The choice of notation depends on:
-            <ul>
-                <li>The context and purpose of the modeling (database design vs. software design)</li>
-                <li>The tools available in the organization</li>
-                <li>The familiarity of the team with the notation</li>
-                <li>The specific requirements of the project</li>
-            </ul>
-        </div>
+    <div class="info-item">
+    <b>Deliverable:</b> Physical database schema with implementation specifications.
+    </div>
+    </div>
+
+    <div class="step-box">
+    <b>Design Methodology Overview:</b>
+    <p>The three-phase approach ensures that database design is systematic, well-documented, and maintainable. Each phase builds upon the previous one, allowing for iterative refinement and validation of design decisions. This structured approach minimizes errors, reduces redundancy, and produces efficient, scalable database systems.</p>
+    </div>
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 6: Relational Model":
-    st.markdown("## 📚 Chapter 6: Relational Model")
-    st.info("Content for Chapter 6: Relational Model is being loaded...")
+    # --- 2. Example Database Application (COMPANY) ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">5.2 Example Database Application (COMPANY)</div>
+    <h3>The COMPANY Database Schema</h3>
+    <p>Throughout this chapter, we will use the <b>COMPANY</b> database as our running example to illustrate ER model concepts. The COMPANY database represents a typical organizational system that manages employees, departments, projects, and their relationships. This example is widely used in database education because it captures many common real-world scenarios and demonstrates various ER modeling techniques.</p>
+
+    <h4>Requirements for the COMPANY Database</h4>
+    <p>The company has the following requirements:</p>
+    <ul>
+    <li>The company is organized into <b>departments</b>. Each department has a unique name, a unique number, and a location. A department manages multiple projects.</li>
+    <li>The company employs <b>employees</b>. Each employee has a name, social security number (SSN), address, salary, and birth date. An employee works for exactly one department but may work on multiple projects.</li>
+    <li>The company undertakes <b>projects</b>. Each project has a name, a unique number, a location, and a budget. A project is managed by one department and involves multiple employees.</li>
+    <li>The company maintains information about <b>dependents</b> of employees. Each dependent has a name, birth date, and relationship to the employee.</li>
+    <li>We need to track the <b>work history</b> of employees, including which projects they have worked on and for how long.</li>
+    </ul>
+
+    <h4>Key Entities in COMPANY Database</h4>
+    <table class="summary-table">
+    <tr>
+    <th>Entity</th>
+    <th>Description</th>
+    <th>Key Attributes</th>
+    </tr>
+    <tr>
+    <td><b>DEPARTMENT</b></td>
+    <td>Represents a department in the company</td>
+    <td>DName, DNumber, Location</td>
+    </tr>
+    <tr>
+    <td><b>EMPLOYEE</b></td>
+    <td>Represents an employee</td>
+    <td>EName, SSN, Address, Salary, BDate</td>
+    </tr>
+    <tr>
+    <td><b>PROJECT</b></td>
+    <td>Represents a project</td>
+    <td>PName, PNumber, Location, Budget</td>
+    </tr>
+    <tr>
+    <td><b>DEPENDENT</b></td>
+    <td>Represents a dependent of an employee</td>
+    <td>DependentName, BDate, Relationship</td>
+    </tr>
+    </table>
+
+    <h4>Key Relationships in COMPANY Database</h4>
+    <table class="summary-table">
+    <tr>
+    <th>Relationship</th>
+    <th>Entities Involved</th>
+    <th>Description</th>
+    </tr>
+    <tr>
+    <td><b>MANAGES</b></td>
+    <td>DEPARTMENT - EMPLOYEE</td>
+    <td>A department manages employees; an employee works for one department</td>
+    </tr>
+    <tr>
+    <td><b>WORKS_ON</b></td>
+    <td>EMPLOYEE - PROJECT</td>
+    <td>An employee works on projects; a project involves multiple employees</td>
+    </tr>
+    <tr>
+    <td><b>CONTROLS</b></td>
+    <td>DEPARTMENT - PROJECT</td>
+    <td>A department controls projects; a project is controlled by one department</td>
+    </tr>
+    <tr>
+    <td><b>DEPENDENT_OF</b></td>
+    <td>DEPENDENT - EMPLOYEE</td>
+    <td>A dependent belongs to an employee; an employee may have multiple dependents</td>
+    </tr>
+    </table>
+
+    <div class="step-box">
+    <b>Note:</b> The COMPANY database example will be used throughout the remaining sections to demonstrate ER model concepts, constraints, and design techniques.
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 3. ER Model Concepts ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">5.3 ER Model Concepts</div>
+    <h3>Introduction to the Entity-Relationship Model</h3>
+    <p>The <b>Entity-Relationship (ER) Model</b> was proposed by <b>Peter Chen</b> in 1976 as a high-level conceptual data model. It provides a way to describe the structure of a database at a conceptual level, independent of any specific database implementation. The ER model is based on the perception that the real world consists of entities and relationships among entities.</p>
+
+    <p>The ER model is widely used for database design because it:</p>
+    <ul>
+    <li>Provides a clear and intuitive representation of data requirements</li>
+    <li>Facilitates communication between database designers and stakeholders</li>
+    <li>Serves as a bridge between user requirements and logical database design</li>
+    <li>Helps identify entities, attributes, and relationships early in the design process</li>
+    <li>Supports the identification of constraints and business rules</li>
+    </ul>
+
+    <h4>Core Concepts of the ER Model</h4>
+    <p>The ER model is built on three fundamental concepts:</p>
+
+    <div class="info-grid">
+    <div class="info-item">
+    <b>Entities:</b> Objects or things in the real world that are distinguishable and have an independent existence. Entities can be concrete (e.g., a person, a car) or abstract (e.g., a project, a department).
+    </div>
+    <div class="info-item">
+    <b>Attributes:</b> Properties or characteristics of entities. Each attribute has a domain, which is the set of possible values it can take.
+    </div>
+    <div class="info-item">
+    <b>Relationships:</b> Associations or connections between entities. Relationships describe how entities interact with each other.
+    </div>
+    </div>
+
+    <div class="step-box">
+    <b>Importance of ER Model:</b> The ER model provides a systematic way to capture the structure and constraints of a database system. It serves as a communication tool between database designers, system analysts, and business stakeholders, ensuring that all parties have a shared understanding of the database requirements.
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 4. Entities and Attributes ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">5.4 Entities and Attributes</div>
+    <h3>Understanding Entities and Attributes</h3>
+
+    <h4>Entities</h4>
+    <p>An <b>entity</b> is a thing or object in the real world that has an independent existence and is distinguishable from other entities. In the context of a database, an entity represents a concept or a real-world object that we want to store information about. Entities are typically nouns that represent people, places, things, or concepts.</p>
+
+    <p><b>Examples of entities:</b></p>
+    <ul>
+    <li>EMPLOYEE - represents a person working for the company</li>
+    <li>DEPARTMENT - represents a division of the company</li>
+    <li>PROJECT - represents a work initiative</li>
+    <li>CUSTOMER - represents a client of the business</li>
+    <li>PRODUCT - represents an item sold by the company</li>
+    </ul>
+
+    <h4>Entity Types vs. Entity Instances</h4>
+    <p>It is important to distinguish between an <b>entity type</b> and an <b>entity instance</b>:</p>
+    <ul>
+    <li><b>Entity Type:</b> A category or class of entities. For example, EMPLOYEE is an entity type that represents all employees in the company.</li>
+    <li><b>Entity Instance:</b> A specific occurrence of an entity type. For example, "John Smith" is an instance of the EMPLOYEE entity type.</li>
+    </ul>
+
+    <h4>Attributes</h4>
+    <p>An <b>attribute</b> is a property or characteristic of an entity. Each attribute has a name and is associated with a domain, which specifies the set of possible values the attribute can take. Attributes describe the properties of entities and provide the detailed information we want to store about each entity.</p>
+
+    <p><b>Examples of attributes for the EMPLOYEE entity:</b></p>
+    <ul>
+    <li>EName - the name of the employee (domain: string)</li>
+    <li>SSN - the social security number (domain: string of digits)</li>
+    <li>Address - the home address (domain: string)</li>
+    <li>Salary - the annual salary (domain: numeric)</li>
+    <li>BDate - the birth date (domain: date)</li>
+    </ul>
+
+    <h4>Types of Attributes</h4>
+    <p>Attributes can be classified into several types:</p>
+
+    <table class="summary-table">
+    <tr>
+    <th>Attribute Type</th>
+    <th>Description</th>
+    <th>Example</th>
+    </tr>
+    <tr>
+    <td><b>Simple Attribute</b></td>
+    <td>An attribute that cannot be divided into smaller components. It is atomic and indivisible.</td>
+    <td>Age, Salary, SSN</td>
+    </tr>
+    <tr>
+    <td><b>Composite Attribute</b></td>
+    <td>An attribute that can be divided into smaller components, each with its own meaning.</td>
+    <td>Address (Street, City, State, ZipCode), Name (FirstName, LastName)</td>
+    </tr>
+    <tr>
+    <td><b>Single-Valued Attribute</b></td>
+    <td>An attribute that has only one value for each entity instance.</td>
+    <td>SSN, BDate, Salary</td>
+    </tr>
+    <tr>
+    <td><b>Multi-Valued Attribute</b></td>
+    <td>An attribute that can have multiple values for a single entity instance.</td>
+    <td>Phone_Numbers (an employee may have multiple phone numbers)</td>
+    </tr>
+    <tr>
+    <td><b>Derived Attribute</b></td>
+    <td>An attribute whose value can be derived from other attributes or entities.</td>
+    <td>Age (can be derived from BDate), Years_Employed (can be derived from hire date)</td>
+    </tr>
+    <tr>
+    <td><b>Stored Attribute</b></td>
+    <td>An attribute whose value is explicitly stored in the database.</td>
+    <td>BDate, Salary, Address</td>
+    </tr>
+    </table>
+
+    <div class="step-box">
+    <b>Attribute Notation:</b> In ER diagrams, attributes are typically represented as ovals connected to entity rectangles. Simple attributes are shown with single lines, composite attributes are shown with branches, multi-valued attributes are shown with double ovals, and derived attributes are shown with dashed ovals.
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 5. Entity Types, Value Sets, and Key Attributes ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">5.5 Entity Types, Value Sets, and Key Attributes</div>
+    <h3>Entity Types and Their Characteristics</h3>
+
+    <h4>Entity Type</h4>
+    <p>An <b>entity type</b> is a collection of entities that share the same attributes and relationships. It defines the structure and properties that all entities of that type must have. In database terminology, an entity type is similar to a class in object-oriented programming or a table in a relational database.</p>
+
+    <p><b>Notation:</b> Entity types are typically denoted by capital letters. For example, EMPLOYEE, DEPARTMENT, PROJECT, and DEPENDENT are entity types in the COMPANY database.</p>
+
+    <h4>Value Sets (Domains)</h4>
+    <p>A <b>value set</b> (or <b>domain</b>) is the set of possible values that an attribute can take. Each attribute is associated with a value set that constrains the values that can be assigned to that attribute. Value sets ensure data consistency and validity.</p>
+
+    <p><b>Examples of value sets:</b></p>
+    <ul>
+    <li>The value set for the Salary attribute might be: {x | x ≥ 0 and x ≤ 1,000,000}</li>
+    <li>The value set for the Gender attribute might be: {M, F, Other}</li>
+    <li>The value set for the Department attribute might be: {Engineering, Sales, HR, Finance}</li>
+    <li>The value set for the BDate attribute might be: {dates between 1950 and 2010}</li>
+    </ul>
+
+    <h4>Key Attributes</h4>
+    <p>A <b>key attribute</b> (or <b>identifier</b>) is an attribute or a set of attributes that uniquely identifies each entity instance within an entity type. Key attributes are essential for distinguishing one entity from another and for maintaining data integrity.</p>
+
+    <h4>Types of Keys</h4>
+    <table class="summary-table">
+    <tr>
+    <th>Key Type</th>
+    <th>Definition</th>
+    <th>Example</th>
+    </tr>
+    <tr>
+    <td><b>Candidate Key</b></td>
+    <td>An attribute or set of attributes that can uniquely identify an entity. An entity type can have multiple candidate keys.</td>
+    <td>SSN, Email (both can uniquely identify an EMPLOYEE)</td>
+    </tr>
+    <tr>
+    <td><b>Primary Key</b></td>
+    <td>The candidate key chosen to uniquely identify entities. There is exactly one primary key per entity type.</td>
+    <td>SSN is the primary key for EMPLOYEE</td>
+    </tr>
+    <tr>
+    <td><b>Composite Key</b></td>
+    <td>A primary key that consists of multiple attributes. No single attribute can uniquely identify the entity.</td>
+    <td>In a WORKS_ON relationship: (SSN, PNumber) uniquely identifies a work assignment</td>
+    </tr>
+    <tr>
+    <td><b>Superkey</b></td>
+    <td>A set of attributes that contains a candidate key. A superkey can uniquely identify entities but may contain extra attributes.</td>
+    <td>{SSN, Name} is a superkey for EMPLOYEE (SSN alone is sufficient)</td>
+    </tr>
+    </table>
+
+    <h4>Key Attributes in ER Diagrams</h4>
+    <p>In ER diagrams, key attributes are typically underlined to distinguish them from non-key attributes. For example:</p>
+    <ul>
+    <li>EMPLOYEE: <u>SSN</u>, EName, Address, Salary, BDate</li>
+    <li>DEPARTMENT: <u>DNumber</u>, DName, Location</li>
+    <li>PROJECT: <u>PNumber</u>, PName, Location, Budget</li>
+    </ul>
+
+    <div class="step-box">
+    <b>Importance of Keys:</b> Key attributes are crucial for database design because they:
+    <ul>
+    <li>Ensure entity uniqueness and prevent duplicate records</li>
+    <li>Enable efficient searching and retrieval of entities</li>
+    <li>Facilitate relationships between entities</li>
+    <li>Support referential integrity constraints</li>
+    </ul>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 6. Relationships and Relationship Types ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">5.6 Relationships and Relationship Types</div>
+    <h3>Understanding Relationships</h3>
+
+    <h4>Relationship</h4>
+    <p>A <b>relationship</b> is an association or connection between two or more entities. Relationships describe how entities interact with each other and are essential for capturing the business logic and constraints of the database. In the real world, entities do not exist in isolation; they are connected through various relationships.</p>
+
+    <p><b>Examples of relationships:</b></p>
+    <ul>
+    <li>An EMPLOYEE works for a DEPARTMENT</li>
+    <li>An EMPLOYEE works on a PROJECT</li>
+    <li>A DEPARTMENT manages a PROJECT</li>
+    <li>An EMPLOYEE has DEPENDENTS</li>
+    </ul>
+
+    <h4>Relationship Type</h4>
+    <p>A <b>relationship type</b> is a collection of relationships of the same kind. It defines the structure and properties that all relationships of that type must have. Relationship types are typically named with verbs or verb phrases that describe the nature of the association.</p>
+
+    <h4>Degree of a Relationship</h4>
+    <p>The <b>degree</b> of a relationship is the number of entity types participating in the relationship. Relationships can have different degrees:</p>
+
+    <table class="summary-table">
+    <tr>
+    <th>Degree</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Example</th>
+    </tr>
+    <tr>
+    <td><b>1</b></td>
+    <td>Unary (Recursive)</td>
+    <td>A relationship between an entity type and itself.</td>
+    <td>EMPLOYEE supervises EMPLOYEE (a manager supervises employees)</td>
+    </tr>
+    <tr>
+    <td><b>2</b></td>
+    <td>Binary</td>
+    <td>A relationship between two entity types. Most common type.</td>
+    <td>EMPLOYEE works for DEPARTMENT</td>
+    </tr>
+    <tr>
+    <td><b>3</b></td>
+    <td>Ternary</td>
+    <td>A relationship between three entity types.</td>
+    <td>EMPLOYEE works on PROJECT for DEPARTMENT</td>
+    </tr>
+    <tr>
+    <td><b>n</b></td>
+    <td>n-ary</td>
+    <td>A relationship involving more than three entity types.</td>
+    <td>Rare in practice; usually decomposed into multiple binary relationships</td>
+    </tr>
+    </table>
+
+    <h4>Cardinality Ratio</h4>
+    <p>The <b>cardinality ratio</b> of a relationship specifies the number of relationship instances that an entity can participate in. It defines the constraints on the number of entities that can be related through a relationship. The most common cardinality ratios are:</p>
+
+    <table class="summary-table">
+    <tr>
+    <th>Cardinality Ratio</th>
+    <th>Notation</th>
+    <th>Description</th>
+    <th>Example</th>
+    </tr>
+    <tr>
+    <td><b>One-to-One (1:1)</b></td>
+    <td>1:1</td>
+    <td>Each entity of type A is related to at most one entity of type B, and vice versa.</td>
+    <td>EMPLOYEE has one OFFICE; OFFICE is assigned to one EMPLOYEE</td>
+    </tr>
+    <tr>
+    <td><b>One-to-Many (1:N)</b></td>
+    <td>1:N</td>
+    <td>Each entity of type A can be related to many entities of type B, but each entity of type B is related to at most one entity of type A.</td>
+    <td>DEPARTMENT has many EMPLOYEEs; EMPLOYEE works for one DEPARTMENT</td>
+    </tr>
+    <tr>
+    <td><b>Many-to-One (N:1)</b></td>
+    <td>N:1</td>
+    <td>Many entities of type A can be related to one entity of type B.</td>
+    <td>Many EMPLOYEEs work for one DEPARTMENT</td>
+    </tr>
+    <tr>
+    <td><b>Many-to-Many (M:N)</b></td>
+    <td>M:N</td>
+    <td>Entities of type A can be related to many entities of type B, and vice versa.</td>
+    <td>EMPLOYEE works on many PROJECTs; PROJECT involves many EMPLOYEEs</td>
+    </tr>
+    </table>
+
+    <h4>Participation Constraint</h4>
+    <p>The <b>participation constraint</b> specifies whether the participation of an entity type in a relationship is total or partial:</p>
+
+    <div class="info-grid">
+    <div class="info-item">
+    <b>Total Participation:</b> Every entity of the entity type must participate in the relationship. Denoted by a double line in ER diagrams. Example: Every EMPLOYEE must work for a DEPARTMENT.
+    </div>
+    <div class="info-item">
+    <b>Partial Participation:</b> Some entities of the entity type may not participate in the relationship. Denoted by a single line in ER diagrams. Example: Not every EMPLOYEE manages a DEPARTMENT.
+    </div>
+    </div>
+
+    <div class="step-box">
+    <b>Cardinality and Participation Notation:</b> In ER diagrams, the cardinality ratio and participation constraint are typically shown on the lines connecting entities to relationships. For example, a line labeled "1" with a double line indicates a one-to-one relationship with total participation.
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 7. Weak Entity Types ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">5.7 Weak Entity Types</div>
+    <h3>Understanding Weak Entities</h3>
+
+    <h4>Weak Entity Type</h4>
+    <p>A <b>weak entity type</b> is an entity type that does not have a key attribute of its own. Instead, it depends on a related entity (called the <b>owner</b> or <b>identifying entity</b>) for its unique identification. Weak entities cannot exist independently; they must be associated with an owner entity.</p>
+
+    <p><b>Characteristics of weak entities:</b></p>
+    <ul>
+    <li>No primary key of their own</li>
+    <li>Depend on a related entity for identification</li>
+    <li>Have total participation in the identifying relationship</li>
+    <li>Identified by a combination of their own partial key and the owner's key</li>
+    </ul>
+
+    <h4>Partial Key (Discriminator)</h4>
+    <p>A <b>partial key</b> (also called a <b>discriminator</b>) is an attribute or set of attributes of a weak entity that can uniquely identify weak entity instances that are related to the same owner entity. The partial key, combined with the primary key of the owner entity, forms the primary key of the weak entity.</p>
+
+    <p><b>Example:</b> In the COMPANY database, DEPENDENT is a weak entity type. A dependent is identified by a combination of:
+    <ul>
+    <li>The employee's SSN (the owner's primary key)</li>
+    <li>The dependent's name (the partial key)</li>
+    </ul>
+    </p>
+
+    <h4>Identifying Relationship</h4>
+    <p>An <b>identifying relationship</b> is a relationship between a weak entity and its owner entity. This relationship is essential for identifying the weak entity. Identifying relationships have the following characteristics:</p>
+    <ul>
+    <li>The weak entity has total participation in the relationship</li>
+    <li>The cardinality ratio is typically 1:N (one owner to many weak entities)</li>
+    <li>The relationship is denoted by a double line in ER diagrams</li>
+    </ul>
+
+    <h4>Examples of Weak Entities</h4>
+    <table class="summary-table">
+    <tr>
+    <th>Weak Entity</th>
+    <th>Owner Entity</th>
+    <th>Partial Key</th>
+    <th>Identifying Relationship</th>
+    </tr>
+    <tr>
+    <td><b>DEPENDENT</b></td>
+    <td>EMPLOYEE</td>
+    <td>DependentName</td>
+    <td>DEPENDENT_OF</td>
+    </tr>
+    <tr>
+    <td><b>BUILDING_ROOM</b></td>
+    <td>BUILDING</td>
+    <td>RoomNumber</td>
+    <td>CONTAINS</td>
+    </tr>
+    <tr>
+    <td><b>COURSE_SECTION</b></td>
+    <td>COURSE</td>
+    <td>SectionNumber</td>
+    <td>HAS_SECTION</td>
+    </tr>
+    </table>
+
+    <h4>Weak Entities in ER Diagrams</h4>
+    <p>Weak entities and their identifying relationships are represented differently in ER diagrams:</p>
+    <ul>
+    <li>Weak entity types are denoted by double rectangles</li>
+    <li>Partial keys are denoted by dashed underlines</li>
+    <li>Identifying relationships are denoted by double lines</li>
+    </ul>
+
+    <div class="step-box">
+    <b>When to Use Weak Entities:</b> Weak entities should be used when:
+    <ul>
+    <li>An entity cannot be uniquely identified without reference to another entity</li>
+    <li>The entity is logically dependent on another entity</li>
+    <li>The entity's existence is tied to the existence of the owner entity (existence dependency)</li>
+    </ul>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 8. Roles and Attributes in Relationship Types ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">5.8 Roles and Attributes in Relationship Types</div>
+    <h3>Roles in Relationships</h3>
+
+    <h4>Role</h4>
+    <p>A <b>role</b> is the function that an entity plays in a relationship. In most relationships, the role of each entity type is implicit and clear. However, in recursive (unary) relationships, where an entity type is related to itself, roles become important for distinguishing the different functions that entities play in the relationship.</p>
+
+    <h4>Role Names</h4>
+    <p>Role names are labels that explicitly specify the function of an entity in a relationship. They are particularly useful in the following situations:</p>
+    <ul>
+    <li><b>Recursive relationships:</b> When an entity type is related to itself, role names clarify the different functions. For example, in an EMPLOYEE supervises EMPLOYEE relationship, one role is "supervisor" and the other is "subordinate".</li>
+    <li><b>Ambiguous relationships:</b> When the purpose of a relationship might not be immediately clear, role names provide explicit clarification.</li>
+    <li><b>Multiple relationships:</b> When two entity types are related through multiple relationships, role names help distinguish between them.</li>
+    </ul>
+
+    <h4>Examples of Roles</h4>
+    <p><b>Example 1: Recursive Relationship</b></p>
+    <p>EMPLOYEE supervises EMPLOYEE</p>
+    <ul>
+    <li>Role 1: "supervisor" - the employee who supervises</li>
+    <li>Role 2: "subordinate" - the employee being supervised</li>
+    </ul>
+
+    <p><b>Example 2: Multiple Relationships</b></p>
+    <p>EMPLOYEE and EMPLOYEE can be related through multiple relationships:</p>
+    <ul>
+    <li>SUPERVISES: supervisor and subordinate roles</li>
+    <li>MENTORS: mentor and mentee roles</li>
+    <li>COLLABORATES_WITH: colleague roles</li>
+    </ul>
+
+    <h4>Attributes of Relationship Types</h4>
+    <p>In addition to the attributes of entities, relationships themselves can have attributes. These are called <b>relationship attributes</b> or <b>descriptive attributes</b>. Relationship attributes represent properties of the relationship that cannot be assigned to either entity alone.</p>
+
+    <h4>Examples of Relationship Attributes</h4>
+    <p><b>Example 1: WORKS_ON Relationship</b></p>
+    <p>The WORKS_ON relationship between EMPLOYEE and PROJECT can have the following attributes:</p>
+    <ul>
+    <li>Hours - the number of hours the employee works on the project</li>
+    <li>StartDate - the date the employee started working on the project</li>
+    <li>EndDate - the date the employee stopped working on the project</li>
+    </ul>
+
+    <p><b>Example 2: MANAGES Relationship</b></p>
+    <p>The MANAGES relationship between EMPLOYEE and DEPARTMENT can have the following attributes:</p>
+    <ul>
+    <li>StartDate - the date the employee started managing the department</li>
+    <li>EndDate - the date the employee stopped managing the department</li>
+    </ul>
+
+    <h4>Representing Relationship Attributes in ER Diagrams</h4>
+    <p>Relationship attributes are typically represented as ovals connected to the relationship diamond (or line) rather than to the entity rectangles. This distinguishes them from entity attributes.</p>
+
+    <div class="step-box">
+    <b>When to Use Relationship Attributes:</b> Relationship attributes should be used when:
+    <ul>
+    <li>The attribute describes a property of the relationship, not of either entity</li>
+    <li>The attribute value depends on both entities in the relationship</li>
+    <li>The attribute is not a property of either entity alone</li>
+    </ul>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 9. ER Diagrams - Notation ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">5.9 ER Diagrams - Notation</div>
+    <h3>Understanding ER Diagram Notation</h3>
+
+    <h4>Components of ER Diagrams</h4>
+    <p>ER diagrams use a standardized set of symbols to represent entities, attributes, relationships, and constraints. Understanding this notation is essential for reading and creating ER diagrams.</p>
+
+    <h4>Basic Symbols in ER Diagrams</h4>
+    <table class="summary-table">
+    <tr>
+    <th>Symbol</th>
+    <th>Name</th>
+    <th>Represents</th>
+    <th>Example</th>
+    </tr>
+    <tr>
+    <td>Rectangle</td>
+    <td>Entity Type</td>
+    <td>A strong entity type</td>
+    <td>EMPLOYEE, DEPARTMENT</td>
+    </tr>
+    <tr>
+    <td>Double Rectangle</td>
+    <td>Weak Entity Type</td>
+    <td>An entity type that depends on another entity for identification</td>
+    <td>DEPENDENT</td>
+    </tr>
+    <tr>
+    <td>Oval/Ellipse</td>
+    <td>Attribute</td>
+    <td>A property of an entity or relationship</td>
+    <td>EName, Salary, BDate</td>
+    </tr>
+    <tr>
+    <td>Dashed Oval</td>
+    <td>Derived Attribute</td>
+    <td>An attribute whose value can be computed from other attributes</td>
+    <td>Age (derived from BDate)</td>
+    </tr>
+    <tr>
+    <td>Double Oval</td>
+    <td>Multi-Valued Attribute</td>
+    <td>An attribute that can have multiple values</td>
+    <td>PhoneNumbers</td>
+    </tr>
+    <tr>
+    <td>Underlined Oval</td>
+    <td>Key Attribute</td>
+    <td>An attribute that uniquely identifies entities</td>
+    <td>SSN, DNumber</td>
+    </tr>
+    <tr>
+    <td>Diamond/Rhombus</td>
+    <td>Relationship Type</td>
+    <td>An association between entities</td>
+    <td>WORKS_FOR, MANAGES</td>
+    </tr>
+    <tr>
+    <td>Double Diamond</td>
+    <td>Identifying Relationship</td>
+    <td>A relationship that identifies a weak entity</td>
+    <td>DEPENDENT_OF</td>
+    </tr>
+    <tr>
+    <td>Line</td>
+    <td>Connection</td>
+    <td>Connects entities to relationships and attributes</td>
+    <td>Links between symbols</td>
+    </tr>
+    <tr>
+    <td>Double Line</td>
+    <td>Total Participation</td>
+    <td>Every entity must participate in the relationship</td>
+    <td>Connects weak entity to identifying relationship</td>
+    </tr>
+    </table>
+
+    <h4>Cardinality Notation</h4>
+    <p>Different notations are used to represent cardinality ratios in ER diagrams. The most common notations are:</p>
+
+    <p><b>Chen's Notation (Original):</b></p>
+    <ul>
+    <li>1:1 - a line with "1" at each end</li>
+    <li>1:N - a line with "1" at one end and "N" at the other</li>
+    <li>M:N - a line with "M" at one end and "N" at the other</li>
+    </ul>
+
+    <p><b>Crow's Foot Notation (Popular in Practice):</b></p>
+    <ul>
+    <li>One-to-one: single line at both ends</li>
+    <li>One-to-many: single line at one end, crow's foot (three lines) at the other</li>
+    <li>Many-to-many: crow's feet at both ends</li>
+    </ul>
+
+    <h4>Participation Constraints</h4>
+    <p>Participation constraints are indicated by the type of line used:</p>
+    <ul>
+    <li><b>Single line:</b> Partial participation (not all entities must participate)</li>
+    <li><b>Double line:</b> Total participation (all entities must participate)</li>
+    </ul>
+
+    <div class="step-box">
+    <b>Reading ER Diagrams:</b> When reading an ER diagram:
+    <ol>
+    <li>Identify all entity types (rectangles)</li>
+    <li>Identify all attributes for each entity (ovals connected to rectangles)</li>
+    <li>Identify key attributes (underlined ovals)</li>
+    <li>Identify all relationships (diamonds)</li>
+    <li>Determine the cardinality ratio for each relationship</li>
+    <li>Determine the participation constraint for each entity in each relationship</li>
+    <li>Identify any weak entities (double rectangles) and their identifying relationships (double diamonds)</li>
+    </ol>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 10. ER Diagram for COMPANY Schema ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">5.10 ER Diagram for COMPANY Schema</div>
+    <h3>Complete ER Diagram for the COMPANY Database</h3>
+
+    <h4>COMPANY Database ER Diagram Description</h4>
+    <p>The complete ER diagram for the COMPANY database incorporates all the concepts discussed so far. It includes strong entities (EMPLOYEE, DEPARTMENT, PROJECT), a weak entity (DEPENDENT), various relationships with different cardinality ratios, and relationship attributes.</p>
+
+    <h4>Entities in the COMPANY ER Diagram</h4>
+    <p><b>1. EMPLOYEE Entity</b></p>
+    <ul>
+    <li>Key Attribute: SSN (underlined)</li>
+    <li>Simple Attributes: EName, Address, Salary, BDate</li>
+    <li>Relationships: WORKS_FOR (with DEPARTMENT), WORKS_ON (with PROJECT), SUPERVISES (recursive with EMPLOYEE), DEPENDENT_OF (with DEPENDENT)</li>
+    </ul>
+
+    <p><b>2. DEPARTMENT Entity</b></p>
+    <ul>
+    <li>Key Attribute: DNumber (underlined)</li>
+    <li>Simple Attributes: DName, Location</li>
+    <li>Relationships: MANAGES (with EMPLOYEE), CONTROLS (with PROJECT)</li>
+    </ul>
+
+    <p><b>3. PROJECT Entity</b></p>
+    <ul>
+    <li>Key Attribute: PNumber (underlined)</li>
+    <li>Simple Attributes: PName, Location, Budget</li>
+    <li>Relationships: WORKS_ON (with EMPLOYEE), CONTROLS (with DEPARTMENT)</li>
+    </ul>
+
+    <p><b>4. DEPENDENT Entity (Weak Entity)</b></p>
+    <ul>
+    <li>Partial Key: DependentName (dashed underline)</li>
+    <li>Simple Attributes: BDate, Relationship</li>
+    <li>Identifying Relationship: DEPENDENT_OF (with EMPLOYEE)</li>
+    </ul>
+
+    <h4>Relationships in the COMPANY ER Diagram</h4>
+    <table class="summary-table">
+    <tr>
+    <th>Relationship</th>
+    <th>Entities</th>
+    <th>Cardinality</th>
+    <th>Participation</th>
+    <th>Attributes</th>
+    </tr>
+    <tr>
+    <td><b>WORKS_FOR</b></td>
+    <td>EMPLOYEE - DEPARTMENT</td>
+    <td>N:1</td>
+    <td>Total (EMPLOYEE), Partial (DEPARTMENT)</td>
+    <td>None</td>
+    </tr>
+    <tr>
+    <td><b>MANAGES</b></td>
+    <td>EMPLOYEE - DEPARTMENT</td>
+    <td>1:1</td>
+    <td>Partial (both)</td>
+    <td>StartDate, EndDate</td>
+    </tr>
+    <tr>
+    <td><b>CONTROLS</b></td>
+    <td>DEPARTMENT - PROJECT</td>
+    <td>1:N</td>
+    <td>Total (PROJECT), Partial (DEPARTMENT)</td>
+    <td>None</td>
+    </tr>
+    <tr>
+    <td><b>WORKS_ON</b></td>
+    <td>EMPLOYEE - PROJECT</td>
+    <td>M:N</td>
+    <td>Partial (both)</td>
+    <td>Hours, StartDate, EndDate</td>
+    </tr>
+    <tr>
+    <td><b>SUPERVISES</b></td>
+    <td>EMPLOYEE - EMPLOYEE</td>
+    <td>1:N</td>
+    <td>Partial (both)</td>
+    <td>None</td>
+    </tr>
+    <tr>
+    <td><b>DEPENDENT_OF</b></td>
+    <td>DEPENDENT - EMPLOYEE</td>
+    <td>N:1</td>
+    <td>Total (DEPENDENT), Partial (EMPLOYEE)</td>
+    <td>None</td>
+    </tr>
+    </table>
+
+    <h4>Key Observations about the COMPANY ER Diagram</h4>
+    <ul>
+    <li>The WORKS_FOR relationship is a one-to-many relationship where each employee works for exactly one department, but each department can have multiple employees.</li>
+    <li>The MANAGES relationship is a one-to-one relationship where a department may have a manager (an employee), and an employee may manage at most one department.</li>
+    <li>The CONTROLS relationship is a one-to-many relationship where each project is controlled by exactly one department, but each department can control multiple projects.</li>
+    <li>The WORKS_ON relationship is a many-to-many relationship where employees can work on multiple projects and projects can involve multiple employees. This relationship has attributes (Hours, StartDate, EndDate) that describe the work assignment.</li>
+    <li>The SUPERVISES relationship is a recursive one-to-many relationship where an employee can supervise multiple employees, but each employee can have at most one supervisor.</li>
+    <li>The DEPENDENT_OF relationship is an identifying relationship where a dependent is uniquely identified by combining the employee's SSN and the dependent's name.</li>
+    </ul>
+
+    <div class="step-box">
+    <b>ER Diagram Design Principles:</b> When designing an ER diagram:
+    <ul>
+    <li>Identify all entities and their attributes carefully</li>
+    <li>Determine appropriate key attributes for each entity</li>
+    <li>Identify all relationships and their cardinality ratios</li>
+    <li>Specify participation constraints for each relationship</li>
+    <li>Include relationship attributes where appropriate</li>
+    <li>Identify weak entities and their identifying relationships</li>
+    <li>Use clear and consistent notation throughout the diagram</li>
+    </ul>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 11. Alternative Notations - UML and Others ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">5.11 Alternative Notations - UML Class Diagrams and Others</div>
+    <h3>Alternative Notations for Database Design</h3>
+
+    <h4>Unified Modeling Language (UML) Class Diagrams</h4>
+    <p>The <b>Unified Modeling Language (UML)</b> is a standardized modeling language used in software engineering for visualizing, specifying, constructing, and documenting software systems. UML class diagrams can be used to represent database schemas and are particularly useful when the database is part of a larger object-oriented system.</p>
+
+    <h4>Comparison: ER Model vs. UML Class Diagrams</h4>
+    <table class="summary-table">
+    <tr>
+    <th>Aspect</th>
+    <th>ER Model</th>
+    <th>UML Class Diagram</th>
+    </tr>
+    <tr>
+    <td><b>Purpose</b></td>
+    <td>Conceptual modeling of databases</td>
+    <td>Modeling of object-oriented systems</td>
+    </tr>
+    <tr>
+    <td><b>Primary Use</b></td>
+    <td>Database design</td>
+    <td>Software design and architecture</td>
+    </tr>
+    <tr>
+    <td><b>Entity Representation</b></td>
+    <td>Rectangle with name and attributes</td>
+    <td>Class box with attributes, methods, and visibility</td>
+    </tr>
+    <tr>
+    <td><b>Relationship Representation</b></td>
+    <td>Diamond with relationship name and cardinality</td>
+    <td>Line with role names and multiplicity notation</td>
+    </tr>
+    <tr>
+    <td><b>Cardinality Notation</b></td>
+    <td>1:1, 1:N, M:N or Crow's Foot notation</td>
+    <td>Multiplicity (0..1, 1, 0..*, 1..*, etc.)</td>
+    </tr>
+    <tr>
+    <td><b>Key Attributes</b></td>
+    <td>Underlined in the attribute list</td>
+    <td>Often marked with {id} or similar stereotype</td>
+    </tr>
+    <tr>
+    <td><b>Weak Entities</b></td>
+    <td>Double rectangle with identifying relationship</td>
+    <td>Represented using composition or aggregation</td>
+    </tr>
+    </table>
+
+    <h4>UML Class Diagram Notation</h4>
+    <p>In UML class diagrams, the following notation is used:</p>
+
+    <p><b>Class Representation:</b></p>
+    <ul>
+    <li>Classes are represented as boxes divided into three sections: class name, attributes, and methods</li>
+    <li>Attributes are listed with their visibility (+, -, #, ~) and type</li>
+    <li>Methods are listed with their visibility and signature</li>
+    </ul>
+
+    <p><b>Relationship Representation:</b></p>
+    <ul>
+    <li><b>Association:</b> A line connecting two classes, representing a relationship</li>
+    <li><b>Aggregation:</b> A hollow diamond at the aggregate end, representing a "part-of" relationship</li>
+    <li><b>Composition:</b> A filled diamond at the composite end, representing a strong "part-of" relationship</li>
+    <li><b>Inheritance:</b> A line with a hollow triangle pointing to the parent class</li>
+    </ul>
+
+    <p><b>Multiplicity Notation:</b></p>
+    <ul>
+    <li>0..1 - zero or one</li>
+    <li>1 - exactly one</li>
+    <li>0..* - zero or more</li>
+    <li>1..* - one or more</li>
+    <li>* - many (zero or more)</li>
+    </ul>
+
+    <h4>Mapping ER Concepts to UML</h4>
+    <table class="summary-table">
+    <tr>
+    <th>ER Concept</th>
+    <th>UML Equivalent</th>
+    <th>Example</th>
+    </tr>
+    <tr>
+    <td><b>Entity Type</b></td>
+    <td>Class</td>
+    <td>EMPLOYEE becomes class Employee</td>
+    </tr>
+    <tr>
+    <td><b>Attribute</b></td>
+    <td>Class attribute</td>
+    <td>EName becomes attribute name: String</td>
+    </tr>
+    <tr>
+    <td><b>Key Attribute</b></td>
+    <td>Attribute with {id} stereotype</td>
+    <td>SSN becomes ssn: String {id}</td>
+    </tr>
+    <tr>
+    <td><b>Relationship</b></td>
+    <td>Association</td>
+    <td>WORKS_FOR becomes association between Employee and Department</td>
+    </tr>
+    <tr>
+    <td><b>Weak Entity</b></td>
+    <td>Composition or aggregation</td>
+    <td>DEPENDENT becomes a composed class of EMPLOYEE</td>
+    </tr>
+    <tr>
+    <td><b>Recursive Relationship</b></td>
+    <td>Self-association</td>
+    <td>SUPERVISES becomes self-association on Employee class</td>
+    </tr>
+    </table>
+
+    <h4>Other Alternative Notations</h4>
+
+    <p><b>1. Crow's Foot Notation (Information Engineering Notation)</b></p>
+    <p>This notation uses crow's foot symbols to represent cardinality and is popular in database design tools:</p>
+    <ul>
+    <li>Single line: one</li>
+    <li>Crow's foot (three lines): many</li>
+    <li>Circle: zero or one</li>
+    <li>Circle with line: zero or many</li>
+    </ul>
+
+    <p><b>2. IDEF1X Notation</b></p>
+    <p>IDEF1X is a data modeling methodology that uses specific notation for entities, relationships, and attributes. It is often used in government and military projects.</p>
+
+    <p><b>3. Object-Role Modeling (ORM)</b></p>
+    <p>ORM is an alternative approach to data modeling that focuses on roles that objects play in relationships. It uses a different notation system based on fact types and constraints.</p>
+
+    <div class="step-box">
+    <b>Choosing a Notation:</b> The choice of notation depends on:
+    <ul>
+    <li>The context and purpose of the modeling (database design vs. software design)</li>
+    <li>The tools available in the organization</li>
+    <li>The familiarity of the team with the notation</li>
+    <li>The specific requirements of the project</li>
+    </ul>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+elif display_page == "Chapter 6: Enhanced ER Model (EER)":
+    st.markdown("## 📚 Chapter 6: Enhanced Entity-Relationship (EER) Model")
+    st.info("Advanced data modeling concepts including Subclasses, Superclasses, Specialization, Generalization, and Inheritance.")
+
+    # --- 1. Enhanced ER (EER) Model ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">6.1 Introduction to EER Model</div>
+    <h3>The Enhanced ER (EER) Model</h3>
+    <p>The <b>Enhanced Entity-Relationship (EER) Model</b> is an extension of the original ER model that incorporates more complex data modeling requirements. As database applications became more sophisticated (e.g., in CAD/CAM, GIS, and complex organizational systems), the basic ER model was found to be insufficient for capturing certain semantic nuances.</p>
+    <p>The EER model adds several important concepts to the basic ER model:</p>
+    <ul>
+    <li><b>Subclasses and Superclasses:</b> For representing hierarchical relationships.</li>
+    <li><b>Specialization and Generalization:</b> Processes for refining or abstracting entity types.</li>
+    <li><b>Attribute and Relationship Inheritance:</b> Mechanisms for sharing properties between levels.</li>
+    <li><b>Category or Union Types:</b> For modeling entities that belong to multiple types.</li>
+    </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 2. Subclasses and Superclasses ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">6.2 Subclasses and Superclasses</div>
+    <h3>Understanding Hierarchy</h3>
+    <p>In many cases, an entity type has numerous subgroups of entities that are meaningful and need to be represented explicitly because of their significance to the database application. These subgroups are called <b>Subclasses</b>, and the main entity type is called the <b>Superclass</b>.</p>
+
+    <h4>Examples of Superclass/Subclass Relationships:</h4>
+    <div class="info-grid">
+    <div class="info-item">
+    <b>Job Roles:</b> EMPLOYEE (Superclass) → SECRETARY, ENGINEER, TECHNICIAN (Subclasses). Each subclass may have specific attributes (e.g., TypingSpeed for Secretary).
+    </div>
+    <div class="info-item">
+    <b>Management:</b> EMPLOYEE (Superclass) → MANAGER (Subclass). Only some employees are managers, and they might have unique relationships like "Manages Department."
+    </div>
+    <div class="info-item">
+    <b>Payment Types:</b> EMPLOYEE (Superclass) → SALARIED_EMPLOYEE, HOURLY_EMPLOYEE (Subclasses). They differ in how their pay is calculated.
+    </div>
+    </div>
+
+    <div class="step-box">
+    <b>The "IS-A" Relationship:</b> An entity that is a member of a subclass represents the same real-world entity as the member of the superclass. For example, a <b>SECRETARY IS-A EMPLOYEE</b>. This means every secretary is also an employee, but not every employee is necessarily a secretary.
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 3. Representing Specialization in EER Diagrams ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">6.3 EER Diagram Notation</div>
+    <h3>Visualizing Specialization</h3>
+    <p>In EER diagrams, specialization is represented using a specific notation to distinguish it from regular relationships:</p>
+    <ul>
+    <li><b>Superclass:</b> Connected by a line to a circle.</li>
+    <li><b>Subclasses:</b> Connected to the same circle by a line with a subset symbol (⊂) pointing toward the superclass.</li>
+    <li><b>The Circle:</b> Contains a symbol (d for disjoint, o for overlapping) to specify constraints.</li>
+    </ul>
+    <div class="step-box">
+    <b>Example:</b> A diagram showing EMPLOYEE at the top, branching through a circle to SECRETARY, ENGINEER, and TECHNICIAN below.
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 4. Attribute Inheritance ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">6.4 Attribute Inheritance</div>
+    <h3>Property Sharing</h3>
+    <p>One of the most powerful features of the EER model is <b>Type Inheritance</b>. An entity that is a member of a subclass inherits all the attributes of the entity as a member of the superclass.</p>
+    <div class="info-grid">
+    <div class="info-item">
+    <b>Inherited Attributes:</b> A <b>SECRETARY</b> inherits Name, SSN, Address, and BirthDate from the <b>EMPLOYEE</b> superclass.
+    </div>
+    <div class="info-item">
+    <b>Specific Attributes:</b> In addition to inherited ones, the SECRETARY subclass can have its own local attributes, such as <i>TypingSpeed</i>.
+    </div>
+    </div>
+    <p>Inheritance also applies to <b>Relationships</b>. If an EMPLOYEE "Works_For" a DEPARTMENT, then a SECRETARY also "Works_For" that department by default.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 5 & 6. Specialization and Generalization ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">6.5 Specialization vs. Generalization</div>
+    <h3>Two Perspectives on Modeling</h3>
+
+    <h4>Specialization (Top-Down)</h4>
+    <p>The process of defining a set of subclasses of an entity type. We start with a general entity and "specialize" it into more specific types based on certain characteristics.</p>
+    <ul>
+    <li><b>Example:</b> EMPLOYEE specialized into {SECRETARY, ENGINEER, TECHNICIAN} based on job type.</li>
+    <li><b>Example:</b> EMPLOYEE specialized into {SALARIED_EMPLOYEE, HOURLY_EMPLOYEE} based on pay method.</li>
+    </ul>
+
+    <h4>Generalization (Bottom-Up)</h4>
+    <p>The reverse process of specialization. We take several entity types with common features and "generalize" them into a single superclass.</p>
+    <ul>
+    <li><b>Example:</b> CAR and TRUCK generalized into <b>VEHICLE</b>. Both share attributes like LicenseNumber, Price, and Model, which are moved to the VEHICLE superclass.</li>
+    </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 8. Constraints on Specialization and Generalization ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">6.6 Constraints</div>
+    <h3>Defining Rules for Subgroups</h3>
+    <p>Constraints determine how entities can belong to subclasses. There are two main types of constraints:</p>
+
+    <h4>1. Disjointness Constraint</h4>
+    <ul>
+    <li><b>Disjoint (d):</b> An entity can be a member of at most ONE subclass. (e.g., An employee is either Hourly or Salaried, not both).</li>
+    <li><b>Overlapping (o):</b> An entity can be a member of more than one subclass. (e.g., A person can be both a STUDENT and an EMPLOYEE).</li>
+    </ul>
+
+    <h4>2. Completeness (Participation) Constraint</h4>
+    <ul>
+    <li><b>Total (Double Line):</b> Every entity in the superclass MUST belong to at least one subclass.</li>
+    <li><b>Partial (Single Line):</b> An entity in the superclass may not belong to any subclass.</li>
+    </ul>
+
+    <h4>Common Combinations:</h4>
+    <table class="summary-table">
+    <tr><th>Combination</th><th>Meaning</th><th>Example</th></tr>
+    <tr><td><b>Disjoint + Total</b></td><td>Must belong to exactly one subclass.</td><td>Employee must be either Salaried or Hourly.</td></tr>
+    <tr><td><b>Disjoint + Partial</b></td><td>Can belong to at most one, or none.</td><td>Employee might be a Manager, or just a regular employee.</td></tr>
+    <tr><td><b>Overlapping + Total</b></td><td>Must belong to at least one, possibly more.</td><td>Part of a project team (can be in multiple teams).</td></tr>
+    <tr><td><b>Overlapping + Partial</b></td><td>Can belong to any number of subclasses, or none.</td><td>Optional roles or skills.</td></tr>
+    </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 9 & 10. Hierarchies, Lattices & Multiple Inheritance ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">6.7 Complex Structures</div>
+    <h3>Hierarchies and Lattices</h3>
+    <p>Subclasses can themselves have further subclasses, creating complex structures:</p>
+    <ul>
+    <li><b>Specialization Hierarchy:</b> Every subclass has only ONE superclass (forming a tree structure).</li>
+    <li><b>Specialization Lattice:</b> A subclass can have MORE THAN ONE superclass.</li>
+    </ul>
+
+    <h4>Shared Subclasses & Multiple Inheritance</h4>
+    <p>A <b>Shared Subclass</b> is a subclass with more than one superclass. This leads to <b>Multiple Inheritance</b>, where the subclass inherits attributes and relationships from ALL its superclasses.</p>
+    <div class="step-box">
+    <b>Example: Engineering_Manager</b>
+    <p>An <b>Engineering_Manager</b> might be a shared subclass of both <b>ENGINEER</b> and <b>MANAGER</b>. It inherits the technical attributes of an Engineer and the authority/management attributes of a Manager.</p>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+elif display_page == "Chapter 7: Relational Model":
+    st.markdown("## 📚 Chapter 7: Relational Model")
+    st.info("Content for Chapter 7: Relational Model is being loaded...")
     st.markdown("""
     <div class="learning-card">
         <h3>Relational Model</h3>
         <ul>
             <li>الجداول (Relations)</li><li>المفاتيح (Keys)</li><li>قيود التكامل (Integrity Constraints)</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-elif display_page == "Chapter 7: Enhanced ER Model (EER)":
-    st.markdown("## 📚 Chapter 7: Enhanced Entity-Relationship (EER) Model")
-    st.info("Advanced data modeling concepts including Subclasses, Superclasses, Specialization, Generalization, and Inheritance.")
-    
-    # --- 1. Enhanced ER (EER) Model ---
-    st.markdown("""
-<div class="learning-card">
-<div class="concept-badge">7.1 Introduction to EER Model</div>
-<h3>The Enhanced ER (EER) Model</h3>
-<p>The <b>Enhanced Entity-Relationship (EER) Model</b> is an extension of the original ER model that incorporates more complex data modeling requirements. As database applications became more sophisticated (e.g., in CAD/CAM, GIS, and complex organizational systems), the basic ER model was found to be insufficient for capturing certain semantic nuances.</p>
-<p>The EER model adds several important concepts to the basic ER model:</p>
-<ul>
-<li><b>Subclasses and Superclasses:</b> For representing hierarchical relationships.</li>
-<li><b>Specialization and Generalization:</b> Processes for refining or abstracting entity types.</li>
-<li><b>Attribute and Relationship Inheritance:</b> Mechanisms for sharing properties between levels.</li>
-<li><b>Category or Union Types:</b> For modeling entities that belong to multiple types.</li>
-</ul>
-</div>
-""", unsafe_allow_html=True)
-
-    # --- 2. Subclasses and Superclasses ---
-    st.markdown("""
-<div class="learning-card">
-<div class="concept-badge">7.2 Subclasses and Superclasses</div>
-<h3>Understanding Hierarchy</h3>
-<p>In many cases, an entity type has numerous subgroups of entities that are meaningful and need to be represented explicitly because of their significance to the database application. These subgroups are called <b>Subclasses</b>, and the main entity type is called the <b>Superclass</b>.</p>
-
-<h4>Examples of Superclass/Subclass Relationships:</h4>
-<div class="info-grid">
-<div class="info-item">
-<b>Job Roles:</b> EMPLOYEE (Superclass) → SECRETARY, ENGINEER, TECHNICIAN (Subclasses). Each subclass may have specific attributes (e.g., TypingSpeed for Secretary).
-</div>
-<div class="info-item">
-<b>Management:</b> EMPLOYEE (Superclass) → MANAGER (Subclass). Only some employees are managers, and they might have unique relationships like "Manages Department."
-</div>
-<div class="info-item">
-<b>Payment Types:</b> EMPLOYEE (Superclass) → SALARIED_EMPLOYEE, HOURLY_EMPLOYEE (Subclasses). They differ in how their pay is calculated.
-</div>
-</div>
-
-<div class="step-box">
-<b>The "IS-A" Relationship:</b> An entity that is a member of a subclass represents the same real-world entity as the member of the superclass. For example, a <b>SECRETARY IS-A EMPLOYEE</b>. This means every secretary is also an employee, but not every employee is necessarily a secretary.
-</div>
-</div>
-""", unsafe_allow_html=True)
-
-    # --- 3. Representing Specialization in EER Diagrams ---
-    st.markdown("""
-<div class="learning-card">
-<div class="concept-badge">7.3 EER Diagram Notation</div>
-<h3>Visualizing Specialization</h3>
-<p>In EER diagrams, specialization is represented using a specific notation to distinguish it from regular relationships:</p>
-<ul>
-<li><b>Superclass:</b> Connected by a line to a circle.</li>
-<li><b>Subclasses:</b> Connected to the same circle by a line with a subset symbol (⊂) pointing toward the superclass.</li>
-<li><b>The Circle:</b> Contains a symbol (d for disjoint, o for overlapping) to specify constraints.</li>
-</ul>
-<div class="step-box">
-<b>Example:</b> A diagram showing EMPLOYEE at the top, branching through a circle to SECRETARY, ENGINEER, and TECHNICIAN below.
-</div>
-</div>
-""", unsafe_allow_html=True)
-
-    # --- 4. Attribute Inheritance ---
-    st.markdown("""
-<div class="learning-card">
-<div class="concept-badge">7.4 Attribute Inheritance</div>
-<h3>Property Sharing</h3>
-<p>One of the most powerful features of the EER model is <b>Type Inheritance</b>. An entity that is a member of a subclass inherits all the attributes of the entity as a member of the superclass.</p>
-<div class="info-grid">
-<div class="info-item">
-<b>Inherited Attributes:</b> A <b>SECRETARY</b> inherits Name, SSN, Address, and BirthDate from the <b>EMPLOYEE</b> superclass.
-</div>
-<div class="info-item">
-<b>Specific Attributes:</b> In addition to inherited ones, the SECRETARY subclass can have its own local attributes, such as <i>TypingSpeed</i>.
-</div>
-</div>
-<p>Inheritance also applies to <b>Relationships</b>. If an EMPLOYEE "Works_For" a DEPARTMENT, then a SECRETARY also "Works_For" that department by default.</p>
-</div>
-""", unsafe_allow_html=True)
-
-    # --- 5 & 6. Specialization and Generalization ---
-    st.markdown("""
-<div class="learning-card">
-<div class="concept-badge">7.5 Specialization vs. Generalization</div>
-<h3>Two Perspectives on Modeling</h3>
-
-<h4>Specialization (Top-Down)</h4>
-<p>The process of defining a set of subclasses of an entity type. We start with a general entity and "specialize" it into more specific types based on certain characteristics.</p>
-<ul>
-<li><b>Example:</b> EMPLOYEE specialized into {SECRETARY, ENGINEER, TECHNICIAN} based on job type.</li>
-<li><b>Example:</b> EMPLOYEE specialized into {SALARIED_EMPLOYEE, HOURLY_EMPLOYEE} based on pay method.</li>
-</ul>
-
-<h4>Generalization (Bottom-Up)</h4>
-<p>The reverse process of specialization. We take several entity types with common features and "generalize" them into a single superclass.</p>
-<ul>
-<li><b>Example:</b> CAR and TRUCK generalized into <b>VEHICLE</b>. Both share attributes like LicenseNumber, Price, and Model, which are moved to the VEHICLE superclass.</li>
-</ul>
-</div>
-""", unsafe_allow_html=True)
-
-    # --- 8. Constraints on Specialization and Generalization ---
-    st.markdown("""
-<div class="learning-card">
-<div class="concept-badge">7.6 Constraints</div>
-<h3>Defining Rules for Subgroups</h3>
-<p>Constraints determine how entities can belong to subclasses. There are two main types of constraints:</p>
-
-<h4>1. Disjointness Constraint</h4>
-<ul>
-<li><b>Disjoint (d):</b> An entity can be a member of at most ONE subclass. (e.g., An employee is either Hourly or Salaried, not both).</li>
-<li><b>Overlapping (o):</b> An entity can be a member of more than one subclass. (e.g., A person can be both a STUDENT and an EMPLOYEE).</li>
-</ul>
-
-<h4>2. Completeness (Participation) Constraint</h4>
-<ul>
-<li><b>Total (Double Line):</b> Every entity in the superclass MUST belong to at least one subclass.</li>
-<li><b>Partial (Single Line):</b> An entity in the superclass may not belong to any subclass.</li>
-</ul>
-
-<h4>Common Combinations:</h4>
-<table class="summary-table">
-<tr><th>Combination</th><th>Meaning</th><th>Example</th></tr>
-<tr><td><b>Disjoint + Total</b></td><td>Must belong to exactly one subclass.</td><td>Employee must be either Salaried or Hourly.</td></tr>
-<tr><td><b>Disjoint + Partial</b></td><td>Can belong to at most one, or none.</td><td>Employee might be a Manager, or just a regular employee.</td></tr>
-<tr><td><b>Overlapping + Total</b></td><td>Must belong to at least one, possibly more.</td><td>Part of a project team (can be in multiple teams).</td></tr>
-<tr><td><b>Overlapping + Partial</b></td><td>Can belong to any number of subclasses, or none.</td><td>Optional roles or skills.</td></tr>
-</table>
-</div>
-""", unsafe_allow_html=True)
-
-    # --- 9 & 10. Hierarchies, Lattices & Multiple Inheritance ---
-    st.markdown("""
-<div class="learning-card">
-<div class="concept-badge">7.7 Complex Structures</div>
-<h3>Hierarchies and Lattices</h3>
-<p>Subclasses can themselves have further subclasses, creating complex structures:</p>
-<ul>
-<li><b>Specialization Hierarchy:</b> Every subclass has only ONE superclass (forming a tree structure).</li>
-<li><b>Specialization Lattice:</b> A subclass can have MORE THAN ONE superclass.</li>
-</ul>
-
-<h4>Shared Subclasses & Multiple Inheritance</h4>
-<p>A <b>Shared Subclass</b> is a subclass with more than one superclass. This leads to <b>Multiple Inheritance</b>, where the subclass inherits attributes and relationships from ALL its superclasses.</p>
-<div class="step-box">
-<b>Example: Engineering_Manager</b>
-<p>An <b>Engineering_Manager</b> might be a shared subclass of both <b>ENGINEER</b> and <b>MANAGER</b>. It inherits the technical attributes of an Engineer and the authority/management attributes of a Manager.</p>
-</div>
-</div>
-""", unsafe_allow_html=True)
-    st.markdown("## 📚 Chapter 6: Relational Algebra")
-    st.info("Content for Chapter 6: Relational Algebra is being loaded...")
-    st.markdown("""
-    <div class="learning-card">
-        <h3>Relational Algebra</h3>
-        <ul>
-            <li>Select (σ)</li><li>Project (π)</li><li>Union</li><li>Difference</li><li>Join</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)

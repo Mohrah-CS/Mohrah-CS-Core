@@ -411,7 +411,7 @@ elif main_subject == "Operating Systems":
 elif main_subject == "Database Systems":
     subject = st.sidebar.selectbox(
         t("lesson_select"),
-        ['Chapter 1: Introduction to Database Systems', 'Chapter 2: Database Architecture', 'Chapter 3: Relational Model Concepts', 'Chapter 4: Relational Algebra', 'Chapter 5: Entity-Relationship Model', 'Chapter 6: Enhanced ER Model (EER)', 'Chapter 7: Relational Database Design by ER- and EER-to-Relational Mapping', 'Chapter 8: Relational Model', 'Chapter 9: SQL Basics', 'Chapter 10: Advanced SQL', 'Chapter 11: Functional Dependencies', 'Chapter 12: Normalization', 'Chapter 13: Transactions and Concurrency Control', 'Chapter 14: Database Recovery and Security']
+        ['Chapter 1: Introduction to Database Systems', 'Chapter 2: Database Architecture', 'Chapter 3: Relational Model Concepts', 'Chapter 4: Relational Algebra', 'Chapter 5: Entity-Relationship Model', 'Chapter 6: Enhanced ER Model (EER)', 'Chapter 7: Relational Database Design by ER- and EER-to-Relational Mapping', 'Chapter 8: Basics of Functional Dependencies and Normalization']
     )
     st.session_state.current_page = subject
 else:
@@ -3288,18 +3288,6 @@ elif display_page == "Chapter 4: Relational Algebra":
         """, unsafe_allow_html=True)
 
 
-    st.markdown("## 📚 Chapter 6: Relational Algebra")
-    st.info("Content for Chapter 6: Relational Algebra is being loaded...")
-    st.markdown("""
-    <div class="learning-card">
-        <h3>Relational Algebra</h3>
-        <ul>
-            <li>Select (σ)</li><li>Project (π)</li><li>Union</li><li>Difference</li><li>Join</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-
 elif display_page == "Chapter 5: Entity-Relationship Model":
     st.markdown("## 📚 Chapter 5: Entity-Relationship (ER) Model")
     st.info("Comprehensive guide to database design using the Entity-Relationship Model, including design process, ER concepts, weak entities, and alternative notations.")
@@ -4580,89 +4568,112 @@ elif display_page == "Chapter 7: Relational Database Design by ER- and EER-to-Re
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 8: Relational Model":
-    st.markdown("## 📚 Chapter 8: Relational Model")
-    st.info("Content for Chapter 8: Relational Model is being loaded...")
+elif display_page == "Chapter 8: Basics of Functional Dependencies and Normalization":
+    st.markdown("## 📚 Chapter 8: Functional Dependencies and Normalization")
+    st.info("Essential guidelines for relational database design, focusing on data integrity, functional dependencies, and the first normal form.")
+
+    # --- 1. Informal Design Guidelines ---
     st.markdown("""
     <div class="learning-card">
-        <h3>Relational Model</h3>
-        <ul>
-            <li>الجداول (Relations)</li><li>المفاتيح (Keys)</li><li>قيود التكامل (Integrity Constraints)</li>
-        </ul>
+    <div class="concept-badge">8.1 Informal Design Guidelines</div>
+    <h3>Principles of Good Relation Schemas</h3>
+    <p>Informal design guidelines help database designers create schemas that are easy to understand and maintain, while minimizing data redundancy and ensuring data integrity.</p>
+
+    <div class="info-grid">
+    <div class="info-item">
+    <b>Clear Attribute Semantics:</b> Each attribute in a relation should have a clear and unambiguous meaning. The relation should represent a single entity or relationship type.
+    </div>
+    <div class="info-item">
+    <b>Redundant Information:</b> Storing the same data in multiple places leads to <b>Update Anomalies</b> (Insertion, Deletion, and Modification anomalies).
+    </div>
+    <div class="info-item">
+    <b>NULL Values:</b> Relations should be designed to minimize the number of NULL values in tuples, as they complicate join operations and waste storage.
+    </div>
+    <div class="info-item">
+    <b>Spurious Tuples:</b> Design schemas so that joining relations does not result in "spurious" (fake) tuples that were not in the original data.
+    </div>
+    </div>
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 9: SQL Basics":
-    st.markdown("## 📚 Chapter 9: SQL Basics")
-    st.info("Content for Chapter 7: SQL Basics is being loaded...")
+    # --- 2. Functional Dependencies ---
     st.markdown("""
     <div class="learning-card">
-        <h3>SQL Basics</h3>
-        <ul>
-            <li>CREATE TABLE</li><li>INSERT</li><li>UPDATE</li><li>DELETE</li><li>SELECT</li>
-        </ul>
+    <div class="concept-badge">8.2 Functional Dependencies</div>
+    <h3>The Core of Normalization</h3>
+    <p>A <b>Functional Dependency (FD)</b> is a constraint between two sets of attributes in a relation. It specifies that the value of one set of attributes (the determinant) uniquely determines the value of another set of attributes.</p>
+    <div class="step-box">
+    <b>Definition:</b> X → Y means that for any two tuples t1 and t2, if t1[X] = t2[X], then t1[Y] = t2[Y].
+    <br><b>Example:</b> In an EMPLOYEE table, <code>SSN → Ename</code> because each SSN identifies exactly one employee name.
+    </div>
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 10: Advanced SQL":
-    st.markdown("## 📚 Chapter 10: Advanced SQL")
-    st.info("Content for Chapter 8: Advanced SQL is being loaded...")
+    # --- 3. Introduction to Normalization ---
     st.markdown("""
     <div class="learning-card">
-        <h3>Advanced SQL</h3>
-        <ul>
-            <li>JOIN</li><li>GROUP BY</li><li>HAVING</li><li>ORDER BY</li><li>Nested Queries</li>
-        </ul>
+    <div class="concept-badge">8.3 Introduction to Normalization</div>
+    <h3>Improving Database Structure</h3>
+    <p><b>Normalization</b> is a formal process for evaluating and improving a database schema to reduce redundancy and improve data integrity. It involves decomposing "bad" relations into smaller, well-structured relations.</p>
+    <div class="step-box">
+    <b>Example: Splitting a Table</b>
+    <p>If a table contains both Employee and Department data, we split it into two tables: <b>EMPLOYEE</b> and <b>DEPARTMENT</b>, linked by a Foreign Key, to avoid repeating department details for every employee.</p>
+    </div>
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 11: Functional Dependencies":
-    st.markdown("## 📚 Chapter 11: Functional Dependencies")
-    st.info("Content for Chapter 9: Functional Dependencies is being loaded...")
+    # --- 4. Normalization of Relations ---
     st.markdown("""
     <div class="learning-card">
-        <h3>Functional Dependencies</h3>
-        <ul>
-            <li>أنواع الاعتماديات</li><li>Full Dependency</li><li>Partial Dependency</li><li>Transitive Dependency</li>
-        </ul>
+    <div class="concept-badge">8.4 Normalization Criteria</div>
+    <h3>Testing for Quality</h3>
+    <p>Normalization uses formal tests called <b>Normal Forms</b> to evaluate a relation schema. A good decomposition must satisfy two key properties:</p>
+    <ul>
+    <li><b>Nonadditive (Lossless) Join Property:</b> Joining the decomposed tables must produce exactly the original set of tuples.</li>
+    <li><b>Dependency Preservation Property:</b> All original functional dependencies should be enforceable within the new relations.</li>
+    </ul>
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 12: Normalization":
-    st.markdown("## 📚 Chapter 12: Normalization")
-    st.info("Content for Chapter 10: Normalization is being loaded...")
+    # --- 5. Practical Use of Normal Forms ---
     st.markdown("""
     <div class="learning-card">
-        <h3>Normalization</h3>
-        <ul>
-            <li>1NF</li><li>2NF</li><li>3NF</li><li>BCNF</li>
-        </ul>
+    <div class="concept-badge">8.5 Practical Application</div>
+    <h3>Levels of Normalization</h3>
+    <p>In practice, designers typically normalize up to the <b>Third Normal Form (3NF)</b> or Boyce-Codd Normal Form (BCNF). Higher forms like 4NF exist but are less common in standard business applications.</p>
+    <div class="info-grid">
+    <div class="info-item">
+    <b>Normalization up to 3NF:</b> Removes partial and transitive dependencies, ensuring each non-key attribute depends only on the primary key.
+    </div>
+    <div class="info-item">
+    <b>Denormalization:</b> The process of intentionally introducing redundancy to improve read performance, often used in data warehousing.
+    </div>
+    </div>
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 13: Transactions and Concurrency Control":
-    st.markdown("## 📚 Chapter 13: Transactions and Concurrency Control")
-    st.info("Content for Chapter 11: Transactions and Concurrency Control is being loaded...")
+    # --- 6. First Normal Form (1NF) ---
     st.markdown("""
     <div class="learning-card">
-        <h3>Transactions</h3>
-        <ul>
-            <li>Transaction</li><li>ACID Properties</li><li>Concurrent Execution</li>
-        </ul>
+    <div class="concept-badge">8.6 First Normal Form (1NF)</div>
+    <h3>The Foundation of Relational Tables</h3>
+    <p>A relation is in <b>First Normal Form (1NF)</b> if every attribute contains only <b>atomic (indivisible) values</b> and there are no multi-valued attributes or repeating groups.</p>
+    <div class="step-box">
+    <b>Requirements for 1NF:</b>
+    <ul>
+    <li><b>Single-Valued Attributes:</b> No attribute can have a list or set of values.</li>
+    <li><b>Atomic Values:</b> Values cannot be further subdivided (e.g., a "Name" attribute should be split into "First" and "Last" if they need to be accessed separately).</li>
+    <li><b>Removing Multi-Valued Attributes:</b> Attributes like "PhoneNumbers" should be moved to a separate table.</li>
+    <li><b>Unnesting Relations:</b> Converting nested structures into a flat relational format.</li>
+    </ul>
+    </div>
+    <div class="step-box">
+    <b>Example: Student → Student_Course</b>
+    <p>Instead of having a single Student record with a list of courses, we create multiple rows in a <b>STUDENT_COURSE</b> table, each representing one student taking one course.</p>
+    </div>
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 14: Database Recovery and Security":
-    st.markdown("## 📚 Chapter 14: Database Recovery and Security")
-    st.info("Content for Chapter 12: Database Recovery and Security is being loaded...")
-    st.markdown("""
-    <div class="learning-card">
-        <h3>Recovery & Security</h3>
-        <ul>
-            <li>Recovery</li><li>Backup</li><li>Security and Authorization</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
 # --- 7. FOOTER ---
 st.markdown(f"""
         <div class="footer">

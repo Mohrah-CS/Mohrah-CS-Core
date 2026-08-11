@@ -411,7 +411,7 @@ elif main_subject == "Operating Systems":
 elif main_subject == "Database Systems":
     subject = st.sidebar.selectbox(
         t("lesson_select"),
-        ['Chapter 1: Introduction to Database Systems', 'Chapter 2: Database Architecture', 'Chapter 3: Relational Model Concepts', 'Chapter 4: Relational Algebra', 'Chapter 5: Entity-Relationship Model', 'Chapter 6: Enhanced ER Model (EER)', 'Chapter 7: Relational Model', 'Chapter 8: SQL Basics', 'Chapter 9: Advanced SQL', 'Chapter 10: Functional Dependencies', 'Chapter 11: Normalization', 'Chapter 12: Transactions and Concurrency Control', 'Chapter 13: Database Recovery and Security']
+        ['Chapter 1: Introduction to Database Systems', 'Chapter 2: Database Architecture', 'Chapter 3: Relational Model Concepts', 'Chapter 4: Relational Algebra', 'Chapter 5: Entity-Relationship Model', 'Chapter 6: Enhanced ER Model (EER)', 'Chapter 7: Relational Database Design by ER- and EER-to-Relational Mapping', 'Chapter 8: Relational Model', 'Chapter 9: SQL Basics', 'Chapter 10: Advanced SQL', 'Chapter 11: Functional Dependencies', 'Chapter 12: Normalization', 'Chapter 13: Transactions and Concurrency Control', 'Chapter 14: Database Recovery and Security']
     )
     st.session_state.current_page = subject
 else:
@@ -3287,6 +3287,19 @@ elif display_page == "Chapter 4: Relational Algebra":
         </div>
         """, unsafe_allow_html=True)
 
+
+    st.markdown("## 📚 Chapter 6: Relational Algebra")
+    st.info("Content for Chapter 6: Relational Algebra is being loaded...")
+    st.markdown("""
+    <div class="learning-card">
+        <h3>Relational Algebra</h3>
+        <ul>
+            <li>Select (σ)</li><li>Project (π)</li><li>Union</li><li>Difference</li><li>Join</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+
 elif display_page == "Chapter 5: Entity-Relationship Model":
     st.markdown("## 📚 Chapter 5: Entity-Relationship (ER) Model")
     st.info("Comprehensive guide to database design using the Entity-Relationship Model, including design process, ER concepts, weak entities, and alternative notations.")
@@ -4267,13 +4280,13 @@ elif display_page == "Chapter 5: Entity-Relationship Model":
     """, unsafe_allow_html=True)
 
 elif display_page == "Chapter 6: Enhanced ER Model (EER)":
-    st.markdown("## 📚 Chapter 6: Enhanced Entity-Relationship (EER) Model")
+    st.markdown("## 📚 Chapter 7: Enhanced Entity-Relationship (EER) Model")
     st.info("Advanced data modeling concepts including Subclasses, Superclasses, Specialization, Generalization, and Inheritance.")
 
     # --- 1. Enhanced ER (EER) Model ---
     st.markdown("""
     <div class="learning-card">
-    <div class="concept-badge">6.1 Introduction to EER Model</div>
+    <div class="concept-badge">7.1 Introduction to EER Model</div>
     <h3>The Enhanced ER (EER) Model</h3>
     <p>The <b>Enhanced Entity-Relationship (EER) Model</b> is an extension of the original ER model that incorporates more complex data modeling requirements. As database applications became more sophisticated (e.g., in CAD/CAM, GIS, and complex organizational systems), the basic ER model was found to be insufficient for capturing certain semantic nuances.</p>
     <p>The EER model adds several important concepts to the basic ER model:</p>
@@ -4289,7 +4302,7 @@ elif display_page == "Chapter 6: Enhanced ER Model (EER)":
     # --- 2. Subclasses and Superclasses ---
     st.markdown("""
     <div class="learning-card">
-    <div class="concept-badge">6.2 Subclasses and Superclasses</div>
+    <div class="concept-badge">7.2 Subclasses and Superclasses</div>
     <h3>Understanding Hierarchy</h3>
     <p>In many cases, an entity type has numerous subgroups of entities that are meaningful and need to be represented explicitly because of their significance to the database application. These subgroups are called <b>Subclasses</b>, and the main entity type is called the <b>Superclass</b>.</p>
 
@@ -4315,7 +4328,7 @@ elif display_page == "Chapter 6: Enhanced ER Model (EER)":
     # --- 3. Representing Specialization in EER Diagrams ---
     st.markdown("""
     <div class="learning-card">
-    <div class="concept-badge">6.3 EER Diagram Notation</div>
+    <div class="concept-badge">7.3 EER Diagram Notation</div>
     <h3>Visualizing Specialization</h3>
     <p>In EER diagrams, specialization is represented using a specific notation to distinguish it from regular relationships:</p>
     <ul>
@@ -4332,7 +4345,7 @@ elif display_page == "Chapter 6: Enhanced ER Model (EER)":
     # --- 4. Attribute Inheritance ---
     st.markdown("""
     <div class="learning-card">
-    <div class="concept-badge">6.4 Attribute Inheritance</div>
+    <div class="concept-badge">7.4 Attribute Inheritance</div>
     <h3>Property Sharing</h3>
     <p>One of the most powerful features of the EER model is <b>Type Inheritance</b>. An entity that is a member of a subclass inherits all the attributes of the entity as a member of the superclass.</p>
     <div class="info-grid">
@@ -4350,7 +4363,7 @@ elif display_page == "Chapter 6: Enhanced ER Model (EER)":
     # --- 5 & 6. Specialization and Generalization ---
     st.markdown("""
     <div class="learning-card">
-    <div class="concept-badge">6.5 Specialization vs. Generalization</div>
+    <div class="concept-badge">7.5 Specialization vs. Generalization</div>
     <h3>Two Perspectives on Modeling</h3>
 
     <h4>Specialization (Top-Down)</h4>
@@ -4371,7 +4384,7 @@ elif display_page == "Chapter 6: Enhanced ER Model (EER)":
     # --- 8. Constraints on Specialization and Generalization ---
     st.markdown("""
     <div class="learning-card">
-    <div class="concept-badge">6.6 Constraints</div>
+    <div class="concept-badge">7.6 Constraints</div>
     <h3>Defining Rules for Subgroups</h3>
     <p>Constraints determine how entities can belong to subclasses. There are two main types of constraints:</p>
 
@@ -4401,7 +4414,7 @@ elif display_page == "Chapter 6: Enhanced ER Model (EER)":
     # --- 9 & 10. Hierarchies, Lattices & Multiple Inheritance ---
     st.markdown("""
     <div class="learning-card">
-    <div class="concept-badge">6.7 Complex Structures</div>
+    <div class="concept-badge">7.7 Complex Structures</div>
     <h3>Hierarchies and Lattices</h3>
     <p>Subclasses can themselves have further subclasses, creating complex structures:</p>
     <ul>
@@ -4418,9 +4431,158 @@ elif display_page == "Chapter 6: Enhanced ER Model (EER)":
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 7: Relational Model":
-    st.markdown("## 📚 Chapter 7: Relational Model")
-    st.info("Content for Chapter 7: Relational Model is being loaded...")
+elif display_page == "Chapter 7: Relational Database Design by ER- and EER-to-Relational Mapping":
+    st.markdown("## 📚 Chapter 7: ER- and EER-to-Relational Mapping")
+    st.info("Step-by-step guide to transforming conceptual ER/EER models into logical Relational Database Schemas.")
+
+    # --- 1. ER-to-Relational Mapping Algorithm ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">7.1 The Mapping Algorithm</div>
+    <h3>Transforming Concepts into Tables</h3>
+    <p>The <b>ER-to-Relational Mapping Algorithm</b> is a systematic procedure used to convert a conceptual Entity-Relationship (ER) schema into a logical Relational Database Schema. This process ensures that all entities, attributes, and relationships defined during the design phase are accurately represented in the final database structure.</p>
+    <div class="step-box">
+    <b>Example: Mapping the COMPANY ER Schema</b>
+    <p>We will apply the 7-step mapping algorithm to the COMPANY schema we designed in Chapter 5, transforming entities like EMPLOYEE and relationships like WORKS_ON into relational tables.</p>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 2. Step 1: Regular Entity Types ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">Step 1: Regular Entity Types</div>
+    <h3>Mapping Strong Entities</h3>
+    <p>For each regular (strong) entity type <b>E</b> in the ER schema, create a relation <b>R</b> that includes all the simple attributes of E. For composite attributes, only include their simple component attributes.</p>
+    <div class="info-grid">
+    <div class="info-item">
+    <b>EMPLOYEE:</b> Create table <code>EMPLOYEE(Fname, Minit, Lname, SSN, Bdate, Address, Sex, Salary)</code>. SSN is the Primary Key.
+    </div>
+    <div class="info-item">
+    <b>DEPARTMENT:</b> Create table <code>DEPARTMENT(Dname, Dnumber)</code>. Dnumber is the Primary Key.
+    </div>
+    <div class="info-item">
+    <b>PROJECT:</b> Create table <code>PROJECT(Pname, Pnumber, Plocation)</code>. Pnumber is the Primary Key.
+    </div>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 3. Step 2: Weak Entity Types ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">Step 2: Weak Entity Types</div>
+    <h3>Mapping Dependent Entities</h3>
+    <p>For each weak entity type <b>W</b> with owner entity type <b>E</b>, create a relation <b>R</b> and include all simple attributes of W. Additionally, include the Primary Key of the owner relation E as a <b>Foreign Key</b> in R.</p>
+    <div class="step-box">
+    <b>Example: DEPENDENT</b>
+    <p>The <b>DEPENDENT</b> entity (weak) is owned by <b>EMPLOYEE</b>. We create the table:<br>
+    <code>DEPENDENT(<u>Essn</u>, <u>Dependent_name</u>, Sex, Bdate, Relationship)</code><br>
+    The Primary Key is the combination of (Essn, Dependent_name).</p>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 4. Step 3: Binary 1:1 Relationships ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">Step 3: Binary 1:1 Relationships</div>
+    <h3>Mapping One-to-One Associations</h3>
+    <p>For a 1:1 relationship type <b>S</b> between relations <b>S</b> and <b>T</b>, choose one relation (usually the one with total participation) and include the Primary Key of the other as a Foreign Key.</p>
+    <div class="step-box">
+    <b>Example: MANAGES</b>
+    <p>A Department has one Manager (Employee). Since every department must have a manager, we add the manager's SSN to the <b>DEPARTMENT</b> table:<br>
+    <code>DEPARTMENT(Dname, Dnumber, <b>Mgr_ssn</b>, Mgr_start_date)</code><br>
+    <i>Mgr_ssn</i> is a Foreign Key referencing <i>SSN</i> in EMPLOYEE.</p>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 5. Step 4: Binary 1:N Relationships ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">Step 4: Binary 1:N Relationships</div>
+    <h3>Mapping One-to-Many Associations</h3>
+    <p>For a 1:N relationship type <b>R</b>, identify the relation <b>S</b> that represents the "N-side" entity type. Include the Primary Key of the "1-side" entity type as a Foreign Key in S.</p>
+    <div class="info-grid">
+    <div class="info-item">
+    <b>WORKS_FOR:</b> An Employee works for one Department. We add <i>Dno</i> to <b>EMPLOYEE</b> as a Foreign Key.
+    </div>
+    <div class="info-item">
+    <b>CONTROLS:</b> A Department controls many Projects. We add <i>Dnum</i> to <b>PROJECT</b> as a Foreign Key.
+    </div>
+    <div class="info-item">
+    <b>SUPERVISION:</b> An Employee has one Supervisor. We add <i>Super_ssn</i> to <b>EMPLOYEE</b> as a recursive Foreign Key.
+    </div>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 6. Step 5: Binary M:N Relationships ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">Step 5: Binary M:N Relationships</div>
+    <h3>Mapping Many-to-Many Associations</h3>
+    <p>For each M:N relationship type <b>R</b>, create a <b>new relation</b> (cross-reference table). Include the Primary Keys of both participating entity types as Foreign Keys. Their combination usually forms the Primary Key of the new relation.</p>
+    <div class="step-box">
+    <b>Example: WORKS_ON</b>
+    <p>Employees work on many projects, and projects have many employees. We create a new table:<br>
+    <code>WORKS_ON(<u>Essn</u>, <u>Pno</u>, Hours)</code><br>
+    <i>Essn</i> and <i>Pno</i> are Foreign Keys, and together they form the Primary Key.</p>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 7. Step 6: Multivalued Attributes ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">Step 6: Multivalued Attributes</div>
+    <h3>Handling Multiple Values</h3>
+    <p>For each multivalued attribute <b>A</b>, create a <b>new relation</b>. Include the attribute itself plus the Primary Key of the parent entity type as a Foreign Key.</p>
+    <div class="step-box">
+    <b>Example: DEPT_LOCATIONS</b>
+    <p>A department can be in multiple locations. We create a new table:<br>
+    <code>DEPT_LOCATIONS(<u>Dnumber</u>, <u>Dlocation</u>)</code><br>
+    Both attributes together form the Primary Key.</p>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 8. Step 7: N-ary Relationship Types ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">Step 7: N-ary Relationships</div>
+    <h3>Mapping Complex Associations</h3>
+    <p>For each n-ary relationship type <b>R</b> (where n > 2), create a <b>new relation</b>. Include the Primary Keys of all participating entity types as Foreign Keys.</p>
+    <div class="step-box">
+    <b>Example: SUPPLY</b>
+    <p>A relationship between Supplier, Part, and Project. We create table:<br>
+    <code>SUPPLY(<u>Sname</u>, <u>Pname</u>, <u>Proj_name</u>, Quantity)</code><br>
+    All three Foreign Keys combine to form the Primary Key.</p>
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- 9. Discussion and Summary ---
+    st.markdown("""
+    <div class="learning-card">
+    <div class="concept-badge">7.9 Summary</div>
+    <h3>Summary of Mapping Rules</h3>
+    <p>The following table summarizes how conceptual ER constructs are mapped into relational schema elements:</p>
+    <table class="summary-table">
+    <tr><th>ER Construct</th><th>Relational Construct</th></tr>
+    <tr><td>Entity Type</td><td>Relation (Table)</td></tr>
+    <tr><td>1:1 or 1:N Relationship</td><td>Foreign Key (or Relationship Relation)</td></tr>
+    <tr><td>M:N Relationship</td><td>Relationship Relation (New Table)</td></tr>
+    <tr><td>n-ary Relationship</td><td>Relationship Relation (New Table)</td></tr>
+    <tr><td>Multivalued Attribute</td><td>Relation (New Table)</td></tr>
+    </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+elif display_page == "Chapter 8: Relational Model":
+    st.markdown("## 📚 Chapter 8: Relational Model")
+    st.info("Content for Chapter 8: Relational Model is being loaded...")
     st.markdown("""
     <div class="learning-card">
         <h3>Relational Model</h3>
@@ -4430,8 +4592,8 @@ elif display_page == "Chapter 7: Relational Model":
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 8: SQL Basics":
-    st.markdown("## 📚 Chapter 8: SQL Basics")
+elif display_page == "Chapter 9: SQL Basics":
+    st.markdown("## 📚 Chapter 9: SQL Basics")
     st.info("Content for Chapter 7: SQL Basics is being loaded...")
     st.markdown("""
     <div class="learning-card">
@@ -4442,8 +4604,8 @@ elif display_page == "Chapter 8: SQL Basics":
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 9: Advanced SQL":
-    st.markdown("## 📚 Chapter 9: Advanced SQL")
+elif display_page == "Chapter 10: Advanced SQL":
+    st.markdown("## 📚 Chapter 10: Advanced SQL")
     st.info("Content for Chapter 8: Advanced SQL is being loaded...")
     st.markdown("""
     <div class="learning-card">
@@ -4454,8 +4616,8 @@ elif display_page == "Chapter 9: Advanced SQL":
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 10: Functional Dependencies":
-    st.markdown("## 📚 Chapter 10: Functional Dependencies")
+elif display_page == "Chapter 11: Functional Dependencies":
+    st.markdown("## 📚 Chapter 11: Functional Dependencies")
     st.info("Content for Chapter 9: Functional Dependencies is being loaded...")
     st.markdown("""
     <div class="learning-card">
@@ -4466,8 +4628,8 @@ elif display_page == "Chapter 10: Functional Dependencies":
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 11: Normalization":
-    st.markdown("## 📚 Chapter 11: Normalization")
+elif display_page == "Chapter 12: Normalization":
+    st.markdown("## 📚 Chapter 12: Normalization")
     st.info("Content for Chapter 10: Normalization is being loaded...")
     st.markdown("""
     <div class="learning-card">
@@ -4478,8 +4640,8 @@ elif display_page == "Chapter 11: Normalization":
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 12: Transactions and Concurrency Control":
-    st.markdown("## 📚 Chapter 12: Transactions and Concurrency Control")
+elif display_page == "Chapter 13: Transactions and Concurrency Control":
+    st.markdown("## 📚 Chapter 13: Transactions and Concurrency Control")
     st.info("Content for Chapter 11: Transactions and Concurrency Control is being loaded...")
     st.markdown("""
     <div class="learning-card">
@@ -4490,8 +4652,8 @@ elif display_page == "Chapter 12: Transactions and Concurrency Control":
     </div>
     """, unsafe_allow_html=True)
 
-elif display_page == "Chapter 13: Database Recovery and Security":
-    st.markdown("## 📚 Chapter 13: Database Recovery and Security")
+elif display_page == "Chapter 14: Database Recovery and Security":
+    st.markdown("## 📚 Chapter 14: Database Recovery and Security")
     st.info("Content for Chapter 12: Database Recovery and Security is being loaded...")
     st.markdown("""
     <div class="learning-card">

@@ -244,12 +244,17 @@ def save_comment(name, msg):
 st.markdown("""
     <style>
     .main { background-color: #ffffff; }
-    .header-box {
-        text-align: center; padding: 50px;
-        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-        color: white; border-radius: 25px; margin-bottom: 40px;
-        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     .announcement-banner {
         background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
         color: #0f172a; padding: 12px; border-radius: 12px;
@@ -297,7 +302,7 @@ st.markdown("""
         background-color: #1e3a8a; color: white;
     }
 
-    <style>
+    
     /* Ensure main background is white */
     .main { background-color: #ffffff !important; }
     
@@ -334,19 +339,67 @@ st.markdown("""
         object-fit: cover;
         background-color: white;
     }
-    </style>
+.header-box {
+        text-align: center;
+        padding: 50px 30px;
+        background-color: #0a192f; /* Dark navy */
+        color: white;
+        border-radius: 20px;
+        margin-bottom: 40px;
+        border: 2px solid #d9ba76; /* Gold border */
+        box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+    .header-title {
+        font-family: 'Georgia', serif;
+        font-size: clamp(32px, 5vw, 64px);
+        font-weight: 900;
+        line-height: 1.1;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+    .header-divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 25px auto;
+        width: 50%;
+    }
+    .header-line {
+        flex-grow: 1;
+        height: 1px;
+        background-color: #d9ba76;
+    }
+    .header-diamond {
+        width: 10px;
+        height: 10px;
+        background-color: #d9ba76;
+        transform: rotate(45deg);
+        margin: 0 15px;
+    }
+    .header-subtitle {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(16px, 2vw, 22px);
+        font-weight: 600;
+        color: #d9ba76;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+    }
     </style>
     """, unsafe_allow_html=True)
 
 # --- 4. HEADER ---
-st.markdown(f"""
+st.markdown('''
     <div class="header-box">
-        <div style="font-family: 'Georgia', serif; font-size: clamp(28px, 6vw, 56px); font-weight: 900; letter-spacing: 3px;">THE JEWEL OF COMPUTER SCIENCE</div>
-        <div style="font-size: clamp(18px, 3vw, 28px); font-weight: 300; margin-top: 20px; border-top: 2px solid rgba(255,255,255,0.4); display: inline-block; padding-top: 15px;">
-            MOHRAH ATIAH AL-JUHANI | مهره عطيه الجهني
+        <div class="header-title">THE JEWEL OF COMPUTER<br>SCIENCE</div>
+        <div class="header-divider">
+            <div class="header-line"></div>
+            <div class="header-diamond"></div>
+            <div class="header-line"></div>
         </div>
+        <div class="header-subtitle">MOHRAH ATIAH AL-JUHANI</div>
     </div>
-    """, unsafe_allow_html=True)
+''', unsafe_allow_html=True)
 
 
 # --- 5. SIDEBAR NAVIGATION ---

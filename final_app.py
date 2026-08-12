@@ -315,6 +315,31 @@ st.markdown("""
         border-radius: 8px !important;
     }
     
+    .sidebar-feedback-btn {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+        padding: 0 10px;
+    }
+    .sidebar-feedback-btn button {
+        background-color: #d9ba76 !important; /* Gold matching the theme */
+        color: #0a192f !important; /* Dark navy text */
+        font-weight: 800 !important;
+        font-size: 18px !important;
+        border-radius: 12px !important;
+        border: 2px solid #ffffff !important;
+        padding: 12px !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+    }
+    .sidebar-feedback-btn button:hover {
+        background-color: #ffffff !important;
+        color: #0a192f !important;
+        border-color: #d9ba76 !important;
+        transform: translateY(-2px) !important;
+    }
+
     /* Circular Logo at the top of sidebar */
     .logo-container {
         display: flex;
@@ -566,13 +591,10 @@ else:
 
 # Override if contact or feedback buttons are pressed
 st.sidebar.write("---")
-st.sidebar.write(f"### 📞 {t('contact')}")
-col1, col2 = st.sidebar.columns(2)
-
-if col1.button(t("contact"), key="contact_btn"):
-    st.session_state.current_page = "Contact Developer"
-if col2.button(t("feedback"), key="feedback_btn"):
+st.sidebar.markdown("<div class='sidebar-feedback-btn'>", unsafe_allow_html=True)
+if st.sidebar.button("Rate Platform", key="feedback_btn", use_container_width=True):
     st.session_state.current_page = "Community Feedback"
+st.sidebar.markdown("</div>", unsafe_allow_html=True)
 
 display_page = st.session_state.current_page
 

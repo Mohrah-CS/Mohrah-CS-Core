@@ -22,7 +22,6 @@ LANGUAGES = {
         "search_placeholder": "Search Platform...",
         "course_select": "Select Course:",
         "lesson_select": "Select Lesson:",
-        "contact": "Contact Me",
         "feedback": "Feedback",
         "home": "Home Page",
         "ai_asst": "🤖 Mohrah AI Assistant",
@@ -30,8 +29,6 @@ LANGUAGES = {
         "os": "Operating Systems",
         "db": "Database Systems",
         "exam_prep": "🚀 Smart Exam Prep",
-        "res_hub": "📚 Resource Hub",
-        "ach_hall": "🏆 Achievement Hall",
         "community": "👥 Community Corner",
         "dash_title": "🏛️ CS Portal Dashboard",
         "total_lessons": "Total Lessons",
@@ -49,7 +46,6 @@ LANGUAGES = {
         "search_placeholder": "Search Platform...",
         "course_select": "Select Course:",
         "lesson_select": "Select Lesson:",
-        "contact": "Contact Me",
         "feedback": "Feedback",
         "home": "Home Page",
         "ai_asst": "🤖 Mohrah AI Assistant",
@@ -57,8 +53,6 @@ LANGUAGES = {
         "os": "Operating Systems",
         "db": "Database Systems",
         "exam_prep": "🚀 Smart Exam Prep",
-        "res_hub": "📚 Resource Hub",
-        "ach_hall": "🏆 Achievement Hall",
         "community": "👥 Community Corner",
         "dash_title": "🏛️ Computer Science Portal Dashboard",
         "total_lessons": "Total Lessons",
@@ -76,7 +70,6 @@ LANGUAGES = {
         "search_placeholder": "Search Platform...",
         "course_select": "Select Course:",
         "lesson_select": "Select Course:",
-        "contact": "Contact Me",
         "feedback": "Feedback",
         "home": "Home Page",
         "ai_asst": "🤖 Mohrah AI Assistant",
@@ -84,8 +77,6 @@ LANGUAGES = {
         "os": "Operating Systems",
         "db": "Database Systems",
         "exam_prep": "🚀 Smart Exam Prep",
-        "res_hub": "📚 Resource Hub",
-        "ach_hall": "🏆 Achievement Hall",
         "community": "👥 Community Corner",
         "dash_title": "🏛️ CS Portal Dashboard",
         "total_lessons": "Total Lessons",
@@ -537,8 +528,8 @@ nav_map = {
     t("os"): "Operating Systems",
     t("db"): "Database Systems",
     t("exam_prep"): "🚀 Smart Exam Prep",
-    t("res_hub"): "📚 Resource Hub",
-    t("ach_hall"): "🏆 Achievement Hall",
+    
+    
     t("community"): "👥 Community Corner"
 }
 
@@ -2625,123 +2616,6 @@ elif display_page == "🚀 Smart Exam Prep":
                 st.info("Great job! You are ready for the final exam.")
             else:
                 st.warning("Theory is deep. Re-read the modules and try again!")
-elif display_page == "📚 Resource Hub":
-    st.markdown("## 📚 Deep-Dive Resource Hub")
-    st.write("Here you will find deep and comprehensive PDF summaries for each chapter, carefully prepared to be your final reference.")
-    
-    tab_os_res, tab_toc_res = st.tabs(["🖥️ Operating Systems Resources", "🧠 Theory of Computation Resources"])
-    
-    with tab_os_res:
-        st.markdown("### 📄 Comprehensive OS Chapter Summaries")
-        os_chapters = {
-            "Chapter 1: Introduction to OS Concepts": "OS_Ch1.pdf",
-            "Chapter 2: OS Structures & System Calls": "OS_Ch2.pdf",
-            "Chapter 3: Process Management & IPC": "OS_Ch3.pdf",
-            "Chapter 4: Threads & Multicore Programming": "OS_Ch4.pdf",
-            "Chapter 5: CPU Scheduling Algorithms (Deep Analysis)": "OS_Ch5.pdf",
-            "Chapter 6: Process Synchronization & Mutex": "OS_Ch6.pdf",
-            "Chapter 7: Deadlocks: Prevention & Avoidance": "OS_Ch7.pdf",
-            "Chapter 8: Memory Management & Paging": "OS_Ch8.pdf",
-            "Chapter 9: Mass-Storage & RAID Structures": "OS_Ch9.pdf",
-            "Chapter 10: File Systems & Allocation Methods": "OS_Ch10.pdf"
-        }
-        for ch_name, file_name in os_chapters.items():
-            col_a, col_b = st.columns([3, 1])
-            col_a.write(f"📂 **{ch_name}**")
-            file_path = f"pdfs/{file_name}"
-            if os.path.exists(file_path):
-                with open(file_path, "rb") as f:
-                    col_b.download_button("Download PDF", f, file_name=file_name, key=f"dl_{file_name}")
-            else:
-                col_b.button("Coming Soon", key=f"soon_{file_name}", disabled=True)
-
-            
-    with tab_toc_res:
-        st.markdown("### 📄 Advanced TOC Modules")
-        toc_modules = {
-            "Module 1: Mathematical Foundations": "TOC_Mod1.pdf",
-            "Module 2: Finite Automata (DFA/NFA) Masterclass": "TOC_Mod2.pdf",
-            "Module 3: Regular Expressions & Pumping Lemma": "TOC_Mod3.pdf",
-            "Module 4: Context-Free Grammars & PDA": "TOC_Mod4.pdf",
-            "Module 5: Turing Machines & Decidability": "TOC_Mod5.pdf"
-        }
-        for mod_name, file_name in toc_modules.items():
-            col_a, col_b = st.columns([3, 1])
-            col_a.write(f"📂 **{mod_name}**")
-            file_path = f"pdfs/{file_name}"
-            if os.path.exists(file_path):
-                with open(file_path, "rb") as f:
-                    col_b.download_button("Download PDF", f, file_name=file_name, key=f"dl_{file_name}")
-            else:
-                col_b.button("Coming Soon", key=f"soon_{file_name}", disabled=True)
-
-
-    st.markdown("""
-    <div class="step-box">
-        <b>Note:</b> All these resources are derived from approved academic curricula and updated for the year 2026.
-    </div>
-    """, unsafe_allow_html=True)
-
-
-elif display_page == "🏆 Achievement Hall":
-    st.markdown("## 🏆 Hall of Fame: Celebrate Your Academic Journey")
-    st.write("Every step you take on this platform is a building block for your professional future. Here we celebrate your achievements!")
-    
-    st.markdown("""
-    <div class="learning-card">
-        <h4>🌟 Achievement Philosophy</h4>
-        <p>Learning is not just memorizing information, but a journey of challenge and persistence. Earning these badges means you possess the discipline and passion needed to understand the most complex concepts in computer science.</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("""
-        <div class="learning-card" style="border-top: 5px solid #fbbf24;">
-            <h2 style="text-align: center;">🥇 OS Master</h2>
-            <p style="color: #d97706; font-weight: bold; text-align: center;">Operating Systems Expert Badge</p>
-            <p>This badge is awarded to students who have navigated the depths of the Kernel and understood how processes and memory are managed. You now understand how the computer's "brain" thinks, making you a more efficient programmer capable of building stable systems.</p>
-            <ul style="font-size: 14px;">
-                <li>Deep understanding of Process Scheduling</li>
-                <li>Mastery of Synchronization concepts</li>
-                <li>Ability to analyze memory and storage issues</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.markdown("""
-        <div class="learning-card" style="border-top: 5px solid #10b981;">
-            <h2 style="text-align: center;">💎 Diamond Researcher</h2>
-            <p style="color: #059669; font-weight: bold; text-align: center;">Distinguished Researcher Badge</p>
-            <p>This badge is for those who didn't just scratch the surface but dove into external sources and deep summaries. Research is the key to innovation, and you've proven to have a researcher's mindset.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with col2:
-        st.markdown("""
-        <div class="learning-card" style="border-top: 5px solid #3b82f6;">
-            <h2 style="text-align: center;">🥈 TOC Expert</h2>
-            <p style="color: #2563eb; font-weight: bold; text-align: center;">Theoretical Computation Engineer Badge</p>
-            <p>Dealing with formal languages and automata requires high analytical mental abilities. Earning this badge means you've overcome one of the toughest mathematical challenges in computer science and can now understand the limits of computation and machine logic.</p>
-            <ul style="font-size: 14px;">
-                <li>Design and analysis of DFA and NFA machines</li>
-                <li>Understanding Context-Free Grammars (CFG)</li>
-                <li>Recognizing the computational power of Turing Machines</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown("""
-        <div class="learning-card" style="border-top: 5px solid #8b5cf6;">
-            <h2 style="text-align: center;">🚀 Early Adopter</h2>
-            <p style="color: #7c3aed; font-weight: bold; text-align: center;">Leadership and Pioneering Badge</p>
-            <p>You are among the first to trust "Mohrah's Lab". This badge reflects your initiative and interest in keeping pace with modern and advanced educational tools.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    st.info("💡 Tip: Take a screenshot of your achievements and share them with your colleagues to motivate them to learn!")
-
-
 elif display_page == "👥 Community Corner":
     st.markdown("## 👥 Community Corner: Ask & Learn")
     st.write("This corner is dedicated to exchanging experiences and inquiries among students. Don't hesitate to ask any question!")

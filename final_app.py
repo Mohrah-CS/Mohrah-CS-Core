@@ -429,6 +429,65 @@ st.markdown("""
     [data-testid="stVerticalBlock"] > div:last-child {
         width: 100% !important;
     }
+
+    /* FINAL FOOTER OVERRIDE: seamless full-width section */
+    [data-testid="stMainBlockContainer"] {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    [data-testid="stMainBlockContainer"] > div {
+        max-width: none !important;
+    }
+    .contact-footer {
+        position: relative !important;
+        left: 0 !important;
+        width: 100vw !important;
+        max-width: none !important;
+        margin: 56px 0 0 calc(50% - 50vw) !important;
+        padding: 72px clamp(24px, 5vw, 80px) 32px !important;
+        box-sizing: border-box !important;
+        border: 0 !important;
+        border-top: 1px solid rgba(217, 186, 118, 0.55) !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: #0a192f !important;
+        overflow: hidden !important;
+    }
+    .contact-footer::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(115deg, rgba(30,58,138,0.18), transparent 42%, rgba(217,186,118,0.06));
+    }
+    .contact-footer > * {
+        position: relative;
+        z-index: 1;
+    }
+    .contact-grid {
+        width: min(1200px, 100%) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    .sub-footer {
+        width: min(1200px, 100%) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    @media (max-width: 768px) {
+        .contact-footer {
+            margin-top: 36px !important;
+            padding: 56px 18px 28px !important;
+        }
+        .sub-footer {
+            flex-direction: column !important;
+            gap: 20px !important;
+            text-align: center !important;
+        }
+        .sub-footer > div:first-child {
+            text-align: center !important;
+        }
+    }
 </style>
     """, unsafe_allow_html=True)
 

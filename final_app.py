@@ -396,7 +396,16 @@ st.markdown("""
         text-shadow: 0 2px 4px rgba(0,0,0,0.5) !important;
     }
 
-    .contact-footer { background-color: #0a192f; color: white; padding: 60px 20px 30px 20px; border-top: 2px solid #d9ba76; text-align: center; margin-top: 50px; border-radius: 20px 20px 0 0; font-family: 'Inter', sans-serif; }
+    .contact-footer { 
+        background-color: #0a192f; 
+        color: white; 
+        padding: 80px 20px 40px 20px; 
+        border-top: 1px solid #1e293b; 
+        text-align: center; 
+        margin: 0; 
+        width: 100%;
+        font-family: 'Inter', sans-serif; 
+    }
     .footer-logo-container { display: flex; flex-direction: column; align-items: center; margin-bottom: 40px; }
     .footer-m-logo { font-size: 60px; font-family: 'Georgia', serif; color: #d9ba76; position: relative; margin-bottom: 10px; line-height: 1; }
     .footer-m-logo span { font-size: 20px; position: absolute; bottom: 5px; right: -25px; color: #8892b0; font-family: 'Inter', sans-serif; }
@@ -415,6 +424,11 @@ st.markdown("""
     .sub-footer-socials { display: flex; gap: 20px; }
     .sub-footer-socials a { color: #64748b; text-decoration: none; transition: all 0.3s; }
     .sub-footer-socials a:hover { color: #d9ba76; transform: scale(1.2); }
+
+    /* Ensure footer spans full width by overriding Streamlit's default padding */
+    [data-testid="stVerticalBlock"] > div:last-child {
+        width: 100% !important;
+    }
 </style>
     """, unsafe_allow_html=True)
 

@@ -395,6 +395,26 @@ st.markdown("""
         margin-top: -10px !important;
         text-shadow: 0 2px 4px rgba(0,0,0,0.5) !important;
     }
+
+    .contact-footer { background-color: #0a192f; color: white; padding: 60px 20px 30px 20px; border-top: 2px solid #d9ba76; text-align: center; margin-top: 50px; border-radius: 20px 20px 0 0; font-family: 'Inter', sans-serif; }
+    .footer-logo-container { display: flex; flex-direction: column; align-items: center; margin-bottom: 40px; }
+    .footer-m-logo { font-size: 60px; font-family: 'Georgia', serif; color: #d9ba76; position: relative; margin-bottom: 10px; line-height: 1; }
+    .footer-m-logo span { font-size: 20px; position: absolute; bottom: 5px; right: -25px; color: #8892b0; font-family: 'Inter', sans-serif; }
+    .footer-name { font-size: 28px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
+    .footer-title { font-size: 16px; color: #8892b0; letter-spacing: 1px; }
+    .footer-divider-diamond { width: 8px; height: 8px; background-color: #3b4d6d; transform: rotate(45deg); margin: 25px auto; }
+    .contact-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; max-width: 1200px; margin: 40px auto; }
+    .contact-item { display: flex; flex-direction: column; align-items: center; padding: 25px 15px; background: rgba(255, 255, 255, 0.02); border-radius: 15px; transition: all 0.3s ease; width: 200px; border: 1px solid rgba(255, 255, 255, 0.05); }
+    .contact-item:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.05); border-color: #d9ba76; }
+    .contact-icon-circle { width: 55px; height: 55px; border-radius: 50%; background: rgba(59, 130, 246, 0.1); display: flex; justify-content: center; align-items: center; margin-bottom: 20px; box-shadow: 0 0 20px rgba(59, 130, 246, 0.15); }
+    .contact-label { font-size: 13px; font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+    .contact-line { width: 25px; height: 2px; background-color: #3b4d6d; margin-bottom: 15px; }
+    .contact-value { font-size: 12px; color: #8892b0; word-break: break-all; line-height: 1.4; }
+    .sub-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 40px; border-top: 1px solid #1e293b; max-width: 1200px; margin: 40px auto 0 auto; font-size: 12px; color: #64748b; }
+    .sub-footer-tagline { display: flex; align-items: center; gap: 10px; font-style: italic; }
+    .sub-footer-socials { display: flex; gap: 20px; }
+    .sub-footer-socials a { color: #64748b; text-decoration: none; transition: all 0.3s; }
+    .sub-footer-socials a:hover { color: #d9ba76; transform: scale(1.2); }
 </style>
     """, unsafe_allow_html=True)
 
@@ -2708,16 +2728,33 @@ elif display_page == "👥 Community Corner":
             st.markdown("<br>", unsafe_allow_html=True)
 
             
-elif display_page == "Contact Developer":
-    st.markdown("### 📧 Contact the Developer")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.info("🏛️ **Academic Email**")
-        st.code("451000518@stu.ut.edu.sa")
-    with col2:
-        st.success("📩 **Personal Email**")
-        st.code("mohrah.atiiah@icloud.com")
-
+elif display_page == 'Contact Developer':
+    st.markdown('''
+    <div class="contact-footer">
+        <div class="footer-logo-container">
+            <div class="footer-m-logo">M<span>&lt;/&gt;</span></div>
+            <div class="footer-name">MOHRAH ATIAH AL-JUHANI</div>
+            <div class="footer-title">Computer Science Student | Programmer</div>
+            <div class="footer-divider-diamond"></div>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-item"><div class="contact-icon-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg></div><div class="contact-label">Phone</div><div class="contact-line"></div><div class="contact-value">0535697955</div></div>
+            <div class="contact-item"><div class="contact-icon-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg></div><div class="contact-label">University Email</div><div class="contact-line"></div><div class="contact-value">451000518@stu.ut.edu.sa</div></div>
+            <div class="contact-item"><div class="contact-icon-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></div><div class="contact-label">Personal Email</div><div class="contact-line"></div><div class="contact-value">mohrah.atiiah@icloud.com</div></div>
+            <div class="contact-item"><div class="contact-icon-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></div><div class="contact-label">LinkedIn</div><div class="contact-line"></div><div class="contact-value">linkedin.com/in/mohrah-almahyawi-2689b3383</div></div>
+            <div class="contact-item"><div class="contact-icon-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></div><div class="contact-label">GitHub</div><div class="contact-line"></div><div class="contact-value">github.com/Mohrah-CS/Mohrah-CS-Core</div></div>
+        </div>
+        <div class="sub-footer">
+            <div style="text-align: left; line-height: 1.6;">© 2026 Mohrah Atiah Al-Juhani<br>All Rights Reserved</div>
+            <div class="sub-footer-tagline"><span style="color: #d9ba76; font-weight: bold;">&lt;/&gt;</span> Building. Learning. Creating the future.</div>
+            <div class="sub-footer-socials">
+                <a href="https://linkedin.com/in/mohrah-almahyawi-2689b3383" target="_blank"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+                <a href="https://github.com/Mohrah-CS/Mohrah-CS-Core" target="_blank"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+                <a href="mailto:mohrah.atiiah@icloud.com"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a>
+            </div>
+        </div>
+    </div>
+''', unsafe_allow_html=True)
 elif display_page == "📺 Channel Rating":
     st.markdown("### 📺 Rate Our Channel")
     st.write("Share your opinion and help us improve!")
@@ -4738,17 +4775,29 @@ elif display_page == "Chapter 8: Basics of Functional Dependencies and Normaliza
     """, unsafe_allow_html=True)
 
 # --- 7. FOOTER ---
-st.markdown(f"""
-        <div class="footer">
-     <p>© 2026 | <b>Designed & Developed by Mohrah Atiyah Al-Juhani</b></p>
-    <p style="font-size: 14px; opacity: 0.8; margin-top: 10px;">
-        © 2026 Mohrah Atiah. All rights reserved. This platform is an original academic project. 
-        </p>
-    """, unsafe_allow_html=True)
-st.sidebar.write("---")
-st.sidebar.markdown(f"""
-    <div style="background-color: #f0fdf4; padding: 10px; border-radius: 10px; border: 1px solid #bbf7d0; text-align: center;">
-        <span style="color: #16a34a; font-weight: bold;">🟢 12 Students Online</span><br>
-        <span style="font-size: 12px; color: #16a34a;">Studying right now!</span>
+st.markdown('''
+    <div class="contact-footer">
+        <div class="footer-logo-container">
+            <div class="footer-m-logo">M<span>&lt;/&gt;</span></div>
+            <div class="footer-name">MOHRAH ATIAH AL-JUHANI</div>
+            <div class="footer-title">Computer Science Student | Programmer</div>
+            <div class="footer-divider-diamond"></div>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-item"><div class="contact-icon-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg></div><div class="contact-label">Phone</div><div class="contact-line"></div><div class="contact-value">0535697955</div></div>
+            <div class="contact-item"><div class="contact-icon-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg></div><div class="contact-label">University Email</div><div class="contact-line"></div><div class="contact-value">451000518@stu.ut.edu.sa</div></div>
+            <div class="contact-item"><div class="contact-icon-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></div><div class="contact-label">Personal Email</div><div class="contact-line"></div><div class="contact-value">mohrah.atiiah@icloud.com</div></div>
+            <div class="contact-item"><div class="contact-icon-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></div><div class="contact-label">LinkedIn</div><div class="contact-line"></div><div class="contact-value">linkedin.com/in/mohrah-almahyawi-2689b3383</div></div>
+            <div class="contact-item"><div class="contact-icon-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></div><div class="contact-label">GitHub</div><div class="contact-line"></div><div class="contact-value">github.com/Mohrah-CS/Mohrah-CS-Core</div></div>
+        </div>
+        <div class="sub-footer">
+            <div style="text-align: left; line-height: 1.6;">© 2026 Mohrah Atiah Al-Juhani<br>All Rights Reserved</div>
+            <div class="sub-footer-tagline"><span style="color: #d9ba76; font-weight: bold;">&lt;/&gt;</span> Building. Learning. Creating the future.</div>
+            <div class="sub-footer-socials">
+                <a href="https://linkedin.com/in/mohrah-almahyawi-2689b3383" target="_blank"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+                <a href="https://github.com/Mohrah-CS/Mohrah-CS-Core" target="_blank"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+                <a href="mailto:mohrah.atiiah@icloud.com"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a>
+            </div>
+        </div>
     </div>
-""", unsafe_allow_html=True)
+''', unsafe_allow_html=True)

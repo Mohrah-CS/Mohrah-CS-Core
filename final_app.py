@@ -169,7 +169,7 @@ def add_like(q_id):
 def load_comments():
     initial_data = [
         {"u": "Academic Support", "m": "Welcome to Mohrah's Lab! Your feedback is valued.", "t": "09:00 AM"},
-        {"u": "Mohrah Al-Juhani", "m": "Welcome to my educational platform, I hope you find benefit and enjoyment in learning computer science.", "t": "10:30 AM"},
+        {"u": "Mohrah Almahyawi", "m": "Welcome to my educational platform, I hope you find benefit and enjoyment in learning computer science.", "t": "10:30 AM"},
         {"u": "Shoaa", "m": "The project is very wonderful and useful, thank you Mohrah for this distinguished effort.", "t": "11:15 AM"}
     ]
     if os.path.exists(COMMENTS_FILE):
@@ -500,7 +500,7 @@ st.markdown('''
             <div class="header-diamond"></div>
             <div class="header-line"></div>
         </div>
-        <div class="header-subtitle">MOHRAH ATIAH AL-JUHANI</div>
+        <div class="header-subtitle">MOHRAH ATIAH ALMAHYAWI</div>
     </div>
 ''', unsafe_allow_html=True)
 
@@ -2806,7 +2806,7 @@ elif display_page == 'Contact Developer':
     <div class="contact-footer">
         <div class="footer-logo-container">
             <div class="footer-m-logo">M<span>&lt;/&gt;</span></div>
-            <div class="footer-name">MOHRAH ATIAH AL-JUHANI</div>
+            <div class="footer-name">MOHRAH ATIAH ALMAHYAWI</div>
             <div class="footer-title">Computer Science Student | Programmer</div>
             <div class="footer-divider-diamond"></div>
         </div>
@@ -2818,7 +2818,7 @@ elif display_page == 'Contact Developer':
             <div class="contact-item"><div class="contact-icon-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></div><div class="contact-label">GitHub</div><div class="contact-line"></div><div class="contact-value">github.com/Mohrah-CS/Mohrah-CS-Core</div></div>
         </div>
         <div class="sub-footer">
-            <div style="text-align: left; line-height: 1.6;">© 2026 Mohrah Atiah Al-Juhani<br>All Rights Reserved</div>
+            <div style="text-align: left; line-height: 1.6;">© 2026 Mohrah Atiah Almahyawi<br>All Rights Reserved</div>
             <div class="sub-footer-tagline"><span style="color: #d9ba76; font-weight: bold;">&lt;/&gt;</span> Building. Learning. Creating the future.</div>
             <div class="sub-footer-socials">
                 <a href="https://linkedin.com/in/mohrah-almahyawi-2689b3383" target="_blank"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
@@ -4852,7 +4852,7 @@ st.markdown('''
     <div class="contact-footer">
         <div class="footer-logo-container">
             <div class="footer-m-logo">M<span>&lt;/&gt;</span></div>
-            <div class="footer-name">MOHRAH ATIAH AL-JUHANI</div>
+            <div class="footer-name">MOHRAH ATIAH ALMAHYAWI</div>
             <div class="footer-title">Computer Science Student | Programmer</div>
             <div class="footer-divider-diamond"></div>
         </div>
@@ -4864,7 +4864,7 @@ st.markdown('''
             <div class="contact-item"><div class="contact-icon-circle"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></div><div class="contact-label">GitHub</div><div class="contact-line"></div><div class="contact-value">github.com/Mohrah-CS/Mohrah-CS-Core</div></div>
         </div>
         <div class="sub-footer">
-            <div style="text-align: left; line-height: 1.6;">© 2026 Mohrah Atiah Al-Juhani<br>All Rights Reserved</div>
+            <div style="text-align: left; line-height: 1.6;">© 2026 Mohrah Atiah Almahyawi<br>All Rights Reserved</div>
             <div class="sub-footer-tagline"><span style="color: #d9ba76; font-weight: bold;">&lt;/&gt;</span> Building. Learning. Creating the future.</div>
             <div class="sub-footer-socials">
                 <a href="https://linkedin.com/in/mohrah-almahyawi-2689b3383" target="_blank"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>

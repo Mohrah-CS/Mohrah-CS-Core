@@ -5,6 +5,7 @@ import os
 import json
 import pandas as pd
 import google.generativeai as genai
+import textwrap
 
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(

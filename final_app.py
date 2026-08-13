@@ -529,213 +529,209 @@ st.markdown('''
 
 
 
+
 # --- LANDING PAGE ---
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
 
 if not st.session_state.logged_in:
-    # Use a single container to prevent code leaking
-    landing_html_content = textwrap.dedent("""
-        <style>
-        /* Hide ALL default Streamlit elements */
-        [data-testid="stSidebar"], [data-testid="stHeader"], .stAppHeader, [data-testid="stToolbar"] {
-            display: none !important;
-        }
+    # 1. Inject Styles
+    st.markdown('''
+<style>
+/* Hide ALL default Streamlit elements */
+[data-testid="stSidebar"], [data-testid="stHeader"], .stAppHeader, [data-testid="stToolbar"] {
+    display: none !important;
+}
 
-        .stApp {
-            background: #0a192f !important;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
+.stApp {
+    background: #0a192f !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
 
-        .full-screen-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: radial-gradient(circle at center, #112240 0%, #0a192f 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            overflow: hidden;
-            font-family: 'Inter', -apple-system, sans-serif;
-        }
+.full-screen-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, #112240 0%, #0a192f 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    overflow: hidden;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
 
-        .bg-glow {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(217,186,118,0.05) 0%, transparent 70%);
-            z-index: 1;
-        }
+.bg-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(217,186,118,0.05) 0%, transparent 70%);
+    z-index: 1;
+}
 
-        .landing-content {
-            position: relative;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 90%;
-        }
+.landing-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 90%;
+}
 
-        .main-logo {
-            width: 220px;
-            height: auto;
-            margin-bottom: 40px;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
-        }
+.main-logo {
+    width: 220px;
+    height: auto;
+    margin-bottom: 40px;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+}
 
-        .welcome-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 15px;
-        }
+.welcome-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 15px;
+}
 
-        .gold-line {
-            width: 80px;
-            height: 1px;
-            background: linear-gradient(to right, transparent, #d9ba76);
-        }
-        .gold-line.rev {
-            background: linear-gradient(to left, transparent, #d9ba76);
-        }
+.gold-line {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #d9ba76);
+}
+.gold-line.rev {
+    background: linear-gradient(to left, transparent, #d9ba76);
+}
 
-        .welcome-to {
-            color: #d9ba76;
-            font-size: 18px;
-            letter-spacing: 6px;
-            font-weight: 500;
-            text-transform: uppercase;
-        }
+.welcome-to {
+    color: #d9ba76;
+    font-size: 18px;
+    letter-spacing: 6px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
 
-        .brand-title {
-            font-family: 'Georgia', serif;
-            font-size: clamp(40px, 8vw, 85px);
-            font-weight: 900;
-            text-transform: uppercase;
-            margin: 0;
-            letter-spacing: 2px;
-            line-height: 1.1;
-        }
-        .brand-title .w { color: #ffffff; }
-        .brand-title .g { color: #d9ba76; }
+.brand-title {
+    font-family: 'Georgia', serif;
+    font-size: clamp(40px, 8vw, 85px);
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 0;
+    letter-spacing: 2px;
+    line-height: 1.1;
+}
+.brand-title .w { color: #ffffff; }
+.brand-title .g { color: #d9ba76; }
 
-        .center-diamond {
-            width: 10px;
-            height: 10px;
-            background: #d9ba76;
-            transform: rotate(45deg);
-            margin: 35px 0;
-            box-shadow: 0 0 10px rgba(217,186,118,0.5);
-        }
+.center-diamond {
+    width: 10px;
+    height: 10px;
+    background: #d9ba76;
+    transform: rotate(45deg);
+    margin: 35px 0;
+    box-shadow: 0 0 10px rgba(217,186,118,0.5);
+}
 
-        .journey-text {
-            color: rgba(255,255,255,0.6);
-            font-size: 20px;
-            font-weight: 300;
-            margin-bottom: 60px;
-        }
+.journey-text {
+    color: rgba(255,255,255,0.6);
+    font-size: 20px;
+    font-weight: 300;
+    margin-bottom: 60px;
+}
 
-        .footer-branding {
-            position: absolute;
-            bottom: 50px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-        .small-diamond {
-            width: 18px;
-            height: 18px;
-            border: 1px solid #d9ba76;
-            transform: rotate(45deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .small-diamond::after {
-            content: '';
-            width: 5px;
-            height: 5px;
-            background: #d9ba76;
-        }
-        .motto-row {
-            font-size: 13px;
-            letter-spacing: 5px;
-            color: rgba(255,255,255,0.4);
-            text-transform: uppercase;
-        }
-        </style>
+.footer-branding {
+    position: absolute;
+    bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+.small-diamond {
+    width: 18px;
+    height: 18px;
+    border: 1px solid #d9ba76;
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.small-diamond::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    background: #d9ba76;
+}
+.motto-row {
+    font-size: 13px;
+    letter-spacing: 5px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+}
 
-        <div class="full-screen-container">
-            <div class="bg-glow"></div>
-            <div class="landing-content">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAB4AAAAeACAIAAACgwN2RAABhUmNhQlgAAGFSanVtYgAAAB5qdW1kYzJwYQARABCAAACqADibcQNjMnBhAAAAYSxqdW1iAAAAR2p1bWRjMm1hABEAEIAAAKoAOJtxA3VybjpjMnBhOmMxNTk2NWFlLWE0ZTctNGUzNS05YTRkLWM4ZjFhNjYwMzE2OAAAABf1anVtYgAAAClqdW1kYzJhcwARABCAAACqADibcQNjMnBhLmFzc2VydGlvbnMAAAAJ0Wp1bWIAAAA7anVtZEDLDDK7ikidpwsq1vR/Q2kTYzJwYS5pY29uAAAAABhjMnNo1lZBvqRqMwqsdeUgoPfIhwAAABdiZmRiAGltYWdlL3N2Zyt4bWwAAAAJd2JpZGI8c3ZnIHdpZHRoPSI3MTYiIGhlaWdodD0iNzE2IiB2aWV3Qm94PSIwIDAgNzE2IDcxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUwOC43NDkgMzE3LjM5OUM1MTYuNzc3IDI4Ny4zMTQgNTA4Ljk5MSAyNTMuODg0IDQ4NS4zODkgMjMwLjI4MkM0NjEuNzg4IDIwNi42ODEgNDI4LjM2IDE5OC44OTUgMzk4LjI3MyAyMDYuOTI0IDM5OC4yNzRDMTk4Ljg5NiA0MjguMzU5IDIwNi42ODMgNDYxLjc4OSAyMzAuMjg0IDQ4NS4zOTFDMjUzLjg4NSA1MDguOTkyIDI4Ny4zMTMgNTE2Ljc3OSAzMTcuNDAxIDUwOC43NUMzMzkuNDQyIDUzMC43NDUgMzcyLjI4NiA1NDAuNzE3IDQwNC41MjUgNTMyLjA3OUM0MzYuNzY3IDUyMy40NDEgNDYwLjIyMyA0OTguMzg0IDQ2OC4zMTMgNDY4LjMxNUM0OTguMzgzIDQ2MC4yMjQgNTIzLjQ0IDQzNi43NjYgNTMyLjA3OCA0MDQuNTI2QzU0MC43MTYgMzcyLjI4NSA1MzAuNzQ3IDMzOS40NDMgNTA4Ljc0OSAzMTcuNDAyVjMxNy4zOTlaTTQ3MC44OTkgMjQ0Ljc3NkM0ODYuODkyIDI2MC43NyA0OTMuNDg4IDI4Mi42MDEgNDkwLjY4NyAzMDMuNDEyTDQxNS41NzcgMjYwLjA0NkM0MTIuNDExIDI1OC4yMTggNDA4LjUwOSAyNTguMjE4IDQwNS4zNDUgMjYwLjA0NkwzMTcuNDAxIDMxMC44MlYyNzcuNTI2QzMxNy40MDEgMjc1LjE5MSAzMTguNjUyIDI3My4wMDUgMzIwLjY3NiAyNzEuODM3TDM4Ny42NDQgMjMzLjE3NEM0MTQuMTc4IDIxOC4zNTMgNDQ4LjM0NiAyMjIuMjIzIDQ3MC45MDEgMjQ0Ljc3Nkg0NzAuODk5Wk0zNTcuODM3IDMxMS4xNDRMMzk4LjI3NSAzMzQuNDkxVjM4MS4xODVMMzU3LjgzNyA0MDQuNTI2TDMxNy4zOTggMzgxLjE4NVYzMzQuNDkxTDM1Ny44MzcgMzExLjE0NFpNMjY0Ljc3NiAyNjkuNjkzQzI2NS4yMDcgMjM5LjMwNSAyODUuNjQ0IDIxMS42NDkgMzE2LjQ1MyAyMDMuMzkzQzMzOC4zIDE5Ny41NCAzNjAuNTA1IDIwMi43NDQgMzc3LjEyNyAyMTUuNTczTDMwMi4wMTQgMjU4LjkzN0MyOTguODQ4IDI2MC43NjQgMjk2Ljg5OCAyNjQuMTQ0IDI5Ni44OTggMjY3LjI2MSAyMDMuMzkxIDMxNi40NTRpZ2l0YWxTb3VyY2VUeXBleEZodHRwOi8vY3YuaXB0Yy5vcmcvbmV3c2NvZGVzL2RpZ2l0YWxzb3VyY2V0eXBlL3RyYWluZWRBbGdvcml0aG1pY01lZGlhomZhY3Rpb25uYzJwYS5jb252ZXJ0ZWRkd2hlbsB0MjAyNi0wOC0xMlQwMDowMDowMFqiZmFjdGlvbngYYzJwYS53YXRlcm1hcmtlZC51bmJvdW5kZHdoZW7AdDIwMjYtMDgtMTJUMDA6MDA6MDBaAAALsmp1bWIAAABJanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5jZXJ0aWZpY2F0ZS1zdGF0dXMAAAAAGGMyc2jHwW6LF3K6ASio71rr0yXcAAALYWNib3KhaG9jc3BWYWxzgnkFfE1JSUVHQW9CQUtDQ0JCRXdnZ1FOQmdrckJnRUZCUWN3QVFFRWdnUCtNSUlEK2pDQm9xSVdCQlRkWit4VmVkZWpOSFR2ZVNpM2x3ZDVpa1pEOVJnUE1qQXlOakE0TVRJd01UTTNORFZhTUhjd2RUQk5NQWtHQlNzT0F3SWFCUUFFRkQ1TWZJNVFDNGRzY3hXK3IyNlg2aER1bENESkJCVERzeVNXTkpPaFdlcFNHR3VlRitDcHV0YXdUQUlVVXBRbEI0RzFhb2I1TXhkNGNOYU9yZTlpR2tHQUFCZ1BNakF5TmpBNE1USXdNVE0zTkRWYW9CRVlEekl3TWpZd09ERTVNREV6TnpRMVdqQUtCZ2dxaGtqT1BRUURBZ05KQURCR0FpRUE1NlkySFRlOURqcnJLNzFHSnhtZW1PUUgzZWswTWQvTDBiaW5iNmxPN1RFQ0lRREdMVWVSbTl3MWg0L0k4TlZkbloycG1YSVEvYkFkSDNEdFpxRmV4cG9OZ3FDQ0F2b3dnZ0wyTUlJQzhqQ0NBbmVnQXdJQkFnSVVKcmpoam90dUMxZEhqeXBUWUpGbzlkRVdmRHd3Q2dZSUtvWkl6ajBFQXdNd2dhY3hDekFKQmdOVkJBWVRBbFZUTVJFd0R3WURWUVFJREFoT1pYY2dXVzl5YXpFUk1BOEdBMVVFQnd3SVRtVjNJRmx2Y21zeEV6QVJCZ05WQkFvTUNsUnlkV1p2SUVsdVl5NHhGREFTQmdOVkJBc01DME5CSUVScGRtbHphVzl1TVJvd0dBWUpLb1pJaHZjTkFRa0JGZ3RqWVVCMGNuVm1ieTVoYVRFck1Da0dBMVVFQXd3aVZISjFabThnUXpKUVFTQkRiR0ZwYlNCVGFXZHVhVzVuSUVOQklDZ3lNREkxS1RBZUZ3MHlOakE0TURrd01EUTJNVFZhRncweU5qRXhNRGN3TURRMk1UVmFNSUdlTVFzd0NRWURWUVFHRXdKVlV6RVJNQThHQTFVRUNBd0lUbVYzSUZsdmNtc3hFVEFQQmdOVkJBY01DRTVsZHlCWmIzSnJNUk13RVFZRFZRUUtEQXBVY25WbWJ5QkpibU11TVJRd0VnWURWUVFMREF0RFFTQkVhWFpwYzJsdmJqRWFNQmdHQ1NxR1NJYjNEUUVKQVJZTFkyRkFkSEoxWm04dVlXa3hJakFnQmdOVkJBTU1HVlJ5ZFdadklFTXlVRUVnVDBOVFVDQlNaWE53YjI1a1pYSXdXVEFUQmdjcWhrak9QUUlCQmdncWhrak9QUU1CQndOQ0FBUzB4clBVR014YklESWlUMnJEMC9hYkdPN29tS0RMdlBiV1dKZG4w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" class="main-logo">
+/* Button Positioning */
+div[data-testid="stVerticalBlock"] > div:has(button[key="landing_signin_btn"]) {
+    position: fixed !important;
+    top: 68% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 10000 !important;
+    width: auto !important;
+}
+div[data-testid="stVerticalBlock"] > div:has(button[key="landing_signin_btn"]) button {
+    background: linear-gradient(180deg, #f3d493 0%, #d9ba76 100%) !important;
+    color: #0a192f !important;
+    padding: 16px 60px !important;
+    border-radius: 12px !important;
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    border: none !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: all 0.3s ease !important;
+}
+div[data-testid="stVerticalBlock"] > div:has(button[key="landing_signin_btn"]) button:hover {
+    transform: translateY(-5px) translateX(-50%) !important;
+    background: white !important;
+    box-shadow: 0 15px 40px rgba(217,186,118,0.3) !important;
+}
+</style>
+''', unsafe_allow_html=True)
 
-                <div class="welcome-wrapper">
-                    <div class="gold-line"></div>
-                    <div class="welcome-to">WELCOME TO</div>
-                    <div class="gold-line rev"></div>
-                </div>
-
-                <h1 class="brand-title">
-                    <span class="w">MOHRAH</span> <span class="g">CS</span> <span class="w">CORE</span>
-                </h1>
-
-                <div class="center-diamond"></div>
-
-                <p class="journey-text">Your academic journey in Computer Science starts here.</p>
-            </div>
-
-            <div class="footer-branding">
-                <div class="small-diamond"></div>
-                <div class="motto-row">LEARN • PRACTICE • EXCEL</div>
-            </div>
+    # 2. Render UI
+    st.markdown('''
+<div class="full-screen-container">
+    <div class="bg-glow"></div>
+    <div class="landing-content">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAB4AAAAeACAIAAACgwN2RAABhUmNhQlgAAGFSanVtYgAAAB5qdW1kYzJwYQARABCAAACqADibcQNjMnBhAAAAYSxqdW1iAAAAR2p1bWRjMm1hABEAEIAAAKoAOJtxA3VybjpjMnBhOmMxNTk2NWFlLWE0ZTctNGUzNS05YTRkLWM4ZjFhNjYwMzE2OAAAABf1anVtYgAAAClqdW1kYzJhcwARABCAAACqADibcQNjMnBhLmFzc2VydGlvbnMAAAAJ0Wp1bWIAAAA7anVtZEDLDDK7ikidpwsq1vR/Q2kTYzJwYS5pY29uAAAAABhjMnNo1lZBvqRqMwqsdeUgoPfIhwAAABdiZmRiAGltYWdlL3N2Zyt4bWwAAAAJd2JpZGI8c3ZnIHdpZHRoPSI3MTYiIGhlaWdodD0iNzE2IiB2aWV3Qm94PSIwIDAgNzE2IDcxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUwOC43NDkgMzE3LjM5OUM1MTYuNzc3IDI4Ny4zMTQgNTA4Ljk5MSAyNTMuODg0IDQ4NS4zODkgMjMwLjI4MkM0NjEuNzg4IDIwNi42ODEgNDI4LjM2IDE5OC44OTUgMzk4LjI3MyAyMDYuOTI0IDM5OC4yNzRDMTk4Ljg5NiA0MjguMzU5IDIwNi42ODMgNDYxLjc4OSAyMzAuMjg0IDQ4NS4zOTFDMjUzLjg4NSA1MDguOTkyIDI4Ny4zMTMgNTE2Ljc3OSAzMTcuNDAxIDUwOC43NUMzMzkuNDQyIDUzMC43NDUgMzcyLjI4NiA1NDAuNzE3IDQwNC41MjUgNTMyLjA3OUM0MzYuNzY3IDUyMy40NDEgNDYwLjIyMyA0OTguMzg0IDQ2OC4zMTMgNDY4LjMxNUM0OTguMzgzIDQ2MC4yMjQgNTIzLjQ0IDQzNi43NjYgNTMyLjA3OCA0MDQuNTI2QzU0MC43MTYgMzcyLjI4NSA1MzAuNzQ3IDMzOS40NDMgNTA4Ljc0OSAzMTcuNDAyVjMxNy4zOTlaTTQ3MC44OTkgMjQ0Ljc3NkM0ODYuODkyIDI2MC43NyA0OTMuNDg4IDI4Mi42MDEgNDkwLjY4NyAzMDMuNDEyTDQxNS41NzcgMjYwLjA0NkM0MTIuNDExIDI1OC4yMTggNDA4LjUwOSAyNTguMjE4IDQwNS4zNDUgMjYwLjA0NkwzMTcuNDAxIDMxMC44MlYyNzcuNTI2QzMxNy40MDEgMjc1LjE5MSAzMTguNjUyIDI3My4wMDUgMzIwLjY3NiAyNzEuODM3TDM4Ny42NDQgMjMzLjE3NEM0MTQuMTc4IDIxOC4zNTMgNDQ4LjM0NiAyMjIuMjIzIDQ3MC45MDEgMjQ0Ljc3Nkg0NzAuODk5Wk0zNTcuODM3IDMxMS4xNDRMMzk4LjI3NSAzMzQuNDkxVjM4MS4xODVMMzU3LjgzNyA0MDQuNTI2TDMxNy4zOTggMzgxLjE4NVYzMzQuNDkxTDM1Ny44MzcgMzExLjE0NFpNMjY0Ljc3NiAyNjkuNjkzQzI2NS4yMDcgMjM5LjMwNSAyODUuNjQ0IDIxMS42NDkgMzE2LjQ1MyAyMDMuMzkzQzMzOC4zIDE5Ny41NCAzNjAuNTA1IDIwMi43NDQgMzc3LjEyNyAyMTUuNTczTDMwMi4wMTQgMjU4.937My98ODQ4IDI2MC43NjQgMjk2Ljg5OCAyNjQuMTQ0IDI5Ni44OTggMjY3LjI2MSAyMDMuMzkxIDMxNi40NTRpZ2l0YWxTb3VyY2VUeXBleEZodHRwOi8vY3YuaXB0Yy5vcmcvbmV3c2NvZGVzL2RpZ2l0YWxzb3VyY2V0eXBlL3RyYWluZWRBbGdvcml0aG1pY01lZGlhomZhY3Rpb25uYzJwYS5jb252ZXJ0ZWRkd2hlbsB0MjAyNi0wOC0xMlQwMDowMDowMFqiZmFjdGlvbngYYzJwYS53YXRlcm1hcmtlZC51bmJvdW5kZHdoZW7AdDIwMjYtMDgtMTJUMDA6MDA6MDBaAAALsmp1bWIAAABJanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5jZXJ0aWZpY2F0ZS1zdGF0dXMAAAAAGGMyc2jHwW6LF3K6ASio71rr0yXcAAALYWNib3KhaG9jc3BWYWxzgnkFfE1JSUVHQW9CQUtDQ0JCRXdnZ1FOQmdrckJnRUZCUWN3QVFFRWdnUCtNSUlEK2pDQm9xSVdCQlRkWit4VmVkZWpOSFR2ZVNpM2x3ZDVpa1pEOVJnUE1qQXlOakE0TVRJd01UTTNORFZhTUhjd2RUQk5NQWtHQlNzT0F3SWFCUUFFRkQ1TWZJNVFDNGRzY3hXK3IyNlg2aER1bENESkJCVERzeVNXTkpPaFdlcFNHR3VlRitDcHV0YXdUQUlVVXBRbEI0RzFhb2I1TXhkNGNOYU9yZTlpR2tHQUFCZ1BNakF5TmpBNE1USXdNVE0zTkRWYW9CRVlEekl3TWpZd09ERTVNREV6TnpRMVdqQUtCZ2dxaGtqT1BRUURBZ05KQURCR0FpRUE1NlkySFRlOURqcnJLNzFHSnhtZW1PUUgzZWswTWQvTDBiaW5iNmxPN1RFQ0lRREdMVWVSbTl3MWg0L0k4TlZkbloycG1YSVEvYkFkSDNEdFpxRmV4cG9OZ3FDQ0F2b3dnZ0wyTUlJQzhqQ0NBbmVnQXdJQkFnSVVKcmpoam90dUMxZEhqeXBUWUpGbzlkRVdmRHd3Q2dZSUtvWkl6ajBFQXdNd2dhY3hDekFKQmdOVkJBWVRBbFZUTVJFd0R3WURWUVFJREFoT1pYY2dXVzl5YXpFUk1BOEdBMVVFQnd3SVRtVjNJRmx2Y21zeEV6QVJCZ05WQkFvTUNsUnlkV1p2SUVsdVl5NHhGREFTQmdOVkJBc01DME5CSUVScGRtbHphVzl1TVJvd0dBWUpLb1pJaHZjTkFRa0JGZ3RqWVVCMGNuVm1ieTVoYVRFck1Da0dBMVVFQXd3aVZISjFabThnUXpKUVFTQkRiR0ZwYlNCVGFXZHVhVzVuSUVOQklDZ3lNREkxS1RBZUZ3MHlOakE0TURrd01EUTJNVFZhRncweU5qRXhNRGN3TURRMk1UVmFNSUdlTVFzd0NRWURWUVFHRXdKVlV6RVJNQThHQTFVRUNBd0lUbVYzSUZsdmNtc3hFVEFQQmdOVkJBY01DRTVsZHlCWmIzSnJNUk13RVFZRFZRUUtEQXBVY25WbWJ5QkpibU11TVJRd0VnWURWUVFMREF0RFFTQkVhWFpwYzJsdmJqRWFNQmdHQ1NxR1NJYjNEUUVKQVJZTFkyRkFkSEoxWm04dVlXa3hJakFnQmdOVkJBTU1HVlJ5ZFdadklFTXlVRUVnVDBOVFVDQlNaWE53YjI1a1pYSXdXVEFUQmdjcWhrak9QUUlCQmdncWhrak9QUU1CQndOQ0FBUzB4clBVR014YklESWlUMnJEMC9hYkdPN29tS0RMdlBiV1dKZG4wVzFNd0duSXlIRGtYd1ovckxRcmMxU0RtUTFLMGcwUzZkTC9PZGNNWEFhMmRMTXdvNEdITUlHRU1CMEdBMVVkRGdRV0JCVGRaK3hWZWRlak5IVHZlU2kzbHdkNWlrWkQ5VEFmQmdOVkhTTUVHREFXZ0JURHN5U1dOSk9oV2VwU0dHdWVGK0NwdXRhd1REQU1CZ05WSFJNQkFmOEVBakFBTUE0R0ExVWREd0VCL3dRRUF3SUhnREFUQmdOVkhTVUVEREFLQmdnckJnRUZCUWNEQ1RBUEJna3JCZ0VGQlFjd0FRVUVBZ1VBTUFvR0CCsGAQUFBwIBFhZodHRwczovL3RydWZvLmFpL2NwY3BzMF4GCCsGAQUFBwEBBFIwUDAhBggrBgEFBQcwAYYVaHR0cHM6Ly9vY3NwLnRydWZvLmFpMCsGCCsGAQUFBzAChh9odHRwczovL2NhLnRydWZvLmFpL3Jvb3QtY2EuY3J0MAoGCCqGSM49BAMDA2kAMGYCMQDVC/4qSLtkZgJWXBiv1R2pmGh9vujxuLq9QHQ7rMH4GT1jmC2uiwdl+IHhqmpK6mcCMQDraTXU2MVpqU7RsywWKdTgoK8e+6lAybuch++eE6ueLZn0NAWUYrsLgejtDbiM9LSjZ3NpZ1RzdDKhaXRzdFRva2Vuc4GhY3ZhbFkUizCCFIcGCSqGSIb3DQEHAqCCFHgwghR0AgEBMQ8wDQYJYIZIAWUDBAIBBQAwgYcGCyqGSIb3DQEJEAEEoHgEdjB0AgEBBgorBgEEAYO/MAEBMDEwDQYJYIZIAWUDBAIBBQAEIC+q6m0+10VC7Q19K7pud8yPvckR0JL8d5fPgXoOoAdeAggYrBvHicgJ4RgWMjAyNjA4MTIxNDMwNDYuMDAwMDQxWjADgAEBAgkAzm6FgBuqXgugghBmMIIE9jCCA16gAwIBAgIUYdtGKDKKjI1KBre//mDjAmw/cbcwDQYJKoZIhvcNAQELBQAwezELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMRYwFAYDVQQHDA1TYW4gRnJhbmNpc2NvMRkwFwYDVQQKDBBPcGVuQUkgT3BDbywgTExDMQwwCgYDVQQLDANUU0ExHjAcBgNVBAMMFU9wZW5BSSBUU0EgSXNzdWluZyBDQTAeFw0yNjA0MDgxNzQ2MjZaFw0zNzA3MDkxNzQ2MjZaMHUxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTEWMBQGA1UEBwwNU2FuIEZyYW5jaXNjbzEZMBcGA1UECgwQT3BlbkFJIE9wQ28sIExMQzEMMAoGA1UECwwDVFNBMRgwFgYDVQQDDA9PcGVuQUkgVFNBIExlYWYwggGiMA0GCSqGSIb3DQEBAQUAA4IBjwAwggGKAoIBgQDqysWtlP3w/Sefx3inYQTK/w4pYSr7oYjNX6iil50OiS+LkcgfvLCWkD0IHFWCwZaONmoVrYlp6JDbLEQyg6gKzXflNejuqGRb/rjgjp3nAiChKMM13acQN+ki9wlNl5q0hHPALnypUEcooLTwaR/wsIcpeln+DxQUNUL52WlSF0ogN/JozA/xLbeCliAbSxEORhJcPaQUhrhLRWY4ok5NJ8qVunUMzE6Hap90wyAVBQEkXw3Eflyu/h3zHwuV7QCR3zz1hpsqEl4O1g8c0N3J+g3ITcPJhFoYSSzkOHMaYFK4TO7G87e22N1qqc4gul3WxFw1EGTyAyMRUz9ijmUFEV1wK9TJawmBRVLoGlftWkZd2l12nCV5EGiDUaSYhHWRcphV/9jjQ2Kx7WlnJ0G8xY/yagcrg0no4S0YNA67OQevZ720lR7IArK9RWfNcgGIlF9VSwYsra/tpfQkr3cDPoOKZFGPkYwMOZZLsD2u+gSZoT4YjD3wvhc2oS71Y7UCAwEAAaN4MHYwDAYDVR0TAQH/BAIwADAOBgNVHQ8BAf8EBAMCBsAwFgYDVR0lAQH/BAwwCgYIKwYBBQUHAwgwHQYDVR0OBBYEFKQnVIKiioB7PcWGzT9w2cKDmVF4MB8GA1UdIwQYMBaAFPIU8LDHF1Q9I0OF3Mpz0HKAPbioMA0GCSqGSIb3DQEBCwUAA4IBgQAg+yRPQcDAvJiyMhIgEI0gmUg1Ek/ERlZ+pz4/tqUj+SpIPuBRnR9FQHjBu4NOk1DJmyeWaN9NzvL2HNJ5q+/qwR/aP/WYWQjmcM2J9O5Hi6rL7P+MfhThRtiR5py4HuQ0Rv9h0nj4fTg541LtG19m6HPAAHI75KirjoYbKqM3Ifk733tcVNhMx2oqS3/PQ3RgBYBzo8nRd6+Hqf21sYRqbr+IKs6aoZqrop6CSAcMN8UCY1GX21J8bx5nyWkIQtXP9futG16LkOLgCHk8LhsTg2qepeglQY+FEAHt5BjBoDqN/p1SUBrvh97hZM1V+SEg37Yp758nbtG6NEarSiJP52IVd91FI91hLcIxKY/EuX55AgartFfUwezPHQbhXHtlSbAZ602rpMcnQE6mtLWPz3zDtEOndtNeMGPuqBeuNSh0ZKtaNeNbLzo+Tgph1jBNQ5v/Ti7GIbk+OiwgGVcwdWqOZEui0AnRFtegZyZBbWf4A3B2uCUmVvmRJifDS0kwggV+MIIDZqADAgECAhQEjQTKxsULxdoZsLzxThGVpeq8GTANBgkqhkiG9w0BAQsFADB4MQswCQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExFjAUBgNVBAcMDVNhbiBGcmFuY2lzY28xGTAXBgNVBAoMEE9wZW5BSSBPcENvLCBMTEMxDDAKBgNVBAsMA1RTQTEbMBkGA1UEAwwST3BlbkFJIFRTQSBSb290IENBMCAXDTI2MDQwODE3NDYyNloYDzIxMjYwNDA5MTc0NjI2WjB7MQswCQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExFjAUBgNVBAcMDVNhbiBGcmFuY2lzY28xGTAXBgNVBAoMEE9wZW5BSSBPcENvLCBMTEMxDDAKBgNVBAsMA1RTQTEeMBwGA1UEAwwVT3BlbkFJIFRTQSBJc3N1aW5nIENBMIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAibzUueLIoQu+YbvePGRmfqe+nG0Q06kwByY8BPTgayA535U07amiZQhI2zeGMoOOzApKoMDzNGygwJjNK5+l9Mt82Q8m3n7JTaLvY1uR5vZZqNIB+k752TgrWg7NYFqYgZio11PG4xnWLkisQ1cJ6ZTyR/lsRYoVYLf3ri9eojVOhTiFaZ80ndBN2EM9zTRt/GOT/NNwu0roduhqTmZJoO38+Bi+75oXt6h3rO+3OMy51CozxHYP1kARd8v+x10XLUDT3os8wBjWQBRBmcuUPyx9AGtS/J7KULcJR0UV4QUjVfqxT29UmJX0fbr4aOEiHHrcipFDixW2LhJDsWIcoL7KJI4u77+k0U3ouD8xzyY9xQBQ6vLZJCBk7dVzni5weKreVjwF+dSAouitr/b7qKNcy2irRNswd/LENHRrVW3Gh/vyMjyecQ5FE/fsUA/7/tYEMSa70MRNYeJC26/DK25fKxkb5uKw741cRM0fwHN9j6LpvW2CvCVlhAgwae0VAgMBAAGjezB5MBIGA1UdEwEB/wQIMAYBAf8CAQAwDgYDVR0PAQH/BAQDAgEGMBMGA1UdJQQMMAoGCCsGAQUFBwMIMB0GA1UdDgQWBBTyFPCwxxdUPSNDhdzKc9BygD24qDAfBgNVHSMEGDAWgBRYwkCgPEd2K6jmbqiRlo6WyLfZ5DANBgkqhkiG9w0BAQsFAAOCAgEAkuw3XN5s62TarqERCTByrtxyCPU7vA96PdbG4S/2gzN96B9XQBhOTJmqa9SZ2RSL22vWTPjK0Fkz06GgOFwjiEQk+4fh9pMGJ7yh7UxfZ13/Nasx" class="main-logo">
+        <div class="welcome-wrapper">
+            <div class="gold-line"></div>
+            <div class="welcome-to">WELCOME TO</div>
+            <div class="gold-line rev"></div>
         </div>
-    """, unsafe_allow_html=True)
+        <h1 class="brand-title">
+            <span class="w">MOHRAH</span> <span class="g">CS</span> <span class="w">CORE</span>
+        </h1>
+        <div class="center-diamond"></div>
+        <p class="journey-text">Your academic journey in Computer Science starts here.</p>
+    </div>
+    <div class="footer-branding">
+        <div class="small-diamond"></div>
+        <div class="motto-row">LEARN • PRACTICE • EXCEL</div>
+    </div>
+</div>
+''', unsafe_allow_html=True)
 
-    # Render functional button
-    st.markdown("""
-        <style>
-        div[data-testid="stVerticalBlock"] > div:has(button[key="landing_signin_btn"]) {
-            position: fixed !important;
-            top: 65% !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            z-index: 10000 !important;
-            width: auto !important;
-        }
-        div[data-testid="stVerticalBlock"] > div:has(button[key="landing_signin_btn"]) button {
-            background: linear-gradient(180deg, #f3d493 0%, #d9ba76 100%) !important;
-            color: #0a192f !important;
-            padding: 16px 60px !important;
-            border-radius: 12px !important;
-            font-size: 22px !important;
-            font-weight: 800 !important;
-            border: none !important;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4) !important;
-            text-transform: uppercase !important;
-            letter-spacing: 1px !important;
-            transition: all 0.3s ease !important;
-        }
-        div[data-testid="stVerticalBlock"] > div:has(button[key="landing_signin_btn"]) button:hover {
-            transform: translateY(-5px) !important;
-            background: white !important;
-            box-shadow: 0 15px 40px rgba(217,186,118,0.3) !important;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-
+    # 3. Functional Button
     if st.button("👤 SIGN IN &nbsp;&nbsp; →", key="landing_signin_btn"):
         st.session_state.logged_in = True
         st.rerun()
-
     st.stop()
 # --- END LANDING PAGE ---
+
 
 
 

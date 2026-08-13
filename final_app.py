@@ -25,26 +25,23 @@ if not st.session_state.logged_in:
     color: white;
     font-family: "Inter", sans-serif;
     text-align: center;
-    padding: 40px 20px;
+    padding: 20px;
 }
 .logo-img {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    border: 3px solid #d9ba76;
-    margin-bottom: 30px;
-    box-shadow: 0 0 50px rgba(217,186,118,0.2);
-    object-fit: cover;
+    width: 240px;
+    height: auto;
+    margin-bottom: 40px;
+    filter: drop-shadow(0 0 25px rgba(217,186,118,0.3));
 }
 .welcome-section {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    margin-bottom: 10px;
+    gap: 25px;
+    margin-bottom: 15px;
 }
 .line {
-    width: 80px;
+    width: 100px;
     height: 1px;
     background: linear-gradient(to right, transparent, #d9ba76);
 }
@@ -53,47 +50,69 @@ if not st.session_state.logged_in:
 }
 .welcome-text {
     color: #d9ba76;
-    font-size: 18px;
-    letter-spacing: 6px;
+    font-size: 22px;
+    letter-spacing: 8px;
     text-transform: uppercase;
     font-weight: 500;
 }
 .title-text {
     font-family: "Georgia", serif;
-    font-size: 60px;
+    font-size: clamp(45px, 8vw, 90px);
     font-weight: 900;
     text-transform: uppercase;
-    margin: 15px 0;
-    letter-spacing: 2px;
+    margin: 25px 0;
+    letter-spacing: 3px;
     line-height: 1.1;
 }
 .title-text .w { color: #ffffff; }
 .title-text .g { color: #d9ba76; }
 .diamond-divider {
-    width: 12px;
-    height: 12px;
+    width: 15px;
+    height: 15px;
     background: #d9ba76;
     transform: rotate(45deg);
-    margin: 35px auto;
-    box-shadow: 0 0 10px rgba(217,186,118,0.4);
+    margin: 45px auto;
+    box-shadow: 0 0 15px rgba(217,186,118,0.5);
 }
 .subtitle-text {
-    color: rgba(255,255,255,0.6);
-    font-size: 20px;
+    color: rgba(255,255,255,0.7);
+    font-size: 24px;
     font-weight: 300;
-    margin-bottom: 50px;
-    max-width: 600px;
+    margin-bottom: 60px;
+    max-width: 800px;
 }
-.footer-section {
-    margin-top: 50px;
+.stButton {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+div.stButton > button {
+    background: linear-gradient(180deg, #f3d493 0%, #d9ba76 100%) !important;
+    color: #0a192f !important;
+    padding: 20px 90px !important;
+    border-radius: 15px !important;
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    border: none !important;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5) !important;
+    text-transform: uppercase !important;
+    transition: all 0.3s ease !important;
+}
+div.stButton > button:hover {
+    background: #ffffff !important;
+    transform: translateY(-5px) scale(1.02) !important;
+    box-shadow: 0 20px 50px rgba(217,186,118,0.3) !important;
+}
+.footer-branding {
+    margin-top: 80px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
 }
 .footer-diamond {
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
     border: 1px solid #d9ba76;
     transform: rotate(45deg);
     display: flex;
@@ -102,37 +121,15 @@ if not st.session_state.logged_in:
 }
 .footer-diamond::after {
     content: "";
-    width: 5px;
-    height: 5px;
+    width: 7px;
+    height: 7px;
     background: #d9ba76;
 }
 .motto-text {
-    font-size: 13px;
-    letter-spacing: 5px;
+    font-size: 15px;
+    letter-spacing: 7px;
     color: rgba(255,255,255,0.4);
     text-transform: uppercase;
-}
-.stButton {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-div.stButton > button {
-    background: linear-gradient(180deg, #f3d493 0%, #d9ba76 100%) !important;
-    color: #0a192f !important;
-    padding: 16px 70px !important;
-    border-radius: 12px !important;
-    font-size: 22px !important;
-    font-weight: 800 !important;
-    border: none !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4) !important;
-    text-transform: uppercase !important;
-    transition: all 0.3s ease !important;
-}
-div.stButton > button:hover {
-    background: #ffffff !important;
-    transform: translateY(-5px) !important;
-    box-shadow: 0 15px 40px rgba(217,186,118,0.2) !important;
 }
 </style>
 <div class="landing-page">
@@ -147,18 +144,19 @@ div.stButton > button:hover {
     </h1>
     <div class="diamond-divider"></div>
     <p class="subtitle-text">Your academic journey in Computer Science starts here.</p>
-</div>''', unsafe_allow_html=True)
+''', unsafe_allow_html=True)
     
-    if st.button("👤 SIGN IN &nbsp;&nbsp; →", key="landing_signin_btn"):
-        st.session_state.logged_in = True
-        st.rerun()
-        
-    st.markdown('''<div class="footer-section" style="text-align:center; display:flex; flex-direction:column; align-items:center; background:#0a192f; padding-bottom:50px;">
-    <div class="footer-diamond" style="width:18px; height:18px; border:1px solid #d9ba76; transform:rotate(45deg); display:flex; align-items:center; justify-content:center; margin-bottom:15px;">
-        <div style="width:5px; height:5px; background:#d9ba76;"></div>
-    </div>
-    <div class="motto-text" style="font-size:13px; letter-spacing:5px; color:rgba(255,255,255,0.4); text-transform:uppercase;">LEARN • PRACTICE • EXCEL</div>
-</div>''', unsafe_allow_html=True)
+    # Render the button in a centered column layout
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button("👤 SIGN IN &nbsp;&nbsp; →", key="landing_signin_btn"):
+            st.session_state.logged_in = True
+            st.rerun()
+            
+    st.markdown('''<div class="footer-branding">
+    <div class="footer-diamond"></div>
+    <div class="motto-text">LEARN • PRACTICE • EXCEL</div>
+</div></div>''', unsafe_allow_html=True)
     st.stop()
 
 # --- MAIN APP HEADER ---

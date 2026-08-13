@@ -97,6 +97,9 @@ LANGUAGES = {
     }
 }
 
+if 'logged_in' not in st.session_state:
+    st.session_state.logged_in = False
+
 if 'lang' not in st.session_state:
     st.session_state.lang = "English"
 
@@ -519,6 +522,208 @@ st.markdown('''
         <div class="header-subtitle">MOHRAH ATIAH ALMAHYAWI</div>
     </div>
 ''', unsafe_allow_html=True)
+
+
+
+
+# --- LANDING PAGE ---
+if 'logged_in' not in st.session_state:
+    st.session_state.logged_in = False
+
+if not st.session_state.logged_in:
+    st.markdown("""
+        <style>
+        [data-testid="stSidebar"], [data-testid="stHeader"], .stAppHeader {
+            display: none !important;
+        }
+        
+        .stApp {
+            background-color: #0a192f !important;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(217, 186, 118, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(217, 186, 118, 0.03) 0%, transparent 40%) !important;
+        }
+        
+        .landing-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 85vh;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            z-index: 1;
+        }
+        
+        .landing-logo {
+            width: 220px;
+            margin-bottom: 50px;
+        }
+        
+        .welcome-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            color: #d9ba76;
+            font-size: 16px;
+            letter-spacing: 6px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        
+        .welcome-line {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #d9ba76);
+        }
+        .welcome-line.right {
+            background: linear-gradient(to left, transparent, #d9ba76);
+        }
+        
+        .main-title {
+            font-family: 'Georgia', serif;
+            font-size: clamp(35px, 7vw, 75px);
+            font-weight: 900;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .main-title .white { color: #ffffff; }
+        .main-title .gold { color: #d9ba76; }
+        
+        .decorative-diamond {
+            width: 8px;
+            height: 8px;
+            background-color: #d9ba76;
+            transform: rotate(45deg);
+            margin: 25px auto;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 50px;
+            font-weight: 300;
+        }
+        
+        /* Button Wrapper for centering */
+        .btn-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* Target Streamlit Button */
+        div.stButton > button {
+            background: linear-gradient(180deg, #f0d08a 0%, #d9ba76 100%) !important;
+            color: #0a192f !important;
+            border: none !important;
+            padding: 12px 50px !important;
+            border-radius: 10px !important;
+            font-size: 20px !important;
+            font-weight: 700 !important;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4) !important;
+            transition: all 0.3s ease !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
+        }
+        
+        div.stButton > button:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 12px 35px rgba(217, 186, 118, 0.4) !important;
+            background: #ffffff !important;
+            color: #0a192f !important;
+        }
+
+        .bottom-motto-container {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .motto-diamond {
+            width: 15px;
+            height: 15px;
+            border: 1px solid #d9ba76;
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .motto-diamond::after {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background-color: #d9ba76;
+        }
+        
+        .motto-text {
+            font-size: 12px;
+            letter-spacing: 5px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+        
+        .corner-dots {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+        .top-left { top: 20px; left: 20px; border-top: 1px solid #d9ba76; border-left: 1px solid #d9ba76; }
+        .top-right { top: 20px; right: 20px; }
+        </style>
+        
+        <div class="landing-container">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAB4AAAAeACAIAAACgwN2RAABhUmNhQlgAAGFSanVtYgAAAB5qdW1kYzJwYQARABCAAACqADibcQNjMnBhAAAAYSxqdW1iAAAAR2p1bWRjMm1hABEAEIAAAKoAOJtxA3VybjpjMnBhOmMxNTk2NWFlLWE0ZTctNGUzNS05YTRkLWM4ZjFhNjYwMzE2OAAAABf1anVtYgAAAClqdW1kYzJhcwARABCAAACqADibcQNjMnBhLmFzc2VydGlvbnMAAAAJ0Wp1bWIAAAA7anVtZEDLDDK7ikidpwsq1vR/Q2kTYzJwYS5pY29uAAAAABhjMnNo1lZBvqRqMwqsdeUgoPfIhwAAABdiZmRiAGltYWdlL3N2Zyt4bWwAAAAJd2JpZGI8c3ZnIHdpZHRoPSI3MTYiIGhlaWdodD0iNzE2IiB2aWV3Qm94PSIwIDAgNzE2IDcxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUwOC43NDkgMzE3LjM5OUM1MTYuNzc3IDI4Ny4zMTQgNTA4Ljk5MSAyNTMuODg0IDQ4NS4zODkgMjMwLjI4MkM0NjEuNzg4IDIwNi42ODEgNDI4LjM2IDE5OC44OTUgMzk4LjI3MyAyMDYuOTI0IDM5OC4yNzRDMTk4Ljg5NiA0MjguMzU5IDIwNi42ODMgNDYxLjc4OSAyMzAuMjg0IDQ4NS4zOTFDMjUzLjg4NSA1MDguOTkyIDI4Ny4zMTMgNTE2Ljc3OSAzMTcuNDAxIDUwOC43NUMzMzkuNDQyIDUzMC43NDUgMzcyLjI4NiA1NDAuNzE3IDQwNC41MjUgNTMyLjA3OUM0MzYuNzY3IDUyMy40NDEgNDYwLjIyMyA0OTguMzg0IDQ2OC4zMTMgNDY4LjMxNUM0OTguMzgzIDQ2MC4yMjQgNTIzLjQ0IDQzNi43NjYgNTMyLjA3OCA0MDQuNTI2QzU0MC43MTYgMzcyLjI4NSA1MzAuNzQ3IDMzOS40NDMgNTA4Ljc0OSAzMTcuNDAyVjMxNy4zOTlaTTQ3MC44OTkgMjQ0Ljc3NkM0ODYuODkyIDI2MC43NyA0OTMuNDg4IDI4Mi42MDEgNDkwLjY4NyAzMDMuNDEyTDQxNS41NzcgMjYwLjA0NkM0MTIuNDExIDI1OC4yMTggNDA4LjUwOSAyNTguMjE4IDQwNS4zNDUgMjYwLjA0NkwzMTcuNDAxIDMxMC44MlYyNzcuNTI2QzMxNy40MDEgMjc1LjE5MSAzMTguNjUyIDI3My4wMDUgMzIwLjY3NiAyNzEuODM3TDM4Ny42NDQgMjMzLjE3NEM0MTQuMTc4IDIxOC4zNTMgNDQ4LjM0NiAyMjIuMjIzIDQ3MC45MDEgMjQ0Ljc3Nkg0NzAuODk5Wk0zNTcuODM3IDMxMS4xNDRMMzk4LjI3NSAzMzQuNDkxVjM4MS4xODVMMzU3LjgzNyA0MDQuNTI2TDMxNy4zOTggMzgxLjE4NVYzMzQuNDkxTDM1Ny44MzcgMzExLjE0NFpNMjY0Ljc3NiAyNjkuNjkzQzI2NS4yMDcgMjM5LjMwNSAyODUuNjQ0IDIxMS42NDkgMzE2LjQ1MyAyMDMuMzkzQzMzOC4zIDE5Ny41NCAzNjAuNTA1IDIwMi43NDQgMzc3LjEyNyAyMTUuNTczTDMwMi4wMTQgMjU4LjkzN0MyOTguODQ4IDI2MC43NjQgMjk2Ljg5OCAyNjQuMTQ0IDI5Ni44OTggMjY3LjI2MSAyMDMuMzkxIDMxNi40NTRpZ2l0YWxTb3VyY2VUeXBleEZodHRwOi8vY3YuaXB0Yy5vcmcvbmV3c2NvZGVzL2RpZ2l0YWxzb3VyY2V0eXBlL3RyYWluZWRBbGdvcml0aG1pY01lZGlhomZhY3Rpb25uYzJwYS5jb252ZXJ0ZWRkd2hlbsB0MjAyNi0wOC0xMlQwMDowMDowMFqiZmFjdGlvbngYYzJwYS53YXRlcm1hcmtlZC51bmJvdW5kZHdoZW7AdDIwMjYtMDgtMTJUMDA6MDA6MDBaAAALsmp1bWIAAABJanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5jZXJ0aWZpY2F0ZS1zdGF0dXMAAAAAGGMyc2jHwW6LF3K6ASio71rr0yXcAAALYWNib3KhaG9jc3BWYWxzgnkFfE1JSUVHQW9CQUtDQ0JCRXdnZ1FOQmdrckJnRUZCUWN3QVFFRWdnUCtNSUlEK2pDQm9xSVdCQlRkWit4VmVkZWpOSFR2ZVNpM2x3ZDVpa1pEOVJnUE1qQXlOakE0TVRJd01UTTNORFZhTUhjd2RUQk5NQWtHQlNzT0F3SWFCUUFFRkQ1TWZJNVFDNGRzY3hXK3IyNlg2aER1bENESkJCVERzeVNXTkpPaFdlcFNHR3VlRitDcHV0YXdUQUlVVXBRbEI0RzFhb2I1TXhkNGNOYU9yZTlpR2tHQUFCZ1BNakF5TmpBNE1USXdNVE0zTkRWYW9CRVlEekl3TWpZd09ERTVNREV6TnpRMVdqQUtCZ2dxaGtqT1BRUURBZ05KQURCR0FpRUE1NlkySFRlOURqcnJLNzFHSnhtZW1PUUgzZWswTWQvTDBiaW5iNmxPN1RFQ0lRREdMVWVSbTl3MWg0L0k4TlZkbloycG1YSVEvYkFkSDNEdFpxRmV4cG9OZ3FDQ0F2b3dnZ0wyTUlJQzhqQ0NBbmVnQXdJQkFnSVVKcmpoam90dUMxZEhqeXBUWUpGbzlkRVdmRHd3Q2dZSUtvWkl6ajBFQXdNd2dhY3hDekFKQmdOVkJBWVRBbFZUTVJFd0R3WURWUVFJREFoT1pYY2dXVzl5YXpFUk1BOEdBMVVFQnd3SVRtVjNJRmx2Y21zeEV6QVJCZ05WQkFvTUNsUnlkV1p2SUVsdVl5NHhGREFTQmdOVkJBc01DME5CSUVScGRtbHphVzl1TVJvd0dBWUpLb1pJaHZjTkFRa0JGZ3RqWVVCMGNuVm1ieTVoYVRFck1Da0dBMVVFQXd3aVZISjFabThnUXpKUVFTQkRiR0ZwYlNCVGFXZHVhVzVuSUVOQklDZ3lNREkxS1RBZUZ3MHlOakE0TURrd01EUTJNVFZhRncweU5qRXhNRGN3TURRMk1UVmFNSUdlTVFzd0NRWURWUVFHRXdKVlV6RVJNQThHQTFVRUNBd0lUbVYzSUZsdmNtc3hFVEFQQmdOVkJBY01DRTVsZHlCWmIzSnJNUk13RVFZRFZRUUtEQXBVY25WbWJ5QkpibU11TVJRd0VnWURWUVFMREF0RFFTQkVhWFpwYzJsdmJqRWFNQmdHQ1NxR1NJYjNEUUVKQVJZTFkyRkFkSEoxWm04dVlXa3hJakFnQmdOVkJBTU1HVlJ5ZFdadklFTXlVRUVnVDBOVFVDQlNaWE53YjI1a1pYSXdXVEFUQmdjcWhrak9QUUlCQmdncWhrak9QUU1CQndOQ0FBUzB4clBVR014YklESWlUMnJEMC9hYkdPN29tS0RMdlBiV1dKZG4w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" class="landing-logo">
+            
+            <div class="welcome-text">
+                <div class="welcome-line"></div>
+                WELCOME TO
+                <div class="welcome-line right"></div>
+            </div>
+            
+            <div class="main-title">
+                <span class="white">MOHRAH</span> <span class="gold">CS</span> <span class="white">CORE</span>
+            </div>
+            
+            <div class="decorative-diamond"></div>
+            
+            <div class="subtitle">
+                Your academic journey in Computer Science starts here.
+            </div>
+            
+            <div class="btn-wrapper">
+                <!-- Streamlit button will be rendered here via Python -->
+            </div>
+        </div>
+
+        <div class="bottom-motto-container">
+            <div class="motto-diamond"></div>
+            <div class="motto-text">LEARN • PRACTICE • EXCEL</div>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # Render functional button
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col2:
+        if st.button("👤 SIGN IN &nbsp;&nbsp; →", key="landing_signin_btn"):
+            st.session_state.logged_in = True
+            st.rerun()
+    st.stop()
+# --- END LANDING PAGE ---
 
 
 # --- 5. SIDEBAR NAVIGATION ---

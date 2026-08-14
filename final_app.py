@@ -44,12 +44,13 @@ if not st.session_state.logged_in:
         display: flex;
         align-items: center;
         justify-content: center;
+        background: #0a192f;
     }
     .logo-img {
-        width: 82%;
-        height: 82%;
-        object-fit: contain;
-        transform: none;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(0.78);
         image-rendering: -webkit-optimize-contrast;
         image-rendering: crisp-edges;
     }

@@ -147,10 +147,11 @@ if not st.session_state.logged_in:
         color: rgba(255,255,255,0.7);
         font-size: 24px;
         font-weight: 300;
-        margin: 0 auto 60px auto;
-        max-width: 800px;
-        text-align: center;
-        width: 100%;
+        margin: 0 auto 60px auto !important;
+        max-width: 100% !important;
+        text-align: center !important;
+        width: 100% !important;
+        display: block !important;
     }
     
     /* Footer Branding Centering */
@@ -207,7 +208,7 @@ if not st.session_state.logged_in:
         st.rerun()
         
     st.markdown('''
-    <p class="subtitle">Your academic journey in Computer Science starts here.</p>
+    <div style="width: 100%; text-align: center;"><p class="subtitle">Your academic journey in Computer Science starts here.</p></div>
     <div class="footer-branding">
         <div class="footer-diamond"></div>
         <div class="motto">LEARN • PRACTICE • EXCEL</div>

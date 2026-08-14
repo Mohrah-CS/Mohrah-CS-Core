@@ -564,11 +564,11 @@ st.markdown("""
 
     /* Circular Logo at the top of sidebar */
     .logo-container {
-        width: 240px;
-        height: 240px;
+        width: 180px;
+        height: 180px;
         border-radius: 50%;
         overflow: hidden;
-        border: 4px solid #d9ba76;
+        border: 3px solid #d9ba76;
         box-shadow: 0 0 40px rgba(217,186,118,0.5);
         margin-bottom: 30px;
         display: flex;
@@ -577,12 +577,12 @@ st.markdown("""
         background-color: transparent;
     }
     .logo-container img {
-        width: 140px;
-        height: 140px;
+        width: 145px;
+        height: 145px;
         border-radius: 50%;
-        border: 2px solid #fbbf24;
-        object-fit: cover;
-        background-color: white;
+        border: none;
+        object-fit: contain;
+        background-color: transparent;
     }
 .header-box {
         text-align: center;

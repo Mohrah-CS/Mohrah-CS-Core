@@ -31,13 +31,28 @@ if not st.session_state.logged_in:
         width: 260px;
         height: 260px;
         border-radius: 50%;
+        /* Use cover to fill the circle and overflow the square corners */
         object-fit: cover;
+        /* Zoom in slightly to ensure square edges are fully hidden */
+        transform: scale(1.3);
         border: 4px solid #d9ba76;
         box-shadow: 0 0 40px rgba(217,186,118,0.6);
-        margin-bottom: 40px;
         /* Force high clarity rendering */
         image-rendering: -webkit-optimize-contrast;
         image-rendering: crisp-edges;
+        background-color: transparent !important;
+    }
+    .logo-container {
+        width: 260px;
+        height: 260px;
+        border-radius: 50%;
+        overflow: hidden; /* This is key to hiding the square corners */
+        margin-bottom: 40px;
+        border: 4px solid #d9ba76;
+        box-shadow: 0 0 40px rgba(217,186,118,0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     .welcome-row {
         display: flex;

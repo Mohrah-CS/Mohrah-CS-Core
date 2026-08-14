@@ -564,8 +564,9 @@ st.markdown("""
 
     /* Circular Logo at the top of sidebar */
     .logo-container {
-        width: 180px;
-        height: 180px;
+        width: min(160px, calc(100% - 24px));
+        height: min(160px, calc(100% - 24px));
+        box-sizing: border-box;
         border-radius: 50%;
         overflow: hidden;
         border: 3px solid #d9ba76;
@@ -577,8 +578,10 @@ st.markdown("""
         background-color: transparent;
     }
     .logo-container img {
-        width: 145px;
-        height: 145px;
+        width: 128px;
+        height: 128px;
+        max-width: 100%;
+        max-height: 100%;
         border-radius: 50%;
         border: none;
         object-fit: contain;

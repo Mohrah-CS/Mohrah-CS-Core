@@ -826,7 +826,7 @@ elif main_subject == "Database Systems":
 elif main_subject == "Mobile Application Development":
     subject = st.sidebar.selectbox(
         t("lesson_select"),
-        ["Chapter 1: Introduction to Flutter and Dart Programming Language", "Chapter 2: Dart Programming Part 1 — Syntax", "Chapter 3: Dart Programming Part 2 — Advanced Syntax"]
+        ["Chapter 1: Introduction to Flutter and Dart Programming Language", "Chapter 2: Dart Programming Part 1 — Syntax", "Chapter 3: Dart Programming Part 2 — Advanced Syntax", "Chapter 4: Object-Oriented Programming (OOP) in Dart"]
     )
     st.session_state.current_page = subject
 else:
@@ -1129,6 +1129,48 @@ def render_mobile_chapter_3_quiz():
             score += 1
     if st.button("Submit Chapter 3 Assessment", key="submit_mobile_ch3_quiz"):
         st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_3_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Mobile Application Development: Chapter 4 ---
+MOBILE_CHAPTER_4_QUIZ = [
+    {"q": "What is a class in Dart?", "o": ["A blueprint for creating objects", "Only a database table", "A running application", "A package manager"], "a": "A blueprint for creating objects"},
+    {"q": "What is an object?", "o": ["An instance of a class", "A comment in a class", "A compile-time constant only", "A parent library"], "a": "An instance of a class"},
+    {"q": "What do properties usually represent?", "o": ["The state or data of an object", "Only inherited constructors", "The application route", "A package dependency"], "a": "The state or data of an object"},
+    {"q": "What do methods usually represent?", "o": ["The behavior or actions of an object", "Only private fields", "The class filename", "A widget color"], "a": "The behavior or actions of an object"},
+    {"q": "What does a constructor do?", "o": ["Initializes an object when it is created", "Deletes an object", "Overrides every method", "Creates a package"], "a": "Initializes an object when it is created"},
+    {"q": "What does a parameterized constructor receive?", "o": ["Arguments used to initialize fields", "Only Boolean values", "A parent class automatically", "No values"], "a": "Arguments used to initialize fields"},
+    {"q": "What is a named constructor useful for?", "o": ["Providing additional ways to create objects", "Making every field private", "Preventing inheritance", "Replacing all methods"], "a": "Providing additional ways to create objects"},
+    {"q": "What does an underscore prefix indicate in Dart?", "o": ["A library-private member", "A public global variable", "A constructor parameter", "A required interface"], "a": "A library-private member"},
+    {"q": "Which keyword establishes inheritance?", "o": ["extends", "inherits", "parent", "withOnly"], "a": "extends"},
+    {"q": "What does @override indicate?", "o": ["A child class provides a new implementation of a parent method", "A field is compile-time constant", "A class cannot be instantiated", "A method is private"], "a": "A child class provides a new implementation of a parent method"},
+    {"q": "What does super allow a child class to do?", "o": ["Access a parent method or constructor", "Create a new interface only", "Make all fields public", "Avoid using classes"], "a": "Access a parent method or constructor"},
+    {"q": "What is polymorphism?", "o": ["One interface can represent different object implementations", "A class with no methods", "A private variable", "A constructor with no parameters"], "a": "One interface can represent different object implementations"},
+    {"q": "Can an abstract class be instantiated directly?", "o": ["No", "Yes, always", "Only through print()", "Only when it has no methods"], "a": "No"},
+    {"q": "What must a concrete child do with an abstract method?", "o": ["Provide an implementation", "Delete the parent class", "Make the method a variable", "Ignore it in every case"], "a": "Provide an implementation"},
+    {"q": "What does implements express?", "o": ["A class follows the contract of an interface", "A class inherits fields automatically", "A method becomes private", "A constructor is named"], "a": "A class follows the contract of an interface"},
+    {"q": "In Dart, what can act as an interface?", "o": ["Every class", "Only abstract classes", "Only widget classes", "Only private classes"], "a": "Every class"},
+    {"q": "When are abstract classes useful?", "o": ["When related classes share structure or implementation", "When no class should share behavior", "Only for numeric calculations", "Only for constants"], "a": "When related classes share structure or implementation"},
+    {"q": "When are interfaces useful?", "o": ["When different classes must follow a common contract", "When a field must be nullable", "When a number needs rounding", "When an object has no behavior"], "a": "When different classes must follow a common contract"},
+    {"q": "Which OOP principle hides implementation details behind a clear public surface?", "o": ["Encapsulation", "Iteration", "Interpolation", "Compilation"], "a": "Encapsulation"},
+    {"q": "What is a benefit of inheritance and polymorphism?", "o": ["Reusable and extensible code", "Guaranteed removal of all bugs", "No need for constructors", "Every object becomes identical"], "a": "Reusable and extensible code"},
+]
+
+def render_mobile_chapter_4_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 4 Assessment — OOP in Dart (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(MOBILE_CHAPTER_4_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"mobile_ch4_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Chapter 4 Assessment", key="submit_mobile_ch4_quiz"):
+        st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_4_QUIZ)}")
         show_quiz_feedback(answers)
 
 
@@ -3107,6 +3149,190 @@ elif display_page == "Storage & I/O":
 
 
 
+
+elif display_page == "Chapter 4: Object-Oriented Programming (OOP) in Dart":
+    st.markdown("## Mobile Application Development")
+    st.markdown("### Chapter 4: Object-Oriented Programming (OOP) in Dart")
+    st.info("This chapter explains how Dart uses classes and objects to build reusable, modular, and scalable application code. Each concept is connected to a practical example.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. OOP Foundations</div>
+        <h3>1.1 What Is Object-Oriented Programming?</h3>
+        <p><b>Object-Oriented Programming</b> is a programming paradigm based on objects. An object combines data with the operations that work on that data. In Dart, objects are created from classes and can contain fields, properties, methods, and behavior.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Encapsulation:</b> Keep data and its operations together while controlling visibility.</div>
+            <div class="info-item"><b>Abstraction:</b> Expose essential behavior while hiding implementation details.</div>
+            <div class="info-item"><b>Inheritance:</b> Reuse and extend behavior from a parent class.</div>
+            <div class="info-item"><b>Polymorphism:</b> Use a shared interface with different implementations.</div>
+        </div>
+        <div class="step-box"><b>Why it matters:</b> OOP helps organize complex applications into understandable components that can be reused, tested, and extended.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Benefits and Real-World Modeling</div>
+        <h3>2.1 Reusability, Modularity, Scalability, and Maintainability</h3>
+        <p>OOP models software using concepts that resemble the domain. A <b>Car</b> can have color and model properties and a drive method. A <b>BankAccount</b> can have a balance and deposit or withdraw methods. A <b>User</b> can have name and email properties and login or logout methods.</p>
+        <p>These structures reduce duplication, divide a system into manageable units, make future extensions easier, and give each part a clear responsibility.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class BankAccount {\n  double balance = 0;\n\n  void deposit(double amount) {\n    balance += amount;\n  }\n\n  void withdraw(double amount) {\n    balance -= amount;\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Classes and Objects</div>
+        <h3>3.1 A Class Is a Blueprint; an Object Is an Instance</h3>
+        <p>A <b>class</b> defines the structure and behavior that its objects will have. An <b>object</b> is a concrete instance created from that class. Multiple objects can come from the same class while holding different property values.</p>
+        <div class="step-box"><b>Reading the example:</b> <code>Car</code> defines the blueprint, <code>myCar</code> is the object, <code>color</code> is its state, and <code>drive()</code> is its behavior.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class Car {\n  String color = '';\n\n  void drive() {\n    print('Car is driving');\n  }\n}\n\nvoid main() {\n  Car myCar = Car();\n  myCar.color = 'Red';\n  myCar.drive();\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. Properties and Methods</div>
+        <h3>4.1 State, Behavior, and the Dot Operator</h3>
+        <p><b>Properties</b> describe the state of an object, such as a dog's name. <b>Methods</b> describe what the object can do, such as bark. Dart uses the dot operator <code>.</code> to access a public property or call a method.</p>
+        <p>Keeping behavior next to the data it uses makes the class easier to understand and helps protect the rest of the application from unnecessary implementation details.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class Dog {\n  String name = 'Buddy';\n\n  void bark() {\n    print('$name is barking');\n  }\n}\n\nvoid main() {\n  Dog myDog = Dog();\n  myDog.name = 'Max';\n  myDog.bark(); // Max is barking\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. Access and Encapsulation</div>
+        <h3>5.1 Public and Library-Private Members</h3>
+        <p>Public members can be accessed from outside the class. In Dart, a member whose name begins with an underscore is private to the same library. This visibility rule supports encapsulation by allowing a class to control which details are exposed.</p>
+        <div class="step-box"><b>Design principle:</b> Expose a small, meaningful public API and keep internal details private when callers should not modify them directly.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class UserProfile {\n  String name = 'Public';\n  String _internalToken = 'Private';\n\n  void showName() {\n    print(name);\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. Constructors</div>
+        <h3>6.1 Initializing Objects Correctly</h3>
+        <p>A constructor runs when an object is created and is used to initialize its fields. A default constructor requires no parameters. A parameterized constructor receives values from the caller. A named constructor provides an additional, descriptive creation path.</p>
+        <table class="summary-table">
+            <tr><th>Constructor type</th><th>Purpose</th><th>Example</th></tr>
+            <tr><td>Default</td><td>Create an object without required arguments.</td><td><code>Car();</code></td></tr>
+            <tr><td>Parameterized</td><td>Require initial values from the caller.</td><td><code>Car('Red');</code></td></tr>
+            <tr><td>Named</td><td>Offer another clearly named initialization path.</td><td><code>Car.fromColor('Red');</code></td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class Car {\n  String color;\n\n  Car(this.color);\n  Car.named(this.color);\n}\n\nvoid main() {\n  Car first = Car('Red');\n  Car second = Car.named('Blue');\n  print(first.color);\n  print(second.color);\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. Inheritance</div>
+        <h3>7.1 Reusing a Parent Class with extends</h3>
+        <p><b>Inheritance</b> allows a child class to reuse properties and methods from a parent class. The <code>extends</code> keyword establishes the relationship. Inheritance is useful when classes share a genuine “is-a” relationship and the child needs to add or specialize behavior.</p>
+        <p>It reduces duplication and creates a clear hierarchy, but it should not be used merely to share unrelated utility code.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class Vehicle {\n  void drive() {\n    print('Driving');\n  }\n}\n\nclass Car extends Vehicle {\n  void honk() {\n    print('Honking');\n  }\n}\n\nvoid main() {\n  Car myCar = Car();\n  myCar.drive();\n  myCar.honk();\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. Method Overriding</div>
+        <h3>8.1 @override and Specialized Behavior</h3>
+        <p>A child class can replace a parent method with a more specific implementation. Mark the method with <code>@override</code> so the intent is explicit and the analyzer can help verify that the parent method exists.</p>
+        <div class="step-box"><b>Example:</b> Every animal may have a <code>sound()</code> method, but a Dog can implement it as “Dog barks” while another child provides a different sound.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class Animal {\n  void sound() {\n    print('Animal makes a sound');\n  }\n}\n\nclass Dog extends Animal {\n  @override\n  void sound() {\n    print('Dog barks');\n  }\n}\n\nvoid main() {\n  Dog myDog = Dog();\n  myDog.sound(); // Dog barks\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. super and Polymorphism</div>
+        <h3>9.1 Calling Parent Behavior and Using One Interface</h3>
+        <p>The <code>super</code> keyword lets a child call a parent method or constructor. This is useful when the child wants to keep the parent behavior and then add its own behavior.</p>
+        <p><b>Polymorphism</b> allows a variable declared using a parent type to reference a child object. When an overridden method is called, Dart dispatches to the implementation belonging to the actual object at runtime.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class Bird {\n  void fly() {\n    print('Flying');\n  }\n}\n\nclass Sparrow extends Bird {\n  @override\n  void fly() {\n    super.fly();\n    print('Sparrow flies differently');\n  }\n}\n\nclass Shape {\n  void draw() {\n    print('Drawing a shape');\n  }\n}\n\nclass Circle extends Shape {\n  @override\n  void draw() {\n    print('Drawing a circle');\n  }\n}\n\nShape shape = Circle();\nshape.draw(); // Drawing a circle", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. Inheritance in a Vehicle System</div>
+        <h3>10.1 A Practical Parent-Child Hierarchy</h3>
+        <p>A vehicle hierarchy can use <code>Vehicle</code> as a common parent and <code>Car</code> or <code>Bike</code> as specialized children. A variable can be typed as <code>Vehicle</code> while referencing a Car object, allowing a collection or service to work with different vehicle types through a common interface.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class Vehicle {\n  void start() {\n    print('Vehicle starts');\n  }\n}\n\nclass Car extends Vehicle {\n  @override\n  void start() {\n    print('Car starts');\n  }\n}\n\nvoid main() {\n  Vehicle myVehicle = Car();\n  myVehicle.start(); // Car starts\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. Abstract Classes</div>
+        <h3>11.1 Shared Structure without Direct Instantiation</h3>
+        <p>An <b>abstract class</b> is a blueprint for related classes. It cannot be instantiated directly. It may contain implemented methods, shared fields, constructors, and abstract methods that declare behavior without providing the implementation.</p>
+        <p>Each concrete child must implement the abstract methods. This gives the system a common shape while allowing each child to provide its own behavior.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("abstract class Animal {\n  void sound();\n}\n\nclass Dog extends Animal {\n  @override\n  void sound() {\n    print('Dog barks');\n  }\n}\n\nAnimal myDog = Dog();\nmyDog.sound(); // Dog barks\n\n// Animal animal = Animal(); // Not allowed", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. Interfaces</div>
+        <h3>12.1 Defining Contracts with implements</h3>
+        <p>An interface defines a contract: a set of behavior that an implementing class promises to provide. In Dart, every class can act as an interface, and the <code>implements</code> keyword is used to follow that contract.</p>
+        <p>Interfaces are useful when unrelated classes need to support the same capability. They encourage loose coupling and allow multiple contracts to be implemented by one class.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class Flyable {\n  void fly();\n}\n\nclass Bird implements Flyable {\n  @override\n  void fly() {\n    print('Bird flies');\n  }\n}\n\nFlyable myBird = Bird();\nmyBird.fly(); // Bird flies", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. Abstract Classes vs Interfaces</div>
+        <h3>13.1 Choosing the Right Abstraction</h3>
+        <table class="summary-table">
+            <tr><th>Abstract class</th><th>Interface</th></tr>
+            <tr><td>Useful for a family of related classes.</td><td>Useful for a contract shared by different classes.</td></tr>
+            <tr><td>Can share implemented methods and constructors.</td><td>Requires the implementing class to provide the required behavior.</td></tr>
+            <tr><td>Uses <code>extends</code>.</td><td>Uses <code>implements</code>.</td></tr>
+            <tr><td>Cannot be instantiated directly.</td><td>Can be used as the type of a referenced object.</td></tr>
+        </table>
+        <div class="step-box"><b>Design guideline:</b> Choose an abstract class when shared implementation matters; choose an interface when the main need is a consistent contract.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. Encapsulation, Abstraction, and Scalability</div>
+        <h3>14.1 Building Maintainable Systems</h3>
+        <p>Encapsulation hides internal details and exposes only the operations other parts of the system need. Abstraction separates what an object does from how it does it. Together with inheritance, polymorphism, and interfaces, these principles make it possible to add new implementations without rewriting every caller.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Flexibility:</b> Different classes can satisfy the same contract differently.</div>
+            <div class="info-item"><b>Modularity:</b> Each class can focus on a coherent responsibility.</div>
+            <div class="info-item"><b>Scalability:</b> New child classes can be added with limited changes.</div>
+            <div class="info-item"><b>Maintainability:</b> Clear boundaries make debugging and testing easier.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">15. Complete OOP Example</div>
+        <h3>15.1 Managing Employees with Inheritance</h3>
+        <p>In this example, <code>Employee</code> stores the common name and salary and provides <code>showDetails()</code>. <code>Manager</code> and <code>Developer</code> extend Employee, use the parent constructor through <code>super</code>, and add role-specific methods.</p>
+        <div class="step-box"><b>Expected behavior:</b> Both child objects can show their shared details, while the Manager manages a team and the Developer writes code.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class Employee {\n  String name;\n  double salary;\n\n  Employee(this.name, this.salary);\n\n  void showDetails() {\n    print('Name: $name, Salary: $salary');\n  }\n}\n\nclass Manager extends Employee {\n  Manager(String name, double salary) : super(name, salary);\n\n  void manageTeam() {\n    print('$name is managing the team.');\n  }\n}\n\nclass Developer extends Employee {\n  Developer(String name, double salary) : super(name, salary);\n\n  void writeCode() {\n    print('$name is writing code.');\n  }\n}\n\nvoid main() {\n  Manager manager = Manager('Alice', 50000);\n  Developer developer = Developer('Bob', 30000);\n\n  manager.showDetails();\n  manager.manageTeam();\n  developer.showDetails();\n  developer.writeCode();\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">Chapter Conclusion</div>
+        <h3>What You Should Know After Chapter 4</h3>
+        <p>After completing this chapter, you should be able to explain OOP, create classes and objects, distinguish properties from methods, use public and private members, initialize objects with default, parameterized, and named constructors, inherit with <code>extends</code>, override with <code>@override</code>, call parent behavior with <code>super</code>, use polymorphism, design abstract classes, implement interfaces, and decide when each abstraction is appropriate.</p>
+        <p>The central lesson is that OOP is a design tool. It helps model real systems, keep responsibilities organized, reuse behavior safely, and build applications that can grow without becoming difficult to maintain.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_mobile_chapter_4_quiz()
 
 elif display_page == "Chapter 3: Dart Programming Part 2 — Advanced Syntax":
     st.markdown("## Mobile Application Development")

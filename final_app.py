@@ -833,6 +833,99 @@ display_page = st.session_state.current_page
 
 
 
+
+
+# --- Database Systems: Advanced Chapter and Comprehensive Quizzes ---
+DB_QUIZ_BANKS = {
+    "Chapter 1: Introduction to Database Systems": [
+        {"q": "A DBMS catalog is most directly responsible for which database-approach characteristic?", "o": ["Program-data dependence", "Self-describing nature", "Single-user processing", "Physical file duplication"], "a": "Self-describing nature"},
+        {"q": "A university application continues to work after the storage organization changes from heap files to indexed files. Which property is demonstrated?", "o": ["Logical data independence", "Physical data independence", "Entity integrity", "View materialization"], "a": "Physical data independence"},
+        {"q": "Which situation most strongly justifies using traditional file processing instead of a DBMS?", "o": ["Many concurrent users need recovery", "Several applications share the same data", "A simple single-user application has strict real-time constraints and no sharing", "Complex authorization rules are required"], "a": "A simple single-user application has strict real-time constraints and no sharing"},
+        {"q": "In the university database example, PREREQUISITE is best modeled as what kind of information?", "o": ["A relationship involving COURSE entities", "A physical storage block", "A DBMS user role", "A transaction log record"], "a": "A relationship involving COURSE entities"},
+        {"q": "Which DBMS advantage specifically prevents each application from maintaining its own incompatible description of the same data?", "o": ["Controlled redundancy and consistency", "Faster CPU scheduling", "Automatic network routing", "Larger monitor resolution"], "a": "Controlled redundancy and consistency"},
+    ],
+    "Chapter 2: Database Architecture": [
+        {"q": "Adding a new user view without changing the conceptual schema is primarily an example of which independence?", "o": ["Physical data independence", "Logical data independence", "Referential integrity", "Domain independence"], "a": "Logical data independence"},
+        {"q": "Which mapping connects the conceptual schema to the internal schema?", "o": ["External-conceptual mapping", "Conceptual-internal mapping", "External-internal mapping", "User-transaction mapping"], "a": "Conceptual-internal mapping"},
+        {"q": "In a three-tier web architecture, which tier normally contains business logic and mediates between browser requests and the DBMS?", "o": ["Client tier", "Application/web-server tier", "Storage-controller tier", "External-schema tier"], "a": "Application/web-server tier"},
+        {"q": "Which component is primarily responsible for parsing and optimizing a declarative query?", "o": ["Query compiler", "Buffer manager only", "Disk controller", "Backup utility"], "a": "Query compiler"},
+        {"q": "A database instance differs from a schema because an instance is:", "o": ["The stable structural description", "The actual data state at a particular time", "The physical access path only", "The set of user privileges"], "a": "The actual data state at a particular time"},
+    ],
+    "Chapter 3: Relational Model Concepts": [
+        {"q": "For R(A,B,C), if A uniquely identifies tuples but {A,B} is not minimal, then {A,B} is necessarily:", "o": ["A candidate key", "A superkey but not a candidate key", "A foreign key", "A null constraint"], "a": "A superkey but not a candidate key"},
+        {"q": "Which constraint is violated when a foreign-key value refers to no existing primary-key value and is not NULL?", "o": ["Domain constraint", "Entity integrity", "Referential integrity", "Cardinality constraint"], "a": "Referential integrity"},
+        {"q": "Why must values in a first-normal-form relation be atomic?", "o": ["To ensure every attribute value is indivisible within the model", "To force every table to have two keys", "To eliminate all foreign keys", "To make every relation sorted"], "a": "To ensure every attribute value is indivisible within the model"},
+        {"q": "Deleting a COURSE tuple that is referenced by SECTION tuples can violate:", "o": ["Referential integrity", "Only the domain constraint", "Only the primary-key uniqueness rule", "The physical schema"], "a": "Referential integrity"},
+        {"q": "Which statement about a primary key is correct?", "o": ["It may always contain NULL", "It is the selected candidate key used to identify tuples", "It must contain every attribute", "It can contain duplicate values"], "a": "It is the selected candidate key used to identify tuples"},
+    ],
+    "Chapter 4: Relational Algebra": [
+        {"q": "Which relational-algebra operation can change the degree of a relation without changing its cardinality in the usual case?", "o": ["Selection", "Projection", "Union", "Cartesian product"], "a": "Projection"},
+        {"q": "For relations R and S to be union-compatible, they must have:", "o": ["The same number of attributes with corresponding compatible domains", "The same number of tuples", "Identical primary-key names only", "No NULL values"], "a": "The same number of attributes with corresponding compatible domains"},
+        {"q": "The natural join of STUDENT and ENROLLMENT generally matches tuples using:", "o": ["All attributes with identical names and compatible domains", "Only the first column", "A random pair of tuples", "The physical row address"], "a": "All attributes with identical names and compatible domains"},
+        {"q": "Which operation is best represented by σ_{major='CS'}(STUDENT)?", "o": ["Selecting rows satisfying a predicate", "Selecting columns named major", "Renaming the relation", "Computing a Cartesian product"], "a": "Selecting rows satisfying a predicate"},
+        {"q": "If |R|=4 and |S|=3, the maximum cardinality of R × S is:", "o": ["7", "12", "4", "3"], "a": "12"},
+    ],
+    "Chapter 5: Entity-Relationship Model": [
+        {"q": "A weak entity is identified using:", "o": ["Only its partial key", "Its owner entity's key together with its partial key", "A foreign key from any unrelated entity", "No key at all"], "a": "Its owner entity's key together with its partial key"},
+        {"q": "In a 1:N relationship between DEPARTMENT and EMPLOYEE, where one department has many employees, the foreign key is normally placed in:", "o": ["DEPARTMENT", "EMPLOYEE", "A separate table in every implementation", "Neither entity"], "a": "EMPLOYEE"},
+        {"q": "Total participation of an entity set means:", "o": ["Every entity must participate in at least one relationship instance", "At most one entity can participate", "The relationship has no attributes", "The entity set has no key"], "a": "Every entity must participate in at least one relationship instance"},
+        {"q": "An attribute that can be divided into smaller meaningful components, such as Address, is:", "o": ["Multivalued", "Composite", "Derived", "Keyless"], "a": "Composite"},
+        {"q": "A ternary relationship cannot in general be replaced by three binary relationships without potentially losing:", "o": ["The original three-way association semantics", "All primary keys", "Every attribute domain", "The DBMS catalog"], "a": "The original three-way association semantics"},
+    ],
+    "Chapter 6: Enhanced ER Model (EER)": [
+        {"q": "In EER specialization, a subclass inherits:", "o": ["Only descriptive attributes", "The superclass attributes and relationship participation", "Only the superclass name", "No identifying information"], "a": "The superclass attributes and relationship participation"},
+        {"q": "A disjointness constraint on subclasses means:", "o": ["An entity can belong to at most one subclass of the specialization", "Every entity must belong to every subclass", "Subclasses cannot have attributes", "The superclass cannot have a key"], "a": "An entity can belong to at most one subclass of the specialization"},
+        {"q": "A total specialization constraint requires:", "o": ["Every superclass entity to be a member of at least one subclass", "Every subclass to have two keys", "Every relationship to be ternary", "All attributes to be multivalued"], "a": "Every superclass entity to be a member of at least one subclass"},
+        {"q": "A category (union type) is a subclass whose superclass is:", "o": ["The union of multiple distinct entity types", "Always one weak entity", "A relationship set only", "A multivalued attribute"], "a": "The union of multiple distinct entity types"},
+        {"q": "Multiple inheritance occurs when a subclass has:", "o": ["More than one superclass", "More than one tuple", "No inherited attributes", "Only one relationship"], "a": "More than one superclass"},
+    ],
+    "Chapter 7: Relational Database Design by ER- and EER-to-Relational Mapping": [
+        {"q": "A regular entity type is normally mapped to:", "o": ["A relation containing its simple attributes and primary key", "Only a view with no key", "One relation per attribute", "A transaction log"], "a": "A relation containing its simple attributes and primary key"},
+        {"q": "For a 1:1 relationship, the preferred placement of a foreign key often depends on:", "o": ["Participation constraints and minimizing NULL values", "The alphabetical order of entity names", "The number of database users", "The physical disk brand"], "a": "Participation constraints and minimizing NULL values"},
+        {"q": "A multivalued attribute is mapped by creating:", "o": ["A separate relation containing the owner's key and the attribute", "A second primary key in the owner relation only", "A new DBMS instance", "A query optimizer rule"], "a": "A separate relation containing the owner's key and the attribute"},
+        {"q": "A many-to-many relationship is mapped to a relation whose primary key usually consists of:", "o": ["The participating entity keys together", "Only the relationship name", "A generated timestamp only", "All non-key attributes"], "a": "The participating entity keys together"},
+        {"q": "When mapping a weak entity, its relation includes:", "o": ["The owner's primary key as a foreign key plus the partial key", "Only the partial key", "No foreign key", "Only relationship attributes"], "a": "The owner's primary key as a foreign key plus the partial key"},
+    ],
+    "Chapter 8: Basics of Functional Dependencies and Normalization": [
+        {"q": "If X → Y and Y → Z, which dependency follows by transitivity?", "o": ["X → Z", "Z → X", "Y → X", "XZ → Y"], "a": "X → Z"},
+        {"q": "A relation is in 2NF when it is in 1NF and has no:", "o": ["Partial dependency of a non-prime attribute on a candidate-key subset", "Foreign keys", "Candidate keys", "Functional dependencies at all"], "a": "Partial dependency of a non-prime attribute on a candidate-key subset"},
+        {"q": "A transitive dependency of a non-key attribute on a key is primarily removed by decomposition toward:", "o": ["3NF", "1NF", "A Cartesian product", "A physical schema"], "a": "3NF"},
+        {"q": "A decomposition is lossless if joining the decomposed relations:", "o": ["Reconstructs exactly the original relation without spurious tuples", "Always produces more tuples", "Deletes all NULL values", "Removes every dependency"], "a": "Reconstructs exactly the original relation without spurious tuples"},
+        {"q": "BCNF is stricter than 3NF because in BCNF:", "o": ["Every determinant of a nontrivial FD must be a superkey", "Every relation must have no foreign keys", "All attributes must be keys", "No decomposition is allowed"], "a": "Every determinant of a nontrivial FD must be a superkey"},
+    ],
+    "__master__": [
+        {"q": "Which design change is an example of logical data independence?", "o": ["Changing an index structure", "Adding an attribute to the conceptual schema while preserving existing external views", "Moving data to another disk", "Changing buffer size"], "a": "Adding an attribute to the conceptual schema while preserving existing external views"},
+        {"q": "For R(A,B,C) with F={A→B, B→C}, the closure A+ contains:", "o": ["A only", "A and B", "A, B, and C", "B and C only"], "a": "A, B, and C"},
+        {"q": "A foreign key primarily enforces a relationship between:", "o": ["A referencing relation and a referenced relation", "Two indexes in one table", "A schema and an instance", "Two unrelated domains"], "a": "A referencing relation and a referenced relation"},
+        {"q": "Which operation returns tuples in R that have no matching tuple in S under a specified condition?", "o": ["Left outer join", "Projection", "Rename", "Intersection only"], "a": "Left outer join"},
+        {"q": "If a specialization is total and disjoint, each superclass entity belongs to:", "o": ["Exactly one subclass", "At least one and possibly multiple subclasses", "No subclass", "Only the superclass and no subclass"], "a": "Exactly one subclass"},
+        {"q": "Which normal form specifically addresses multivalued dependencies?", "o": ["4NF", "2NF", "3NF", "BCNF only"], "a": "4NF"},
+        {"q": "In a many-to-many mapping, relationship attributes belong naturally in:", "o": ["The associative relation created for the relationship", "Only the first entity relation", "The DBMS catalog", "The transaction log"], "a": "The associative relation created for the relationship"},
+        {"q": "The maximum number of tuples in R × S when R has m tuples and S has n tuples is:", "o": ["m+n", "m×n", "m−n", "max(m,n)"], "a": "m×n"},
+    ],
+}
+
+def render_database_quiz(bank_key, title):
+    bank = DB_QUIZ_BANKS[bank_key]
+    st.markdown("---")
+    st.subheader(f"🧠 {title} — اختبار متقدم ({len(bank)} أسئلة)")
+    st.caption("الاختبار صعب ومبني على مفاهيم الشابتر. اختر إجابة لكل سؤال ثم اضغط زر التسليم.")
+    score = 0
+    for i, item in enumerate(bank):
+        choice = st.radio(item["q"], item["o"], key=f"db_quiz_{bank_key}_{i}")
+        if choice == item["a"]:
+            score += 1
+    if st.button(f"تسليم اختبار {title}", key=f"submit_db_quiz_{bank_key}"):
+        st.write(f"### النتيجة: {score}/{len(bank)}")
+        if score == len(bank):
+            st.success("🏆 ممتاز! أتقنت مفاهيم نظم قواعد البيانات في هذا الاختبار.")
+            st.balloons()
+        elif score >= max(1, int(len(bank) * 0.7)):
+            st.info("أداء قوي. راجع النقاط التي أخطأت فيها للوصول للإتقان الكامل.")
+        else:
+            st.warning("الاختبار متقدم. أعد قراءة الشابتر وحاول مرة أخرى.")
+
+
 # --- 6. MODULES ---
 if display_page == "Home Page":
     # Translate Home Page Content
@@ -2788,7 +2881,7 @@ elif display_page == "🚀 Smart Exam Prep":
     st.error("🚨 LEVEL: IMPOSSIBLE")
     st.write("This section is designed for professionals only. The questions here simulate international certification exams and the most complex final exams.")
     
-    quiz_subject = st.selectbox("Choose Your Battlefield:", ["Operating Systems (OS)", "Theory of Computation (TOC)"])
+    quiz_subject = st.selectbox("Choose Your Battlefield:", ["Operating Systems (OS)", "Theory of Computation (TOC)", "Database Systems (DB)"])
     
     if quiz_subject == "Operating Systems (OS)":
         st.subheader("🖥️ OS Hardcore Challenge (20 Questions)")
@@ -2871,6 +2964,9 @@ elif display_page == "🚀 Smart Exam Prep":
                 st.info("Great job! You are ready for the final exam.")
             else:
                 st.warning("Theory is deep. Re-read the modules and try again!")
+elif quiz_subject == "Database Systems (DB)":
+        render_database_quiz("__master__", "Database Systems — Hardcore Challenge")
+
 elif display_page == "👥 Community Corner":
     st.markdown("## 👥 Community Corner: Ask & Learn")
     st.write("This corner is dedicated to exchanging experiences and inquiries among students. Don't hesitate to ask any question!")
@@ -3187,6 +3283,8 @@ elif display_page == "Chapter 1: Introduction to Database Systems":
     </div>
     """, unsafe_allow_html=True)
 
+    render_database_quiz("Chapter 1: Introduction to Database Systems", "Chapter 1: Introduction to Database Systems")
+
 elif display_page == "Chapter 2: Database Architecture":
     st.markdown("## 📚 Chapter 2: Database Architecture")
     st.info("Detailed exploration of database system concepts, architectures, and classifications.")
@@ -3321,6 +3419,8 @@ elif display_page == "Chapter 2: Database Architecture":
     </div>
     """, unsafe_allow_html=True)
 
+    render_database_quiz("Chapter 2: Database Architecture", "Chapter 2: Database Architecture")
+
 elif display_page == "Chapter 3: Relational Model Concepts":
     st.markdown("## 📚 Chapter 3: Relational Model Concepts")
     st.info("Comprehensive study of the Relational Model, its notation, constraints, and update operations.")
@@ -3422,6 +3522,8 @@ elif display_page == "Chapter 3: Relational Model Concepts":
         </div>
     </div>
     """, unsafe_allow_html=True)
+
+    render_database_quiz("Chapter 3: Relational Model Concepts", "Chapter 3: Relational Model Concepts")
 
 elif display_page == "Chapter 4: Relational Algebra":
     st.markdown("## 📚 Chapter 4: Relational Algebra")
@@ -3589,6 +3691,8 @@ elif display_page == "Chapter 4: Relational Algebra":
         </div>
         """, unsafe_allow_html=True)
 
+
+    render_database_quiz("Chapter 4: Relational Algebra", "Chapter 4: Relational Algebra")
 
 elif display_page == "Chapter 5: Entity-Relationship Model":
     st.markdown("## 📚 Chapter 5: Entity-Relationship (ER) Model")
@@ -4569,6 +4673,8 @@ elif display_page == "Chapter 5: Entity-Relationship Model":
     </div>
     """, unsafe_allow_html=True)
 
+    render_database_quiz("Chapter 5: Entity-Relationship Model", "Chapter 5: Entity-Relationship Model")
+
 elif display_page == "Chapter 6: Enhanced ER Model (EER)":
     st.markdown("## 📚 Chapter 7: Enhanced Entity-Relationship (EER) Model")
     st.info("Advanced data modeling concepts including Subclasses, Superclasses, Specialization, Generalization, and Inheritance.")
@@ -4721,6 +4827,8 @@ elif display_page == "Chapter 6: Enhanced ER Model (EER)":
     </div>
     """, unsafe_allow_html=True)
 
+    render_database_quiz("Chapter 6: Enhanced ER Model (EER)", "Chapter 6: Enhanced ER Model (EER)")
+
 elif display_page == "Chapter 7: Relational Database Design by ER- and EER-to-Relational Mapping":
     st.markdown("## 📚 Chapter 7: ER- and EER-to-Relational Mapping")
     st.info("Step-by-step guide to transforming conceptual ER/EER models into logical Relational Database Schemas.")
@@ -4870,6 +4978,8 @@ elif display_page == "Chapter 7: Relational Database Design by ER- and EER-to-Re
     </div>
     """, unsafe_allow_html=True)
 
+    render_database_quiz("Chapter 7: Relational Database Design by ER- and EER-to-Relational Mapping", "Chapter 7: Relational Database Design by ER- and EER-to-Relational Mapping")
+
 elif display_page == "Chapter 8: Basics of Functional Dependencies and Normalization":
     st.markdown("## 📚 Chapter 8: Functional Dependencies and Normalization")
     st.info("Essential guidelines for relational database design, focusing on data integrity, functional dependencies, and the first normal form.")
@@ -4975,6 +5085,9 @@ elif display_page == "Chapter 8: Basics of Functional Dependencies and Normaliza
     </div>
     </div>
     """, unsafe_allow_html=True)
+
+    render_database_quiz("Chapter 8: Basics of Functional Dependencies and Normalization", "Chapter 8: Basics of Functional Dependencies and Normalization")
+
 
 # --- 7. FOOTER ---
 st.markdown('''

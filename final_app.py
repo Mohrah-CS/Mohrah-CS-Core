@@ -826,7 +826,7 @@ elif main_subject == "Database Systems":
 elif main_subject == "Mobile Application Development":
     subject = st.sidebar.selectbox(
         t("lesson_select"),
-        ["Chapter 1: Introduction to Flutter and Dart Programming Language"]
+        ["Chapter 1: Introduction to Flutter and Dart Programming Language", "Chapter 2: Dart Programming Part 1 — Syntax"]
     )
     st.session_state.current_page = subject
 else:
@@ -1045,6 +1045,48 @@ def render_mobile_chapter_1_quiz():
             score += 1
     if st.button("Submit Chapter 1 Assessment", key="submit_mobile_ch1_quiz"):
         st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_1_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Mobile Application Development: Chapter 2 ---
+MOBILE_CHAPTER_2_QUIZ = [
+    {"q": "What does a variable store?", "o": ["A data value", "Only a function name", "Only a screen", "A package version"], "a": "A data value"},
+    {"q": "What does Dart infer when var is initialized with a String?", "o": ["The variable's type is inferred as String", "The variable becomes dynamic forever", "The variable becomes const", "The code becomes invalid"], "a": "The variable's type is inferred as String"},
+    {"q": "What is the key difference between final and const?", "o": ["final may be assigned at runtime, while const must be known at compile time", "const can change but final cannot", "They are exactly the same", "final is only used for integers"], "a": "final may be assigned at runtime, while const must be known at compile time"},
+    {"q": "Where is a local variable normally accessible?", "o": ["Inside the scope where it is declared", "Everywhere in the application", "Only inside pubspec.yaml", "Only inside a widget tree"], "a": "Inside the scope where it is declared"},
+    {"q": "Which statement is invalid?", "o": ["final value = 10; value = 20;", "var value = 10; value = 20;", "const value = 10; print(value);", "int value = 10; print(value);"], "a": "final value = 10; value = 20;"},
+    {"q": "Which type represents whole numbers?", "o": ["int", "double", "String", "bool"], "a": "int"},
+    {"q": "Which type represents decimal values?", "o": ["double", "int", "Map", "List"], "a": "double"},
+    {"q": "Which type stores true or false?", "o": ["bool", "String", "int", "ObjectKey"], "a": "bool"},
+    {"q": "What is the first index of a Dart List?", "o": ["0", "1", "-1", "The list length"], "a": "0"},
+    {"q": "What does a Map store?", "o": ["Key-value pairs", "Only decimal numbers", "A sequence of screens", "Only Boolean values"], "a": "Key-value pairs"},
+    {"q": "What does the % operator return?", "o": ["The remainder of a division", "The percentage format of a String", "The larger number", "A Boolean value only"], "a": "The remainder of a division"},
+    {"q": "What does / return in Dart arithmetic?", "o": ["A division result that is generally a double", "Always an int remainder", "A List", "A Map"], "a": "A division result that is generally a double"},
+    {"q": "Which operator checks equality?", "o": ["==", "=", "=>", "!=="], "a": "=="},
+    {"q": "What does && require?", "o": ["Both conditions must be true", "At least one condition must be true", "Both conditions must be false", "The values must be Strings"], "a": "Both conditions must be true"},
+    {"q": "What does || return true when?", "o": ["At least one condition is true", "Both conditions are false", "The values are identical only", "The operands are integers only"], "a": "At least one condition is true"},
+    {"q": "What does ! do to a Boolean?", "o": ["It reverses the Boolean value", "It converts it to an int", "It adds two Booleans", "It removes the variable"], "a": "It reverses the Boolean value"},
+    {"q": "What is the conditional operator syntax?", "o": ["condition ? valueIfTrue : valueIfFalse", "condition : valueIfTrue ? valueIfFalse", "if ? condition : else", "condition => true && false"], "a": "condition ? valueIfTrue : valueIfFalse"},
+    {"q": "Which operation adds an item to a growable List?", "o": ["add()", "pushKey()", "appendMap()", "insertOnly()"], "a": "add()"},
+    {"q": "What does null safety help prevent?", "o": ["Errors caused by unexpected null values", "All syntax errors", "Slow animations", "Missing packages only"], "a": "Errors caused by unexpected null values"},
+    {"q": "What is a good reason to use parentheses in a complex expression?", "o": ["To make evaluation order and intent clear", "To convert every value to String", "To create a new List automatically", "To avoid declaring variables"], "a": "To make evaluation order and intent clear"},
+]
+
+def render_mobile_chapter_2_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 2 Assessment — Dart Syntax (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(MOBILE_CHAPTER_2_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"mobile_ch2_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Chapter 2 Assessment", key="submit_mobile_ch2_quiz"):
+        st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_2_QUIZ)}")
         show_quiz_feedback(answers)
 
 
@@ -3023,6 +3065,167 @@ elif display_page == "Storage & I/O":
 
 
 
+
+elif display_page == "Chapter 2: Dart Programming Part 1 — Syntax":
+    st.markdown("## Mobile Application Development")
+    st.markdown("### Chapter 2: Dart Programming Part 1 — Syntax")
+    st.info("This chapter develops the Dart syntax needed to write clear Flutter application logic. Each section connects the concept to a practical example and shows how the pieces work together.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Variables in Dart</div>
+        <h3>1.1 What Is a Variable?</h3>
+        <p>A variable is a named container for a value. Dart variables must be declared before they are used and can hold numbers, text, Boolean values, collections, objects, or other data. A variable may be <b>mutable</b>, meaning its value can change, or <b>immutable</b>, meaning it cannot be reassigned.</p>
+        <p>Dart also supports <b>type inference</b>. When <code>var</code> is initialized, Dart infers the type from the assigned value while still retaining type information.</p>
+        <div class="step-box"><b>Reading the example:</b> <code>age</code> is explicitly declared as an integer, while Dart infers that <code>name</code> is a String.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("int age = 5;\nvar name = 'Flutter';", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1.2 Variable Declaration Choices</div>
+        <h3>var, final, and const</h3>
+        <table class="summary-table">
+            <tr><th>Declaration</th><th>Meaning</th><th>Can be reassigned?</th></tr>
+            <tr><td><code>var</code></td><td>A normal variable whose type can be inferred from its initial value.</td><td>Usually yes, when the new value has a compatible type.</td></tr>
+            <tr><td><code>final</code></td><td>A value assigned once, including a value discovered at runtime.</td><td>No.</td></tr>
+            <tr><td><code>const</code></td><td>A compile-time constant whose value is known when the program is compiled.</td><td>No.</td></tr>
+        </table>
+        <div class="step-box"><b>Rule of thumb:</b> Use <code>final</code> for values that should be assigned once, and <code>const</code> for values that are fixed at compile time.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("var count = 10;\nfinal pi = 3.14;\nconst gravity = 9.8;", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1.3 Scope and Common Mistakes</div>
+        <h3>Global Variables, Local Variables, and Safe Usage</h3>
+        <p><b>Scope</b> determines where a variable can be accessed. A global variable is declared outside functions and may be accessed broadly; a local variable is declared inside a function or block and is available only in that scope.</p>
+        <p>Prefer local variables when possible because they limit hidden dependencies and improve maintainability. Common mistakes include using an undeclared variable, reassigning a <code>final</code> or <code>const</code> value, using a variable before initialization, and assuming type inference permits unrelated types.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("int globalVar = 5;\n\nvoid main() {\n  int localVar = 10;\n  print(localVar);\n}\n\n// final value = 10;\n// value = 20; // Compile-time error", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Variable Practice</div>
+        <h3>Using Inference, Explicit Types, and Constants Together</h3>
+        <p>Small examples help clarify how Dart declarations behave. Explicit types communicate intent, <code>var</code> reduces repetition when the initializer is obvious, and <code>final</code> or <code>const</code> protects values that should not change.</p>
+        <div class="step-box"><b>Expected output:</b> <code>Welcome to Dart, age 10</code> and <code>Pi: 3.14, Gravity: 9.8</code>.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("void main() {\n  var name = 'Dart';\n  int age = 10;\n  final pi = 3.14;\n  const gravity = 9.8;\n\n  print('Welcome to $name, age $age');\n  print('Pi: $pi, Gravity: $gravity');\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Dart Data Types</div>
+        <h3>3.1 Numbers, Text, Booleans, and Collections</h3>
+        <p>Dart is strongly typed: the type of a value describes what operations are valid for it. The core types in this chapter are <code>int</code>, <code>double</code>, <code>String</code>, <code>bool</code>, <code>List</code>, and <code>Map</code>.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>int:</b> Whole numbers such as 1, 100, and -50.</div>
+            <div class="info-item"><b>double:</b> Decimal values such as 3.14 and 0.99.</div>
+            <div class="info-item"><b>bool:</b> Either true or false.</div>
+            <div class="info-item"><b>String:</b> Text and character sequences.</div>
+            <div class="info-item"><b>List:</b> An ordered, zero-indexed collection.</div>
+            <div class="info-item"><b>Map:</b> Key-value data useful for structured records.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("int count = 10;\ndouble price = 19.99;\nString name = 'Flutter';\nbool isReady = true;", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3.2 Numeric Types</div>
+        <h3>int, double, and Arithmetic Values</h3>
+        <p>Use <code>int</code> for whole-number calculations and <code>double</code> for decimal values. Dart supports addition, subtraction, multiplication, division, and modulus. Division using <code>/</code> produces a decimal result, while <code>%</code> returns the remainder.</p>
+        <div class="step-box"><b>Safety note:</b> Division by zero causes a runtime error, so inputs should be validated before division.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("int x = 5;\ndouble y = 3.5;\ndouble result = x + y;\nprint(result); // 8.5\n\nprint(10 % 3); // 1", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3.3 Strings and Boolean Values</div>
+        <h3>Text Processing, Interpolation, and Conditions</h3>
+        <p>A <code>String</code> stores text. Strings can be combined with <code>+</code>, and variables can be inserted with interpolation such as <code>$name</code>. Useful String members include <code>length</code>, <code>toUpperCase()</code>, and <code>toLowerCase()</code>. A <code>bool</code> stores <code>true</code> or <code>false</code> and is commonly used in conditions and loops.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("String greeting = 'Hello, Dart';\nprint('$greeting is amazing!');\n\nbool isLearningFun = true;\nprint('Is learning Dart fun? $isLearningFun');", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3.4 Collections</div>
+        <h3>Lists and Maps</h3>
+        <p>A <b>List</b> stores an ordered collection and starts at index 0. Growable lists support operations such as <code>add()</code>, <code>insert()</code>, and <code>remove()</code>. A <b>Map</b> stores key-value pairs and is useful for structured or JSON-like data, such as a student's name mapped to a score.</p>
+        <div class="step-box"><b>Choosing a collection:</b> Use a List when order and position matter; use a Map when a key should identify each value.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("List<String> fruits = ['Apple', 'Banana', 'Cherry'];\nfruits.add('Orange');\nprint(fruits[0]); // Apple\n\nMap<String, String> capitals = {\n  'Pakistan': 'Islamabad',\n  'India': 'New Delhi',\n};\nprint(capitals['Pakistan']); // Islamabad", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. Expressions and Operators</div>
+        <h3>4.1 Arithmetic and Relational Operators</h3>
+        <p>An expression combines values and operators to produce a result. Arithmetic operators calculate values. Relational operators compare values and return a Boolean: <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, and <code>&gt;=</code>.</p>
+        <div class="step-box"><b>Difference to remember:</b> <code>=</code> assigns a value; <code>==</code> compares two values.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("int a = 10;\nint b = 5;\nprint(a + b); // 15\nprint(a - b); // 5\nprint(a * b); // 50\nprint(a / b); // 2.0\nprint(10 % 3); // 1\n\nint x = 10;\nint y = 20;\nprint(x == y); // false\nprint(x < y);  // true", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4.2 Logical Operators</div>
+        <h3>Combining Conditions with &&, ||, and !</h3>
+        <p>Logical operators combine Boolean expressions. <code>&&</code> is AND and is true only when both sides are true. <code>||</code> is OR and is true when at least one side is true. <code>!</code> reverses a Boolean value.</p>
+        <p>These operators are especially useful when validating several requirements at once, such as attendance and marks.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("bool a = true;\nbool b = false;\nprint(a && b); // false\nprint(a || b); // true\nprint(!b);      // true\n\nint attendance = 80;\nint marks = 60;\nbool isPass = attendance >= 75 && marks >= 50;\nprint('Pass: $isPass'); // true", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4.3 Conditional Expressions</div>
+        <h3>The Conditional Operator and Parentheses</h3>
+        <p>The conditional operator is a compact way to choose between two values. Its syntax is <code>condition ? valueIfTrue : valueIfFalse</code>. Parentheses make complex expressions easier to read and help communicate the intended order of evaluation.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("int age = 18;\nString status = age >= 18 ? 'Adult' : 'Minor';\nprint(status); // Adult\n\nint x = 15;\nint y = 20;\nprint((x < y) && (y > 10)); // true", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. Practical Programming</div>
+        <h3>Combining Variables, Types, Collections, and Operators</h3>
+        <p>Real programs rarely use one concept in isolation. The following examples calculate an area, update a Map value, and determine whether a person is an adult. Together they show how variables, arithmetic, relational expressions, Boolean values, interpolation, and collections form useful program logic.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Area:</b> Multiply length by width and interpolate the result into a message.</div>
+            <div class="info-item"><b>Scores:</b> Update a Map using a key and print the complete collection.</div>
+            <div class="info-item"><b>Age check:</b> Store the result of a relational expression in a Boolean.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("int length = 5;\nint width = 10;\nint area = length * width;\nprint('The area is $area'); // 50\n\nMap<String, int> scores = {\n  'Alice': 90,\n  'Bob': 85,\n};\nscores['Alice'] = 95;\nprint(scores); // {Alice: 95, Bob: 85}\n\nint age = 20;\nbool isAdult = age >= 18;\nprint('Is adult? $isAdult'); // true", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. Null Safety</div>
+        <h3>Protecting Programs from Unexpected Null Values</h3>
+        <p><b>Null safety</b> helps prevent errors caused by values that are unexpectedly absent. In modern Dart, a non-nullable variable must contain a value, while a nullable variable is marked with <code>?</code> and must be handled deliberately.</p>
+        <div class="step-box"><b>Practical meaning:</b> Null safety moves many possible failures from runtime into clear compile-time checks, making the code safer and easier to reason about.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("String name = 'Flutter';\nString? nickname;\n\nprint(name);\nprint(nickname ?? 'No nickname provided');", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">Chapter Conclusion</div>
+        <h3>What You Should Know After Chapter 2</h3>
+        <p>After completing this chapter, you should be able to declare variables, choose between <code>var</code>, <code>final</code>, and <code>const</code>, understand scope, avoid common declaration mistakes, use Dart's core data types, work with Lists and Maps, write arithmetic and relational expressions, combine conditions with logical operators, use the conditional operator, apply parentheses for clarity, and use null safety to protect application logic.</p>
+        <p>The central idea is that <b>variables, data types, expressions, and operators work together</b> to create flexible and maintainable Dart programs. The next step is to use these syntax foundations in more advanced Dart programming concepts.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_mobile_chapter_2_quiz()
 
 elif display_page == "Chapter 1: Introduction to Flutter and Dart Programming Language":
     st.markdown("## Mobile Application Development")

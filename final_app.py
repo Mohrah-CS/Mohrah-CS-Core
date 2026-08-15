@@ -826,7 +826,7 @@ elif main_subject == "Database Systems":
 elif main_subject == "Mobile Application Development":
     subject = st.sidebar.selectbox(
         t("lesson_select"),
-        ["Chapter 1: Introduction to Flutter and Dart Programming Language", "Chapter 2: Dart Programming Part 1 — Syntax", "Chapter 3: Dart Programming Part 2 — Advanced Syntax", "Chapter 4: Object-Oriented Programming (OOP) in Dart", "Chapter 5: Advanced Widgets and State Management in Flutter"]
+        ["Chapter 1: Introduction to Flutter and Dart Programming Language", "Chapter 2: Dart Programming Part 1 — Syntax", "Chapter 3: Dart Programming Part 2 — Advanced Syntax", "Chapter 4: Object-Oriented Programming (OOP) in Dart", "Chapter 5: Advanced Widgets and State Management in Flutter", "Chapter 6: Networking and API Integration in Flutter"]
     )
     st.session_state.current_page = subject
 else:
@@ -1213,6 +1213,48 @@ def render_mobile_chapter_5_quiz():
             score += 1
     if st.button("Submit Chapter 5 Assessment", key="submit_mobile_ch5_quiz"):
         st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_5_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Mobile Application Development: Chapter 6 ---
+MOBILE_CHAPTER_6_QUIZ = [
+    {"q": "What does networking allow a Flutter application to do?", "o": ["Communicate with external servers", "Only build local widgets", "Compile Dart into CSS", "Replace the device operating system"], "a": "Communicate with external servers"},
+    {"q": "What does API stand for?", "o": ["Application Programming Interface", "Application Process Internet", "Advanced Platform Input", "Automated Program Instance"], "a": "Application Programming Interface"},
+    {"q": "Which REST method retrieves data?", "o": ["GET", "POST", "DELETE", "PATCH only"], "a": "GET"},
+    {"q": "Which REST method commonly creates or sends data?", "o": ["POST", "GET", "READ", "FETCH"], "a": "POST"},
+    {"q": "Which format is commonly exchanged by REST APIs?", "o": ["JSON", "Only Dart source", "Only images", "Binary widgets"], "a": "JSON"},
+    {"q": "Which package is commonly used for HTTP requests in Flutter?", "o": ["http", "provider_ui", "flutter_network_core", "dart_requests_only"], "a": "http"},
+    {"q": "What does jsonDecode() do?", "o": ["Converts JSON text into Dart data", "Converts Dart data into JSON text", "Sends a POST request", "Shows a loading spinner"], "a": "Converts JSON text into Dart data"},
+    {"q": "What does jsonEncode() do?", "o": ["Converts Dart data into JSON text", "Converts JSON into a widget", "Checks a status code", "Creates a ChangeNotifier"], "a": "Converts Dart data into JSON text"},
+    {"q": "What does HTTP status code 200 usually indicate?", "o": ["A successful request", "A newly created resource only", "A client error", "A server crash"], "a": "A successful request"},
+    {"q": "What does HTTP status code 201 commonly indicate?", "o": ["A resource was created successfully", "The request is unauthorized", "The server is unavailable", "The response is still loading"], "a": "A resource was created successfully"},
+    {"q": "Why are async and await used with HTTP requests?", "o": ["To avoid blocking the UI while waiting", "To make every request synchronous", "To remove JSON", "To prevent all errors"], "a": "To avoid blocking the UI while waiting"},
+    {"q": "What is a data model?", "o": ["A Dart class representing structured API data", "A loading animation", "A REST method", "A private widget"], "a": "A Dart class representing structured API data"},
+    {"q": "What is a factory fromJson constructor useful for?", "o": ["Converting a JSON map into a model object", "Sending a DELETE request", "Building a GridView", "Disposing a controller"], "a": "Converting a JSON map into a model object"},
+    {"q": "What should an application display while data is being fetched?", "o": ["A loading indicator or loading state", "Only an empty screen", "A success message immediately", "A database schema"], "a": "A loading indicator or loading state"},
+    {"q": "What does notifyListeners() do in an API provider?", "o": ["Informs listening widgets that state changed", "Sends JSON to the server", "Parses a URL", "Creates a new HTTP method"], "a": "Informs listening widgets that state changed"},
+    {"q": "Which widget can display changing provider data?", "o": ["Consumer", "StaticTextOnly", "ConstructorView", "HttpWidget"], "a": "Consumer"},
+    {"q": "Why use listen: false when calling Provider.of from a button?", "o": ["To update state without making the button listen for rebuilds", "To disable the API", "To hide the password", "To convert a response to JSON"], "a": "To update state without making the button listen for rebuilds"},
+    {"q": "What does try-catch help with in networking code?", "o": ["Handling exceptions gracefully", "Creating a model automatically", "Guaranteeing the server responds", "Replacing status codes"], "a": "Handling exceptions gracefully"},
+    {"q": "Which widget is useful for displaying a dynamic list of API results?", "o": ["ListView.builder", "Only Stack", "Only TextField", "Only AppBar"], "a": "ListView.builder"},
+    {"q": "What is a safe practice for authentication requests?", "o": ["Handle loading, success, failure, and credentials carefully", "Print passwords in production logs", "Assume every response succeeds", "Ignore response status codes"], "a": "Handle loading, success, failure, and credentials carefully"},
+]
+
+def render_mobile_chapter_6_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 6 Assessment — Networking and API Integration (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(MOBILE_CHAPTER_6_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"mobile_ch6_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Chapter 6 Assessment", key="submit_mobile_ch6_quiz"):
+        st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_6_QUIZ)}")
         show_quiz_feedback(answers)
 
 
@@ -3191,6 +3233,179 @@ elif display_page == "Storage & I/O":
 
 
 
+
+elif display_page == "Chapter 6: Networking and API Integration in Flutter":
+    st.markdown("## Mobile Application Development")
+    st.markdown("### Chapter 6: Networking and API Integration in Flutter")
+    st.info("This chapter explains how Flutter applications communicate with external services, exchange JSON data, manage asynchronous requests, and keep the interface synchronized with API state.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Networking and APIs</div>
+        <h3>1.1 Connecting Flutter to External Services</h3>
+        <p>Networking allows a Flutter application to communicate with a server over the internet. Applications use networking to fetch weather and news, send forms and login information, receive live updates, and connect to databases, maps, payment systems, and backend services.</p>
+        <p>An <b>API</b>, or Application Programming Interface, defines rules and endpoints that allow software systems to exchange data. REST is a common API style, and Flutter commonly uses the <code>http</code> package for REST requests.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>GET:</b> Retrieve data.</div>
+            <div class="info-item"><b>POST:</b> Send data or create a resource.</div>
+            <div class="info-item"><b>PUT/PATCH:</b> Update existing data.</div>
+            <div class="info-item"><b>DELETE:</b> Remove data.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. JSON Data</div>
+        <h3>2.1 Exchanging Structured Data</h3>
+        <p><b>JSON</b>, or JavaScript Object Notation, is a lightweight format used to exchange structured data. It commonly represents information as key-value pairs and arrays. Flutter can decode JSON into Maps and Lists, then encode Dart data back into JSON when sending a request.</p>
+        <div class="step-box"><b>Example interpretation:</b> The JSON object below has a name, an age, and a list of skills. Each key identifies the value belonging to it.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("{\n  \"name\": \"John Doe\",\n  \"age\": 30,\n  \"skills\": [\"Flutter\", \"Dart\"]\n}", language="json")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. HTTP Requests</div>
+        <h3>3.1 Adding the http Package and Making GET Requests</h3>
+        <p>HTTP is the foundation of web communication. Add the <code>http</code> package to <code>pubspec.yaml</code>, import it with an alias, and use <code>http.get()</code> to retrieve data. Because a request takes time, use <code>Future</code>, <code>async</code>, and <code>await</code> so the UI remains responsive.</p>
+        <div class="step-box"><b>Reliable request flow:</b> Build the URI → send the request → await the response → check the status code → decode the body → update the application state.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("dependencies:\n  http: ^0.15.0", language="yaml")
+    st.code("import 'dart:convert';\nimport 'package:http/http.dart' as http;\n\nFuture<void> fetchData() async {\n  final response = await http.get(\n    Uri.parse('https://jsonplaceholder.typicode.com/posts'),\n  );\n\n  if (response.statusCode == 200) {\n    final List<dynamic> data = jsonDecode(response.body);\n    print(data);\n  } else {\n    print('Failed to fetch data');\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. Sending Data</div>
+        <h3>4.1 Making POST Requests</h3>
+        <p>A POST request sends data to a server for processing or creates a new record. Convert the Dart map to JSON with <code>jsonEncode()</code> and set the <code>Content-Type</code> header so the server knows how to interpret the body. A successful creation commonly returns status code 201.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Future<void> sendData() async {\n  final response = await http.post(\n    Uri.parse('https://jsonplaceholder.typicode.com/posts'),\n    body: jsonEncode({\n      'title': 'Flutter Networking',\n      'body': 'This is a POST request.',\n      'userId': 1,\n    }),\n    headers: {\n      'Content-Type': 'application/json',\n    },\n  );\n\n  if (response.statusCode == 201) {\n    print('Data sent successfully!');\n  } else {\n    print('Failed to send data');\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. JSON Parsing</div>
+        <h3>5.1 Simple JSON, Nested JSON, and Arrays</h3>
+        <p><code>jsonDecode()</code> converts JSON text into Dart data, usually a <code>Map&lt;String, dynamic&gt;</code> for an object or a List for an array. Access object values by key and array values by index. Nested JSON requires moving through more than one level of the structure.</p>
+        <div class="step-box"><b>Data boundary principle:</b> Parse API data at the boundary of the application, then pass clear Dart values or model objects to the UI.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("import 'dart:convert';\n\nvoid parseJson() {\n  const jsonString = '{\"name\": \"John\", \"age\": 30}';\n  final Map<String, dynamic> user = jsonDecode(jsonString);\n  print(user['name']); // John\n\n  const complex =\n      '{\"name\": \"John\", \"skills\": [\"Flutter\", \"Dart\"]}';\n  final Map<String, dynamic> profile = jsonDecode(complex);\n  final List<dynamic> skills = profile['skills'];\n  print(skills[0]); // Flutter\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. Data Models</div>
+        <h3>6.1 Converting JSON into Typed Dart Objects</h3>
+        <p>A data model is a Dart class that represents the structure of API data. Instead of passing unstructured maps throughout the application, a model gives fields meaningful names and provides a single place to convert JSON into a typed object.</p>
+        <p>A factory constructor such as <code>User.fromJson()</code> reads the JSON keys and creates a User instance. This approach improves readability, validation, and maintainability as the API grows.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class User {\n  String name;\n  int age;\n\n  User({required this.name, required this.age});\n\n  factory User.fromJson(Map<String, dynamic> json) {\n    return User(\n      name: json['name'],\n      age: json['age'],\n    );\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. API Data and State Management</div>
+        <h3>7.1 Loading, Success, and Error States</h3>
+        <p>API data must be fetched, stored, updated, and displayed. State management keeps the UI synchronized while the request is running and after it completes. A robust screen normally represents at least three states: loading, successful data, and an error message.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Loading:</b> Show a CircularProgressIndicator or skeleton UI.</div>
+            <div class="info-item"><b>Success:</b> Display decoded data using widgets such as ListView.builder.</div>
+            <div class="info-item"><b>Error:</b> Show a clear message and, when appropriate, a retry action.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. Provider for API Data</div>
+        <h3>8.1 ChangeNotifier, Fetching, and notifyListeners()</h3>
+        <p>A Provider-based API flow stores remote data inside a ChangeNotifier. The provider sends the request, decodes the response, updates its fields, and calls <code>notifyListeners()</code>. Listening widgets then rebuild with the latest data.</p>
+        <div class="step-box"><b>General process:</b> Fetch → store → update state → notify listeners → rebuild the relevant UI.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class DataProvider extends ChangeNotifier {\n  List<dynamic> data = [];\n  bool isLoading = false;\n\n  Future<void> fetchData() async {\n    isLoading = true;\n    notifyListeners();\n\n    final response = await http.get(\n      Uri.parse('https://jsonplaceholder.typicode.com/posts'),\n    );\n\n    if (response.statusCode == 200) {\n      data = jsonDecode(response.body);\n    }\n\n    isLoading = false;\n    notifyListeners();\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. Displaying API Data</div>
+        <h3>9.1 Consumer and ListView.builder</h3>
+        <p><code>Consumer&lt;DataProvider&gt;</code> listens to changes and rebuilds the relevant UI. <code>ListView.builder</code> creates a list item for each API result. If the data is empty because the request is still running, show a loading indicator; once the data arrives, show the list.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Consumer<DataProvider>(\n  builder: (context, dataProvider, child) {\n    if (dataProvider.isLoading) {\n      return Center(child: CircularProgressIndicator());\n    }\n\n    return ListView.builder(\n      itemCount: dataProvider.data.length,\n      itemBuilder: (context, index) {\n        return ListTile(\n          title: Text(dataProvider.data[index]['title']),\n        );\n      },\n    );\n  },\n)", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. Practical Example: Posts API</div>
+        <h3>10.1 Fetching and Displaying Posts</h3>
+        <p>A PostsProvider can retrieve posts from a REST endpoint, decode the response, store it in a list, and notify a Consumer. The UI then displays a dynamic list of titles. This pattern can be reused for products, messages, news, or any endpoint that returns a collection.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class PostsProvider extends ChangeNotifier {\n  List<dynamic> posts = [];\n\n  Future<void> fetchPosts() async {\n    final response = await http.get(\n      Uri.parse('https://jsonplaceholder.typicode.com/posts'),\n    );\n\n    if (response.statusCode == 200) {\n      posts = jsonDecode(response.body);\n      notifyListeners();\n    }\n  }\n}\n\nConsumer<PostsProvider>(\n  builder: (context, postsProvider, child) {\n    return ListView.builder(\n      itemCount: postsProvider.posts.length,\n      itemBuilder: (context, index) => ListTile(\n        title: Text(postsProvider.posts[index]['title']),\n      ),\n    );\n  },\n)", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. Practical Example: Authentication</div>
+        <h3>11.1 Login Flow with a POST Request</h3>
+        <p>A login flow accepts a username and password, sends them to an authentication endpoint with POST, checks the response, and updates an <code>isLoggedIn</code> state. The UI can listen to that state and show either a success message or a prompt to log in.</p>
+        <div class="step-box"><b>Security note:</b> Use HTTPS, avoid printing passwords or tokens in logs, validate input, handle failed authentication clearly, and store credentials or tokens only through an appropriate secure mechanism.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class LoginProvider extends ChangeNotifier {\n  bool isLoggedIn = false;\n\n  Future<void> login(String username, String password) async {\n    final response = await http.post(\n      Uri.parse('https://example.com/api/login'),\n      body: jsonEncode({\n        'username': username,\n        'password': password,\n      }),\n      headers: {'Content-Type': 'application/json'},\n    );\n\n    if (response.statusCode == 200) {\n      isLoggedIn = true;\n      notifyListeners();\n    }\n  }\n}\n\nConsumer<LoginProvider>(\n  builder: (context, loginProvider, child) {\n    return loginProvider.isLoggedIn\n        ? Text('Login Successful')\n        : Text('Please Log In');\n  },\n)", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. Login Form Widgets</div>
+        <h3>12.1 TextField, Password Input, and Login Button</h3>
+        <p>A login form can use one TextField for the username and another with <code>obscureText: true</code> for the password. The <code>onChanged</code> callback keeps local variables updated. The button calls the provider with <code>listen: false</code> because it needs to trigger an action rather than rebuild with every login-state change.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("TextField(\n  decoration: InputDecoration(labelText: 'Username'),\n  onChanged: (value) => username = value,\n)\n\nTextField(\n  decoration: InputDecoration(labelText: 'Password'),\n  obscureText: true,\n  onChanged: (value) => password = value,\n)\n\nElevatedButton(\n  onPressed: () {\n    Provider.of<LoginProvider>(context, listen: false)\n        .login(username, password);\n  },\n  child: Text('Login'),\n)", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. Combining GET and POST</div>
+        <h3>13.1 Reading Existing Data and Creating New Entries</h3>
+        <p>Many applications need both directions of communication. A screen can use GET to load existing records, display them in a ListView, and use a form with POST to submit a new record. After a successful POST, refresh the list or update local state so the interface reflects the server's latest data.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. Error Handling</div>
+        <h3>14.1 Handling Network Failures Gracefully</h3>
+        <p>Requests can fail because of no internet connection, an invalid URL, a timeout, an unauthorized request, a server error, or an unexpected response body. Use <code>try-catch</code> for exceptions, check status codes, preserve an error message in state, and show a user-friendly recovery option.</p>
+        <div class="step-box"><b>User experience principle:</b> Do not leave users with an empty screen. Explain what happened and provide Retry when retrying is meaningful.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("try {\n  final response = await http.get(\n    Uri.parse('https://example.com'),\n  );\n\n  if (response.statusCode != 200) {\n    throw Exception('Failed to fetch data');\n  }\n} catch (e) {\n  print('Error: $e');\n  // Store an error message and show it in the UI.\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">15. Real-World API Applications</div>
+        <h3>15.1 From Learning Examples to Products</h3>
+        <p>API integration can power weather applications, news readers, e-commerce catalogs, chat systems, payment workflows, maps, and user accounts. Each product should define its API models, loading and error states, authentication rules, caching strategy, and retry behavior before the UI becomes large.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Weather:</b> Fetch current conditions and forecasts.</div>
+            <div class="info-item"><b>News:</b> Load dynamic headlines and article details.</div>
+            <div class="info-item"><b>E-commerce:</b> Manage products, carts, and accounts.</div>
+            <div class="info-item"><b>Chat:</b> Use suitable real-time APIs such as WebSockets.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">Chapter Conclusion</div>
+        <h3>What You Should Know After Chapter 6</h3>
+        <p>After completing this chapter, you should be able to explain networking and REST APIs, distinguish GET, POST, PUT/PATCH, and DELETE, add the http package, send asynchronous requests, check status codes, encode and decode JSON, create data models with factory constructors, and display API data in Flutter widgets.</p>
+        <p>You should also be able to manage API data with ChangeNotifier and Provider, represent loading, success, and error states, build posts and authentication examples, combine GET and POST workflows, and handle failures with clear user feedback.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_mobile_chapter_6_quiz()
 
 elif display_page == "Chapter 5: Advanced Widgets and State Management in Flutter":
     st.markdown("## Mobile Application Development")

@@ -247,6 +247,7 @@ LANGUAGES = {
         "toc": "Theory of Computation",
         "os": "Operating Systems",
         "db": "Database Systems",
+        "mobile": "Mobile Application Development",
         "exam_prep": "🚀 Smart Exam Prep",
         "community": "👥 Community Corner",
         "dash_title": "🏛️ CS Portal Dashboard",
@@ -271,6 +272,7 @@ LANGUAGES = {
         "toc": "Theory of Computation",
         "os": "Operating Systems",
         "db": "Database Systems",
+        "mobile": "Mobile Application Development",
         "exam_prep": "🚀 Smart Exam Prep",
         "community": "👥 Community Corner",
         "dash_title": "🏛️ Computer Science Portal Dashboard",
@@ -295,6 +297,7 @@ LANGUAGES = {
         "toc": "Theory of Computation",
         "os": "Operating Systems",
         "db": "Database Systems",
+        "mobile": "Mobile Application Development",
         "exam_prep": "🚀 Smart Exam Prep",
         "community": "👥 Community Corner",
         "dash_title": "🏛️ CS Portal Dashboard",
@@ -785,6 +788,7 @@ nav_map = {
     t("toc"): "Theory of Computation",
     t("os"): "Operating Systems",
     t("db"): "Database Systems",
+    t("mobile"): "Mobile Application Development",
     t("exam_prep"): "🚀 Smart Exam Prep",
     
     
@@ -817,6 +821,12 @@ elif main_subject == "Database Systems":
     subject = st.sidebar.selectbox(
         t("lesson_select"),
         ['Chapter 1: Introduction to Database Systems', 'Chapter 2: Database Architecture', 'Chapter 3: Relational Model Concepts', 'Chapter 4: Relational Algebra', 'Chapter 5: Entity-Relationship Model', 'Chapter 6: Enhanced ER Model (EER)', 'Chapter 7: Relational Database Design by ER- and EER-to-Relational Mapping', 'Chapter 8: Basics of Functional Dependencies and Normalization']
+    )
+    st.session_state.current_page = subject
+elif main_subject == "Mobile Application Development":
+    subject = st.sidebar.selectbox(
+        t("lesson_select"),
+        ["Chapter 1: Introduction to Flutter and Dart Programming Language"]
     )
     st.session_state.current_page = subject
 else:
@@ -953,6 +963,89 @@ def render_database_quiz(bank_key, title):
             st.info("Strong performance. Review the missed concepts to reach full mastery.")
         else:
             st.warning("This quiz is advanced. Review the chapter and try again.")
+
+
+
+
+# --- Mobile Application Development: Chapter 1 ---
+MOBILE_CHAPTER_1_LESSONS = [
+    ("1. Overview of Flutter", "Flutter is an open-source UI toolkit developed by Google for building cross-platform applications from a single codebase. It uses a widget-based architecture and supports fast development and smooth animations.", "Text('Hello Flutter');"),
+    ("1.1 What is Flutter?", "Flutter provides a single development approach for Android, iOS, web, and desktop applications. Its user interface is built from reusable widgets.", "Text('Hello Flutter');"),
+    ("1.2 Features of Flutter", "Important features include Hot Reload, cross-platform compatibility, high performance, a rich package ecosystem, and a large developer community. Hot Reload shows code changes quickly without restarting the entire application.", "// Edit the code, save, and observe the running app update through Hot Reload."),
+    ("1.3 Why Flutter?", "Flutter supports faster development, one codebase for multiple platforms, easy UI development, smooth animations, native-like performance, and convenient debugging and testing.", "// One widget tree can be used to target multiple platforms."),
+    ("2. Flutter Architecture", "Flutter is commonly understood through the Framework layer, Engine layer, and Platform layer. Together they connect Dart code, widgets, rendering, and the target operating system.", "// Framework -> Engine -> Platform"),
+    ("2.1 Flutter Framework Layer", "The Framework layer contains the APIs, widgets, and tools used to construct the user interface and application behavior.", "Scaffold(\n  appBar: AppBar(\n    title: Text('My App'),\n  ),\n);"),
+    ("2.2 Flutter Engine Layer", "The Flutter Engine renders the application and provides high-performance graphics and the runtime support required by the framework.", "// The engine turns the widget tree into rendered frames."),
+    ("2.3 Platform Layer", "The Platform layer connects Flutter with operating systems such as Android and iOS and enables platform-specific integration when needed.", "// Flutter application <-> Android / iOS platform APIs"),
+    ("3. Flutter and Google SDK", "Flutter works with Google's development ecosystem and supports Firebase, Android Studio, Visual Studio Code, Material Design, Cupertino widgets, testing tools, and debugging tools.", "// Flutter can integrate with Firebase for backend services."),
+    ("4. Flutter Benefits", "Flutter offers a single codebase, faster development, high performance, customizable interfaces, a rich widget collection, multi-platform support, and strong Google support.", "// Reusable widgets make UI customization practical."),
+    ("5. Overview of Dart Programming", "Dart is a programming language developed by Google and the primary language used with Flutter. It supports cross-platform development, AOT and JIT compilation, high performance, and asynchronous programming.", "// Dart code is used to define Flutter widgets and application behavior."),
+    ("5.1 Why Dart for Flutter?", "Dart is designed for application development, integrates directly with Flutter, compiles quickly, supports UI development, and works efficiently with Flutter's widget system.", "// Dart + Flutter widgets = application UI and logic"),
+    ("6. Key Features of Dart", "Dart provides strong typing, null safety, AOT compilation, JIT compilation, asynchronous programming, and built-in libraries.", "int age = 20;\ndouble price = 15.5;\nString name = 'Mohrah';"),
+    ("6.1 Strongly Typed Language", "Dart supports strongly typed variables, making the intended type of a value explicit and helping detect invalid operations.", "int age = 20;\ndouble price = 15.5;\nString name = 'Mohrah';"),
+    ("6.2 Null Safety", "Null safety helps prevent errors caused by unexpected null values by requiring nullable values to be handled explicitly.", "String name = 'Dart';\nString? nickname;"),
+    ("6.3 Ahead-of-Time Compilation (AOT)", "AOT compilation converts Dart code into native machine code before execution and helps improve application performance in production.", "// Production builds commonly use AOT compilation."),
+    ("6.4 Just-in-Time Compilation (JIT)", "JIT compilation is useful during development and supports development features such as Hot Reload.", "// Development workflow: edit -> JIT compile -> Hot Reload"),
+    ("6.5 Asynchronous Programming", "Dart supports asynchronous programming using Future, async, and await so an application can perform work without blocking the user interface.", "Future<void> getData() async {\n  await fetchData();\n}"),
+    ("6.6 Built-in Libraries", "Dart's built-in libraries provide reusable functionality for common programming tasks and reduce the need to implement basic utilities from scratch.", "// Import and reuse functionality from Dart libraries."),
+    ("7. Basic Dart", "The basic building blocks of Dart include variables, data types, the main function, string interpolation, and comments.", "void main() {\n  print('Hello, World!');\n}"),
+    ("7.1 Variables and Data Types", "Variables store values, and Dart provides common types such as int, double, String, and bool.", "int age = 20;\ndouble price = 10.5;\nString name = 'Dart';"),
+    ("7.2 The main() Function", "The main() function is the entry point of a Dart program.", "void main() {\n  print('Hello, World!');\n}"),
+    ("7.3 String Interpolation", "String interpolation allows variables to be inserted into strings using the dollar sign.", "void main() {\n  String name = 'Dart';\n  print('Hello, $name!');\n}\n\nOutput: Hello, Dart!"),
+    ("7.4 Comments", "Comments document code and are ignored by the compiler. Dart supports single-line and multi-line comments.", "// This is a single-line comment\n\n/*\nThis is a\nmulti-line comment\n*/"),
+    ("8. First Dart Program", "A first Dart program normally demonstrates main(), print(), and the semicolon that terminates a statement.", "void main() {\n  print('Hello, World!');\n}"),
+    ("9. Dart Packages and Libraries", "Dart packages provide reusable functionality that can be added to applications instead of being built from scratch. Dart libraries organize reusable code and functionality.", "// Add dependencies and assets through pubspec.yaml."),
+    ("10. Dart Compared with Other Languages", "Dart provides simple syntax, fast development, cross-platform support, Hot Reload through Flutter, strong Flutter integration, and efficient application development.", "// Dart is optimized for productive application development."),
+    ("11. Benefits of Flutter and Dart Together", "Together, Flutter and Dart provide faster development cycles, one codebase, cross-platform development, customizable widgets, high performance, easy UI development, animation support, and a large ecosystem.", "void main() {\n  runApp(\n    MaterialApp(\n      home: Scaffold(\n        body: Center(\n          child: Text('Hello Flutter'),\n        ),\n      ),\n    ),\n  );\n}"),
+    ("12. Real-World Applications", "Flutter has been used in applications such as Google Ads, eBay Motors, Alibaba, Reflectly, and the Hamilton Musical App.", "// Flutter is suitable for consumer, business, and service applications."),
+    ("13. Challenges with Flutter and Dart", "Challenges can include platform-specific bugs, a smaller ecosystem than some native alternatives, APIs that require native code, larger application size, the learning curve of Dart, and platform-specific advanced features.", "// Use platform channels when a native API is not directly available."),
+    ("14. Future Trends", "Future trends include growing cross-platform development, continued Flutter development, support for more platforms, growth of libraries and plugins, a larger developer community, and increasing use in application development.", "// Cross-platform development continues to expand."),
+    ("15. Setting Up Flutter SDK", "To install Flutter, download the SDK, extract it, add Flutter to the environment variables, run Flutter Doctor, check dependencies, and install the required development tools.", "flutter doctor"),
+    ("15.2 Setting Up an IDE", "Flutter can be developed using Android Studio or Visual Studio Code. Install the Flutter plugin in Android Studio or the Flutter extension in Visual Studio Code.", "// Android Studio: install the Flutter plugin\n// Visual Studio Code: install the Flutter extension"),
+    ("15.3 Setting Up an Emulator", "Developers can test Flutter applications using an Android Emulator or an iOS Simulator.", "// Start an Android Emulator or iOS Simulator before running the app."),
+    ("16. Creating a New Flutter Project", "Create a project by opening Android Studio or Visual Studio Code, selecting New Flutter Project, entering a project name and location, selecting the Flutter SDK path, creating the project, and opening the generated project.", "flutter create my_app\ncd my_app"),
+    ("17. Understanding Flutter Project Structure", "The lib folder contains Dart application code; android and ios contain platform-specific files; test contains testing files; pubspec.yaml manages dependencies, assets, and project configuration; README.md contains documentation.", "lib/\n└── main.dart\n\nandroid/\nios/\ntest/\npubspec.yaml\nREADME.md"),
+    ("18. Running Your First Flutter App", "Connect a physical device or start an emulator, open lib/main.dart, run the application, interact with the default Counter App, modify the code, and use Hot Reload to see changes.", "flutter run"),
+    ("18.2 Hot Reload", "Hot Reload applies code changes quickly while the application is running, making it an important part of the Flutter development workflow.", "// Modify a widget, save the file, and use Hot Reload to view the change."),
+]
+
+MOBILE_CHAPTER_1_QUIZ = [
+    {"q": "Which organization developed Flutter?", "o": ["Google", "Apple", "Microsoft", "Oracle"], "a": "Google"},
+    {"q": "What is the primary programming language used with Flutter?", "o": ["Dart", "Kotlin", "Swift", "JavaScript"], "a": "Dart"},
+    {"q": "What does Hot Reload primarily provide?", "o": ["Fast visible code updates during development", "Database encryption", "Automatic app publishing", "A replacement for testing"], "a": "Fast visible code updates during development"},
+    {"q": "Flutter applications are primarily built from:", "o": ["Widgets", "Servlets", "SQL tables", "Assembly blocks"], "a": "Widgets"},
+    {"q": "Which Flutter layer contains widgets and framework APIs?", "o": ["Framework layer", "Engine layer", "Platform layer", "Hardware layer"], "a": "Framework layer"},
+    {"q": "Which layer is responsible for rendering and high-performance graphics?", "o": ["Flutter Engine layer", "Dart package layer", "External API layer", "IDE layer"], "a": "Flutter Engine layer"},
+    {"q": "Which Dart feature helps prevent unexpected null-value errors?", "o": ["Null safety", "Hot Restart", "Material Design", "AOT only"], "a": "Null safety"},
+    {"q": "What is the entry point of a Dart program?", "o": ["main()", "start()", "run()", "init()"], "a": "main()"},
+    {"q": "Which keyword is used with await?", "o": ["async", "sync", "futureless", "defer"], "a": "async"},
+    {"q": "AOT compilation generally converts Dart code into:", "o": ["Native machine code before execution", "HTML only", "Database tables", "Widget metadata only"], "a": "Native machine code before execution"},
+    {"q": "JIT compilation is especially useful for:", "o": ["Development workflows and Hot Reload", "Removing all dependencies", "Creating database schemas", "Replacing the operating system"], "a": "Development workflows and Hot Reload"},
+    {"q": "Which file manages Flutter dependencies and assets?", "o": ["pubspec.yaml", "main.dart", "README.md", "build.xml"], "a": "pubspec.yaml"},
+    {"q": "Where is the main Dart application code normally stored?", "o": ["lib/", "android/", "ios/", "test/"], "a": "lib/"},
+    {"q": "Which command checks Flutter installation and dependencies?", "o": ["flutter doctor", "flutter inspect", "dart verify", "flutter install-check"], "a": "flutter doctor"},
+    {"q": "Which command creates a new Flutter project from the command line?", "o": ["flutter create my_app", "flutter new my_app", "dart make my_app", "flutter init-project my_app"], "a": "flutter create my_app"},
+    {"q": "Which widget is commonly used as a basic Material page structure?", "o": ["Scaffold", "Future", "String", "Package"], "a": "Scaffold"},
+    {"q": "String interpolation in Dart commonly uses:", "o": ["The dollar sign ($)", "The hash sign (#)", "The percent sign (%)", "The ampersand (&)"], "a": "The dollar sign ($)"},
+    {"q": "Which folder contains Flutter tests?", "o": ["test/", "spec/", "checks/", "qa/"], "a": "test/"},
+    {"q": "Which tool can be used as a Flutter IDE?", "o": ["Android Studio or Visual Studio Code", "Only a database console", "Only a web browser", "Only a spreadsheet editor"], "a": "Android Studio or Visual Studio Code"},
+    {"q": "What is a major benefit of Flutter and Dart together?", "o": ["A single codebase for multiple platforms", "No need for any testing", "Automatic elimination of native APIs", "A requirement to write separate code for every platform"], "a": "A single codebase for multiple platforms"},
+]
+
+def render_mobile_chapter_1_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 1 Assessment — Flutter and Dart (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(MOBILE_CHAPTER_1_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"mobile_ch1_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Chapter 1 Assessment", key="submit_mobile_ch1_quiz"):
+        st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_1_QUIZ)}")
+        show_quiz_feedback(answers)
 
 
 # --- 6. MODULES ---
@@ -2928,6 +3021,23 @@ elif display_page == "Storage & I/O":
     st.info("Storage & I/O module is under development. Stay tuned!")
 
 
+
+
+
+elif display_page == "Chapter 1: Introduction to Flutter and Dart Programming Language":
+    st.markdown("## Mobile Application Development")
+    st.markdown("### Chapter 1: Introduction to Flutter and Dart Programming Language")
+    st.info("This chapter introduces Flutter, its architecture, the Dart programming language, project setup, and the first Flutter application.")
+    for lesson_title, explanation, code_example in MOBILE_CHAPTER_1_LESSONS:
+        with st.expander(lesson_title, expanded=False):
+            st.markdown(f"**Explanation:** {explanation}")
+            st.markdown("**Example / Code:**")
+            st.code(code_example, language="dart")
+    st.markdown("### Chapter Summary")
+    st.markdown("""
+    By the end of this chapter, students should understand Flutter, its benefits and architecture, Dart fundamentals, variables and data types, the `main()` and `print()` functions, string interpolation, comments, AOT and JIT compilation, asynchronous programming, packages and libraries, Flutter project setup, project structure, running an application, and Hot Reload.
+    """)
+    render_mobile_chapter_1_quiz()
 
 elif display_page == "🚀 Smart Exam Prep":
     st.markdown("## 🚀 The Ultimate Challenge: Professional Quiz Bank")

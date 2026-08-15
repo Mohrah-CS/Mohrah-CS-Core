@@ -3027,16 +3027,244 @@ elif display_page == "Storage & I/O":
 elif display_page == "Chapter 1: Introduction to Flutter and Dart Programming Language":
     st.markdown("## Mobile Application Development")
     st.markdown("### Chapter 1: Introduction to Flutter and Dart Programming Language")
-    st.info("This chapter introduces Flutter, its architecture, the Dart programming language, project setup, and the first Flutter application.")
-    for lesson_title, explanation, code_example in MOBILE_CHAPTER_1_LESSONS:
-        with st.expander(lesson_title, expanded=False):
-            st.markdown(f"**Explanation:** {explanation}")
-            st.markdown("**Example / Code:**")
-            st.code(code_example, language="dart")
-    st.markdown("### Chapter Summary")
+    st.info("This chapter builds a complete foundation for Flutter and Dart. Each topic follows a continuous learning path: concept, explanation, practical notes, and a directly related example.")
+
     st.markdown("""
-    By the end of this chapter, students should understand Flutter, its benefits and architecture, Dart fundamentals, variables and data types, the `main()` and `print()` functions, string interpolation, comments, AOT and JIT compilation, asynchronous programming, packages and libraries, Flutter project setup, project structure, running an application, and Hot Reload.
-    """)
+    <div class="learning-card">
+        <div class="concept-badge">1. Flutter Fundamentals</div>
+        <h3>1.1 What Is Flutter?</h3>
+        <p><b>Flutter</b> is an open-source UI toolkit developed by Google for building applications from a shared codebase. Instead of creating a completely separate interface for every platform, developers describe the interface with Dart and Flutter widgets, then target Android, iOS, web, and desktop.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Widget-based:</b> The interface is composed of reusable widgets such as text, buttons, rows, columns, and screens.</div>
+            <div class="info-item"><b>Cross-platform:</b> One project can target multiple operating systems while still allowing platform-specific integration.</div>
+            <div class="info-item"><b>Productive:</b> Hot Reload shortens the edit-test cycle during development.</div>
+        </div>
+        <div class="step-box"><b>Core idea:</b> A Flutter screen is a tree of widgets. The tree describes what the user should see and how the interface should behave.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Text('Hello Flutter');", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1.2 Flutter Features and Motivation</div>
+        <h3>Why Do Developers Choose Flutter?</h3>
+        <p>Flutter combines a fast development workflow with a flexible rendering system. Its main strengths are Hot Reload, cross-platform compatibility, high performance, a rich ecosystem of packages, and a large developer community.</p>
+        <table class="summary-table">
+            <tr><th>Feature</th><th>Practical meaning</th></tr>
+            <tr><td><b>Hot Reload</b></td><td>Apply many code changes immediately without restarting the entire application.</td></tr>
+            <tr><td><b>Single codebase</b></td><td>Share application logic and much of the interface across platforms.</td></tr>
+            <tr><td><b>Rich widgets</b></td><td>Build consistent Material and Cupertino interfaces with reusable components.</td></tr>
+            <tr><td><b>Performance</b></td><td>Render a smooth interface and support animations when the application is designed efficiently.</td></tr>
+        </table>
+        <div class="step-box"><b>Important distinction:</b> Cross-platform development does not mean that platform-specific code is impossible. It means that shared code is the default, while native integration is used where necessary.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Flutter Architecture</div>
+        <h3>2.1 Framework, Engine, and Platform Layers</h3>
+        <p>Flutter can be understood as three cooperating layers. The <b>Framework layer</b> provides Dart APIs, widgets, layout, gestures, animation, and application services. The <b>Engine layer</b> renders the widget tree, handles graphics, and provides the runtime support. The <b>Platform layer</b> connects the Flutter application to Android, iOS, web, or desktop capabilities.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Framework:</b> The developer-facing layer used to build screens and application logic.</div>
+            <div class="info-item"><b>Engine:</b> The rendering and runtime layer that turns the framework description into frames.</div>
+            <div class="info-item"><b>Platform:</b> The operating-system integration layer for devices, plugins, and native services.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Scaffold(\n  appBar: AppBar(\n    title: Text('My App'),\n  ),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Flutter and the Google Development Ecosystem</div>
+        <h3>Tools and Services That Support Flutter</h3>
+        <p>Flutter works with a broad development ecosystem. <b>Android Studio</b> and <b>Visual Studio Code</b> provide editing and debugging workflows. <b>Firebase</b> can provide backend services such as authentication, databases, analytics, and notifications. Material Design and Cupertino widgets help developers create interfaces that fit Android and iOS conventions.</p>
+        <div class="step-box"><b>Development principle:</b> Select tools according to the application requirement. Flutter provides the interface layer, while packages and services extend the application with networking, storage, authentication, testing, and deployment capabilities.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. Benefits and Trade-offs</div>
+        <h3>4.1 Benefits and 4.2 Challenges</h3>
+        <p>Flutter and Dart provide a productive path for application development, but a professional developer also understands their trade-offs. Benefits include a shared codebase, customizable widgets, fast development, high performance, animation support, and a growing ecosystem.</p>
+        <p>Challenges may include platform-specific bugs, application size, a learning curve for Dart, reliance on plugins for some capabilities, and the need for native code when an operating-system API is not exposed directly through Flutter.</p>
+        <div class="step-box"><b>Engineering decision:</b> Use shared Flutter code for common behavior and use platform channels or a maintained plugin when the application needs a native capability.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. Dart Programming Language</div>
+        <h3>5.1 What Is Dart and Why Is It Used with Flutter?</h3>
+        <p><b>Dart</b> is Google's programming language for Flutter application development. It is designed for application interfaces, supports strong typing and null safety, and includes both development-oriented JIT compilation and production-oriented AOT compilation.</p>
+        <ul>
+            <li>Dart integrates directly with Flutter's widget system.</li>
+            <li>Its syntax is approachable for developers familiar with C-style languages.</li>
+            <li>It supports asynchronous programming through <code>Future</code>, <code>async</code>, and <code>await</code>.</li>
+            <li>Its libraries and package ecosystem support common application tasks.</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. Dart Type System and Compilation</div>
+        <h3>6.1 Strong Typing, 6.2 Null Safety, 6.3 AOT, and 6.4 JIT</h3>
+        <p>Dart's type system makes the intended kind of data visible in the code. <b>Null safety</b> distinguishes values that must exist from values that may be null. This helps catch many errors before the application runs.</p>
+        <p><b>JIT compilation</b> supports rapid development features such as Hot Reload. <b>AOT compilation</b> converts Dart code into native machine code ahead of execution and is commonly used to improve production performance.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("int age = 20;\ndouble price = 15.5;\nString name = 'Mohrah';\nString? nickname;", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. Asynchronous Programming and Libraries</div>
+        <h3>7.1 async, await, Future, and Built-in Libraries</h3>
+        <p>Mobile applications frequently wait for network responses, files, databases, or device services. Dart's asynchronous model allows this work to happen without freezing the user interface. A <code>Future</code> represents a value that may become available later; <code>async</code> marks an asynchronous function, and <code>await</code> pauses that function until the Future completes.</p>
+        <p>Dart's built-in libraries provide reusable capabilities, while external packages can add features without requiring every developer to implement them from scratch.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Future<void> getData() async {\n  await fetchData();\n  print('Data is ready');\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. Dart Fundamentals</div>
+        <h3>8.1 Variables, Data Types, and the main() Function</h3>
+        <p>Variables hold values that an application uses while it runs. Common Dart types include <code>int</code> for whole numbers, <code>double</code> for decimal numbers, <code>String</code> for text, and <code>bool</code> for true or false values. The <code>main()</code> function is the entry point of a Dart program.</p>
+        <div class="step-box"><b>Good practice:</b> Choose meaningful variable names and prefer explicit types when they make the code easier to understand.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("void main() {\n  int age = 20;\n  String name = 'Dart';\n  print('Name: $name, Age: $age');\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. Text, Output, and Comments</div>
+        <h3>9.1 String Interpolation and 9.2 Comments</h3>
+        <p><b>String interpolation</b> inserts a variable or expression into a string using the dollar sign. It keeps output readable and avoids unnecessary string concatenation. Comments explain intent, document decisions, and make code easier to maintain.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Single-line comment:</b> Begins with <code>//</code>.</div>
+            <div class="info-item"><b>Multi-line comment:</b> Starts with <code>/*</code> and ends with <code>*/</code>.</div>
+            <div class="info-item"><b>Output:</b> The <code>print()</code> function writes text to the console during development.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("void main() {\n  String name = 'Dart';\n  print('Hello, $name!');\n}\n\n// Output: Hello, Dart!", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. First Dart Program</div>
+        <h3>10.1 Hello World</h3>
+        <p>The Hello World program is small, but it demonstrates the complete flow of a Dart program: execution starts in <code>main()</code>, <code>print()</code> writes output, and the semicolon marks the end of a statement.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("void main() {\n  print('Hello, World!');\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. Packages and Libraries</div>
+        <h3>11.1 Reusing Dart Functionality</h3>
+        <p>A <b>package</b> is a reusable distribution of Dart or Flutter code. A <b>library</b> organizes related classes, functions, and utilities. Packages reduce duplication and allow an application to use established solutions for networking, state management, storage, testing, and more.</p>
+        <div class="step-box"><b>Project connection:</b> Dependencies and assets are declared in <code>pubspec.yaml</code>, then retrieved and used by the application.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. Dart Compared with Other Languages</div>
+        <h3>12.1 Choosing Dart for Application Development</h3>
+        <p>Dart has a simple, readable syntax and is optimized for Flutter's UI model. Compared with using separate native languages for every platform, Dart can reduce duplicated application logic. The comparison is not about one language being universally better; it is about matching the language and toolkit to the product requirements, team skills, and target platforms.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. Flutter and Dart in One Application</div>
+        <h3>13.1 Building a Minimal Flutter App</h3>
+        <p>Flutter uses Dart to describe the application entry point and the widget tree. The following example creates a Material application containing a scaffold, a centered body, and a text widget.</p>
+        <div class="step-box"><b>Reading the example:</b> <code>runApp()</code> starts the widget tree, <code>MaterialApp</code> provides Material behavior, <code>Scaffold</code> supplies a page structure, and <code>Center</code> positions its child.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("void main() {\n  runApp(\n    MaterialApp(\n      home: Scaffold(\n        body: Center(\n          child: Text('Hello Flutter'),\n        ),\n      ),\n    ),\n  );\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. Real-World Applications</div>
+        <h3>14.1 Where Flutter Can Be Used</h3>
+        <p>Flutter is suitable for consumer applications, business tools, commerce experiences, media products, dashboards, and prototypes. Examples associated with Flutter include Google Ads, eBay Motors, Alibaba, Reflectly, and the Hamilton Musical App.</p>
+        <div class="step-box"><b>Application lesson:</b> The toolkit is valuable when a product needs a consistent interface across platforms and a fast iteration cycle.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">15. Future Trends</div>
+        <h3>15.1 The Future of Flutter and Dart</h3>
+        <p>Important trends include continued cross-platform development, support for more platforms, growth of Flutter packages and plugins, a larger developer community, and increased use of Flutter for application development. Developers should continue learning platform integration, testing, accessibility, performance, and maintainable architecture alongside the toolkit itself.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">16. Flutter SDK Setup</div>
+        <h3>16.1 Installing the SDK, IDE, and Emulator</h3>
+        <p>A reliable setup starts with downloading and extracting the Flutter SDK, adding Flutter to the environment variables, running Flutter Doctor, and installing the required dependencies. Development can be done in Android Studio or Visual Studio Code with the appropriate Flutter tooling. An Android Emulator or iOS Simulator can provide a test device.</p>
+        <ol>
+            <li>Download and extract the Flutter SDK.</li>
+            <li>Add the Flutter binary directory to the environment path.</li>
+            <li>Run <code>flutter doctor</code> and resolve the reported dependencies.</li>
+            <li>Install the Flutter plugin or extension in the chosen IDE.</li>
+            <li>Start an emulator or connect a physical device.</li>
+        </ol>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("flutter doctor", language="bash")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">17. Creating a Flutter Project</div>
+        <h3>17.1 Create Your First Flutter Project</h3>
+        <p>A new project can be created from an IDE or the command line. The project name and location should be chosen carefully because they become part of the development workflow and build configuration.</p>
+        <div class="step-box"><b>Command-line sequence:</b> Create the project, enter its directory, inspect the generated files, then run the application on a device or emulator.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("flutter create my_app\ncd my_app\nflutter run", language="bash")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">18. Flutter Project Structure</div>
+        <h3>18.1 Understanding the Generated Folders and Files</h3>
+        <table class="summary-table">
+            <tr><th>Path</th><th>Purpose</th></tr>
+            <tr><td><code>lib/</code></td><td>Main Dart application code, commonly starting with <code>lib/main.dart</code>.</td></tr>
+            <tr><td><code>android/</code></td><td>Android-specific project and build files.</td></tr>
+            <tr><td><code>ios/</code></td><td>iOS-specific project and build files.</td></tr>
+            <tr><td><code>test/</code></td><td>Unit, widget, and other automated testing files.</td></tr>
+            <tr><td><code>pubspec.yaml</code></td><td>Dependencies, assets, metadata, and project configuration.</td></tr>
+            <tr><td><code>README.md</code></td><td>Project documentation and usage information.</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("lib/\n└── main.dart\n\nandroid/\nios/\ntest/\npubspec.yaml\nREADME.md", language="text")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">19. Running and Iterating</div>
+        <h3>19.1 Run the Counter App and Use Hot Reload</h3>
+        <p>To run the first application, connect a physical device or start an emulator, open <code>lib/main.dart</code>, and execute the project. Interact with the default Counter App, modify a widget or a text value, save the file, and use Hot Reload to observe the change while the application remains active.</p>
+        <div class="step-box"><b>Development cycle:</b> Understand → modify → run → observe → test → refine. Hot Reload makes this cycle fast, but it does not replace proper testing or a clean restart when application state must be rebuilt.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("flutter run\n\n# Then modify lib/main.dart and use Hot Reload.", language="bash")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">Chapter Summary</div>
+        <h3>What You Should Know After Chapter 1</h3>
+        <p>After completing this chapter, you should be able to explain Flutter and its architecture, identify the role of Dart, use variables and basic types, write a <code>main()</code> function, print and interpolate strings, use comments, distinguish JIT from AOT compilation, describe asynchronous programming, work with packages and libraries, install the Flutter SDK, create a project, understand its folders, run an application, and use Hot Reload responsibly.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
     render_mobile_chapter_1_quiz()
 
 elif display_page == "🚀 Smart Exam Prep":

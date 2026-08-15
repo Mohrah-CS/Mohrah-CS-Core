@@ -835,6 +835,21 @@ display_page = st.session_state.current_page
 
 
 
+
+
+def show_quiz_feedback(answer_records):
+    """Display every incorrect response with the user's answer and the correct answer."""
+    incorrect = [item for item in answer_records if item["selected"] != item["correct"]]
+    if not incorrect:
+        st.success("Perfect score! Every answer is correct.")
+        return
+    st.markdown("### Review Incorrect Answers")
+    st.warning(f"You missed {len(incorrect)} question(s). Review the corrections below:")
+    for item in incorrect:
+        st.error(f"Question {item['number']}: {item['question']}")
+        st.write(f"**Your answer:** {item['selected'] if item['selected'] is not None else 'No answer selected'}")
+        st.success(f"**Correct answer:** {item['correct']}")
+
 # --- Database Systems: Advanced Chapter and Comprehensive Quizzes ---
 DB_QUIZ_BANKS = {
     "Chapter 1: Introduction to Database Systems": [
@@ -923,12 +938,15 @@ def render_database_quiz(bank_key, title):
     st.subheader(f"🧠 {title} — Advanced Quiz ({len(bank)} Questions)")
     st.caption("This is a challenging quiz based on the chapter concepts. Select one answer for each question and submit when finished.")
     score = 0
+    answer_records = []
     for i, item in enumerate(bank):
         choice = st.radio(item["q"], item["o"], key=f"db_quiz_{bank_key}_{i}")
+        answer_records.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
         if choice == item["a"]:
             score += 1
     if st.button(f"Submit {title}", key=f"submit_db_quiz_{bank_key}"):
         st.write(f"### Final Score: {score}/{len(bank)}")
+        show_quiz_feedback(answer_records)
         if score == len(bank):
             st.success("Excellent! You mastered this Database Systems quiz.")
         elif score >= max(1, int(len(bank) * 0.7)):
@@ -1144,11 +1162,14 @@ elif display_page == "Foundations of TOC":
             ("¬(A ∨ B)?", ["¬A ∧ ¬B", "A ∧ B", "¬A ∨ ¬B"], "¬A ∧ ¬B")
         ]
         f_score = 0
+        f_answers = []
         for i, (q, opts, ans) in enumerate(f_qs):
             u_ans = st.radio(f"{i+1}. {q}", opts, key=f"fq_u_{i}")
+            f_answers.append({"number": i + 1, "question": q, "selected": u_ans, "correct": ans})
             if u_ans == ans: f_score += 1
         if st.button("Submit Foundations Quiz"):
             st.success(f"Your Score: {f_score}/10")
+            show_quiz_feedback(f_answers)
 
 elif display_page == "DFA Explorer":
     st.markdown("## ⚙️ Deterministic Finite Automata (DFA)")
@@ -1230,11 +1251,14 @@ elif display_page == "DFA Explorer":
             ("Accept state shape in diagrams?", ["Double Circle", "Single Circle", "Square"], "Double Circle")
         ]
         d_score = 0
+        d_answers = []
         for i, (q, opts, ans) in enumerate(dfa_qs):
             u_ans = st.radio(f"{i+1}. {q}", opts, key=f"dq_u_{i}")
+            d_answers.append({"number": i + 1, "question": q, "selected": u_ans, "correct": ans})
             if u_ans == ans: d_score += 1
         if st.button("Submit DFA Quiz"):
             st.success(f"Your Score: {d_score}/10")
+            show_quiz_feedback(d_answers)
 
 elif display_page == "NFA Masterclass":
     st.markdown("## 🧠 Non-Deterministic Finite Automata (NFA)")
@@ -1319,11 +1343,14 @@ elif display_page == "NFA Masterclass":
             ("What is the symbol for empty transition?", ["ε (Epsilon)", "∅ (Empty set)", "Σ"], "ε (Epsilon)")
         ]
         n_score = 0
+        n_answers = []
         for i, (q, opts, ans) in enumerate(nfa_qs):
             u_ans = st.radio(f"{i+1}. {q}", opts, key=f"nq_u_{i}")
+            n_answers.append({"number": i + 1, "question": q, "selected": u_ans, "correct": ans})
             if u_ans == ans: n_score += 1
         if st.button("Submit NFA Quiz"):
             st.success(f"Your Score: {n_score}/10")
+            show_quiz_feedback(n_answers)
 
 elif display_page == "Regular Expressions":
     st.markdown("## 🧩 Regular Expressions & Operations")
@@ -1396,11 +1423,14 @@ elif display_page == "Regular Expressions":
             ("Closure property means the result is also regular?", ["True", "False", "Maybe"], "True")
         ]
         r_score = 0
+        r_answers = []
         for i, (q, opts, ans) in enumerate(re_qs):
             u_ans = st.radio(f"{i+1}. {q}", opts, key=f"rq_u_{i}")
+            r_answers.append({"number": i + 1, "question": q, "selected": u_ans, "correct": ans})
             if u_ans == ans: r_score += 1
         if st.button("Submit RE Quiz"):
             st.success(f"Your Score: {r_score}/10")
+            show_quiz_feedback(r_answers)
 
 elif display_page == "DFA to RE & Pumping Lemma":
     st.markdown("## 🔄 DFA to RE & Pumping Lemma")
@@ -1462,11 +1492,14 @@ elif display_page == "DFA to RE & Pumping Lemma":
             ("If i = 0 in xyⁱz, it means:", ["y is removed", "y stays the same", "y is doubled"], "y is removed")
         ]
         dp_score = 0
+        dp_answers = []
         for i, (q, opts, ans) in enumerate(dp_qs):
             u_ans = st.radio(f"{i+1}. {q}", opts, key=f"dpq_u_{i}")
+            dp_answers.append({"number": i + 1, "question": q, "selected": u_ans, "correct": ans})
             if u_ans == ans: dp_score += 1
         if st.button("Submit Module 5 Quiz"):
             st.success(f"Your Score: {dp_score}/10")
+            show_quiz_feedback(dp_answers)
 
 elif display_page == "CFG & Chomsky Form":
     st.markdown("## 📜 Context-Free Grammars & Chomsky Form")
@@ -1524,11 +1557,14 @@ elif display_page == "CFG & Chomsky Form":
             ("A rule A → B is called a:", ["Unit rule", "ε-rule", "Terminal rule"], "Unit rule")
         ]
         c_score = 0
+        c_answers = []
         for i, (q, opts, ans) in enumerate(cfg_qs):
             u_ans = st.radio(f"{i+1}. {q}", opts, key=f"cq_u_{i}")
+            c_answers.append({"number": i + 1, "question": q, "selected": u_ans, "correct": ans})
             if u_ans == ans: c_score += 1
         if st.button("Submit CFG Quiz"):
             st.success(f"Your Score: {c_score}/10")
+            show_quiz_feedback(c_answers)
 
 elif display_page == "PDA & CFL Theory":
     st.markdown("## ⚙️ Pushdown Automata & CFL Theory")
@@ -1574,11 +1610,14 @@ elif display_page == "PDA & CFL Theory":
             ("Condition for length in CFL lemma?", ["|vxy| ≤ p", "|uvx| ≤ p", "|xyz| ≤ p"], "|vxy| ≤ p")
         ]
         pc_score = 0
+        pc_answers = []
         for i, (q, opts, ans) in enumerate(pc_qs):
             u_ans = st.radio(f"{i+1}. {q}", opts, key=f"pcq_u_{i}")
+            pc_answers.append({"number": i + 1, "question": q, "selected": u_ans, "correct": ans})
             if u_ans == ans: pc_score += 1
         if st.button("Submit Module 7 Quiz"):
             st.success(f"Your Score: {pc_score}/10")
+            show_quiz_feedback(pc_answers)
 
 elif display_page == "Turing Machines & Algorithms":
     st.markdown("## 📟 Turing Machines & Algorithms")
@@ -1686,11 +1725,14 @@ elif display_page == "Turing Machines & Algorithms":
             ("An Enumerator is equivalent in power to a TM?", ["True", "False", "Only for regular languages"], "True")
         ]
         t_score = 0
+        t_answers = []
         for i, (q, opts, ans) in enumerate(tm_qs):
             u_ans = st.radio(f"{i+1}. {q}", opts, key=f"tq_u_{i}")
+            t_answers.append({"number": i + 1, "question": q, "selected": u_ans, "correct": ans})
             if u_ans == ans: t_score += 1
         if st.button("Submit TM Quiz"):
             st.success(f"Your Score: {t_score}/10")
+            show_quiz_feedback(t_answers)
 
 elif display_page == "🎓 Course Completion":
     st.balloons()
@@ -2920,13 +2962,16 @@ elif display_page == "🚀 Smart Exam Prep":
         ]
         
         score = 0
+        os_answers = []
         for i, item in enumerate(os_bank):
             choice = st.radio(item["q"], item["o"], key=f"os_huge_{i}")
+            os_answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
             if choice == item["a"]:
                 score += 1
         
         if st.button("Submit OS Mega Quiz"):
             st.write(f"### Final Result: {score}/{len(os_bank)}")
+            show_quiz_feedback(os_answers)
             if score == len(os_bank):
                 st.success("🏆 LEGENDARY! You've conquered the OS Mega Bank!")
                 st.balloons()
@@ -2961,13 +3006,16 @@ elif display_page == "🚀 Smart Exam Prep":
         ]
         
         score = 0
+        toc_answers = []
         for i, item in enumerate(toc_bank):
             choice = st.radio(item["q"], item["o"], key=f"toc_huge_{i}")
+            toc_answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
             if choice == item["a"]:
                 score += 1
         
         if st.button("Submit TOC Mega Quiz"):
             st.write(f"### Final Result: {score}/{len(toc_bank)}")
+            show_quiz_feedback(toc_answers)
             if score == len(toc_bank):
                 st.success("💎 GOD-LIKE! You have mastered the theory of computation!")
                 st.balloons()

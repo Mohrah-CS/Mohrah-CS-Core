@@ -902,28 +902,39 @@ DB_QUIZ_BANKS = {
         {"q": "Which normal form specifically addresses multivalued dependencies?", "o": ["4NF", "2NF", "3NF", "BCNF only"], "a": "4NF"},
         {"q": "In a many-to-many mapping, relationship attributes belong naturally in:", "o": ["The associative relation created for the relationship", "Only the first entity relation", "The DBMS catalog", "The transaction log"], "a": "The associative relation created for the relationship"},
         {"q": "The maximum number of tuples in R × S when R has m tuples and S has n tuples is:", "o": ["m+n", "m×n", "m−n", "max(m,n)"], "a": "m×n"},
+        {"q": "Which property ensures that a decomposition does not generate spurious tuples when relations are joined?", "o": ["Lossless-join property", "Entity integrity", "Physical independence", "Disjoint specialization"], "a": "Lossless-join property"},
+        {"q": "Which relational algebra operator reduces the number of tuples by applying a predicate?", "o": ["Selection", "Projection", "Rename", "Cartesian product"], "a": "Selection"},
+        {"q": "A candidate key is best defined as:", "o": ["A minimal superkey", "Any foreign key", "A non-unique attribute", "A physical index"], "a": "A minimal superkey"},
+        {"q": "In a three-schema architecture, the external level describes:", "o": ["User views", "Physical disk blocks", "The complete internal storage layout", "Transaction schedules"], "a": "User views"},
+        {"q": "Which constraint prevents a primary-key attribute from being NULL?", "o": ["Entity integrity", "Referential integrity", "Domain independence", "Multivalued dependency"], "a": "Entity integrity"},
+        {"q": "A weak entity requires an identifying relationship with:", "o": ["An owner entity", "A query compiler", "A separate DBMS", "A derived attribute"], "a": "An owner entity"},
+        {"q": "Which dependency is removed when a non-key attribute depends on another non-key attribute?", "o": ["Transitive dependency", "Partial dependency", "Trivial dependency", "Multivalued key"], "a": "Transitive dependency"},
+        {"q": "A relation is in 1NF when:", "o": ["All attribute values are atomic", "Every determinant is a superkey", "It has no candidate key", "It contains no foreign keys"], "a": "All attribute values are atomic"},
+        {"q": "Which architecture places the application server between the client and database server?", "o": ["Three-tier architecture", "Single-level architecture", "File-processing architecture", "Internal-schema architecture"], "a": "Three-tier architecture"},
+        {"q": "In a 1:N relationship, the foreign key is usually placed in:", "o": ["The relation on the N-side", "The relation on the 1-side only", "The system catalog", "Neither relation"], "a": "The relation on the N-side"},
+        {"q": "BCNF requires every determinant of a nontrivial functional dependency to be:", "o": ["A superkey", "A foreign key", "A multivalued attribute", "A NULL value"], "a": "A superkey"},
+        {"q": "Which DBMS component optimizes a declarative SQL query before execution?", "o": ["Query compiler", "Disk scheduler", "File directory", "Recovery log"], "a": "Query compiler"},
     ],
 }
 
 def render_database_quiz(bank_key, title):
     bank = DB_QUIZ_BANKS[bank_key]
     st.markdown("---")
-    st.subheader(f"🧠 {title} — اختبار متقدم ({len(bank)} أسئلة)")
-    st.caption("الاختبار صعب ومبني على مفاهيم الشابتر. اختر إجابة لكل سؤال ثم اضغط زر التسليم.")
+    st.subheader(f"🧠 {title} — Advanced Quiz ({len(bank)} Questions)")
+    st.caption("This is a challenging quiz based on the chapter concepts. Select one answer for each question and submit when finished.")
     score = 0
     for i, item in enumerate(bank):
         choice = st.radio(item["q"], item["o"], key=f"db_quiz_{bank_key}_{i}")
         if choice == item["a"]:
             score += 1
-    if st.button(f"تسليم اختبار {title}", key=f"submit_db_quiz_{bank_key}"):
-        st.write(f"### النتيجة: {score}/{len(bank)}")
+    if st.button(f"Submit {title}", key=f"submit_db_quiz_{bank_key}"):
+        st.write(f"### Final Score: {score}/{len(bank)}")
         if score == len(bank):
-            st.success("🏆 ممتاز! أتقنت مفاهيم نظم قواعد البيانات في هذا الاختبار.")
-            st.balloons()
+            st.success("Excellent! You mastered this Database Systems quiz.")
         elif score >= max(1, int(len(bank) * 0.7)):
-            st.info("أداء قوي. راجع النقاط التي أخطأت فيها للوصول للإتقان الكامل.")
+            st.info("Strong performance. Review the missed concepts to reach full mastery.")
         else:
-            st.warning("الاختبار متقدم. أعد قراءة الشابتر وحاول مرة أخرى.")
+            st.warning("This quiz is advanced. Review the chapter and try again.")
 
 
 # --- 6. MODULES ---

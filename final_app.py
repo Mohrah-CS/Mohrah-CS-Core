@@ -826,7 +826,7 @@ elif main_subject == "Database Systems":
 elif main_subject == "Mobile Application Development":
     subject = st.sidebar.selectbox(
         t("lesson_select"),
-        ["Chapter 1: Introduction to Flutter and Dart Programming Language", "Chapter 2: Dart Programming Part 1 — Syntax", "Chapter 3: Dart Programming Part 2 — Advanced Syntax", "Chapter 4: Object-Oriented Programming (OOP) in Dart"]
+        ["Chapter 1: Introduction to Flutter and Dart Programming Language", "Chapter 2: Dart Programming Part 1 — Syntax", "Chapter 3: Dart Programming Part 2 — Advanced Syntax", "Chapter 4: Object-Oriented Programming (OOP) in Dart", "Chapter 5: Advanced Widgets and State Management in Flutter"]
     )
     st.session_state.current_page = subject
 else:
@@ -1171,6 +1171,48 @@ def render_mobile_chapter_4_quiz():
             score += 1
     if st.button("Submit Chapter 4 Assessment", key="submit_mobile_ch4_quiz"):
         st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_4_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Mobile Application Development: Chapter 5 ---
+MOBILE_CHAPTER_5_QUIZ = [
+    {"q": "What are the building blocks of a Flutter application?", "o": ["Widgets", "SQL tables", "Only controllers", "Packages only"], "a": "Widgets"},
+    {"q": "Which widget arranges children horizontally?", "o": ["Row", "Column", "Stack", "ListView"], "a": "Row"},
+    {"q": "Which widget arranges children vertically?", "o": ["Column", "Row", "GridView", "Consumer"], "a": "Column"},
+    {"q": "Which widget allows children to overlap?", "o": ["Stack", "ListTile", "TextField", "Provider"], "a": "Stack"},
+    {"q": "What does ElevatedButton provide?", "o": ["A clickable button", "A scrollable grid", "A state model", "A private field"], "a": "A clickable button"},
+    {"q": "What is TextField commonly used for?", "o": ["Accepting user text input", "Drawing a parent class", "Managing a provider", "Creating a constant"], "a": "Accepting user text input"},
+    {"q": "What does ListView provide?", "o": ["Scrollable list content", "Only a two-column layout", "A lifecycle method", "A state notification"], "a": "Scrollable list content"},
+    {"q": "What does GridView display?", "o": ["Items in a grid", "Only one text value", "A constructor hierarchy", "A Boolean expression"], "a": "Items in a grid"},
+    {"q": "What is state?", "o": ["Information that determines what the UI displays", "Only a widget color", "A package version", "A compile-time constant"], "a": "Information that determines what the UI displays"},
+    {"q": "What does setState() tell Flutter?", "o": ["That state changed and relevant UI should rebuild", "That a package should be installed", "That a widget should be deleted", "That a class is abstract"], "a": "That state changed and relevant UI should rebuild"},
+    {"q": "Which widget is suitable for static UI?", "o": ["StatelessWidget", "StatefulWidget only", "ChangeNotifier", "Consumer"], "a": "StatelessWidget"},
+    {"q": "Which widget can maintain mutable state?", "o": ["StatefulWidget", "StatelessWidget", "Text", "Icon"], "a": "StatefulWidget"},
+    {"q": "When is initState() called?", "o": ["Once when the State object is created", "Every time a button is pressed", "Only after dispose()", "When a package is downloaded"], "a": "Once when the State object is created"},
+    {"q": "What is dispose() used for?", "o": ["Cleaning up controllers, listeners, and streams", "Creating a new ListView", "Updating a TextField", "Adding a provider dependency"], "a": "Cleaning up controllers, listeners, and streams"},
+    {"q": "What does ChangeNotifier do?", "o": ["Notifies listening widgets when state changes", "Creates a grid layout", "Prevents all rebuilds", "Replaces Dart"], "a": "Notifies listening widgets when state changes"},
+    {"q": "What does ChangeNotifierProvider do?", "o": ["Makes state available through the widget tree", "Only renders icons", "Converts int to double", "Creates a private member"], "a": "Makes state available through the widget tree"},
+    {"q": "What does Consumer listen to?", "o": ["Changes in a provided state object", "Only keyboard input", "The app lifecycle only", "A Dart constructor"], "a": "Changes in a provided state object"},
+    {"q": "Why use listen: false with Provider.of when updating from a button?", "o": ["To avoid unnecessary rebuilding of the button", "To disable the provider", "To make the value constant", "To prevent notifyListeners()"], "a": "To avoid unnecessary rebuilding of the button"},
+    {"q": "Which method should a ChangeNotifier call after changing its state?", "o": ["notifyListeners()", "rebuildNow()", "refreshWidget()", "updateTreeOnly()"], "a": "notifyListeners()"},
+    {"q": "Which pattern is useful for a shared shopping cart?", "o": ["A ChangeNotifier provided to listening widgets", "A local text constant only", "A Stack without state", "A constructor with no fields"], "a": "A ChangeNotifier provided to listening widgets"},
+]
+
+def render_mobile_chapter_5_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 5 Assessment — Advanced Widgets and State Management (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(MOBILE_CHAPTER_5_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"mobile_ch5_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Chapter 5 Assessment", key="submit_mobile_ch5_quiz"):
+        st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_5_QUIZ)}")
         show_quiz_feedback(answers)
 
 
@@ -3149,6 +3191,187 @@ elif display_page == "Storage & I/O":
 
 
 
+
+elif display_page == "Chapter 5: Advanced Widgets and State Management in Flutter":
+    st.markdown("## Mobile Application Development")
+    st.markdown("### Chapter 5: Advanced Widgets and State Management in Flutter")
+    st.info("This chapter explains how Flutter widgets build interactive interfaces and how state management keeps the UI synchronized with changing application data.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Flutter Widgets</div>
+        <h3>1.1 Widgets as the Building Blocks of Flutter</h3>
+        <p>Widgets are the basic building blocks of a Flutter application. Layouts, text, buttons, images, and screens are all represented by widgets. A widget describes part of the interface and can be composed with other widgets to create a complete screen.</p>
+        <p>Flutter divides widgets broadly into <b>StatelessWidget</b>, which describes UI that does not manage changing internal data, and <b>StatefulWidget</b>, which works with a separate State object that can change over time.</p>
+        <div class="step-box"><b>Composition principle:</b> Complex interfaces are built by placing small widgets inside larger widgets and passing configuration through their constructors.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Column(\n  children: [\n    Text('Hello, Flutter!'),\n    ElevatedButton(\n      onPressed: () {},\n      child: Text('Click Me'),\n    ),\n  ],\n)", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Layout Widgets</div>
+        <h3>2.1 Row, Column, and Stack</h3>
+        <p><b>Row</b> arranges children horizontally, <b>Column</b> arranges children vertically, and <b>Stack</b> allows widgets to overlap. Layout widgets can be combined with alignment, padding, and positioning to create responsive and layered interfaces.</p>
+        <table class="summary-table">
+            <tr><th>Widget</th><th>Best use</th></tr>
+            <tr><td><code>Row</code></td><td>Place related elements side by side.</td></tr>
+            <tr><td><code>Column</code></td><td>Place content above and below other content.</td></tr>
+            <tr><td><code>Stack</code></td><td>Layer widgets, such as text over an image or a badge over an icon.</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Row(\n  mainAxisAlignment: MainAxisAlignment.spaceEvenly,\n  children: [\n    Icon(Icons.star),\n    Icon(Icons.favorite),\n    Icon(Icons.thumb_up),\n  ],\n)", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Interactive Widgets</div>
+        <h3>3.1 Responding to Taps, Gestures, and Text</h3>
+        <p>Interactive widgets respond to user actions such as taps, swipes, drags, and text entry. <code>ElevatedButton</code> executes a callback when pressed, <code>TextField</code> accepts text, and <code>GestureDetector</code> can detect custom touch gestures.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>ElevatedButton:</b> Use for a clear action such as Save, Login, or Add Item.</div>
+            <div class="info-item"><b>TextField:</b> Use for names, search queries, login forms, and registration data.</div>
+            <div class="info-item"><b>GestureDetector:</b> Use when an interface needs tap, double-tap, swipe, or drag handling.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("ElevatedButton(\n  onPressed: () {\n    print('Button Pressed!');\n  },\n  child: Text('Press Me'),\n)\n\nTextField(\n  decoration: InputDecoration(\n    labelText: 'Enter your name',\n  ),\n)", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. Scrollable and Grid Content</div>
+        <h3>4.1 ListView and GridView</h3>
+        <p><b>ListView</b> displays a vertically or horizontally scrollable collection, making it suitable for contacts, messages, products, and settings. <b>GridView</b> displays items in rows and columns, making it useful for catalogs, galleries, images, and categories.</p>
+        <div class="step-box"><b>Performance note:</b> For large or dynamic collections, builder constructors such as <code>ListView.builder</code> create items as they are needed instead of building every item at once.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("ListView(\n  children: [\n    Text('Item 1'),\n    Text('Item 2'),\n    Text('Item 3'),\n  ],\n)\n\nGridView.count(\n  crossAxisCount: 2,\n  children: [\n    Icon(Icons.star),\n    Icon(Icons.favorite),\n    Icon(Icons.thumb_up),\n  ],\n)", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. Understanding State</div>
+        <h3>5.1 What Is State and State Management?</h3>
+        <p><b>State</b> is information that determines what the UI should display and can change while the application is running. Examples include a counter value, login status, shopping cart items, user preferences, and form data.</p>
+        <p><b>State management</b> is the process of storing, updating, and sharing that data so the interface remains synchronized with the application. When state changes, Flutter can rebuild the relevant widget tree.</p>
+        <div class="step-box"><b>Shopping cart flow:</b> Add the item → update cart data → notify listeners or rebuild → display the new items and total.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. Types of State</div>
+        <h3>6.1 Ephemeral State and App State</h3>
+        <table class="summary-table">
+            <tr><th>Type</th><th>Description</th><th>Examples</th></tr>
+            <tr><td><b>Ephemeral state</b></td><td>Local, short-lived state that usually belongs to one widget.</td><td>Selected tab, temporary animation value, local counter.</td></tr>
+            <tr><td><b>App state</b></td><td>Shared state used by multiple widgets or screens.</td><td>Login status, shopping cart, preferences, application settings.</td></tr>
+        </table>
+        <p>Separating these types helps a developer choose a simple local solution when possible and a shared state solution when the data crosses widget boundaries.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. Stateless and Stateful Widgets</div>
+        <h3>7.1 Choosing the Correct Widget Type</h3>
+        <p>A <b>StatelessWidget</b> does not own mutable state. Its appearance is determined by its inputs and changes only when Flutter rebuilds it with different data. Use it for static text, icons, fixed layouts, and presentational components.</p>
+        <p>A <b>StatefulWidget</b> works with a State object that can change. Use it when an interface must respond to changing data, such as a counter or a selected option.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class MyWidget extends StatelessWidget {\n  @override\n  Widget build(BuildContext context) {\n    return Text('I am static!');\n  }\n}\n\nclass Counter extends StatefulWidget {\n  @override\n  State<Counter> createState() => _CounterState();\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. Updating Local State</div>
+        <h3>8.1 setState() and the Counter Pattern</h3>
+        <p><code>setState()</code> tells Flutter that mutable state changed and that the relevant part of the UI should rebuild. The state value is updated inside the callback, and the next build reads the new value.</p>
+        <div class="step-box"><b>Sequence:</b> User presses the button → <code>setState()</code> changes <code>count</code> → Flutter rebuilds → the button displays the updated count.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class _CounterState extends State<Counter> {\n  int count = 0;\n\n  @override\n  Widget build(BuildContext context) {\n    return ElevatedButton(\n      onPressed: () {\n        setState(() {\n          count++;\n        });\n      },\n      child: Text('Count: $count'),\n    );\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. StatefulWidget Lifecycle</div>
+        <h3>9.1 initState(), build(), setState(), and dispose()</h3>
+        <p>The StatefulWidget lifecycle provides places for initialization, rendering, updates, and cleanup. <code>initState()</code> runs once when the State object is created. <code>build()</code> describes the current widget tree and can run whenever Flutter rebuilds the UI. <code>setState()</code> schedules a rebuild after a state change. <code>dispose()</code> releases resources when the widget is removed.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>initState():</b> Initialize controllers, variables, listeners, or initial data.</div>
+            <div class="info-item"><b>build():</b> Return the interface that corresponds to the current state.</div>
+            <div class="info-item"><b>setState():</b> Announce a local state change.</div>
+            <div class="info-item"><b>dispose():</b> Clean up controllers, listeners, and streams.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("@override\nvoid dispose() {\n  myController.dispose();\n  super.dispose();\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. Provider</div>
+        <h3>10.1 Sharing State beyond One Widget</h3>
+        <p><b>Provider</b> is a state-management package that simplifies sharing and updating state across widgets. It commonly works with <code>ChangeNotifier</code>, <code>ChangeNotifierProvider</code>, <code>Consumer</code>, and <code>Provider.of&lt;T&gt;()</code>.</p>
+        <p>Provider avoids manually passing state through many widget levels. It separates business logic from UI code, supports shared state, limits rebuilds to listening widgets, and scales better as the application grows.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("dependencies:\n  provider: ^6.0.0", language="yaml")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. Providing and Notifying State</div>
+        <h3>11.1 ChangeNotifier and ChangeNotifierProvider</h3>
+        <p>A <code>ChangeNotifier</code> class stores state and exposes methods that update it. After a change, <code>notifyListeners()</code> tells listening widgets to rebuild. <code>ChangeNotifierProvider</code> places the object into the widget tree so descendants can access it.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class Counter extends ChangeNotifier {\n  int count = 0;\n\n  void increment() {\n    count++;\n    notifyListeners();\n  }\n}\n\nvoid main() {\n  runApp(\n    ChangeNotifierProvider(\n      create: (context) => Counter(),\n      child: MyApp(),\n    ),\n  );\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. Listening and Updating with Provider</div>
+        <h3>12.1 Consumer and Provider.of()</h3>
+        <p><code>Consumer&lt;Counter&gt;</code> listens to a Counter and rebuilds the portion of the UI that displays its state. <code>Provider.of&lt;Counter&gt;(context)</code> retrieves the provider. When a button only needs to call an update method, use <code>listen: false</code> so the button does not rebuild unnecessarily.</p>
+        <div class="step-box"><b>Update flow:</b> Access Counter → call <code>increment()</code> → change count → call <code>notifyListeners()</code> → Consumer rebuilds the displayed text.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Consumer<Counter>(\n  builder: (context, counter, child) {\n    return Text('Count: ${counter.count}');\n  },\n)\n\nElevatedButton(\n  onPressed: () {\n    Provider.of<Counter>(context, listen: false).increment();\n  },\n  child: Text('Increment'),\n)", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. Practical Example: Counter App</div>
+        <h3>13.1 Combining Provider with a Dynamic UI</h3>
+        <p>The Counter App keeps the count inside a ChangeNotifier, provides it above the application, displays it with Consumer, and updates it through Provider.of. The UI remains synchronized because the notifier announces every change.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("@override\nWidget build(BuildContext context) {\n  return Scaffold(\n    appBar: AppBar(title: Text('Counter App')),\n    body: Center(\n      child: Consumer<Counter>(\n        builder: (context, counter, child) {\n          return Text(\n            'Count: ${counter.count}',\n            style: TextStyle(fontSize: 24),\n          );\n        },\n      ),\n    ),\n    floatingActionButton: FloatingActionButton(\n      onPressed: () {\n        Provider.of<Counter>(context, listen: false).increment();\n      },\n      child: Icon(Icons.add),\n    ),\n  );\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. Practical Example: Shopping Cart</div>
+        <h3>14.1 Managing Dynamic Collections</h3>
+        <p>A shopping cart is shared application state: multiple screens may need to display or update its items. A <code>Cart</code> ChangeNotifier stores the list, adds items, and calls <code>notifyListeners()</code>. A Consumer can display the list dynamically with <code>ListView.builder</code>.</p>
+        <div class="step-box"><b>Result:</b> The user presses Add Item → Cart adds the item → listeners rebuild → the new ListTile appears immediately.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class Cart extends ChangeNotifier {\n  List<String> items = [];\n\n  void addItem(String item) {\n    items.add(item);\n    notifyListeners();\n  }\n}\n\nConsumer<Cart>(\n  builder: (context, cart, child) {\n    return ListView.builder(\n      itemCount: cart.items.length,\n      itemBuilder: (context, index) {\n        return ListTile(title: Text(cart.items[index]));\n      },\n    );\n  },\n)\n\nElevatedButton(\n  onPressed: () {\n    Provider.of<Cart>(context, listen: false)\n        .addItem('New Item');\n  },\n  child: Text('Add Item'),\n)", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">15. Real-World Applications</div>
+        <h3>15.1 Combining Widgets and State Management</h3>
+        <p>These techniques support interactive forms with TextField and ElevatedButton, authentication screens that track login status, shopping carts managed with Provider, product catalogs and galleries built with ListView or GridView, user preferences shared across screens, and dynamic lists that add, remove, or update items.</p>
+        <p>The central design goal is consistency: the application data should have a clear owner, updates should follow a predictable path, and only the widgets that need the changed data should rebuild.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">Chapter Conclusion</div>
+        <h3>What You Should Know After Chapter 5</h3>
+        <p>After completing this chapter, you should be able to compose Flutter interfaces with Row, Column, Stack, ListView, GridView, ElevatedButton, TextField, and GestureDetector. You should also be able to distinguish ephemeral state from app state, choose between StatelessWidget and StatefulWidget, update local state with setState(), use the StatefulWidget lifecycle, and share application state with Provider.</p>
+        <p>You should understand how ChangeNotifier, ChangeNotifierProvider, Consumer, Provider.of(), and notifyListeners() work together in counter and shopping-cart applications. These patterns form a foundation for building responsive, scalable, and maintainable Flutter applications.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_mobile_chapter_5_quiz()
 
 elif display_page == "Chapter 4: Object-Oriented Programming (OOP) in Dart":
     st.markdown("## Mobile Application Development")

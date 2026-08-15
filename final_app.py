@@ -2964,7 +2964,7 @@ elif display_page == "🚀 Smart Exam Prep":
                 st.info("Great job! You are ready for the final exam.")
             else:
                 st.warning("Theory is deep. Re-read the modules and try again!")
-elif quiz_subject == "Database Systems (DB)":
+    elif quiz_subject == "Database Systems (DB)":
         render_database_quiz("__master__", "Database Systems — Hardcore Challenge")
 
 elif display_page == "👥 Community Corner":

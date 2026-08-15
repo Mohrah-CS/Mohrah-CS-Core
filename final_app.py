@@ -826,7 +826,7 @@ elif main_subject == "Database Systems":
 elif main_subject == "Mobile Application Development":
     subject = st.sidebar.selectbox(
         t("lesson_select"),
-        ["Chapter 1: Introduction to Flutter and Dart Programming Language", "Chapter 2: Dart Programming Part 1 — Syntax", "Chapter 3: Dart Programming Part 2 — Advanced Syntax", "Chapter 4: Object-Oriented Programming (OOP) in Dart", "Chapter 5: Advanced Widgets and State Management in Flutter", "Chapter 6: Networking and API Integration in Flutter"]
+        ["Chapter 1: Introduction to Flutter and Dart Programming Language", "Chapter 2: Dart Programming Part 1 — Syntax", "Chapter 3: Dart Programming Part 2 — Advanced Syntax", "Chapter 4: Object-Oriented Programming (OOP) in Dart", "Chapter 5: Advanced Widgets and State Management in Flutter", "Chapter 6: Networking and API Integration in Flutter", "Chapter 7: Database Integration in Flutter"]
     )
     st.session_state.current_page = subject
 else:
@@ -1255,6 +1255,48 @@ def render_mobile_chapter_6_quiz():
             score += 1
     if st.button("Submit Chapter 6 Assessment", key="submit_mobile_ch6_quiz"):
         st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_6_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Mobile Application Development: Chapter 7 ---
+MOBILE_CHAPTER_7_QUIZ = [
+    {"q": "What is the main purpose of a database in a Flutter application?", "o": ["To store and manage data persistently", "To replace every widget", "To compile Dart code", "To display only static text"], "a": "To store and manage data persistently"},
+    {"q": "Which is an example of a relational database used locally in Flutter?", "o": ["SQLite", "Firestore only", "WebSocket", "Provider"], "a": "SQLite"},
+    {"q": "Which database type is commonly associated with Firebase Firestore?", "o": ["NoSQL", "Relational SQL only", "In-memory only", "File-system only"], "a": "NoSQL"},
+    {"q": "What does SQLite store data in?", "o": ["Tables containing rows and columns", "Only images", "Only Dart objects", "Widget trees"], "a": "Tables containing rows and columns"},
+    {"q": "Which package is commonly used for SQLite in Flutter?", "o": ["sqflite", "sqlite_widget", "flutter_sql_only", "db_provider_ui"], "a": "sqflite"},
+    {"q": "What does CRUD stand for?", "o": ["Create, Read, Update, Delete", "Copy, Run, Use, Debug", "Create, Render, Upload, Display", "Connect, Read, Use, Deploy"], "a": "Create, Read, Update, Delete"},
+    {"q": "Which sqflite method inserts a new row?", "o": ["insert()", "query()", "update()", "close()"], "a": "insert()"},
+    {"q": "Which sqflite method reads rows from a table?", "o": ["query()", "insert()", "delete()", "createRow()"], "a": "query()"},
+    {"q": "Which sqflite method modifies existing rows?", "o": ["update()", "insert()", "openOnly()", "selectWidget()"], "a": "update()"},
+    {"q": "Which sqflite method removes rows?", "o": ["delete()", "removeTableOnly()", "query()", "dispose()"], "a": "delete()"},
+    {"q": "Why should a where clause be used with update or delete?", "o": ["To target only the intended rows", "To create a new database", "To display a loading spinner", "To convert JSON"], "a": "To target only the intended rows"},
+    {"q": "What does whereArgs help with?", "o": ["Safely supplying values for placeholders", "Creating a Flutter route", "Closing the database", "Rendering a ListView"], "a": "Safely supplying values for placeholders"},
+    {"q": "What is the purpose of a primary key?", "o": ["Uniquely identify a row", "Store only long text", "Open a cloud database", "Sort every widget"], "a": "Uniquely identify a row"},
+    {"q": "Why should a database be closed when it is no longer needed?", "o": ["To release resources and improve stability", "To delete all data", "To disable CRUD", "To prevent future queries forever"], "a": "To release resources and improve stability"},
+    {"q": "What does offline functionality allow?", "o": ["The app can work with local data without an internet connection", "The app never needs storage", "All cloud requests succeed", "The UI stops rebuilding"], "a": "The app can work with local data without an internet connection"},
+    {"q": "Which operation would mark a task as completed?", "o": ["Update the completed column", "Delete the whole table", "Only query the task", "Close the database"], "a": "Update the completed column"},
+    {"q": "How can notes be shown with newest notes first?", "o": ["Order by timestamp DESC", "Delete older notes", "Use only insert()", "Disable sorting"], "a": "Order by timestamp DESC"},
+    {"q": "Why are database migrations needed?", "o": ["To manage schema changes between database versions", "To send an HTTP POST", "To create a widget color", "To remove all indexes"], "a": "To manage schema changes between database versions"},
+    {"q": "Which practice can improve query performance?", "o": ["Use appropriate indexes and optimized queries", "Load every record unnecessarily", "Avoid all constraints", "Duplicate every column"], "a": "Use appropriate indexes and optimized queries"},
+    {"q": "Which architecture is useful for shared database state in Flutter?", "o": ["A repository or provider that updates the UI after database changes", "A hard-coded Text widget only", "A Stack without data", "A constructor with no state"], "a": "A repository or provider that updates the UI after database changes"},
+]
+
+def render_mobile_chapter_7_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 7 Assessment — Database Integration in Flutter (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(MOBILE_CHAPTER_7_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"mobile_ch7_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Chapter 7 Assessment", key="submit_mobile_ch7_quiz"):
+        st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_7_QUIZ)}")
         show_quiz_feedback(answers)
 
 
@@ -3233,6 +3275,174 @@ elif display_page == "Storage & I/O":
 
 
 
+
+elif display_page == "Chapter 7: Database Integration in Flutter":
+    st.markdown("## Mobile Application Development")
+    st.markdown("### Chapter 7: Database Integration in Flutter")
+    st.info("This chapter explains persistent storage in Flutter, SQLite and sqflite, CRUD operations, task and notes applications, cloud database options, and database integration best practices.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Database Foundations</div>
+        <h3>1.1 Why Flutter Applications Need Databases</h3>
+        <p>A database is a structured way to store and manage data. It allows an application to keep information after it closes, query and filter records, update data efficiently, and support offline functionality.</p>
+        <p>Flutter applications commonly use <b>relational databases</b> such as SQLite for structured tables and relationships, or <b>NoSQL databases</b> such as Firebase Firestore for flexible, cloud-based, and real-time data.</p>
+        <div class="step-box"><b>Persistence:</b> Unlike a temporary variable, database data remains available across application sessions.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Choosing a Database</div>
+        <h3>2.1 Local and Cloud Database Options</h3>
+        <table class="summary-table">
+            <tr><th>Option</th><th>Examples</th><th>Strengths</th></tr>
+            <tr><td>Local relational</td><td>SQLite with sqflite</td><td>Offline access, structured tables, fast local queries.</td></tr>
+            <tr><td>Local NoSQL</td><td>Hive</td><td>Lightweight storage for simple local objects.</td></tr>
+            <tr><td>Cloud NoSQL</td><td>Firebase Firestore</td><td>Synchronization and flexible documents across devices.</td></tr>
+            <tr><td>Cloud services</td><td>Supabase, AWS DynamoDB</td><td>Scalable remote storage and backend integration.</td></tr>
+        </table>
+        <p>Choose based on whether the data is local or shared, structured or flexible, offline-first or cloud-dependent, and small or large in scale.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. SQLite</div>
+        <h3>3.1 A Lightweight Relational Database</h3>
+        <p>SQLite is an embedded relational database commonly used in mobile applications. It stores rows and columns in tables, supports SQL queries, and works without a separate database server. Its compact design makes it suitable for contacts, tasks, notes, and small-to-medium local datasets.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Structured:</b> Data is organized into tables and columns.</div>
+            <div class="info-item"><b>Reliable:</b> Transactions support consistent changes.</div>
+            <div class="info-item"><b>Offline:</b> Data is available without network access.</div>
+            <div class="info-item"><b>Embedded:</b> The database file lives in the application storage.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. sqflite Setup</div>
+        <h3>4.1 Adding the Package and Opening a Database</h3>
+        <p><code>sqflite</code> provides Flutter-friendly methods for opening a SQLite database and performing CRUD operations. The database should be opened before queries run. The <code>onCreate</code> callback creates the initial schema when the file is first created.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("dependencies:\n  sqflite: ^2.0.0+3", language="yaml")
+    st.code("import 'package:sqflite/sqflite.dart';\n\nFuture<Database> openAppDatabase() async {\n  return openDatabase(\n    'app_database.db',\n    version: 1,\n    onCreate: (db, version) {\n      db.execute(\n        'CREATE TABLE tasks (id INTEGER PRIMARY KEY, name TEXT)',\n      );\n    },\n  );\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. Database Tables</div>
+        <h3>5.1 Columns, Keys, and Constraints</h3>
+        <p>A table defines the shape of stored data. A task table might use an integer <code>id</code> as the primary key, a text <code>name</code>, and an integer <code>completed</code> where 0 means incomplete and 1 means complete. Constraints such as UNIQUE, NOT NULL, and FOREIGN KEY help protect data quality.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("CREATE TABLE tasks (\n  id INTEGER PRIMARY KEY,\n  name TEXT NOT NULL,\n  completed INTEGER NOT NULL\n);", language="sql")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. CRUD Operations</div>
+        <h3>6.1 Create, Read, Update, and Delete</h3>
+        <p><b>CRUD</b> describes the four fundamental database operations. In sqflite, these map naturally to <code>insert()</code>, <code>query()</code>, <code>update()</code>, and <code>delete()</code>. Keeping these operations in a repository or database service separates storage logic from the widgets that display it.</p>
+        <table class="summary-table">
+            <tr><th>Operation</th><th>sqflite method</th><th>Purpose</th></tr>
+            <tr><td>Create</td><td><code>insert()</code></td><td>Add a new row.</td></tr>
+            <tr><td>Read</td><td><code>query()</code></td><td>Retrieve rows.</td></tr>
+            <tr><td>Update</td><td><code>update()</code></td><td>Modify selected rows.</td></tr>
+            <tr><td>Delete</td><td><code>delete()</code></td><td>Remove selected rows.</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. CRUD in Practice</div>
+        <h3>7.1 Inserting, Reading, Updating, and Deleting Tasks</h3>
+        <p>Use <code>insert()</code> to add a task and initialize <code>completed</code> to 0. Use <code>query()</code> to return a list of maps. Use <code>update()</code> with a where clause to change one row, and use <code>delete()</code> with the same type of condition to remove the intended row only.</p>
+        <div class="step-box"><b>Safety rule:</b> Always use a precise <code>where</code> clause and <code>whereArgs</code> when changing or deleting a particular record.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Future<void> insertTask(Database db, String name) async {\n  await db.insert('tasks', {\n    'name': name,\n    'completed': 0,\n  });\n}\n\nFuture<List<Map<String, dynamic>>> fetchTasks(Database db) async {\n  return db.query('tasks');\n}\n\nFuture<void> updateTask(Database db, int id, String name) async {\n  await db.update(\n    'tasks',\n    {'name': name, 'completed': 1},\n    where: 'id = ?',\n    whereArgs: [id],\n  );\n}\n\nFuture<void> deleteTask(Database db, int id) async {\n  await db.delete(\n    'tasks',\n    where: 'id = ?',\n    whereArgs: [id],\n  );\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. Task Manager App</div>
+        <h3>8.1 Connecting CRUD to a Flutter UI</h3>
+        <p>A task manager demonstrates the complete local-database flow. The user adds tasks through a form, the application inserts them, a ListView displays them, a checkbox updates completion, and a delete button removes a task. After every database change, refresh the in-memory list or notify the state layer so the UI stays current.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("ListView.builder(\n  itemCount: tasks.length,\n  itemBuilder: (context, index) {\n    final task = tasks[index];\n    return ListTile(\n      title: Text(task['name']),\n      leading: Checkbox(\n        value: task['completed'] == 1,\n        onChanged: (_) => updateTask(db, task['id'], task['name']),\n      ),\n    );\n  },\n)", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. Notes App</div>
+        <h3>9.1 Storing, Sorting, Editing, and Deleting Notes</h3>
+        <p>A notes application can store a title, content, and timestamp. New notes are inserted with the current time. A query using <code>orderBy: 'timestamp DESC'</code> places the newest notes first. Forms can edit an existing note, and a delete action removes the selected record.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("CREATE TABLE notes (\n  id INTEGER PRIMARY KEY,\n  title TEXT,\n  content TEXT,\n  timestamp TEXT\n);\n\nFuture<void> insertNote(\n  Database db, String title, String content,\n) async {\n  await db.insert('notes', {\n    'title': title,\n    'content': content,\n    'timestamp': DateTime.now().toIso8601String(),\n  });\n}\n\nFuture<List<Map<String, dynamic>>> fetchNotes(Database db) {\n  return db.query('notes', orderBy: 'timestamp DESC');\n}\n\nFuture<void> updateNote(\n  Database db, int id, String title, String content,\n) {\n  return db.update(\n    'notes',\n    {'title': title, 'content': content},\n    where: 'id = ?',\n    whereArgs: [id],\n  );\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. Closing and Managing the Database</div>
+        <h3>10.1 Resource Cleanup and Lifecycle</h3>
+        <p>Close a database when it is no longer needed to release resources and reduce stability or performance problems. Database access should be coordinated with the widget or application lifecycle, and long-running work should not block the UI thread.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Future<void> closeDatabase(Database db) async {\n  await db.close();\n}\n\n@override\nvoid dispose() {\n  closeDatabase(db);\n  super.dispose();\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. Cloud Databases</div>
+        <h3>11.1 Firebase Firestore and Cloud Storage</h3>
+        <p>Cloud databases such as Firebase Firestore store data remotely and can synchronize it across devices. They are useful when users need shared data, real-time updates, authentication-linked records, or scalable storage. Local SQLite and cloud storage can also be combined in offline-first applications.</p>
+        <p>Use a local database for fast offline access and a cloud database when data must be shared or synchronized. The right choice depends on privacy, scale, connectivity, conflict resolution, and backend requirements.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("// Conceptual Firestore example\nfinal collection = FirebaseFirestore.instance.collection('tasks');\n\nawait collection.add({\n  'name': 'Read Flutter documentation',\n  'completed': false,\n});\n\nfinal snapshot = await collection.get();\nfor (final document in snapshot.docs) {\n  print(document.data());\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. Challenges</div>
+        <h3>12.1 Schema, Migrations, Scale, Security, and Synchronization</h3>
+        <p>Database integration introduces design responsibilities. Poor table structure can create redundancy and inefficient queries. Schema changes require migrations. Large datasets may require pagination and indexes. Sensitive data must be protected, and hybrid local-cloud applications need a clear synchronization strategy.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Schema:</b> Model relationships and avoid unnecessary duplication.</div>
+            <div class="info-item"><b>Migrations:</b> Move existing users safely to a new schema version.</div>
+            <div class="info-item"><b>Security:</b> Protect sensitive data and access credentials.</div>
+            <div class="info-item"><b>Synchronization:</b> Resolve conflicts between local and remote changes.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. Best Practices</div>
+        <h3>13.1 Building Reliable Database Features</h3>
+        <p>Use indexes for common filters and sorts, normalize tables where appropriate, maintain data consistency, handle errors, close connections, and back up critical data. Keep database code in a service or repository instead of placing SQL directly inside every widget.</p>
+        <div class="step-box"><b>Maintainability pattern:</b> UI calls a repository → repository performs CRUD → state layer receives the result → widgets rebuild with the updated data.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. Dynamic UI Integration</div>
+        <h3>14.1 Keeping Database Data and Widgets Synchronized</h3>
+        <p>After inserting, updating, or deleting a record, update the state used by the UI. Provider or another state-management solution can expose the current list and notify widgets. This prevents stale screens where the database has changed but the user still sees old data.</p>
+        <p>For larger applications, separate database access, models, state management, and presentation. This makes testing and future migration from local SQLite to a cloud service easier.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">Chapter Conclusion</div>
+        <h3>What You Should Know After Chapter 7</h3>
+        <p>After completing this chapter, you should be able to explain local and cloud databases, choose between SQLite and Firestore, configure sqflite, create tables, perform CRUD operations, use safe where clauses, close database resources, and connect database changes to a dynamic Flutter interface.</p>
+        <p>You should also be able to design task and notes applications, understand migrations and synchronization, optimize queries with indexes, protect sensitive data, and organize database code into maintainable modules.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_mobile_chapter_7_quiz()
 
 elif display_page == "Chapter 6: Networking and API Integration in Flutter":
     st.markdown("## Mobile Application Development")

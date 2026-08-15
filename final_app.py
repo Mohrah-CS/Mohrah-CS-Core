@@ -826,7 +826,7 @@ elif main_subject == "Database Systems":
 elif main_subject == "Mobile Application Development":
     subject = st.sidebar.selectbox(
         t("lesson_select"),
-        ["Chapter 1: Introduction to Flutter and Dart Programming Language", "Chapter 2: Dart Programming Part 1 — Syntax"]
+        ["Chapter 1: Introduction to Flutter and Dart Programming Language", "Chapter 2: Dart Programming Part 1 — Syntax", "Chapter 3: Dart Programming Part 2 — Advanced Syntax"]
     )
     st.session_state.current_page = subject
 else:
@@ -1087,6 +1087,48 @@ def render_mobile_chapter_2_quiz():
             score += 1
     if st.button("Submit Chapter 2 Assessment", key="submit_mobile_ch2_quiz"):
         st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_2_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Mobile Application Development: Chapter 3 ---
+MOBILE_CHAPTER_3_QUIZ = [
+    {"q": "Which Dart type is used for whole numbers?", "o": ["int", "double", "bool", "String"], "a": "int"},
+    {"q": "Which Dart type is used for decimal numbers?", "o": ["double", "int", "List", "Map"], "a": "double"},
+    {"q": "What does the modulus operator % return?", "o": ["The remainder after division", "The quotient only", "A Boolean value", "The absolute value"], "a": "The remainder after division"},
+    {"q": "What is the result of 10 % 3?", "o": ["1", "3", "0", "3.33"], "a": "1"},
+    {"q": "What does .toInt() do to a double such as 85.7?", "o": ["Removes the decimal part and returns 85", "Rounds it to 86 in every case", "Converts it to a String", "Returns NaN"], "a": "Removes the decimal part and returns 85"},
+    {"q": "Which method rounds 3.75 upward to 4?", "o": ["ceil()", "floor()", "abs()", "toString()"], "a": "ceil()"},
+    {"q": "Which property checks whether a number is Not a Number?", "o": ["isNaN", "isEmpty", "isNull", "isNumber"], "a": "isNaN"},
+    {"q": "What values can a bool contain?", "o": ["true or false", "0 or 1 only", "Any String", "int or double"], "a": "true or false"},
+    {"q": "When does the && operator return true?", "o": ["When both conditions are true", "When at least one condition is true", "When both conditions are false", "When values are numeric"], "a": "When both conditions are true"},
+    {"q": "When does the || operator return true?", "o": ["When at least one condition is true", "Only when both are true", "Only when both are false", "Only for Strings"], "a": "When at least one condition is true"},
+    {"q": "What does the ! operator do?", "o": ["Reverses a Boolean value", "Compares two numbers", "Converts a double", "Creates a constant"], "a": "Reverses a Boolean value"},
+    {"q": "What does an if statement do?", "o": ["Executes a block when its condition is true", "Always executes two blocks", "Declares a List", "Converts null to zero"], "a": "Executes a block when its condition is true"},
+    {"q": "What is the main difference between final and const?", "o": ["final may use a runtime value; const requires a compile-time value", "const can be reassigned; final cannot", "They have no difference", "final is only for Strings"], "a": "final may use a runtime value; const requires a compile-time value"},
+    {"q": "Which collection can be declared as a compile-time constant?", "o": ["const List", "Only a mutable List", "Only a Future", "No collection"], "a": "const List"},
+    {"q": "What does int? age = null mean?", "o": ["age may contain an int or null", "age must always be an int", "age is a constant", "age is a String"], "a": "age may contain an int or null"},
+    {"q": "What is the risk of using age! when age is null?", "o": ["A runtime null-check error", "Automatic conversion to zero", "A compile-time constant", "No effect"], "a": "A runtime null-check error"},
+    {"q": "What does the ?? operator provide?", "o": ["A fallback value when the left side is null", "A forced non-null value", "A multiplication result", "A new class"], "a": "A fallback value when the left side is null"},
+    {"q": "What does the ?. operator allow?", "o": ["Safe access to a nullable object", "Unsafe reassignment of final values", "Division by zero", "Compile-time arithmetic"], "a": "Safe access to a nullable object"},
+    {"q": "Which expression checks that age is at least 18?", "o": ["age >= 18", "age => 18", "age = 18", "age <> 18"], "a": "age >= 18"},
+    {"q": "Why are parentheses useful in combined expressions?", "o": ["They clarify grouping and evaluation order", "They make every value nullable", "They remove Boolean logic", "They turn code into a Map"], "a": "They clarify grouping and evaluation order"},
+]
+
+def render_mobile_chapter_3_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 3 Assessment — Advanced Dart Syntax (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(MOBILE_CHAPTER_3_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"mobile_ch3_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Chapter 3 Assessment", key="submit_mobile_ch3_quiz"):
+        st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_3_QUIZ)}")
         show_quiz_feedback(answers)
 
 
@@ -3065,6 +3107,190 @@ elif display_page == "Storage & I/O":
 
 
 
+
+elif display_page == "Chapter 3: Dart Programming Part 2 — Advanced Syntax":
+    st.markdown("## Mobile Application Development")
+    st.markdown("### Chapter 3: Dart Programming Part 2 — Advanced Syntax")
+    st.info("This chapter builds safer and more reliable Dart programs through numbers, Boolean logic, constants, conditional statements, type conversion, number methods, and null safety.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Advanced Dart Syntax</div>
+        <h3>1.1 Why These Concepts Matter</h3>
+        <p>Advanced syntax is not only about writing shorter code. It helps developers represent numeric data accurately, express decisions clearly, protect values from accidental reassignment, and handle missing data without unexpected runtime failures.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Numbers:</b> Support measurements, statistics, prices, and calculations.</div>
+            <div class="info-item"><b>Booleans:</b> Represent decisions and control program flow.</div>
+            <div class="info-item"><b>Constants:</b> Make fixed values safe and readable.</div>
+            <div class="info-item"><b>Null safety:</b> Makes the absence of a value explicit.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Number Data Types</div>
+        <h3>2.1 int and double</h3>
+        <p>Dart provides two main numeric types. <code>int</code> represents whole numbers, while <code>double</code> represents decimal values. Numbers can be positive, negative, or zero, and they are used in calculations, measurements, financial data, and statistics.</p>
+        <p>When an integer participates in an operation that requires a decimal result, Dart can work with it as a double. Choosing the correct type communicates the meaning of the data and prevents avoidable conversion problems.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("int age = 30;\ndouble price = 99.99;\n\nprint(age);   // 30\nprint(price); // 99.99", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Arithmetic Operations</div>
+        <h3>3.1 Operators, Modulus, and Increment</h3>
+        <p>Dart supports addition <code>+</code>, subtraction <code>-</code>, multiplication <code>*</code>, division <code>/</code>, and modulus <code>%</code>. Division returns a decimal result, while modulus returns the remainder. Parentheses can control the order in which an expression is evaluated.</p>
+        <p>The increment operator <code>++</code> increases a value by one, and the decrement operator <code>--</code> reduces it by one. These operators are useful in counters and loops, but clear assignments are often easier to read in complex code.</p>
+        <div class="step-box"><b>Key example:</b> <code>10 % 3</code> equals <code>1</code> because three fits into ten three times with one remaining.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("int a = 10;\nint b = 3;\n\nprint(a + b); // 13\nprint(a - b); // 7\nprint(a * b); // 30\nprint(a / b); // 3.3333333333333335\nprint(a % b); // 1\n\nint x = 5;\nx++;\nprint(x); // 6", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. Type Conversion</div>
+        <h3>4.1 Converting between int and double</h3>
+        <p>Use <code>toInt()</code> to convert a double to an integer and <code>toDouble()</code> to convert an integer to a decimal. Converting a double to an int removes the decimal portion; it does not automatically mean mathematical rounding.</p>
+        <div class="step-box"><b>Important:</b> If an application needs a rounded value, use <code>round()</code> before or instead of <code>toInt()</code>, depending on the requirement.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("double score = 85.7;\nint truncatedScore = score.toInt();\nprint(truncatedScore); // 85\n\nint count = 10;\ndouble decimalCount = count.toDouble();\nprint(decimalCount); // 10.0", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. Number Methods</div>
+        <h3>5.1 abs(), ceil(), floor(), round(), and toString()</h3>
+        <p>Dart provides useful methods for manipulating and displaying numbers. <code>abs()</code> returns the absolute value, <code>ceil()</code> rounds upward, <code>floor()</code> rounds downward, <code>round()</code> chooses the nearest integer, and <code>toString()</code> converts a number into text for display or concatenation.</p>
+        <table class="summary-table">
+            <tr><th>Method</th><th>Example result for 3.75</th><th>Use</th></tr>
+            <tr><td><code>ceil()</code></td><td>4</td><td>Round upward.</td></tr>
+            <tr><td><code>floor()</code></td><td>3</td><td>Round downward.</td></tr>
+            <tr><td><code>round()</code></td><td>4</td><td>Round to the nearest integer.</td></tr>
+            <tr><td><code>toString()</code></td><td>"3.75"</td><td>Prepare a number for text output.</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("double value = 3.75;\nprint(value.ceil());  // 4\nprint(value.floor()); // 3\nprint(value.round()); // 4\n\nint count = 10;\nprint('Count: ' + count.toString());", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. Infinity and NaN</div>
+        <h3>6.1 Handling Mathematical Edge Cases</h3>
+        <p>Some calculations produce values that need special handling. <code>NaN</code> means Not a Number, while an infinite value may result from an operation that exceeds a finite range or divides by zero in a floating-point context. Dart exposes <code>isFinite</code>, <code>isNaN</code>, and <code>isInfinite</code> so programs can validate results before displaying or storing them.</p>
+        <div class="step-box"><b>Robustness principle:</b> Check unexpected numeric results at the boundary of a calculation instead of allowing invalid values to spread through the application.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("double result = 0 / 0;\nprint(result.isNaN); // true", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. Boolean Data Type</div>
+        <h3>7.1 true, false, and Logical Operators</h3>
+        <p>The <code>bool</code> type represents exactly two values: <code>true</code> and <code>false</code>. Boolean values are used for logical operations, conditions, decisions, and program flow.</p>
+        <p>The AND operator <code>&&</code> is true only when both conditions are true. The OR operator <code>||</code> is true when at least one condition is true. The NOT operator <code>!</code> reverses a Boolean value.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("bool a = true;\nbool b = false;\n\nprint(a && b); // false\nprint(a || b); // true\nprint(!a);      // false", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. Boolean Expressions</div>
+        <h3>8.1 Relational Operators and Combined Conditions</h3>
+        <p>A Boolean expression evaluates to either true or false. Relational operators include <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, and <code>&gt;=</code>. They can be combined with logical operators to express real requirements.</p>
+        <div class="step-box"><b>Example interpretation:</b> <code>a &lt; b &amp;&amp; b &gt; 15</code> is true only if both comparisons are true.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("int a = 10;\nint b = 20;\n\nprint(a < b && b > 15); // true\nprint(a > b || b > 15); // true\n\nint age = 18;\nprint(age >= 18); // true\nprint(age < 18);  // false", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. Conditional Statements</div>
+        <h3>9.1 if, if-else, and else if</h3>
+        <p>An <code>if</code> statement executes a block when its condition is true. An <code>else</code> block handles the false case. An <code>else if</code> chain evaluates additional conditions when the earlier conditions are false.</p>
+        <p>Conditional statements turn Boolean expressions into decisions. Keep conditions readable and use braces consistently, especially when the code will later grow.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("int score = 85;\n\nif (score >= 90) {\n  print('Excellent');\n} else if (score >= 50) {\n  print('Pass');\n} else {\n  print('Fail');\n}\n\n// Output: Pass", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. Constants</div>
+        <h3>10.1 final and const</h3>
+        <p>Constants represent values that should not be reassigned. <code>final</code> is assigned once and may receive a value at runtime, such as the current date. <code>const</code> requires a compile-time value and is appropriate for fixed, predictable data.</p>
+        <table class="summary-table">
+            <tr><th>Declaration</th><th>When is the value determined?</th><th>Example</th></tr>
+            <tr><td><code>final</code></td><td>At runtime, but only once.</td><td><code>final currentTime = DateTime.now();</code></td></tr>
+            <tr><td><code>const</code></td><td>At compile time.</td><td><code>const pi = 3.14;</code></td></tr>
+        </table>
+        <div class="step-box"><b>Benefits:</b> Constants improve readability, prevent accidental reassignment, clarify intent, and can improve performance when compile-time constants are reused.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("final runtimeValue = DateTime.now().year;\nprint(runtimeValue);\n\nconst int compileTimeValue = 2023;\nprint(compileTimeValue);\n\nconst taxRate = 0.18;\nprint('Tax Rate: $taxRate');", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. Constant Collections</div>
+        <h3>11.1 Constant Lists and Maps</h3>
+        <p>Lists and Maps can also be declared with <code>const</code>. A constant collection is immutable: its entries cannot be modified after creation. This is useful for fixed configuration, labels, lookup values, and other data that should never change.</p>
+        <div class="step-box"><b>Design choice:</b> Use a constant collection when both the collection and its contents are known at compile time and must remain unchanged.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("const List<int> numbers = [1, 2, 3];\nprint(numbers); // [1, 2, 3]\n\nconst Map<String, String> countries = {\n  'USA': 'Washington',\n  'UK': 'London',\n};\nprint(countries['USA']); // Washington", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. Null Safety</div>
+        <h3>12.1 Non-Nullable and Nullable Variables</h3>
+        <p>Dart variables are non-nullable by default. This means a normal variable must contain a value. Add <code>?</code> to a type when null is a valid state, such as when an optional profile field has not been provided yet.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Non-nullable:</b> <code>int age = 25;</code> must contain an integer.</div>
+            <div class="info-item"><b>Nullable:</b> <code>int? age = null;</code> may contain an integer or null.</div>
+        </div>
+        <div class="step-box"><b>Best practice:</b> Use non-nullable variables whenever absence is not a valid business state. This keeps later code simpler and safer.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("int age = 25;\nprint(age); // 25\n\nint? optionalAge = null;\nprint(optionalAge); // null", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. Null-Aware Operators</div>
+        <h3>13.1 !, ??, and ?.</h3>
+        <p>The null assertion operator <code>!</code> tells Dart that you believe a nullable value is not null. It must be used carefully because it causes a runtime error when that belief is wrong. The <code>??</code> operator supplies a fallback value when the left side is null. The <code>?.</code> operator accesses a property or method safely and returns null instead of throwing when the receiver is null.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("int? age = 30;\nprint(age!); // 30\n\nString? name;\nprint(name ?? 'Guest'); // Guest\n\nString? message;\nprint(message?.length); // null", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. Null Safety in Functions</div>
+        <h3>14.1 Nullable Parameters and Fallbacks</h3>
+        <p>Functions can accept nullable parameters by adding <code>?</code> to the parameter type. This is useful when a caller may not have a value. A function can then apply a safe fallback with <code>??</code> while keeping the rest of its logic non-nullable.</p>
+        <div class="step-box"><b>Result:</b> Calling <code>greet(null)</code> prints <code>Hello, Guest</code>, while calling <code>greet('Alice')</code> prints <code>Hello, Alice</code>.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("void greet(String? name) {\n  print('Hello, ${name ?? 'Guest'}');\n}\n\ngreet(null);\ngreet('Alice');", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">15. Practical Applications</div>
+        <h3>15.1 Discount Qualification and User Greeting</h3>
+        <p>Advanced syntax becomes useful when it models real requirements. A discount program can combine age and purchase conditions with <code>&amp;&amp;</code>. A greeting function can accept a missing name and show Guest with <code>??</code>. These examples demonstrate how numeric types, Booleans, relational operators, functions, and null safety work together.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("int age = 20;\nint purchaseAmount = 75;\nbool qualifies = age > 18 && purchaseAmount > 50;\nprint('Qualifies for discount: $qualifies'); // true\n\nvoid greet(String? name) {\n  print('Hello, ${name ?? 'Guest'}');\n}\n\ngreet(null);  // Hello, Guest\ngreet('Alice'); // Hello, Alice", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">Chapter Conclusion</div>
+        <h3>What You Should Know After Chapter 3</h3>
+        <p>After completing this chapter, you should be able to use int and double values, perform arithmetic and modulus operations, increment and decrement counters, convert numeric types, format numbers, detect NaN and infinity, write Boolean expressions, combine logical operators, control flow with if and else, choose between final and const, build constant collections, and apply null safety with <code>?</code>, <code>!</code>, <code>??</code>, and <code>?.</code>.</p>
+        <p>The central lesson is that advanced Dart syntax makes program intent explicit. Numbers model data, Booleans model decisions, constants protect invariants, and null safety makes missing values a deliberate part of the design.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_mobile_chapter_3_quiz()
 
 elif display_page == "Chapter 2: Dart Programming Part 1 — Syntax":
     st.markdown("## Mobile Application Development")

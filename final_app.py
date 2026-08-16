@@ -248,6 +248,7 @@ LANGUAGES = {
         "os": "Operating Systems",
         "db": "Database Systems",
         "mobile": "Mobile Application Development",
+        "networks": "Computer Networks",
         "exam_prep": "🚀 Smart Exam Prep",
         "community": "👥 Community Corner",
         "dash_title": "🏛️ CS Portal Dashboard",
@@ -273,6 +274,7 @@ LANGUAGES = {
         "os": "Operating Systems",
         "db": "Database Systems",
         "mobile": "Mobile Application Development",
+        "networks": "Computer Networks",
         "exam_prep": "🚀 Smart Exam Prep",
         "community": "👥 Community Corner",
         "dash_title": "🏛️ Computer Science Portal Dashboard",
@@ -298,6 +300,7 @@ LANGUAGES = {
         "os": "Operating Systems",
         "db": "Database Systems",
         "mobile": "Mobile Application Development",
+        "networks": "Computer Networks",
         "exam_prep": "🚀 Smart Exam Prep",
         "community": "👥 Community Corner",
         "dash_title": "🏛️ CS Portal Dashboard",
@@ -789,6 +792,7 @@ nav_map = {
     t("os"): "Operating Systems",
     t("db"): "Database Systems",
     t("mobile"): "Mobile Application Development",
+    t("networks"): "Computer Networks",
     t("exam_prep"): "🚀 Smart Exam Prep",
     
     
@@ -827,6 +831,12 @@ elif main_subject == "Mobile Application Development":
     subject = st.sidebar.selectbox(
         t("lesson_select"),
         ["Chapter 1: Introduction to Flutter and Dart Programming Language", "Chapter 2: Dart Programming Part 1 — Syntax", "Chapter 3: Dart Programming Part 2 — Advanced Syntax", "Chapter 4: Object-Oriented Programming (OOP) in Dart", "Chapter 5: Advanced Widgets and State Management in Flutter", "Chapter 6: Networking and API Integration in Flutter", "Chapter 7: Database Integration in Flutter", "Chapter 8: Hot Reload, Stateful Widgets, and Build Context", "Chapter 9: Adding Images, Basic Button Types, and Dropdown Button Widgets", "Chapter 10: Managing Screen Transitions in Flutter", "Chapter 11: Advanced Navigation Techniques in Flutter", "Chapter 12: Implementing Material Design Principles in Flutter"]
+    )
+    st.session_state.current_page = subject
+elif main_subject == "Computer Networks":
+    subject = st.sidebar.selectbox(
+        t("lesson_select"),
+        ["Chapter 1: Introduction to Computer Networks"]
     )
     st.session_state.current_page = subject
 else:
@@ -1507,6 +1517,48 @@ def render_mobile_chapter_12_quiz():
             score += 1
     if st.button("Submit Chapter 12 Final Assessment", key="submit_mobile_ch12_quiz"):
         st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_12_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Computer Networks: Chapter 1 ---
+COMPUTER_NETWORKS_CHAPTER_1_QUIZ = [
+    {"q": "What is a computer network?", "o": ["A group of connected devices that exchange data and share resources", "A single offline application", "Only a type of printer", "A programming language"], "a": "A group of connected devices that exchange data and share resources"},
+    {"q": "Which path best represents opening a website?", "o": ["User device → Router → Internet → Server → Response", "Printer → Switch → Keyboard → Server", "Server → Monitor → Router → User", "CPU → RAM → Printer → Internet"], "a": "User device → Router → Internet → Server → Response"},
+    {"q": "Which device connects multiple devices inside a local network?", "o": ["Switch", "Modem only", "Printer", "Web browser"], "a": "Switch"},
+    {"q": "Which device forwards traffic between different networks?", "o": ["Router", "Keyboard", "Switch only", "Access card"], "a": "Router"},
+    {"q": "Which medium uses pulses of light to carry data?", "o": ["Fiber optic", "Copper", "Wireless radio only", "Paper cable"], "a": "Fiber optic"},
+    {"q": "Which network is designed for a very small personal area?", "o": ["PAN", "WAN", "MAN", "Internet backbone"], "a": "PAN"},
+    {"q": "Which topology connects devices to a central device?", "o": ["Star", "Bus", "Ring", "Single line"], "a": "Star"},
+    {"q": "What is a network protocol?", "o": ["A set of rules that allows devices to communicate", "A physical cable", "A type of monitor", "A storage folder"], "a": "A set of rules that allows devices to communicate"},
+    {"q": "Which protocol translates domain names into IP addresses?", "o": ["DNS", "DHCP", "FTP", "SMTP"], "a": "DNS"},
+    {"q": "Which protocol automatically helps assign IP configuration?", "o": ["DHCP", "HTTP", "DNS", "SMTP"], "a": "DHCP"},
+    {"q": "What does bandwidth describe?", "o": ["The maximum data-carrying capacity of a connection", "The exact delay of every packet", "The identity of a user", "The number of printers"], "a": "The maximum data-carrying capacity of a connection"},
+    {"q": "What is latency?", "o": ["The time it takes data to travel between endpoints", "The total storage size of a server", "The number of network users", "The color of a cable"], "a": "The time it takes data to travel between endpoints"},
+    {"q": "What is packet loss?", "o": ["Data packets fail to reach their destination", "A packet is compressed successfully", "A router gains bandwidth", "A server changes its hostname"], "a": "Data packets fail to reach their destination"},
+    {"q": "What does redundancy provide?", "o": ["Extra components or paths that can support service after a failure", "Less availability", "A smaller address space", "Only faster typing"], "a": "Extra components or paths that can support service after a failure"},
+    {"q": "Which security goal protects information from unauthorized disclosure?", "o": ["Confidentiality", "Availability", "Throughput", "Latency"], "a": "Confidentiality"},
+    {"q": "Which security goal ensures data has not been improperly changed?", "o": ["Integrity", "Bandwidth", "Routing", "Topology"], "a": "Integrity"},
+    {"q": "What is a packet?", "o": ["A formatted unit of data sent across a network", "A physical router", "A password manager", "A monitor setting"], "a": "A formatted unit of data sent across a network"},
+    {"q": "In Wireshark, what can a student inspect?", "o": ["Packet source, destination, protocol, and details", "Only screen brightness", "Only printer ink", "Only CPU temperature"], "a": "Packet source, destination, protocol, and details"},
+    {"q": "A university computer lab is usually an example of which network type?", "o": ["LAN", "WAN", "PAN", "MAN only"], "a": "LAN"},
+    {"q": "Why can a video call lag even when bandwidth is high?", "o": ["Latency, delay, packet loss, or congestion may still be high", "Bandwidth always equals latency", "Routers cannot use packets", "Fiber optic has no protocols"], "a": "Latency, delay, packet loss, or congestion may still be high"},
+]
+
+def render_computer_networks_chapter_1_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 1 Assessment — Introduction to Computer Networks (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(COMPUTER_NETWORKS_CHAPTER_1_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"computer_networks_ch1_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Computer Networks Chapter 1 Assessment", key="submit_computer_networks_ch1_quiz"):
+        st.write(f"### Final Score: {score}/{len(COMPUTER_NETWORKS_CHAPTER_1_QUIZ)}")
         show_quiz_feedback(answers)
 
 
@@ -3485,6 +3537,189 @@ elif display_page == "Storage & I/O":
 
 
 
+
+elif display_page == "Chapter 1: Introduction to Computer Networks":
+    st.markdown("## Computer Networks")
+    st.markdown("### Chapter 1: Introduction to Computer Networks")
+    st.info("This chapter builds the foundation for computer networking: devices, communication, network types, topologies, protocols, performance, reliability, security, and packet analysis with Wireshark.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Learning Objectives</div>
+        <h3>What You Will Learn</h3>
+        <p>By the end of this chapter, you should be able to explain what a computer network is, why networks are needed, how data moves between endpoints, what the main network devices and transmission media do, and how to distinguish common network types and topologies.</p>
+        <p>You will also learn the purpose of basic protocols, the meaning of bandwidth, throughput, latency, delay, and packet loss, the foundations of reliability and security, and how to read basic packet information in Wireshark.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Introduction</div>
+        <h3>2.1 What Is a Computer Network?</h3>
+        <p>A computer network is a collection of connected devices that exchange data and share resources through communication links and agreed rules. Devices may share files, printers, applications, Internet access, storage, and services. A network can be as small as two devices or as large as the global Internet.</p>
+        <h4>Why Networks Are Needed</h4>
+        <p>Networks make communication and resource sharing practical. People use them to browse websites, send messages, attend video meetings, access cloud services, print documents, and collaborate on shared systems.</p>
+        <div class="step-box"><b>Basic website flow:</b> Laptop → Wi-Fi → Router → Internet → Web Server → Response.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Basic Communication</div>
+        <h3>3.1 Sender, Receiver, Data, and Path</h3>
+        <p>Every communication exchange has a sender, a receiver, data, a transmission process, and a communication path. The sender creates or requests information. The network carries that information through one or more links and devices until the receiver obtains and interprets it.</p>
+        <p>For example, when a phone sends a photo to another phone, the photo is represented as digital data, divided into packets, transmitted across the network, checked and reassembled, and then delivered to the receiving application.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Sender: Phone A\nData: Photo\nPath: Wi-Fi → Access Point → Router → Network → Router → Phone B\nReceiver: Phone B\nResult: The packets are reassembled into the original photo.", language="text")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. Network Components</div>
+        <h3>4.1 End Devices, Network Devices, and Media</h3>
+        <p><b>End devices</b> are the systems that originate or consume data, including computers, laptops, smartphones, servers, and printers. <b>Network devices</b> help connect, forward, or provide access to those endpoints. <b>Transmission media</b> are the physical or wireless paths over which signals travel.</p>
+        <table class="summary-table">
+            <tr><th>Category</th><th>Examples</th><th>Purpose</th></tr>
+            <tr><td>End devices</td><td>Computer, laptop, smartphone, server, printer</td><td>Create or receive data and services</td></tr>
+            <tr><td>Network devices</td><td>Switch, router, access point, modem</td><td>Connect devices and move traffic</td></tr>
+            <tr><td>Transmission media</td><td>Copper, fiber optic, wireless</td><td>Carry signals between endpoints</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. Network Devices</div>
+        <h3>5.1 Switch, Router, Access Point, and Modem</h3>
+        <p>A <b>switch</b> connects devices in the same local network and forwards frames toward the appropriate local destination. A <b>router</b> connects different networks and chooses paths for packets. An <b>access point</b> provides wireless access to a network. A <b>modem</b> converts or adapts signals so a local network can communicate with an Internet service provider.</p>
+        <div class="step-box"><b>Small-network scenario:</b> PCs → Switch → Router → Internet. The PCs communicate locally through the switch, while the router provides the path to external networks.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. Transmission Media</div>
+        <h3>6.1 Copper, Fiber Optic, and Wireless</h3>
+        <p><b>Copper</b> carries electrical signals and is widely used in local Ethernet connections. <b>Fiber optic</b> carries light and supports high capacity over long distances with strong resistance to electromagnetic interference. <b>Wireless</b> uses radio communication and provides mobility, but its performance can be affected by distance, obstacles, interference, and congestion.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. Network Types</div>
+        <h3>7.1 PAN, LAN, WLAN, MAN, and WAN</h3>
+        <p>Network types are commonly described by their geographic scope and connection method. A <b>PAN</b> connects personal devices over a short range. A <b>LAN</b> connects devices within a home, office, or laboratory. A <b>WLAN</b> is a LAN using wireless access. A <b>MAN</b> can cover a city or metropolitan area. A <b>WAN</b> connects networks across large geographic distances.</p>
+        <table class="summary-table">
+            <tr><th>Type</th><th>Meaning</th><th>Real-world example</th></tr>
+            <tr><td>PAN</td><td>Personal Area Network</td><td>Phone connected to a smartwatch or earbuds</td></tr>
+            <tr><td>LAN</td><td>Local Area Network</td><td>Computers in a university laboratory</td></tr>
+            <tr><td>WLAN</td><td>Wireless Local Area Network</td><td>Home or campus Wi-Fi</td></tr>
+            <tr><td>MAN</td><td>Metropolitan Area Network</td><td>Networks serving locations across a city</td></tr>
+            <tr><td>WAN</td><td>Wide Area Network</td><td>Networks connecting offices in different cities</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. Network Topologies</div>
+        <h3>8.1 How Devices Are Arranged</h3>
+        <p>A topology describes the structure of a network and the relationships between devices. The choice affects cost, performance, troubleshooting, and the impact of a failure.</p>
+        <table class="summary-table">
+            <tr><th>Topology</th><th>Structure</th><th>Advantages</th><th>Disadvantages and example</th></tr>
+            <tr><td>Bus</td><td>Devices share one main backbone</td><td>Simple and inexpensive for small setups</td><td>Backbone failure affects many devices; legacy small networks</td></tr>
+            <tr><td>Star</td><td>Devices connect to a central switch</td><td>Easy to manage and expand</td><td>Central device is important; common office LAN</td></tr>
+            <tr><td>Ring</td><td>Each device connects in a circular path</td><td>Predictable path and orderly access</td><td>A break can disrupt the ring; specialized networks</td></tr>
+            <tr><td>Mesh</td><td>Devices have many interconnections</td><td>Redundancy and alternative paths</td><td>More expensive and complex; resilient backbones</td></tr>
+            <tr><td>Hybrid</td><td>Combines two or more topologies</td><td>Flexible and adaptable</td><td>Design and maintenance are more complex; enterprise networks</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. Network Protocols</div>
+        <h3>9.1 Rules for Communication</h3>
+        <p>A protocol is a set of rules that defines how devices identify messages, format data, address destinations, control communication, and respond to errors. Devices can communicate reliably only when they agree on the relevant protocols.</p>
+        <table class="summary-table">
+            <tr><th>Protocol</th><th>Basic role</th></tr>
+            <tr><td>HTTP / HTTPS</td><td>Web communication; HTTPS adds encrypted transport protection</td></tr>
+            <tr><td>TCP</td><td>Reliable, ordered, connection-oriented delivery</td></tr>
+            <tr><td>UDP</td><td>Lightweight delivery with low overhead and no built-in reliability guarantee</td></tr>
+            <tr><td>IP</td><td>Logical addressing and packet forwarding between networks</td></tr>
+            <tr><td>DNS</td><td>Resolves domain names to IP addresses</td></tr>
+            <tr><td>DHCP</td><td>Automatically provides network configuration such as IP settings</td></tr>
+            <tr><td>FTP</td><td>Transfers files between systems</td></tr>
+            <tr><td>SMTP</td><td>Transfers email messages between mail systems</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. Network Performance</div>
+        <h3>10.1 Bandwidth, Throughput, Latency, Delay, and Loss</h3>
+        <p><b>Bandwidth</b> is the theoretical capacity of a link. <b>Throughput</b> is the amount of useful data actually delivered. <b>Latency</b> is the time required for data to travel between endpoints. <b>Delay</b> can include processing, queuing, transmission, and propagation time. <b>Packet loss</b> occurs when packets fail to arrive.</p>
+        <p>A connection may advertise high bandwidth while a video call still feels delayed. The cause may be high latency, queueing delay, congestion, jitter, or packet loss. Bandwidth describes capacity; it does not guarantee immediate delivery.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. Network Reliability</div>
+        <h3>11.1 Redundancy and Fault Tolerance</h3>
+        <p>Reliability is the ability of a network to provide expected service consistently. Redundancy adds spare devices, links, or paths. Alternative paths allow traffic to continue when one component fails. Fault tolerance is the ability to keep operating, perhaps with reduced performance, after a failure.</p>
+        <div class="step-box"><b>Failure scenario:</b> If one link in a mesh network fails, routing may use another path. In a network with no alternative path, the affected devices may lose connectivity until the link is repaired.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. Network Security Foundations</div>
+        <h3>12.1 The Core Security Goals</h3>
+        <p><b>Confidentiality</b> means information is visible only to authorized parties. <b>Integrity</b> means data remains accurate and is not changed improperly. <b>Availability</b> means authorized users can access services when needed. <b>Authentication</b> verifies identity. <b>Authorization</b> determines what an authenticated identity is allowed to do.</p>
+        <table class="summary-table">
+            <tr><th>Goal</th><th>Simple example</th></tr>
+            <tr><td>Confidentiality</td><td>Only the intended recipient can read a private message</td></tr>
+            <tr><td>Integrity</td><td>A downloaded file is not modified during transfer</td></tr>
+            <tr><td>Availability</td><td>A learning platform remains reachable for students</td></tr>
+            <tr><td>Authentication</td><td>A student signs in with verified credentials</td></tr>
+            <tr><td>Authorization</td><td>An instructor can access grading tools while a student cannot</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. Practical Activity</div>
+        <h3>13.1 Introduction to Wireshark</h3>
+        <p>Wireshark is a packet-analysis tool that lets learners observe network traffic. A packet is a formatted unit of data carried across a network. In a capture, students can inspect fields such as source, destination, protocol, time, length, and packet-specific information.</p>
+        <div class="step-box"><b>Safe learning activity:</b> Open Wireshark on a network you are authorized to observe, start a capture on the correct interface, visit a permitted website or generate a simple request, stop the capture, and inspect the source, destination, protocol, and summary details. Do not capture traffic from networks or users without permission.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Wireshark observation checklist:\n1. Select an authorized network interface.\n2. Start capture.\n3. Generate permitted traffic.\n4. Stop capture.\n5. Identify source, destination, protocol, and packet length.\n6. Record what each field means.", language="text")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. Real-World Scenarios</div>
+        <h3>14.1 Applying the Concepts</h3>
+        <p><b>Opening a website:</b> The user device sends a request through Wi-Fi and a router, across Internet networks, to a server. The server sends a response back through the network path.</p>
+        <p><b>Sending a file:</b> The sender's file is divided into packets. Packets travel through the network and are delivered to the receiver, where the data is reassembled and checked.</p>
+        <p><b>LAN versus WAN:</b> Computers in one university laboratory form a LAN. Connecting networks between different cities is a WAN scenario.</p>
+        <p><b>Small network:</b> PCs connect to a switch; the switch connects to a router; the router connects the local network to the Internet.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">15. Key Terms and Summary</div>
+        <h3>15.1 Essential Vocabulary</h3>
+        <p><b>Network</b> is a connected communication system. A <b>host</b> is a device participating in network communication. A <b>node</b> is a connected point in a network. A <b>client</b> requests a service, while a <b>server</b> provides a service. A <b>router</b> forwards traffic between networks, and a <b>switch</b> connects devices within a local network. An <b>access point</b> provides wireless access. A <b>protocol</b> defines communication rules. A <b>packet</b> is a unit of transmitted data. <b>Bandwidth</b>, <b>throughput</b>, and <b>latency</b> describe different aspects of performance. PAN, LAN, WLAN, and WAN describe network scope or connection style.</p>
+        <p>The central idea is that networks combine endpoints, devices, media, protocols, and operational goals to move information reliably and securely.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_computer_networks_chapter_1_quiz()
 
 elif display_page == "Chapter 12: Implementing Material Design Principles in Flutter":
     st.markdown("## Mobile Application Development")
@@ -5568,7 +5803,7 @@ elif display_page == "🚀 Smart Exam Prep":
     st.error("🚨 LEVEL: IMPOSSIBLE")
     st.write("This section is designed for professionals only. The questions here simulate international certification exams and the most complex final exams.")
     
-    quiz_subject = st.selectbox("Choose Your Battlefield:", ["Operating Systems (OS)", "Theory of Computation (TOC)", "Database Systems (DB)", "Mobile Application Development (MAD)"])
+    quiz_subject = st.selectbox("Choose Your Battlefield:", ["Operating Systems (OS)", "Theory of Computation (TOC)", "Database Systems (DB)", "Mobile Application Development (MAD)", "Computer Networks (CN)"])
     
     if quiz_subject == "Operating Systems (OS)":
         st.subheader("🖥️ OS Hardcore Challenge (20 Questions)")
@@ -5695,6 +5930,19 @@ elif display_page == "🚀 Smart Exam Prep":
                 st.info("Excellent! You have a strong foundation in Mobile Application Development.")
             else:
                 st.warning("Review the mobile development chapters and try again.")
+
+    elif quiz_subject == "Computer Networks (CN)":
+        st.subheader("🌐 Computer Networks — Hardcore Challenge (20 Questions)")
+        computer_networks_master_answers = []
+        computer_networks_master_score = 0
+        for i, item in enumerate(COMPUTER_NETWORKS_CHAPTER_1_QUIZ):
+            choice = st.radio(item["q"], item["o"], key=f"computer_networks_master_{i}")
+            computer_networks_master_answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+            if choice == item["a"]:
+                computer_networks_master_score += 1
+        if st.button("Submit Computer Networks Mega Quiz", key="submit_computer_networks_master_quiz"):
+            st.write(f"### Final Result: {computer_networks_master_score}/{len(COMPUTER_NETWORKS_CHAPTER_1_QUIZ)}")
+            show_quiz_feedback(computer_networks_master_answers)
 
     elif quiz_subject == "Database Systems (DB)":
         render_database_quiz("__master__", "Database Systems — Hardcore Challenge")

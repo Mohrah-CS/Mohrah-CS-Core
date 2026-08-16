@@ -826,7 +826,7 @@ elif main_subject == "Database Systems":
 elif main_subject == "Mobile Application Development":
     subject = st.sidebar.selectbox(
         t("lesson_select"),
-        ["Chapter 1: Introduction to Flutter and Dart Programming Language", "Chapter 2: Dart Programming Part 1 — Syntax", "Chapter 3: Dart Programming Part 2 — Advanced Syntax", "Chapter 4: Object-Oriented Programming (OOP) in Dart", "Chapter 5: Advanced Widgets and State Management in Flutter", "Chapter 6: Networking and API Integration in Flutter", "Chapter 7: Database Integration in Flutter"]
+        ["Chapter 1: Introduction to Flutter and Dart Programming Language", "Chapter 2: Dart Programming Part 1 — Syntax", "Chapter 3: Dart Programming Part 2 — Advanced Syntax", "Chapter 4: Object-Oriented Programming (OOP) in Dart", "Chapter 5: Advanced Widgets and State Management in Flutter", "Chapter 6: Networking and API Integration in Flutter", "Chapter 7: Database Integration in Flutter", "Chapter 8: Hot Reload, Stateful Widgets, and Build Context", "Chapter 9: Adding Images, Basic Button Types, and Dropdown Button Widgets", "Chapter 10: Managing Screen Transitions in Flutter", "Chapter 11: Advanced Navigation Techniques in Flutter", "Chapter 12: Implementing Material Design Principles in Flutter"]
     )
     st.session_state.current_page = subject
 else:
@@ -1297,6 +1297,216 @@ def render_mobile_chapter_7_quiz():
             score += 1
     if st.button("Submit Chapter 7 Assessment", key="submit_mobile_ch7_quiz"):
         st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_7_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Mobile Application Development: Chapter 8 ---
+MOBILE_CHAPTER_8_QUIZ = [
+    {"q": "What are the building blocks of a Flutter application?", "o": ["Widgets", "Only databases", "Only API endpoints", "Operating-system files"], "a": "Widgets"},
+    {"q": "What does Hot Reload usually do?", "o": ["Updates the UI while preserving current state", "Deletes the application", "Always resets all state", "Publishes the app to a store"], "a": "Updates the UI while preserving current state"},
+    {"q": "What does Hot Restart do?", "o": ["Rebuilds the app from scratch and resets state", "Only changes a color without rebuilding", "Keeps every runtime variable", "Closes the code editor"], "a": "Rebuilds the app from scratch and resets state"},
+    {"q": "When is Hot Reload especially useful?", "o": ["Iterating on UI changes quickly", "Changing the device operating system", "Deleting a database", "Replacing a package manager"], "a": "Iterating on UI changes quickly"},
+    {"q": "What is a StatefulWidget made of conceptually?", "o": ["A widget class and a separate State class", "Only a database table", "Only a JSON map", "A route and an API"], "a": "A widget class and a separate State class"},
+    {"q": "What does setState() communicate to Flutter?", "o": ["That mutable state changed and the UI should rebuild", "That the app should restart completely", "That a widget should be deleted", "That a package should be installed"], "a": "That mutable state changed and the UI should rebuild"},
+    {"q": "Which is a common use case for StatefulWidget?", "o": ["Forms and interactive data", "Only fixed text", "Only static icons", "Only database migrations"], "a": "Forms and interactive data"},
+    {"q": "What does BuildContext represent?", "o": ["A widget's location in the widget tree", "A database connection", "A JSON response", "A Dart package version"], "a": "A widget's location in the widget tree"},
+    {"q": "What can BuildContext help a widget access?", "o": ["Inherited data, themes, and navigation", "Only private class fields", "Only HTTP headers", "Only SQLite rows"], "a": "Inherited data, themes, and navigation"},
+    {"q": "Where is BuildContext commonly received?", "o": ["In the build() method", "Only in pubspec.yaml", "Only in a database table", "Only in a JSON file"], "a": "In the build() method"},
+    {"q": "Which method can navigate to another screen?", "o": ["Navigator.push(context, route)", "Database.pushOnly()", "Widget.navigateWithoutContext()", "Context.delete()"], "a": "Navigator.push(context, route)"},
+    {"q": "How can a widget read the available screen width?", "o": ["MediaQuery.of(context).size.width", "context.widthOnly", "Screen.widthWithoutContext", "WidgetTree.width()"], "a": "MediaQuery.of(context).size.width"},
+    {"q": "How can a widget access the current theme?", "o": ["Theme.of(context)", "Theme.readWithoutContext()", "Widget.themeOnly()", "BuildTheme.create()"], "a": "Theme.of(context)"},
+    {"q": "What is a good BuildContext practice after an async gap?", "o": ["Check that the widget is still mounted before using context", "Always assume the widget is mounted", "Restart the whole application", "Delete the context"], "a": "Check that the widget is still mounted before using context"},
+    {"q": "What does a GestureDetector callback commonly receive access to?", "o": ["The context available in the widget's build scope", "A database password", "A compiled APK", "A package lock file"], "a": "The context available in the widget's build scope"},
+    {"q": "What is the role of an InheritedWidget?", "o": ["Make data available to descendants in the widget tree", "Create a SQL table", "Send a POST request", "Replace StatefulWidget"], "a": "Make data available to descendants in the widget tree"},
+    {"q": "What is one benefit of Hot Reload and Hot Restart?", "o": ["They speed up development and debugging", "They remove the need for testing", "They guarantee no runtime errors", "They replace version control"], "a": "They speed up development and debugging"},
+    {"q": "Which widget is generally suitable for UI that does not manage mutable internal state?", "o": ["StatelessWidget", "StatefulWidget only", "ChangeNotifier", "BuildContextWidget"], "a": "StatelessWidget"},
+    {"q": "What should be avoided when using BuildContext?", "o": ["Using a context from a widget that is no longer in the tree", "Using Theme.of(context) in build", "Using Navigator with context", "Using MediaQuery.of(context)"], "a": "Using a context from a widget that is no longer in the tree"},
+    {"q": "Which method returns the interface for a widget?", "o": ["build()", "createDatabase()", "sendRequest()", "disposeOnly()"], "a": "build()"},
+]
+
+def render_mobile_chapter_8_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 8 Assessment — Hot Reload, Stateful Widgets, and Build Context (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(MOBILE_CHAPTER_8_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"mobile_ch8_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Chapter 8 Assessment", key="submit_mobile_ch8_quiz"):
+        st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_8_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Mobile Application Development: Chapter 9 ---
+MOBILE_CHAPTER_9_QUIZ = [
+    {"q": "Which widget displays an image from a local asset?", "o": ["Image.asset", "Image.database", "AssetButton", "LocalNetwork"], "a": "Image.asset"},
+    {"q": "Where should a local image be declared before using Image.asset?", "o": ["In the assets section of pubspec.yaml", "Inside a SQL table", "Only in main.dart comments", "In the API response"], "a": "In the assets section of pubspec.yaml"},
+    {"q": "Which widget loads an image from a URL?", "o": ["Image.network", "Image.remoteOnly", "NetworkButton", "URL.asset"], "a": "Image.network"},
+    {"q": "What does BoxFit.cover do?", "o": ["Scales the image to cover its container", "Always shows the complete image without cropping", "Deletes the image background", "Adds a dropdown"], "a": "Scales the image to cover its container"},
+    {"q": "What does BoxFit.contain do?", "o": ["Fits the complete image inside the container", "Crops every edge", "Loads an image from Firebase", "Disables caching"], "a": "Fits the complete image inside the container"},
+    {"q": "What can FadeInImage.assetNetwork provide?", "o": ["A placeholder while a network image loads", "A database migration", "A button state", "A dropdown validator only"], "a": "A placeholder while a network image loads"},
+    {"q": "Which button is commonly used for a primary raised action?", "o": ["ElevatedButton", "TextButton", "DropdownButton", "IconOnlyText"], "a": "ElevatedButton"},
+    {"q": "Which button has a flat and minimalist appearance?", "o": ["TextButton", "ElevatedButton", "OutlinedButton", "ImageButton"], "a": "TextButton"},
+    {"q": "Which button displays a visible border?", "o": ["OutlinedButton", "TextButton", "NetworkButton", "BoxButton"], "a": "OutlinedButton"},
+    {"q": "What does ElevatedButton.icon combine?", "o": ["An icon and a label", "A database and a route", "A dropdown and an image URL", "Two HTTP requests"], "a": "An icon and a label"},
+    {"q": "How can a button be disabled?", "o": ["Set onPressed to null", "Remove its child", "Set its label to empty", "Use BoxFit.contain"], "a": "Set onPressed to null"},
+    {"q": "What can a loading button display while an operation runs?", "o": ["A CircularProgressIndicator", "A SQL query", "A new route only", "A hidden asset path"], "a": "A CircularProgressIndicator"},
+    {"q": "What should button labels communicate?", "o": ["The action that will occur", "Only the developer's name", "A random value", "The database password"], "a": "The action that will occur"},
+    {"q": "What does a DropdownButton allow the user to do?", "o": ["Select one option from a predefined list", "Upload an image automatically", "Create a database table", "Restart the app"], "a": "Select one option from a predefined list"},
+    {"q": "Which property stores the current dropdown selection?", "o": ["value", "image", "onPressedOnly", "fit"], "a": "value"},
+    {"q": "Which callback handles a changed dropdown selection?", "o": ["onChanged", "onPressedOnly", "onImageLoaded", "onDatabaseOpen"], "a": "onChanged"},
+    {"q": "Why is setState() used in a dropdown callback?", "o": ["To update the selected value and rebuild the UI", "To send a POST request", "To remove the options", "To resize a network image"], "a": "To update the selected value and rebuild the UI"},
+    {"q": "How can a long dropdown list be made easier to use?", "o": ["Group options or add search functionality", "Add unlimited ungrouped options", "Hide the selected value", "Remove validation"], "a": "Group options or add search functionality"},
+    {"q": "Why validate a dropdown in a form?", "o": ["To ensure the user selected an acceptable value", "To load a network image", "To restart the application", "To change BoxFit"], "a": "To ensure the user selected an acceptable value"},
+    {"q": "Which is a good image practice?", "o": ["Optimize sizes and use placeholders for network loading", "Use the largest image possible everywhere", "Ignore different screen sizes", "Remove fit settings"], "a": "Optimize sizes and use placeholders for network loading"},
+]
+
+def render_mobile_chapter_9_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 9 Assessment — Images, Buttons, and DropdownButton Widgets (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(MOBILE_CHAPTER_9_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"mobile_ch9_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Chapter 9 Assessment", key="submit_mobile_ch9_quiz"):
+        st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_9_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Mobile Application Development: Chapter 10 ---
+MOBILE_CHAPTER_10_QUIZ = [
+    {"q": "What does navigation allow users to do in a Flutter application?", "o": ["Move between screens", "Only change an image fit", "Create a database table", "Compile the app"], "a": "Move between screens"},
+    {"q": "What does a route represent?", "o": ["A screen or page in the application", "Only a network request", "A database column", "A button style"], "a": "A screen or page in the application"},
+    {"q": "What does Navigator manage?", "o": ["A stack of routes", "Only application themes", "Only JSON data", "A list of images"], "a": "A stack of routes"},
+    {"q": "What does Navigator.push() do?", "o": ["Adds a new route to the stack", "Removes the current route", "Closes the application", "Resets all state"], "a": "Adds a new route to the stack"},
+    {"q": "What does Navigator.pop() do?", "o": ["Removes the top route and returns to the previous screen", "Adds a new screen", "Creates a named route", "Builds a database"], "a": "Removes the top route and returns to the previous screen"},
+    {"q": "What principle does a navigation stack follow?", "o": ["Last In, First Out", "First In, First Out only", "Random access", "Alphabetical order"], "a": "Last In, First Out"},
+    {"q": "What does MaterialPageRoute define?", "o": ["A route and its transition to a destination widget", "A SQL schema", "An image placeholder", "A dropdown option"], "a": "A route and its transition to a destination widget"},
+    {"q": "How can data be passed to a screen with Navigator.push()?", "o": ["Through the destination widget constructor", "Only through a database", "By deleting the route", "Through BoxFit"], "a": "Through the destination widget constructor"},
+    {"q": "How can a screen return a result to the previous screen?", "o": ["Navigator.pop(context, result)", "Navigator.push(context, result)", "Theme.of(context)", "Route.delete(result)"], "a": "Navigator.pop(context, result)"},
+    {"q": "How does the calling screen receive a returned result?", "o": ["By awaiting Navigator.push()", "By calling Image.network()", "By reading pubspec.yaml", "By using BoxFit.cover"], "a": "By awaiting Navigator.push()"},
+    {"q": "What are named routes?", "o": ["Predefined names mapped to screen builders", "Routes that have no name", "Only API endpoints", "Database migrations"], "a": "Predefined names mapped to screen builders"},
+    {"q": "Which MaterialApp property defines the first named screen?", "o": ["initialRoute", "firstWidget", "startScreenOnly", "defaultNavigator"], "a": "initialRoute"},
+    {"q": "Which method navigates using a named route?", "o": ["Navigator.pushNamed()", "Navigator.namedOnly()", "Route.openName()", "MaterialApp.push()"], "a": "Navigator.pushNamed()"},
+    {"q": "Where can named-route arguments be read?", "o": ["ModalRoute.of(context)!.settings.arguments", "Theme.of(context).arguments", "Navigator.stack.argumentsOnly", "RouteName.value"], "a": "ModalRoute.of(context)!.settings.arguments"},
+    {"q": "What does onGenerateRoute provide?", "o": ["Dynamic route creation based on route settings", "Only a static image", "Automatic database backups", "A button loading state"], "a": "Dynamic route creation based on route settings"},
+    {"q": "What can onUnknownRoute provide?", "o": ["A fallback screen for undefined routes", "A new API response", "A local asset declaration", "A dropdown menu"], "a": "A fallback screen for undefined routes"},
+    {"q": "Why centralize route definitions?", "o": ["To improve organization and readability", "To prevent all navigation", "To remove arguments", "To avoid building screens"], "a": "To improve organization and readability"},
+    {"q": "What can dynamic navigation depend on?", "o": ["Route names and arguments", "Only image dimensions", "Only button colors", "Only database IDs"], "a": "Route names and arguments"},
+    {"q": "What is a common navigation challenge in large apps?", "o": ["Managing many routes and debugging incorrect names or arguments", "Displaying one Text widget", "Setting one image asset", "Changing a button label"], "a": "Managing many routes and debugging incorrect names or arguments"},
+    {"q": "Which is a good navigation practice?", "o": ["Use meaningful route names and handle undefined routes", "Ignore invalid routes", "Pass redundant data everywhere", "Create route logic randomly in every widget"], "a": "Use meaningful route names and handle undefined routes"},
+]
+
+def render_mobile_chapter_10_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 10 Assessment — Managing Screen Transitions in Flutter (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(MOBILE_CHAPTER_10_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"mobile_ch10_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Chapter 10 Assessment", key="submit_mobile_ch10_quiz"):
+        st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_10_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Mobile Application Development: Chapter 11 ---
+MOBILE_CHAPTER_11_QUIZ = [
+    {"q": "What does advanced navigation help applications manage?", "o": ["Complex multi-screen flows and data movement", "Only image sizing", "Only SQL tables", "Only button colors"], "a": "Complex multi-screen flows and data movement"},
+    {"q": "What does Navigator.push() do?", "o": ["Adds a new route to the navigation stack", "Removes the current route", "Clears every route", "Creates a database"], "a": "Adds a new route to the navigation stack"},
+    {"q": "What can Navigator.pop() return?", "o": ["A result value to the previous screen", "Only a widget color", "Only a route name", "A new database row automatically"], "a": "A result value to the previous screen"},
+    {"q": "How does the calling screen receive a result?", "o": ["By awaiting Navigator.push()", "By calling Theme.of()", "By reading pubspec.yaml", "By using Image.asset()"], "a": "By awaiting Navigator.push()"},
+    {"q": "How can named routes receive data?", "o": ["Through the arguments parameter", "Through BoxFit", "Through onPressed only", "Through a widget image"], "a": "Through the arguments parameter"},
+    {"q": "Where are named-route arguments commonly read?", "o": ["ModalRoute.of(context)!.settings.arguments", "Theme.of(context).settings", "Navigator.argumentsOnly", "RouteData.database"], "a": "ModalRoute.of(context)!.settings.arguments"},
+    {"q": "Why provide a default for a missing argument?", "o": ["To improve robustness and prevent failures", "To remove the screen", "To disable navigation", "To reset every route"], "a": "To improve robustness and prevent failures"},
+    {"q": "What is onGenerateRoute used for?", "o": ["Dynamic route handling at runtime", "Only static image loading", "Only button styling", "Only database closing"], "a": "Dynamic route handling at runtime"},
+    {"q": "What can onGenerateRoute inspect?", "o": ["Route names and arguments", "Only screen colors", "Only device volume", "Only SQL constraints"], "a": "Route names and arguments"},
+    {"q": "What is a benefit of onGenerateRoute?", "o": ["It can redirect invalid routes to a custom error screen", "It removes the need for screens", "It prevents all user input", "It always resets state"], "a": "It can redirect invalid routes to a custom error screen"},
+    {"q": "What does a widget constructor provide for navigation?", "o": ["A direct and strongly typed way to pass data", "A way to delete routes", "A way to create HTTP headers", "A replacement for build()"], "a": "A direct and strongly typed way to pass data"},
+    {"q": "Why are constructors useful for data passing?", "o": ["They improve readability and reduce runtime errors", "They hide every property", "They prevent screen transitions", "They remove type information"], "a": "They improve readability and reduce runtime errors"},
+    {"q": "What is two-way data sharing between screens?", "o": ["A screen sends data forward and receives a result back", "Two screens show the same color", "A database writes twice", "Two routes are deleted"], "a": "A screen sends data forward and receives a result back"},
+    {"q": "In a product flow, what might Product Details return?", "o": ["The selected product added to the cart", "A new route name only", "A theme object only", "A SQL query"], "a": "The selected product added to the cart"},
+    {"q": "What should a screen do with missing or empty data?", "o": ["Validate it and show a safe fallback", "Assume it is valid", "Crash immediately", "Delete the navigation stack"], "a": "Validate it and show a safe fallback"},
+    {"q": "What widget is useful for displaying a product list?", "o": ["ListView.builder", "Only TextButton", "Only Stack", "Only Navigator.pop"], "a": "ListView.builder"},
+    {"q": "How can a Product Details screen receive a Product?", "o": ["Through a required constructor parameter", "Through BoxFit.cover", "Through a database close call", "Through onUnknownRoute only"], "a": "Through a required constructor parameter"},
+    {"q": "What does the Cart screen commonly receive?", "o": ["A list of products", "Only a route string", "Only a BuildContext", "Only a button callback"], "a": "A list of products"},
+    {"q": "Which is a scalable navigation practice?", "o": ["Centralize route logic and validate arguments", "Scatter route strings randomly", "Ignore invalid routes", "Pass redundant data through globals"], "a": "Centralize route logic and validate arguments"},
+    {"q": "What should be tested in a multi-screen workflow?", "o": ["Forward navigation, back behavior, returned results, and fallback routes", "Only the first screen color", "Only image loading", "Only the database schema"], "a": "Forward navigation, back behavior, returned results, and fallback routes"},
+]
+
+def render_mobile_chapter_11_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 11 Assessment — Advanced Navigation Techniques (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(MOBILE_CHAPTER_11_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"mobile_ch11_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Chapter 11 Assessment", key="submit_mobile_ch11_quiz"):
+        st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_11_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Mobile Application Development: Chapter 12 ---
+MOBILE_CHAPTER_12_QUIZ = [
+    {"q": "What is Material Design?", "o": ["A design system created by Google", "A database package", "A navigation stack", "A Dart data type"], "a": "A design system created by Google"},
+    {"q": "Which principle describes surfaces and edges inspired by physical materials?", "o": ["Material is the Metaphor", "Motion Provides Meaning", "State is the Metaphor", "Widgets are Data"], "a": "Material is the Metaphor"},
+    {"q": "What does Motion Provides Meaning emphasize?", "o": ["Transitions and animations can provide context", "All animations must be removed", "Only database operations matter", "Images should never move"], "a": "Transitions and animations can provide context"},
+    {"q": "Which widget provides a top toolbar?", "o": ["AppBar", "Divider", "GridTile", "Tooltip"], "a": "AppBar"},
+    {"q": "Which widget groups content with elevation and rounded edges?", "o": ["Card", "ContainerOnly", "ProgressIndicator", "GestureDetector"], "a": "Card"},
+    {"q": "What is Container commonly used for?", "o": ["Layout, styling, padding, margin, and decoration", "Only network requests", "Only route generation", "Only database queries"], "a": "Layout, styling, padding, margin, and decoration"},
+    {"q": "What can ListTile contain?", "o": ["Leading icon, title, and subtitle", "Only an image URL", "Only a progress value", "Only a route name"], "a": "Leading icon, title, and subtitle"},
+    {"q": "Which widget detects taps, long presses, and swipes?", "o": ["GestureDetector", "Card", "Divider", "AppBar"], "a": "GestureDetector"},
+    {"q": "What does InkWell add?", "o": ["Material ripple touch feedback", "A database table", "A route argument", "A progress value"], "a": "Material ripple touch feedback"},
+    {"q": "What is a FloatingActionButton commonly used for?", "o": ["A primary circular action such as creating a new item", "Displaying a long list", "Showing a tooltip only", "Splitting a row"], "a": "A primary circular action such as creating a new item"},
+    {"q": "What does a Hero widget create?", "o": ["A smooth transition between matching elements on screens", "A database migration", "A dropdown list", "A loading error"], "a": "A smooth transition between matching elements on screens"},
+    {"q": "What does a shared Hero tag do?", "o": ["Identifies the matching element across routes", "Sets the app color", "Controls SQL queries", "Disables animation"], "a": "Identifies the matching element across routes"},
+    {"q": "What is CarouselSlider useful for?", "o": ["Horizontally scrollable image or widget carousels", "Only database storage", "Only route validation", "Only tooltips"], "a": "Horizontally scrollable image or widget carousels"},
+    {"q": "What does Flexible help prevent?", "o": ["Overflow by allocating space proportionally in Row or Column", "All network errors", "Missing route arguments", "Image loading"], "a": "Overflow by allocating space proportionally in Row or Column"},
+    {"q": "What is Divider used for?", "o": ["Visually separating sections", "Creating a navigation route", "Loading an image", "Adding a ripple"], "a": "Visually separating sections"},
+    {"q": "Which widget works with GridView to create tiled layouts?", "o": ["GridTile", "SnackBar", "Tooltip", "AppBar"], "a": "GridTile"},
+    {"q": "What can SliverAppBar provide?", "o": ["Collapsible, expandable, or pinned scrolling headers", "Only a fixed button", "Only a database connection", "Only a text field"], "a": "Collapsible, expandable, or pinned scrolling headers"},
+    {"q": "Which API displays a temporary message at the bottom of the screen?", "o": ["ScaffoldMessenger with SnackBar", "Hero only", "GridTile only", "Container only"], "a": "ScaffoldMessenger with SnackBar"},
+    {"q": "What is Tooltip used for?", "o": ["Short contextual help for UI elements", "Showing a full screen form", "Storing products", "Navigating to a route"], "a": "Short contextual help for UI elements"},
+    {"q": "What is the difference between determinate and indeterminate progress?", "o": ["Determinate has known progress; indeterminate does not", "Determinate is always circular; indeterminate is always linear", "They are identical", "Only determinate can load images"], "a": "Determinate has known progress; indeterminate does not"},
+]
+
+def render_mobile_chapter_12_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 12 Final Assessment — Material Design Principles in Flutter (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(MOBILE_CHAPTER_12_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"mobile_ch12_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Chapter 12 Final Assessment", key="submit_mobile_ch12_quiz"):
+        st.write(f"### Final Score: {score}/{len(MOBILE_CHAPTER_12_QUIZ)}")
         show_quiz_feedback(answers)
 
 
@@ -3275,6 +3485,789 @@ elif display_page == "Storage & I/O":
 
 
 
+
+elif display_page == "Chapter 12: Implementing Material Design Principles in Flutter":
+    st.markdown("## Mobile Application Development")
+    st.markdown("### Chapter 12: Implementing Material Design Principles in Flutter")
+    st.info("This final chapter explains Material Design principles and combines visual, behavioral, and motion-rich widgets to build polished, accessible, and interactive Flutter interfaces.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Material Design</div>
+        <h3>1.1 Principles for Clear and Interactive Interfaces</h3>
+        <p>Material Design is a design system created by Google. It provides guidance for creating intuitive, consistent, and interactive interfaces across Android, web, and iOS applications.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Material is the Metaphor:</b> Surfaces, edges, depth, and elevation help explain structure.</div>
+            <div class="info-item"><b>Bold, Graphic, and Intentional:</b> Clear hierarchy keeps attention on important content.</div>
+            <div class="info-item"><b>Motion Provides Meaning:</b> Transitions and animations explain interaction and spatial change.</div>
+            <div class="info-item"><b>Consistency:</b> Shared components reduce design and development effort.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Material in Flutter</div>
+        <h3>2.1 Built-In Material Widgets</h3>
+        <p>Flutter integrates Material Design into its core framework. Widgets such as Scaffold, AppBar, Card, and FloatingActionButton provide familiar structure and can be customized through the application theme.</p>
+        <p>Material widgets support cross-platform interfaces while maintaining a consistent visual language and offering motion-rich components such as Hero transitions.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("MaterialApp(\n  theme: ThemeData(\n    colorSchemeSeed: Colors.indigo,\n    useMaterial3: true,\n  ),\n  home: Scaffold(\n    appBar: AppBar(title: Text('Material App')),\n    body: Center(child: Text('Welcome')),\n  ),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Visual Widgets</div>
+        <h3>3.1 Structure, Style, and Visual Hierarchy</h3>
+        <p>Visual widgets organize content and control appearance through color, typography, shape, spacing, and elevation. Container, Card, Image, and ListTile simplify common UI structures while remaining customizable.</p>
+        <div class="step-box"><b>Design goal:</b> Use visual hierarchy to help users understand what is important, what belongs together, and what action is available.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. Container and Card</div>
+        <h3>4.1 Styling and Grouping Content</h3>
+        <p>Container is a flexible layout and styling widget. It can apply padding, margin, alignment, constraints, and decoration. Card provides a ready-made Material surface with elevation and rounded edges for posts, products, dashboards, and related information.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Card(\n  elevation: 3,\n  child: Container(\n    padding: EdgeInsets.all(16),\n    decoration: BoxDecoration(\n      borderRadius: BorderRadius.circular(12),\n    ),\n    child: Text('Product information'),\n  ),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. Image and ListTile</div>
+        <h3>5.1 Reusable Content Rows</h3>
+        <p>Image displays content from assets, network URLs, or local storage and supports resizing, alignment, and cropping. ListTile provides a consistent row with leading content, a title, a subtitle, and optional trailing actions, making it useful for lists and menus.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Card(\n  child: ListTile(\n    leading: Image.asset('assets/images/product.png'),\n    title: Text('Product Name'),\n    subtitle: Text('Product description'),\n    trailing: Icon(Icons.chevron_right),\n  ),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. Behavioral Widgets</div>
+        <h3>6.1 Interaction through Gestures and Feedback</h3>
+        <p>Behavioral widgets respond to user input and gestures. GestureDetector detects taps, long presses, swipes, and custom interactions. InkWell adds Material ripple feedback and can wrap images, icons, cards, or custom-shaped tap areas.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Material(\n  child: InkWell(\n    onTap: () {\n      print('Card tapped');\n    },\n    child: Padding(\n      padding: EdgeInsets.all(16),\n      child: Text('Tap this area'),\n    ),\n  ),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. AppBar and Buttons</div>
+        <h3>7.1 Navigation and Actions</h3>
+        <p>AppBar provides a top toolbar with a title, navigation controls, and action icons. Material buttons communicate actions with different levels of emphasis: ElevatedButton is raised, TextButton is flat, and OutlinedButton uses a border. The onPressed, child, and style properties define behavior and appearance.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Scaffold(\n  appBar: AppBar(\n    title: Text('Dashboard'),\n    actions: [\n      IconButton(\n        onPressed: () {},\n        icon: Icon(Icons.settings),\n      ),\n    ],\n  ),\n  body: ElevatedButton(\n    onPressed: () {},\n    child: Text('Continue'),\n  ),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. FloatingActionButton</div>
+        <h3>8.1 Highlighting the Primary Action</h3>
+        <p>FloatingActionButton is a circular Material button commonly placed at the lower-right of a Scaffold. It should represent the primary action of the screen, such as creating a post, composing a message, or adding a task. A tooltip can improve accessibility and discoverability.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Scaffold(\n  floatingActionButton: FloatingActionButton(\n    onPressed: () {},\n    tooltip: 'Create new item',\n    child: Icon(Icons.add),\n  ),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. Motion-Rich Widgets</div>
+        <h3>9.1 Hero, AnimatedContainer, and FadeTransition</h3>
+        <p>Motion-rich widgets make changes easier to understand and interfaces more engaging. AnimatedContainer can animate property changes, FadeTransition can animate opacity, and Hero can create a shared-element transition between matching widgets on two routes.</p>
+        <div class="step-box"><b>Motion principle:</b> Use animation to explain relationships and changes, not merely to add decoration. Motion should remain balanced and should not overwhelm users.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Hero(\n  tag: 'product-image',\n  child: Image.asset('assets/images/product.png'),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. CarouselSlider</div>
+        <h3>10.1 Image Galleries and Promotions</h3>
+        <p>CarouselSlider creates horizontally scrollable image or widget carousels. It can support autoplay, looping, transition speed, pagination dots, navigation arrows, and dynamic or static content. Common uses include banners, promotions, and photo galleries.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("CarouselSlider(\n  options: CarouselOptions(\n    autoPlay: true,\n    enableInfiniteScroll: true,\n  ),\n  items: images.map((image) {\n    return Image.network(image, fit: BoxFit.cover);\n  }).toList(),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. Flexible and Divider</div>
+        <h3>11.1 Responsive Space and Visual Separation</h3>
+        <p>Flexible distributes available space proportionally inside a Row or Column using the flex property. It helps prevent overflow in adaptive layouts. Divider draws a customizable line between sections and improves readability in lists, menus, forms, and shopping carts.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Row(\n  children: [\n    Flexible(flex: 2, child: ProductList()),\n    Flexible(flex: 1, child: ImageCarousel()),\n  ],\n);\n\nDivider(\n  thickness: 1,\n  color: Colors.grey,\n  indent: 16,\n  endIndent: 16,\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. GridTile and SliverAppBar</div>
+        <h3>12.1 Tiled Interfaces and Scrolling Headers</h3>
+        <p>GridTile works with GridView to create tiles containing a header, child, and footer. It is useful for product grids, image galleries, and tiled interfaces. SliverAppBar works with scrollable content and can provide collapsible, expandable, pinned, or floating headers for news, blogs, and content-heavy applications.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("GridView.count(\n  crossAxisCount: 2,\n  children: [\n    GridTile(\n      header: Text('Featured'),\n      child: Image.asset('assets/images/item.png'),\n      footer: Text('Item name'),\n    ),\n  ],\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. SnackBar and Tooltip</div>
+        <h3>13.1 Feedback and Contextual Help</h3>
+        <p>SnackBar displays a temporary, non-intrusive message at the bottom of the screen, such as Item added to cart, and can provide actions like Undo or Retry through ScaffoldMessenger. Tooltip displays short contextual help when a user hovers over or long-presses an element.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("ScaffoldMessenger.of(context).showSnackBar(\n  SnackBar(\n    content: Text('Item added to cart'),\n    action: SnackBarAction(\n      label: 'Undo',\n      onPressed: () {},\n    ),\n  ),\n);\n\nTooltip(\n  message: 'Search',\n  child: IconButton(\n    onPressed: () {},\n    icon: Icon(Icons.search),\n  ),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. ProgressIndicator</div>
+        <h3>14.1 Communicating Loading Progress</h3>
+        <p>Progress indicators show that an operation is running. LinearProgressIndicator displays a horizontal bar, while CircularProgressIndicator displays a spinner. A determinate indicator uses a known progress value; an indeterminate indicator communicates that work is happening but its exact completion amount is unknown.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("// Indeterminate loading\nCircularProgressIndicator();\n\n// Determinate progress\nLinearProgressIndicator(value: uploadProgress);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">15. BottomSheet and Final Principles</div>
+        <h3>15.1 Modal Interaction and a Complete Material UI</h3>
+        <p>BottomSheet slides up from the bottom of the screen. A modal bottom sheet blocks interaction with the rest of the UI, while a persistent bottom sheet remains visible with other content. It is useful for sharing, filters, menu options, lists, and forms.</p>
+        <p>Combining visual widgets, behavioral widgets, and motion-rich widgets creates interfaces that are polished, professional, interactive, responsive, and accessible. Experiment with each component while keeping hierarchy, feedback, and performance in balance.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("showModalBottomSheet(\n  context: context,\n  builder: (context) {\n    return SafeArea(\n      child: ListView(\n        shrinkWrap: true,\n        children: [\n          ListTile(\n            leading: Icon(Icons.share),\n            title: Text('Share'),\n            onTap: () => Navigator.pop(context),\n          ),\n          ListTile(\n            leading: Icon(Icons.filter_list),\n            title: Text('Filters'),\n            onTap: () => Navigator.pop(context),\n          ),\n        ],\n      ),\n    );\n  },\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">Chapter Conclusion</div>
+        <h3>What You Should Know After Chapter 12</h3>
+        <p>After completing this final chapter, you should be able to explain Material Design principles, use visual widgets such as Container, Card, Image, ListTile, AppBar, and GridTile, add behavioral interactions with GestureDetector, InkWell, and buttons, and use FloatingActionButton for primary actions.</p>
+        <p>You should also understand motion-rich widgets, Hero transitions, carousels, Flexible layouts, Dividers, SliverAppBar, SnackBar, Tooltip, ProgressIndicator, and BottomSheet. The complete goal is to combine these components into clear, responsive, accessible, and professional Flutter applications.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_mobile_chapter_12_quiz()
+
+elif display_page == "Chapter 11: Advanced Navigation Techniques in Flutter":
+    st.markdown("## Mobile Application Development")
+    st.markdown("### Chapter 11: Advanced Navigation Techniques in Flutter")
+    st.info("This chapter extends basic navigation with two-way data sharing, named-route arguments, generated routes, validation, and a multi-screen product-and-cart workflow.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Advanced Navigation</div>
+        <h3>1.1 Why Navigation Patterns Matter</h3>
+        <p>Advanced navigation helps applications handle complex flows such as product checkout, forms, profiles, authentication, and screens selected by conditions or API responses. The core stack still follows Last In, First Out, but advanced patterns make data movement and route decisions more organized.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Push:</b> Open a new screen and optionally send data.</div>
+            <div class="info-item"><b>Pop:</b> Close the current screen and optionally return a result.</div>
+            <div class="info-item"><b>Named routes:</b> Centralize route names and builders.</div>
+            <div class="info-item"><b>Generated routes:</b> Decide screens dynamically at runtime.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Push with Data</div>
+        <h3>2.1 Sending Details to a Destination</h3>
+        <p>Navigator.push can open a details screen and pass the selected data through the destination constructor. This is useful when a product list opens a product details page or when a user selects an item from search results.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Navigator.push(\n  context,\n  MaterialPageRoute(\n    builder: (context) => DetailsScreen(\n      data: 'Sample Data',\n    ),\n  ),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Pop with Data</div>
+        <h3>3.1 Returning a Result to the Caller</h3>
+        <p>Navigator.pop can return a value to the screen that opened the current route. The calling screen awaits the push operation and receives the result. This enables confirmations, editing forms, selection pages, and two-way data sharing.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("// Destination screen\nNavigator.pop(context, resultData);\n\n// Calling screen\nfinal result = await Navigator.push(\n  context,\n  MaterialPageRoute(builder: (context) => FormScreen()),\n);\nprint('Returned Data: $result');", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. Two-Way Data Sharing</div>
+        <h3>4.1 Push Forward, Pop Back</h3>
+        <p>A common workflow sends data from Screen A to Screen B, lets the user perform an operation, and returns updated information from B to A. The flow is: Screen A → push → details or form → pop with result → Screen A updates its UI.</p>
+        <div class="step-box"><b>Use case:</b> Open an edit form, submit the changes, return the updated item, and refresh the previous list.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. Named Routes with Arguments</div>
+        <h3>5.1 Centralized Navigation and Data</h3>
+        <p>Named routes combine readable navigation names with arguments. Define screens in MaterialApp, call pushNamed with the route name, and retrieve the argument inside the destination. This reduces repeated route construction in larger applications.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("MaterialApp(\n  initialRoute: '/',\n  routes: {\n    '/': (context) => HomeScreen(),\n    '/details': (context) => DetailsScreen(),\n  },\n);\n\nNavigator.pushNamed(\n  context,\n  '/details',\n  arguments: 'Sample Data',\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. Reading and Validating Arguments</div>
+        <h3>6.1 Safe Named-Route Data</h3>
+        <p>The destination reads arguments through ModalRoute. Optional or missing data should be validated before the UI uses it. A fallback such as No Data prevents a screen from failing when a route is opened without the expected argument.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class DetailsScreen extends StatelessWidget {\n  @override\n  Widget build(BuildContext context) {\n    final args =\n        ModalRoute.of(context)!.settings.arguments ?? 'No Data';\n    return Text('Received: $args');\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. onGenerateRoute</div>
+        <h3>7.1 Dynamic Route Handling</h3>
+        <p>onGenerateRoute decides how to build a route at runtime. It can inspect the name and arguments, create a destination with the correct data, handle conditional navigation, and redirect unknown paths to a custom NotFoundScreen.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("MaterialApp(\n  onGenerateRoute: (settings) {\n    if (settings.name == '/details') {\n      return MaterialPageRoute(\n        builder: (context) => DetailsScreen(\n          data: settings.arguments,\n        ),\n      );\n    }\n\n    return MaterialPageRoute(\n      builder: (context) => NotFoundScreen(),\n    );\n  },\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. Constructors for Navigation Data</div>
+        <h3>8.1 Strongly Typed Destination Inputs</h3>
+        <p>Constructors provide a direct, readable, and strongly typed way to supply data to a destination widget. They make required inputs visible at the call site and reduce the chance of a runtime error caused by an incorrectly typed argument.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class DetailsScreen extends StatelessWidget {\n  final String data;\n\n  const DetailsScreen({super.key, required this.data});\n\n  @override\n  Widget build(BuildContext context) {\n    return Scaffold(\n      appBar: AppBar(title: Text('Details Screen')),\n      body: Center(child: Text('Data: $data')),\n    );\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. Named Routes and Constructors</div>
+        <h3>9.1 Combining Centralized Routes with Typed Screens</h3>
+        <p>Named routes centralize route lookup, while constructors define what a screen needs. A route builder can read the route arguments, validate or cast them, and create the destination with a required constructor value. This combines organization with explicit data ownership.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. Data-Passing Workflow</div>
+        <h3>10.1 Home, Details, and Results</h3>
+        <p>A home screen can display a list of items. When an item is tapped, it is passed to a details screen. The details screen can show or edit it and return a result. The home screen then uses that result to update its list or state.</p>
+        <div class="step-box"><b>Workflow:</b> list item tap → push details with constructor → user action → pop updated result → caller refreshes UI.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Navigator.push(\n  context,\n  MaterialPageRoute(\n    builder: (context) => DetailsScreen(\n      data: selectedItem,\n    ),\n  ),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. Product List Screen</div>
+        <h3>11.1 Navigating from a ListView</h3>
+        <p>ListView.builder can render products dynamically. When the user taps a ListTile, Navigator.push opens ProductDetailsScreen and passes the selected Product object through its constructor.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("ListView.builder(\n  itemCount: products.length,\n  itemBuilder: (context, index) {\n    return ListTile(\n      title: Text(products[index].name),\n      onTap: () {\n        Navigator.push(\n          context,\n          MaterialPageRoute(\n            builder: (context) => ProductDetailsScreen(\n              product: products[index],\n            ),\n          ),\n        );\n      },\n    );\n  },\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. Product Details Screen</div>
+        <h3>12.1 Returning a Product to the Cart Flow</h3>
+        <p>The details screen receives a Product, displays its name and description, and lets the user add it to the cart. Navigator.pop returns the product to the previous screen, where it can be added to the cart list.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class ProductDetailsScreen extends StatelessWidget {\n  final Product product;\n\n  const ProductDetailsScreen({super.key, required this.product});\n\n  @override\n  Widget build(BuildContext context) {\n    return Scaffold(\n      appBar: AppBar(title: Text(product.name)),\n      body: Column(\n        children: [\n          Text(product.description),\n          ElevatedButton(\n            onPressed: () => Navigator.pop(context, product),\n            child: Text('Add to Cart'),\n          ),\n        ],\n      ),\n    );\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. Cart Screen</div>
+        <h3>13.1 Displaying the Returned Product List</h3>
+        <p>The cart screen receives a list of products through its constructor and displays the contents using ListView.builder. This demonstrates how data can move through several screens while each screen keeps a clear responsibility.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class CartScreen extends StatelessWidget {\n  final List<Product> cartItems;\n\n  const CartScreen({super.key, required this.cartItems});\n\n  @override\n  Widget build(BuildContext context) {\n    return Scaffold(\n      appBar: AppBar(title: Text('Cart')),\n      body: ListView.builder(\n        itemCount: cartItems.length,\n        itemBuilder: (context, index) => ListTile(\n          title: Text(cartItems[index].name),\n        ),\n      ),\n    );\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. Best Practices and Challenges</div>
+        <h3>14.1 Scaling Advanced Navigation</h3>
+        <p>Centralize route definitions, use meaningful names, validate arguments, handle invalid routes, and keep data ownership clear. Large applications can become difficult to debug when route names or argument types are inconsistent, so reusable navigation patterns and typed constructors are valuable.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Organization:</b> Keep route decisions in a predictable place.</div>
+            <div class="info-item"><b>Validation:</b> Handle missing, empty, or invalid data safely.</div>
+            <div class="info-item"><b>Deep flows:</b> Model checkout, authentication, and cart transitions clearly.</div>
+            <div class="info-item"><b>Testing:</b> Test forward navigation, back behavior, results, and fallback routes.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">Chapter Conclusion</div>
+        <h3>What You Should Know After Chapter 11</h3>
+        <p>After completing this chapter, you should be able to pass data with push and constructors, return results with pop, use named routes and arguments, validate missing data, create dynamic routes with onGenerateRoute, handle fallback screens, and organize navigation for complex flows.</p>
+        <p>You should also understand two-way data sharing and be able to implement a product list → product details → cart workflow using typed data and the Navigator stack.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_mobile_chapter_11_quiz()
+
+elif display_page == "Chapter 10: Managing Screen Transitions in Flutter":
+    st.markdown("## Mobile Application Development")
+    st.markdown("### Chapter 10: Managing Screen Transitions in Flutter")
+    st.info("This chapter explains Flutter navigation, route stacks, push and pop, passing and returning data, named routes, generated routes, and dynamic navigation patterns.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Navigation Foundations</div>
+        <h3>1.1 Moving between Screens</h3>
+        <p>Navigation allows users to move between screens in a multi-screen application. E-commerce, social media, task-management, and settings flows all depend on predictable transitions. Flutter uses the Navigator widget to manage screens as routes.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Route:</b> A page or screen in the application.</div>
+            <div class="info-item"><b>Navigator:</b> Manages the route stack.</div>
+            <div class="info-item"><b>Push:</b> Adds a new screen.</div>
+            <div class="info-item"><b>Pop:</b> Removes the current screen.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Navigation Stack</div>
+        <h3>2.1 Last In, First Out</h3>
+        <p>The Navigator maintains a stack of routes. When the app moves from Screen A to Screen B and then Screen C, C is at the top. Popping C returns the user to B. This Last In, First Out behavior matches the expected back-navigation flow.</p>
+        <div class="step-box"><b>Stack example:</b> A → B → C. After <code>Navigator.pop(context)</code>: A → B.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Navigator.push()</div>
+        <h3>3.1 Opening a New Screen</h3>
+        <p><code>Navigator.push()</code> adds a new route to the top of the navigation stack. <code>MaterialPageRoute</code> creates the route and its transition, while the builder returns the destination widget.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Navigator.push(\n  context,\n  MaterialPageRoute(\n    builder: (context) => NewScreen(),\n  ),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. Navigator.pop()</div>
+        <h3>4.1 Returning to the Previous Screen</h3>
+        <p><code>Navigator.pop(context)</code> removes the top route and returns to the screen below it. It is also useful for closing dialogs, modals, and other temporary routes.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Navigator.pop(context);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. Passing Data</div>
+        <h3>5.1 Sending Information to a Destination</h3>
+        <p>Pass data to a destination screen through its constructor. This keeps the destination's requirements explicit and makes the screen reusable. The source supplies the value when creating the route.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Navigator.push(\n  context,\n  MaterialPageRoute(\n    builder: (context) => DetailsScreen(\n      data: itemData,\n    ),\n  ),\n);\n\nclass DetailsScreen extends StatelessWidget {\n  final String data;\n\n  const DetailsScreen({super.key, required this.data});\n\n  @override\n  Widget build(BuildContext context) {\n    return Text(data);\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. Returning Data</div>
+        <h3>6.1 Sending a Result Back</h3>
+        <p>A destination can return a value with <code>Navigator.pop(context, resultData)</code>. The calling screen waits for the Future returned by Navigator.push and then uses the result. This is useful for selection screens, forms, and dialogs.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("// In the destination screen\nNavigator.pop(context, resultData);\n\n// In the calling screen\nfinal result = await Navigator.push(\n  context,\n  MaterialPageRoute(builder: (context) => SelectionScreen()),\n);\nprint('Returned Data: $result');", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. Named Routes</div>
+        <h3>7.1 Centralized Screen Names</h3>
+        <p>Named routes assign a stable name to each screen and allow navigation without constructing a MaterialPageRoute at every call site. They are useful in applications with many screens because the route map centralizes the navigation structure.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("MaterialApp(\n  initialRoute: '/',\n  routes: {\n    '/': (context) => HomeScreen(),\n    '/profile': (context) => ProfileScreen(),\n  },\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. Navigating with Named Routes</div>
+        <h3>8.1 pushNamed() and Route Arguments</h3>
+        <p>Use <code>Navigator.pushNamed()</code> with a route name to open a configured screen. Arguments can be attached to the route for data that the destination needs.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Navigator.pushNamed(\n  context,\n  '/details',\n  arguments: 'Sample Data',\n);\n\nNavigator.pop(context);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. Reading Named-Route Arguments</div>
+        <h3>9.1 ModalRoute and settings.arguments</h3>
+        <p>The destination can retrieve arguments from the current route through <code>ModalRoute.of(context)!.settings.arguments</code>. For production code, validate or cast the value before using it so an incorrect argument cannot break the screen.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class DetailsScreen extends StatelessWidget {\n  @override\n  Widget build(BuildContext context) {\n    final args = ModalRoute.of(context)!.settings.arguments;\n    return Text('Received: $args');\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. Generated Routes</div>
+        <h3>10.1 Dynamic Route Creation</h3>
+        <p><code>onGenerateRoute</code> provides a programmatic way to decide which screen should be displayed. It can inspect the route name and arguments, create the appropriate MaterialPageRoute, and return a fallback screen when the route is not recognized.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("MaterialApp(\n  onGenerateRoute: (settings) {\n    if (settings.name == '/details') {\n      return MaterialPageRoute(\n        builder: (context) => DetailsScreen(\n          data: settings.arguments,\n        ),\n      );\n    }\n\n    return MaterialPageRoute(\n      builder: (context) => NotFoundScreen(),\n    );\n  },\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. Undefined Routes</div>
+        <h3>11.1 Handling Invalid Navigation Requests</h3>
+        <p>An application should not leave users with a broken transition when a route is missing. <code>onUnknownRoute</code> can return a NotFoundScreen or another recovery screen. This gives invalid route names a predictable result.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("MaterialApp(\n  onUnknownRoute: (settings) {\n    return MaterialPageRoute(\n      builder: (context) => NotFoundScreen(),\n    );\n  },\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. Dynamic Navigation</div>
+        <h3>12.1 Selecting a Screen from Names and Arguments</h3>
+        <p>Dynamic navigation can depend on the requested route name and the supplied arguments. A switch statement inside onGenerateRoute provides a single decision point for home, details, profile, authentication, and fallback flows.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("MaterialApp(\n  onGenerateRoute: (settings) {\n    switch (settings.name) {\n      case '/home':\n        return MaterialPageRoute(\n          builder: (context) => HomeScreen(),\n        );\n      case '/details':\n        return MaterialPageRoute(\n          builder: (context) => DetailsScreen(\n            data: settings.arguments,\n          ),\n        );\n      default:\n        return MaterialPageRoute(\n          builder: (context) => NotFoundScreen(),\n        );\n    }\n  },\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. Navigation Best Practices</div>
+        <h3>13.1 Organized and Maintainable Flows</h3>
+        <p>Centralize route definitions, use meaningful names, validate arguments, handle unknown routes, and pass only the data a destination needs. Keep navigation decisions understandable so large applications do not scatter route logic across unrelated widgets.</p>
+        <div class="step-box"><b>Structure guideline:</b> UI triggers navigation → route configuration selects a screen → the destination validates its input → a result is returned when necessary.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. Challenges and Applications</div>
+        <h3>14.1 Large Apps, Debugging, and Real-World Flows</h3>
+        <p>Navigation becomes more challenging as the number of screens grows. Common problems include incorrect route names, invalid arguments, unclear back behavior, and inconsistent transitions. Navigation patterns support e-commerce product flows, social media profiles, task management, games, and user journeys determined by API responses.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">Chapter Conclusion</div>
+        <h3>What You Should Know After Chapter 10</h3>
+        <p>After completing this chapter, you should be able to explain routes and navigation stacks, use Navigator.push and Navigator.pop, create MaterialPageRoute transitions, pass data through constructors, return results from screens, configure named routes, pass and read route arguments, create generated routes, handle unknown routes, and build dynamic navigation flows.</p>
+        <p>You should also be able to organize navigation centrally, choose meaningful route names, validate inputs, and design predictable transitions for multi-screen Flutter applications.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_mobile_chapter_10_quiz()
+
+elif display_page == "Chapter 9: Adding Images, Basic Button Types, and Dropdown Button Widgets":
+    st.markdown("## Mobile Application Development")
+    st.markdown("### Chapter 9: Adding Images, Basic Button Types, and Dropdown Button Widgets")
+    st.info("This chapter explains how to display local and network images, create accessible buttons, manage button states, and build validated dropdown selections in Flutter.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Images in Flutter</div>
+        <h3>1.1 Local Assets and Network Images</h3>
+        <p>Images make interfaces more expressive and useful. Flutter can display images stored inside the application as local assets or load images from network URLs. The Image widget provides properties such as <code>fit</code>, <code>alignment</code>, and <code>color</code> to control how an image appears in its container.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Local assets:</b> Good for logos, illustrations, bundled icons, and offline content.</div>
+            <div class="info-item"><b>Network images:</b> Good for profiles, products, news, and server-provided content.</div>
+            <div class="info-item"><b>fit:</b> Controls how the image is scaled inside its bounds.</div>
+            <div class="info-item"><b>alignment:</b> Controls where the image is positioned.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Local Images</div>
+        <h3>2.1 Registering and Displaying Assets</h3>
+        <p>Place the image inside the project assets directory and list its path in <code>pubspec.yaml</code>. After Flutter recognizes the asset, use <code>Image.asset()</code> to display it. The path must match the project structure exactly.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("flutter:\n  assets:\n    - assets/images/example.png\n\n// In a widget\nImage.asset('assets/images/example.png');", language="yaml")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Network Images and Placeholders</div>
+        <h3>3.1 Loading Remote Images Smoothly</h3>
+        <p>Use <code>Image.network()</code> for images hosted at a URL. Remote loading can take time or fail, so a placeholder improves the experience while the image is being downloaded. <code>FadeInImage.assetNetwork</code> displays a local placeholder and transitions to the network image.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Image.network('https://example.com/image.png');\n\nFadeInImage.assetNetwork(\n  placeholder: 'assets/images/placeholder.png',\n  image: 'https://example.com/image.png',\n)", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. Image Fit and Real-World Uses</div>
+        <h3>4.1 Controlling Image Layout</h3>
+        <p><code>BoxFit.cover</code> scales an image so it fills the container, which may crop some edges. <code>BoxFit.contain</code> keeps the complete image visible inside the container, which may leave empty space. Images can support profile pictures, product cards, banners, galleries, logos, and splash screens.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Image.asset(\n  'assets/images/example.png',\n  fit: BoxFit.cover,\n)", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. Button Types</div>
+        <h3>5.1 Choosing the Right Button</h3>
+        <p>Buttons are interactive widgets that trigger actions. Flutter provides several visual styles for different levels of emphasis. <b>ElevatedButton</b> is suitable for primary actions, <b>TextButton</b> for lightweight secondary actions, and <b>OutlinedButton</b> for actions that need a visible boundary without a filled surface.</p>
+        <table class="summary-table">
+            <tr><th>Button</th><th>Typical use</th><th>Visual emphasis</th></tr>
+            <tr><td><code>ElevatedButton</code></td><td>Submit, Login, Save</td><td>Raised and prominent</td></tr>
+            <tr><td><code>TextButton</code></td><td>Learn More, Forgot Password, links</td><td>Flat and minimal</td></tr>
+            <tr><td><code>OutlinedButton</code></td><td>Cancel, More Info</td><td>Bordered</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. ElevatedButton</div>
+        <h3>6.1 Primary Actions</h3>
+        <p>ElevatedButton has a raised appearance and is commonly used for the main action on a screen. The <code>onPressed</code> callback runs when the user taps it. Its color, size, padding, and shape can be customized through the style property.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("ElevatedButton(\n  onPressed: () {\n    print('Button Pressed');\n  },\n  child: Text('Click Me'),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. TextButton and OutlinedButton</div>
+        <h3>7.1 Secondary and Bordered Actions</h3>
+        <p>TextButton is flat and unobtrusive, making it appropriate for navigation links and supplementary options. OutlinedButton adds a visible border and is useful for Cancel or More Info actions where the button should remain distinct without looking like the primary filled action.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("TextButton(\n  onPressed: () {\n    print('Text Button Pressed');\n  },\n  child: Text('Learn More'),\n);\n\nOutlinedButton(\n  onPressed: () {\n    print('Outlined Button Pressed');\n  },\n  child: Text('Cancel'),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. Icons and Styling</div>
+        <h3>8.1 Improving Communication and Branding</h3>
+        <p>Icons communicate an action quickly, especially when paired with a clear label. Flutter provides constructors such as <code>ElevatedButton.icon</code>. Button styles can control colors, foreground colors, shape, size, padding, and visual consistency with the app theme.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("ElevatedButton.icon(\n  onPressed: () {\n    print('Icon Button Pressed');\n  },\n  icon: Icon(Icons.add),\n  label: Text('Add'),\n);\n\nElevatedButton(\n  style: ElevatedButton.styleFrom(\n    backgroundColor: Colors.blue,\n    foregroundColor: Colors.white,\n  ),\n  onPressed: () {},\n  child: Text('Styled Button'),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. Button States</div>
+        <h3>9.1 Enabled, Disabled, and Loading</h3>
+        <p>A button may be enabled, disabled, or temporarily loading. Set <code>onPressed</code> to null to disable it. During an asynchronous submission, show a CircularProgressIndicator and prevent duplicate taps until the operation finishes.</p>
+        <div class="step-box"><b>Interaction flow:</b> Start action → set loading true → disable button and show progress → finish or handle error → restore the normal button.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("ElevatedButton(\n  onPressed: isLoading ? null : handlePress,\n  child: isLoading\n      ? CircularProgressIndicator()\n      : Text('Submit'),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. Button Best Practices</div>
+        <h3>10.1 Clear, Accessible, and Responsive Actions</h3>
+        <p>Use labels that describe the action, such as Submit instead of Click Here. Avoid overcrowding a screen with too many competing buttons. Maintain consistent colors and styles, provide a comfortable tap target, use accessible contrast, and test behavior across screen sizes and orientations.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. DropdownButton</div>
+        <h3>11.1 Selecting One Option from a List</h3>
+        <p>A DropdownButton lets the user choose one value from a predefined list. It is useful in forms, filters, and compact menus. The <code>items</code> property contains DropdownMenuItem values, <code>value</code> stores the current selection, and <code>onChanged</code> receives the new selection.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("String dropdownValue = 'Option 1';\n\nDropdownButton<String>(\n  value: dropdownValue,\n  items: <String>['Option 1', 'Option 2', 'Option 3']\n      .map<DropdownMenuItem<String>>((String value) {\n    return DropdownMenuItem<String>(\n      value: value,\n      child: Text(value),\n    );\n  }).toList(),\n  onChanged: (String? newValue) {\n    setState(() {\n      dropdownValue = newValue!;\n    });\n  },\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. Dropdown Selection and Appearance</div>
+        <h3>12.1 Updating State and Customizing the Menu</h3>
+        <p>When the user selects an item, <code>onChanged</code> receives the new value. Calling <code>setState()</code> stores it and rebuilds the UI, so the selected value can be displayed or used to filter content. Appearance can be customized with <code>style</code>, <code>icon</code>, and <code>underline</code>.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("DropdownButton<String>(\n  value: dropdownValue,\n  style: TextStyle(color: Colors.blue, fontSize: 16),\n  icon: Icon(Icons.arrow_downward),\n  underline: Container(height: 1, color: Colors.blue),\n  items: [...],\n  onChanged: (String? newValue) {\n    setState(() => dropdownValue = newValue!);\n  },\n);\n\nText('Selected option: $dropdownValue');", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. Defaults and Form Validation</div>
+        <h3>13.1 Safe Initial Values and Required Selection</h3>
+        <p>Choose a meaningful initial value such as Choose an option and handle the case where no valid selection exists. When a dropdown is part of a form, validate it before the user proceeds. This prevents null or incomplete values from reaching business logic.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("String dropdownValue = 'Choose an option';\n\nFormField<String>(\n  builder: (FormFieldState<String> state) {\n    return DropdownButton<String>(\n      value: dropdownValue,\n      items: [...],\n      onChanged: (value) {\n        state.didChange(value);\n        setState(() => dropdownValue = value!);\n      },\n    );\n  },\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. Long Dropdown Lists</div>
+        <h3>14.1 Categories, Search, and Accessibility</h3>
+        <p>Long lists need extra design care. Group related options into categories, add search when users must find one item among many, use lazy loading or pagination for large datasets, and place recent or frequently selected options near the top. The dropdown should remain accessible and manageable on small screens.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">15. Challenges and Best Practices</div>
+        <h3>15.1 Reliable Images, Buttons, and Dropdowns</h3>
+        <p>Test missing assets, failed network images, null dropdown values, large image collections, and different screen sizes and orientations. Optimize image sizes, use placeholders, keep labels and contrast accessible, limit buttons, group dropdown options, and validate selections.</p>
+        <div class="info-grid">
+            <div class="info-item"><b>Images:</b> Optimize files and use fit values deliberately.</div>
+            <div class="info-item"><b>Buttons:</b> Make actions clear, reachable, and visually consistent.</div>
+            <div class="info-item"><b>Dropdowns:</b> Provide meaningful defaults and validation.</div>
+            <div class="info-item"><b>Testing:</b> Cover edge cases, devices, orientations, and user scenarios.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">Chapter Conclusion</div>
+        <h3>What You Should Know After Chapter 9</h3>
+        <p>After completing this chapter, you should be able to add local and network images, choose BoxFit behavior, provide loading placeholders, select appropriate button types, add icons, style buttons, represent loading and disabled states, and design accessible actions.</p>
+        <p>You should also be able to create a DropdownButton, update its selected value with setState, customize its appearance, validate it in a form, and improve long lists with grouping, search, lazy loading, and accessibility considerations.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_mobile_chapter_9_quiz()
+
+elif display_page == "Chapter 8: Hot Reload, Stateful Widgets, and Build Context":
+    st.markdown("## Mobile Application Development")
+    st.markdown("### Chapter 8: Hot Reload, Stateful Widgets, and Build Context")
+    st.info("This chapter explains Flutter widgets, the difference between Hot Reload and Hot Restart, StatefulWidget structure, state updates, and practical uses of BuildContext.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Widgets</div>
+        <h3>1.1 What Are Widgets?</h3>
+        <p>Widgets are the building blocks of Flutter applications. Text, buttons, layouts, images, screens, and many other interface elements are represented as widgets. Flutter composes small widgets into larger widget trees, which makes interfaces modular and reusable.</p>
+        <p>A <b>StatelessWidget</b> describes UI that does not manage mutable internal state. A <b>StatefulWidget</b> works with a separate State object when the interface must change during the application's lifetime.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class MyWidget extends StatelessWidget {\n  @override\n  Widget build(BuildContext context) {\n    return Text('Hello, Flutter!');\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Hot Reload</div>
+        <h3>2.1 Updating the UI Quickly</h3>
+        <p><b>Hot Reload</b> injects updated source code into the running Flutter application and rebuilds the relevant interface without starting the application from zero. It usually preserves the current runtime state, so it is ideal for adjusting layouts, styles, text, and many UI behaviors while developing.</p>
+        <div class="step-box"><b>Example:</b> Change <code>Text('Hello, Flutter!')</code> to <code>Text('Welcome to Flutter!')</code>, trigger Hot Reload, and inspect the updated UI while the current state remains available.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("// Before\nText('Hello, Flutter!');\n\n// After Hot Reload\nText('Welcome to Flutter!');", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Hot Restart</div>
+        <h3>3.1 Rebuilding the Application from Scratch</h3>
+        <p><b>Hot Restart</b> restarts the Flutter application and rebuilds it from the beginning. Runtime state is reset, which makes it useful when initialization code, startup behavior, or state from earlier experiments needs to be tested from a clean starting point.</p>
+        <table class="summary-table">
+            <tr><th>Feature</th><th>Hot Reload</th><th>Hot Restart</th></tr>
+            <tr><td>Runtime state</td><td>Usually preserved</td><td>Reset</td></tr>
+            <tr><td>Speed</td><td>Very fast UI iteration</td><td>Slower because the app restarts</td></tr>
+            <tr><td>Best use</td><td>UI and small behavior changes</td><td>Initialization and startup issues</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. StatefulWidget Structure</div>
+        <h3>4.1 Widget Class and State Class</h3>
+        <p>A StatefulWidget is split into an immutable widget configuration and a separate State object. The widget creates its State with <code>createState()</code>. Mutable fields belong in the State class, and <code>build()</code> reads those fields to produce the current UI.</p>
+        <div class="step-box"><b>Separation of responsibilities:</b> The widget class describes configuration; the State class owns changing values and the logic that updates them.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class Counter extends StatefulWidget {\n  @override\n  State<Counter> createState() => _CounterState();\n}\n\nclass _CounterState extends State<Counter> {\n  int count = 0;\n\n  @override\n  Widget build(BuildContext context) {\n    return Text('Count: $count');\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. Managing State</div>
+        <h3>5.1 setState() and Dynamic Rebuilding</h3>
+        <p>When a local mutable value changes, call <code>setState()</code> with the update. Flutter then knows that the State object changed and schedules a rebuild of the relevant widget subtree. The next call to <code>build()</code> reads the new value and displays the updated interface.</p>
+        <div class="step-box"><b>Counter flow:</b> Tap button → increment count inside setState → Flutter rebuilds → Text displays the new count.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("ElevatedButton(\n  onPressed: () {\n    setState(() {\n      count++;\n    });\n  },\n  child: Text('Increment'),\n)", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. StatefulWidget Use Cases</div>
+        <h3>6.1 Forms, Animations, and Real-Time Interaction</h3>
+        <p>StatefulWidget is appropriate when a component must respond to changing information. Common examples include form values and validation, animation progress, selected tabs, toggles, counters, and real-time interaction. The main benefit is direct local control over a small piece of dynamic UI.</p>
+        <p>The challenge is lifecycle and complexity: state must be initialized and cleaned up correctly, and shared state should move to a suitable state-management solution instead of being duplicated across unrelated widgets.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. BuildContext</div>
+        <h3>7.1 A Widget's Location in the Tree</h3>
+        <p><b>BuildContext</b> represents the location of a widget in Flutter's widget tree. It is passed to <code>build()</code> and allows the widget to find inherited data and relationships available above it in the tree.</p>
+        <p>BuildContext supports access to themes, MediaQuery information, navigation, inherited widgets, and providers. The result depends on where the context belongs in the tree.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("@override\nWidget build(BuildContext context) {\n  return Text(\n    'Widget Location: ${context.toString()}',\n  );\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. Theme and Layout Context</div>
+        <h3>8.1 Reading Theme and Screen Dimensions</h3>
+        <p>BuildContext allows a widget to read inherited configuration. <code>Theme.of(context)</code> reads the nearest theme, while <code>MediaQuery.of(context)</code> provides information such as screen size. This lets widgets adapt their colors and layout to the surrounding application.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("final theme = Theme.of(context);\nfinal width = MediaQuery.of(context).size.width;\n\nreturn Text(\n  'Primary Color: ${theme.primaryColor}',\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. Navigation with Context</div>
+        <h3>9.1 Moving between Screens</h3>
+        <p>Navigation uses a BuildContext to find the Navigator associated with the current widget tree. <code>Navigator.push()</code> adds a new route, and the route builder creates the destination screen. The context should belong to a widget below the appropriate Navigator.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Navigator.push(\n  context,\n  MaterialPageRoute(\n    builder: (context) => SecondScreen(),\n  ),\n);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. Inherited Widgets and Provider</div>
+        <h3>10.1 Reading Shared Data from Context</h3>
+        <p>Inherited widgets make data available to descendants without manually passing it through every constructor. Provider builds on this idea. A widget can retrieve a shared object with <code>Provider.of&lt;Counter&gt;(context)</code>, then call its methods or listen for changes according to the selected listening behavior.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("final counter = Provider.of<Counter>(context);\ncounter.increment();", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. Practical Counter App</div>
+        <h3>11.1 Building a Small Stateful Interaction</h3>
+        <p>A counter demonstrates the complete local-state loop. The State object stores an integer, a button updates it through setState, and the build method displays it. This is a useful first test of rebuilding and a foundation for more advanced interactive screens.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class CounterPage extends StatefulWidget {\n  @override\n  State<CounterPage> createState() => _CounterPageState();\n}\n\nclass _CounterPageState extends State<CounterPage> {\n  int count = 0;\n\n  @override\n  Widget build(BuildContext context) {\n    return Scaffold(\n      body: Center(child: Text('Count: $count')),\n      floatingActionButton: FloatingActionButton(\n        onPressed: () => setState(() => count++),\n        child: Icon(Icons.add),\n      ),\n    );\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. Dynamic Theme Switching</div>
+        <h3>12.1 Reading and Changing Theme Configuration</h3>
+        <p>A theme can be read through context and used to decide what the interface should display. In a complete application, theme mode would normally be stored in state and passed to MaterialApp so the entire widget tree rebuilds with the new theme.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("final isDark = Theme.of(context).brightness == Brightness.dark;\nfinal nextTheme = isDark\n    ? ThemeData(brightness: Brightness.light)\n    : ThemeData(brightness: Brightness.dark);", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. Context and Errors</div>
+        <h3>13.1 Handling Failures Clearly</h3>
+        <p>Errors that occur while reading data or using a context should be handled deliberately. A try-catch block can return a fallback message, but application code should also validate the underlying operation and avoid hiding errors that need logging or recovery.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("@override\nWidget build(BuildContext context) {\n  try {\n    return Text(\n      'Data: ${fetchDataFromContext(context)}',\n    );\n  } catch (e) {\n    return Text('Error: $e');\n  }\n}", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. Passing Data and Gestures</div>
+        <h3>14.1 Context in Parent-Child Communication</h3>
+        <p>Data is often passed explicitly through constructors from a parent widget to a child widget. BuildContext remains available for tree-related work, while normal application data should usually be passed as typed parameters. Gesture callbacks can use the local context when they need navigation, theme, or inherited data.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("class ParentWidget extends StatelessWidget {\n  @override\n  Widget build(BuildContext context) {\n    return ChildWidget(data: 'Hello, Child!');\n  }\n}\n\nGestureDetector(\n  onTap: () {\n    print('Widget tapped: ${context.widget}');\n  },\n)", language="dart")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">15. BuildContext Best Practices</div>
+        <h3>15.1 Using Context Safely</h3>
+        <p>Use the nearest appropriate context for themes, navigation, MediaQuery, and providers. Avoid retaining a context longer than the widget's lifetime. After an asynchronous operation, check that the State is still mounted before using context or calling setState. Prefer explicit constructor parameters for ordinary data rather than using context as a global container.</p>
+        <div class="step-box"><b>Safety pattern:</b> After awaiting work, use <code>if (!mounted) return;</code> in a State class before updating the UI or navigating.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">Chapter Conclusion</div>
+        <h3>What You Should Know After Chapter 8</h3>
+        <p>After completing this chapter, you should be able to explain the role of widgets, distinguish Hot Reload from Hot Restart, build a StatefulWidget with a State class, update local values with setState, and identify suitable use cases for dynamic state.</p>
+        <p>You should also understand BuildContext as a widget-tree location, use it to access themes, dimensions, inherited data, providers, and navigation, pass ordinary data through constructors, handle errors, and avoid using a context after its widget has been removed.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_mobile_chapter_8_quiz()
 
 elif display_page == "Chapter 7: Database Integration in Flutter":
     st.markdown("## Mobile Application Development")

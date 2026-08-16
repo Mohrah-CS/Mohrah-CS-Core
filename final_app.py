@@ -836,7 +836,7 @@ elif main_subject == "Mobile Application Development":
 elif main_subject == "Computer Networks":
     subject = st.sidebar.selectbox(
         t("lesson_select"),
-        ["Chapter 1: Introduction to Computer Networks"]
+        ["Chapter 1: Introduction to Computer Networks", "Chapter 2: Layered Network Architectures", "Chapter 3: Application Layer Overview", "Chapter 4: Client-Server Protocols: Telnet & HTTP", "Chapter 5: SMTP, DNS & FTP", "Chapter 6: Network Management & Peer-to-Peer Networks", "Chapter 7: Multimedia Networking", "Chapter 8: Transport Layer: UDP", "Chapter 9: Transport Layer: TCP & Congestion Control", "Chapter 10: Network Layer: IP Addressing & Routing", "Chapter 11: Routing Algorithms & Protocols", "Chapter 12: Data Link Layer: Framing, MAC & Error Detection", "Chapter 13: Ethernet, Switching & VLANs", "Chapter 14: Setup and Configure LAN, WLAN, WAN, and VLAN"]
     )
     st.session_state.current_page = subject
 else:
@@ -1559,6 +1559,520 @@ def render_computer_networks_chapter_1_quiz():
             score += 1
     if st.button("Submit Computer Networks Chapter 1 Assessment", key="submit_computer_networks_ch1_quiz"):
         st.write(f"### Final Score: {score}/{len(COMPUTER_NETWORKS_CHAPTER_1_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Computer Networks: Chapter 2 ---
+COMPUTER_NETWORKS_CHAPTER_2_QUIZ = [
+    {"q": "Why are network architectures divided into layers?", "o": ["To reduce complexity and organize responsibilities", "To eliminate all protocols", "To make every device identical", "To remove the need for addressing"], "a": "To reduce complexity and organize responsibilities"},
+    {"q": "What is the correct sending direction through a layered architecture?", "o": ["Application → Transport → Network → Data Link → Physical", "Physical → Network → Application → Transport", "Data Link → Application → Physical → Network", "Transport → Physical → Application → Network"], "a": "Application → Transport → Network → Data Link → Physical"},
+    {"q": "How many layers are in the OSI reference model?", "o": ["7", "4", "5", "8"], "a": "7"},
+    {"q": "Which OSI layer transmits raw bits and signals?", "o": ["Physical", "Network", "Session", "Application"], "a": "Physical"},
+    {"q": "Which OSI layer uses frames and MAC addresses?", "o": ["Data Link", "Transport", "Presentation", "Application"], "a": "Data Link"},
+    {"q": "Which device primarily forwards packets between different networks?", "o": ["Router", "Switch", "Repeater cable", "Printer"], "a": "Router"},
+    {"q": "Which OSI layer is responsible for process-to-process delivery?", "o": ["Transport", "Physical", "Data Link", "Presentation"], "a": "Transport"},
+    {"q": "What is a major difference between TCP and UDP?", "o": ["TCP provides reliable ordered delivery; UDP has lower overhead and fewer guarantees", "UDP always guarantees delivery; TCP never does", "TCP is only for cables; UDP is only for Wi-Fi", "They are identical protocols"], "a": "TCP provides reliable ordered delivery; UDP has lower overhead and fewer guarantees"},
+    {"q": "Which OSI layer manages data translation, formatting, encryption, and compression?", "o": ["Presentation", "Network", "Data Link", "Physical"], "a": "Presentation"},
+    {"q": "Which OSI layer manages establishing and ending communication sessions?", "o": ["Session", "Application", "Transport", "Internet"], "a": "Session"},
+    {"q": "Which OSI layer provides network services directly to applications?", "o": ["Application", "Physical", "Data Link", "Network Access"], "a": "Application"},
+    {"q": "How many layers are in the common TCP/IP model described in this chapter?", "o": ["4", "7", "3", "5"], "a": "4"},
+    {"q": "Which TCP/IP layer includes IP and routing?", "o": ["Internet", "Application", "Transport", "Network Access"], "a": "Internet"},
+    {"q": "Which TCP/IP layer includes Ethernet and Wi-Fi access?", "o": ["Network Access", "Internet", "Transport", "Application"], "a": "Network Access"},
+    {"q": "What is encapsulation?", "o": ["Adding layer-specific information as data moves down the sender's stack", "Removing every header at the sender", "Converting a router into a switch", "Sending only raw bits to an application"], "a": "Adding layer-specific information as data moves down the sender's stack"},
+    {"q": "What is decapsulation?", "o": ["Removing and interpreting layer information as data moves up the receiver's stack", "Adding random headers at the receiver", "Encrypting every physical signal", "Replacing TCP with DNS"], "a": "Removing and interpreting layer information as data moves up the receiver's stack"},
+    {"q": "What is the usual protocol data unit at the Transport layer?", "o": ["Segment", "Frame", "Bit", "File system"], "a": "Segment"},
+    {"q": "What is the usual protocol data unit at the Data Link layer?", "o": ["Frame", "Packet", "Segment", "Application"], "a": "Frame"},
+    {"q": "In a capture containing Ethernet → IP → TCP → HTTP, which mapping is correct?", "o": ["Ethernet=Data Link, IP=Network, TCP=Transport, HTTP=Application", "Ethernet=Application, IP=Transport, TCP=Data Link, HTTP=Physical", "Ethernet=Network, IP=Application, TCP=Physical, HTTP=Transport", "All four belong to the Physical layer"], "a": "Ethernet=Data Link, IP=Network, TCP=Transport, HTTP=Application"},
+    {"q": "What can Wireshark help a student observe?", "o": ["Layer-related packet information such as Ethernet, IP, TCP/UDP, HTTP, and DNS", "Only monitor brightness", "Only the computer's battery", "Only application source code"], "a": "Layer-related packet information such as Ethernet, IP, TCP/UDP, HTTP, and DNS"},
+]
+
+def render_computer_networks_chapter_2_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 2 Assessment — Layered Network Architectures (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(COMPUTER_NETWORKS_CHAPTER_2_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"computer_networks_ch2_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Computer Networks Chapter 2 Assessment", key="submit_computer_networks_ch2_quiz"):
+        st.write(f"### Final Score: {score}/{len(COMPUTER_NETWORKS_CHAPTER_2_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Computer Networks: Chapter 3 ---
+COMPUTER_NETWORKS_CHAPTER_3_QUIZ = [
+    {"q": "Which network layer is closest to user applications?", "o": ["Application Layer", "Physical Layer", "Data Link Layer", "Internet Layer only"], "a": "Application Layer"},
+    {"q": "What is the difference between an application and an application-layer protocol?", "o": ["An application is software that uses communication; a protocol defines the rules it follows", "They are always exactly the same", "A protocol is a physical cable", "An application is only an IP address"], "a": "An application is software that uses communication; a protocol defines the rules it follows"},
+    {"q": "In the client-server model, what does the client do?", "o": ["Requests a service", "Always stores every database", "Routes packets between networks", "Provides the DNS root zone"], "a": "Requests a service"},
+    {"q": "What does the server do?", "o": ["Provides a service or resource to clients", "Only sends Wi-Fi signals", "Replaces every router", "Assigns every MAC address manually"], "a": "Provides a service or resource to clients"},
+    {"q": "What is the usual order of a web interaction?", "o": ["Client request → server processing → server response", "Server response → client request → DNS deletion", "Router request → printer response only", "Application shutdown → packet creation"], "a": "Client request → server processing → server response"},
+    {"q": "What is DNS primarily used for?", "o": ["Translating domain names into IP addresses", "Encrypting every file", "Assigning MAC addresses to switches", "Measuring monitor resolution"], "a": "Translating domain names into IP addresses"},
+    {"q": "Why do humans use domain names?", "o": ["Names are easier to remember than numeric IP addresses", "Names eliminate all network protocols", "Names replace the need for servers", "Names are always permanent IP addresses"], "a": "Names are easier to remember than numeric IP addresses"},
+    {"q": "What is a DNS query?", "o": ["A request asking DNS to resolve a name or provide DNS information", "A physical cable test", "A file upload command", "A TCP shutdown only"], "a": "A request asking DNS to resolve a name or provide DNS information"},
+    {"q": "What does an A record map?", "o": ["A domain name to an IPv4 address", "A domain name to an IPv6 address", "A domain to a mail server only", "A name to a port only"], "a": "A domain name to an IPv4 address"},
+    {"q": "What does an AAAA record map?", "o": ["A domain name to an IPv6 address", "A domain name to an IPv4 address", "A domain to an email server", "A domain to a file path"], "a": "A domain name to an IPv6 address"},
+    {"q": "What is a CNAME record?", "o": ["An alias for another domain name", "A mail delivery record", "A physical network address", "A TCP port record"], "a": "An alias for another domain name"},
+    {"q": "What is an MX record used for?", "o": ["Identifying mail servers for a domain", "Identifying Wi-Fi channels", "Mapping a domain to IPv6 only", "Testing packet loss"], "a": "Identifying mail servers for a domain"},
+    {"q": "What does ping help test?", "o": ["Basic reachability and response time", "Whether every website feature works", "The complete security of a server", "The exact web page content"], "a": "Basic reachability and response time"},
+    {"q": "What can a timeout in ping suggest?", "o": ["The destination or path did not provide a reply within the expected time", "The monitor is disconnected", "DNS records were definitely deleted", "The website is always offline"], "a": "The destination or path did not provide a reply within the expected time"},
+    {"q": "What does traceroute or tracert show?", "o": ["The sequence of network hops toward a destination", "The contents of a private email", "Only the local MAC address", "A list of installed applications"], "a": "The sequence of network hops toward a destination"},
+    {"q": "What does nslookup help retrieve?", "o": ["DNS information for a domain", "The physical weight of a router", "Only HTTP page content", "A computer's battery percentage"], "a": "DNS information for a domain"},
+    {"q": "What does an IP address identify in a connection?", "o": ["The network endpoint or device address", "The exact application process", "The cable color", "The user's password"], "a": "The network endpoint or device address"},
+    {"q": "What does a port number help identify?", "o": ["The service or process on a host", "The geographic city only", "The physical cable type", "The DNS root server only"], "a": "The service or process on a host"},
+    {"q": "Which port is commonly associated with HTTPS?", "o": ["443", "80", "21", "25"], "a": "443"},
+    {"q": "Does a successful ping prove that every website service is working correctly?", "o": ["No; it only provides limited reachability information", "Yes, it proves every application function", "Yes, it proves the database is healthy", "No, because ping never sends traffic"], "a": "No; it only provides limited reachability information"},
+]
+
+def render_computer_networks_chapter_3_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 3 Assessment — Application Layer Overview (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(COMPUTER_NETWORKS_CHAPTER_3_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"computer_networks_ch3_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Computer Networks Chapter 3 Assessment", key="submit_computer_networks_ch3_quiz"):
+        st.write(f"### Final Score: {score}/{len(COMPUTER_NETWORKS_CHAPTER_3_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Computer Networks: Chapter 4 ---
+COMPUTER_NETWORKS_CHAPTER_4_QUIZ = [
+    {"q": "In a client-server exchange, what is the client?", "o": ["The party or application requesting a service", "Always the device storing every resource", "A physical cable", "A DNS root server"], "a": "The party or application requesting a service"},
+    {"q": "What is the server?", "o": ["The party or program providing a service or resource", "Only a user's browser", "A transport-layer port", "A network cable"], "a": "The party or program providing a service or resource"},
+    {"q": "What does a protocol define?", "o": ["Rules for communication between systems", "The physical size of a monitor", "Only a user's password", "The number of CPU cores"], "a": "Rules for communication between systems"},
+    {"q": "What is Telnet designed to provide conceptually?", "o": ["Remote terminal access over a network", "Encrypted web browsing", "DNS record storage", "Image compression"], "a": "Remote terminal access over a network"},
+    {"q": "Why should Telnet not be used for sensitive information?", "o": ["It does not provide modern protection suitable for sensitive data", "It always requires fiber optic", "It cannot connect to a server", "It encrypts too strongly"], "a": "It does not provide modern protection suitable for sensitive data"},
+    {"q": "What is HTTP?", "o": ["Hypertext Transfer Protocol", "High Transmission Terminal Program", "Host Transfer Topology Protocol", "Hardware Translation Transport Process"], "a": "Hypertext Transfer Protocol"},
+    {"q": "What is the normal high-level HTTP flow?", "o": ["Client request → server processing → server response → client display", "Server response → client shutdown → DNS deletion", "Router → printer → client only", "Client response → server request → cable"], "a": "Client request → server processing → server response → client display"},
+    {"q": "Which HTTP method is normally used to retrieve a resource?", "o": ["GET", "POST", "PUT", "DELETE"], "a": "GET"},
+    {"q": "Which HTTP method is commonly used to submit data to a server?", "o": ["POST", "GET", "TRACEONLY", "READ"], "a": "POST"},
+    {"q": "Which HTTP method is commonly associated with updating a resource?", "o": ["PUT", "GET", "MAIL", "CONNECTONLY"], "a": "PUT"},
+    {"q": "Which HTTP method is commonly associated with deleting a resource?", "o": ["DELETE", "POST", "FETCH", "RENDER"], "a": "DELETE"},
+    {"q": "Which is a main part of an HTTP request?", "o": ["Method, resource, headers, and optional body", "Only a monitor name", "Only a router MAC address", "Only a response status"], "a": "Method, resource, headers, and optional body"},
+    {"q": "Which is a main part of an HTTP response?", "o": ["Status code, headers, and body", "Only a client password", "Only a port number", "Only a DNS query"], "a": "Status code, headers, and body"},
+    {"q": "What does HTTP status 200 generally indicate?", "o": ["The request succeeded", "The resource was permanently removed", "The server failed", "The client is unauthorized in every case"], "a": "The request succeeded"},
+    {"q": "What does HTTP status 404 mean?", "o": ["The requested resource was not found", "The request succeeded", "The server redirected permanently", "The connection is encrypted"], "a": "The requested resource was not found"},
+    {"q": "What does a 500 status generally indicate?", "o": ["An internal server error", "A successful request", "A DNS record", "A client-side redirect"], "a": "An internal server error"},
+    {"q": "What is an HTTP header?", "o": ["Additional metadata sent with a request or response", "The entire web page image", "A physical network connector", "A replacement for the body"], "a": "Additional metadata sent with a request or response"},
+    {"q": "What is authentication?", "o": ["Verifying the identity of a user or system", "Deciding what an authenticated user may do", "Routing a packet", "Compressing a file"], "a": "Verifying the identity of a user or system"},
+    {"q": "What does HTTPS add compared with ordinary HTTP?", "o": ["TLS protection for the connection", "A new physical cable", "A larger monitor", "A replacement for DNS"], "a": "TLS protection for the connection"},
+    {"q": "Why is HTTPS important when submitting sensitive information?", "o": ["It provides stronger protection for data in transit", "It guarantees the server has no bugs", "It removes the need for authentication", "It makes every response status 200"], "a": "It provides stronger protection for data in transit"},
+]
+
+def render_computer_networks_chapter_4_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 4 Assessment — Client-Server Protocols: Telnet & HTTP (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(COMPUTER_NETWORKS_CHAPTER_4_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"computer_networks_ch4_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Computer Networks Chapter 4 Assessment", key="submit_computer_networks_ch4_quiz"):
+        st.write(f"### Final Score: {score}/{len(COMPUTER_NETWORKS_CHAPTER_4_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Computer Networks: Chapter 5 ---
+COMPUTER_NETWORKS_CHAPTER_5_QUIZ = [
+    {"q": "Which protocol is primarily used to send email between mail systems?", "o": ["SMTP", "POP3", "IMAP", "FTP"], "a": "SMTP"},
+    {"q": "Which protocol is primarily used to retrieve email from a mailbox?", "o": ["POP3", "SMTP", "DNS", "HTTP"], "a": "POP3"},
+    {"q": "Which protocol is designed to synchronize mailbox content across devices?", "o": ["IMAP", "FTP", "SMTP", "Telnet"], "a": "IMAP"},
+    {"q": "What is the role of an SMTP client?", "o": ["It starts the email submission or transfer conversation", "It resolves every domain name", "It stores all DNS root records", "It transfers files only"], "a": "It starts the email submission or transfer conversation"},
+    {"q": "What does the SMTP command MAIL FROM identify?", "o": ["The sender address for the message", "The recipient's DNS server", "The file to download", "The email subject only"], "a": "The sender address for the message"},
+    {"q": "What does the SMTP command RCPT TO identify?", "o": ["The intended recipient address", "The sending computer's MAC address", "The DNS root server", "The message attachment size"], "a": "The intended recipient address"},
+    {"q": "Why can SMTP use different ports such as 25, 587, and 465?", "o": ["Different ports can represent different submission, relay, or protection configurations", "Each port always means a different email recipient", "Ports are used only for DNS", "The numbers are random and have no purpose"], "a": "Different ports can represent different submission, relay, or protection configurations"},
+    {"q": "What does DNS primarily provide?", "o": ["Name resolution between domain names and network addresses", "Email mailbox synchronization", "File upload only", "Remote terminal encryption"], "a": "Name resolution between domain names and network addresses"},
+    {"q": "What is the usual order in the DNS hierarchy?", "o": ["Root → TLD → Domain → Host or subdomain", "Host → Root → TLD → Domain", "Domain → Host → Root → TLD", "TLD → Host → Root → Domain"], "a": "Root → TLD → Domain → Host or subdomain"},
+    {"q": "What does a recursive resolver do?", "o": ["Searches on behalf of a client to obtain an answer", "Only stores email messages", "Transfers files between FTP clients", "Acts only as a physical switch"], "a": "Searches on behalf of a client to obtain an answer"},
+    {"q": "What does an authoritative DNS server provide?", "o": ["Official DNS information for a domain", "A user's email password", "A local Wi-Fi signal", "Only an FTP data connection"], "a": "Official DNS information for a domain"},
+    {"q": "What does an MX record identify?", "o": ["Mail servers responsible for receiving email for a domain", "An IPv6 address", "A domain alias", "A network switch"], "a": "Mail servers responsible for receiving email for a domain"},
+    {"q": "What does an NS record identify?", "o": ["Name servers for a domain", "A mail message body", "A file transfer mode", "A TCP application process"], "a": "Name servers for a domain"},
+    {"q": "What is DNS caching useful for?", "o": ["Faster resolution and fewer repeated DNS queries", "Encrypting all email", "Removing the need for IP addresses", "Creating FTP directories"], "a": "Faster resolution and fewer repeated DNS queries"},
+    {"q": "What does FTP provide?", "o": ["File transfer between a client and server", "Domain-name resolution", "Email mailbox synchronization", "Web-page encryption"], "a": "File transfer between a client and server"},
+    {"q": "What is the FTP control connection used for?", "o": ["Commands and session control", "Transferring every file's content only", "Resolving DNS names", "Rendering HTML"], "a": "Commands and session control"},
+    {"q": "What is the FTP data connection used for?", "o": ["Transferring files or directory data", "Authenticating DNS root servers", "Sending SMTP commands only", "Displaying a browser window"], "a": "Transferring files or directory data"},
+    {"q": "Which operation sends a local file to an FTP server?", "o": ["Upload", "Download", "Resolve", "Query"], "a": "Upload"},
+    {"q": "How does SFTP differ conceptually from ordinary FTP?", "o": ["SFTP uses a different secure file-transfer technology; it is not simply FTP with an added letter", "SFTP is only a DNS record", "SFTP is always SMTP", "SFTP removes the need for a server"], "a": "SFTP uses a different secure file-transfer technology; it is not simply FTP with an added letter"},
+    {"q": "Which protocol should be selected when the main goal is to resolve a domain name into an IP address?", "o": ["DNS", "SMTP", "FTP", "IMAP"], "a": "DNS"},
+]
+
+def render_computer_networks_chapter_5_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 5 Assessment — SMTP, DNS & FTP (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(COMPUTER_NETWORKS_CHAPTER_5_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"computer_networks_ch5_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Computer Networks Chapter 5 Assessment", key="submit_computer_networks_ch5_quiz"):
+        st.write(f"### Final Score: {score}/{len(COMPUTER_NETWORKS_CHAPTER_5_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Computer Networks: Chapter 6 ---
+COMPUTER_NETWORKS_CHAPTER_6_QUIZ = [
+    {"q": "What is the main purpose of network management?", "o": ["To monitor, maintain, configure, and troubleshoot network services and devices", "To replace every application with a server", "To remove all network protocols", "To create only wireless signals"], "a": "To monitor, maintain, configure, and troubleshoot network services and devices"},
+    {"q": "Which task involves observing the current condition of network devices?", "o": ["Monitoring", "File compression", "Name resolution only", "Email retrieval"], "a": "Monitoring"},
+    {"q": "What is a managed device?", "o": ["A router, switch, server, or access point being observed or controlled", "Only a personal phone with no network role", "A DNS record", "An email message"], "a": "A router, switch, server, or access point being observed or controlled"},
+    {"q": "What is SNMP?", "o": ["Simple Network Management Protocol", "Secure Network Mail Process", "Server Name Mapping Program", "System Network Media Port"], "a": "Simple Network Management Protocol"},
+    {"q": "What does an SNMP Manager do?", "o": ["Requests and collects management information", "Only forwards user web pages", "Acts as a physical cable", "Stores every application file"], "a": "Requests and collects management information"},
+    {"q": "What does an SNMP Agent do?", "o": ["Runs on or near a managed device and provides management information", "Replaces the network administrator", "Creates all DNS domains", "Transfers email between users"], "a": "Runs on or near a managed device and provides management information"},
+    {"q": "What does an SNMP GET operation represent?", "o": ["A manager requests a value from an agent", "A device deletes the network", "A server uploads a file", "A peer creates a mailbox"], "a": "A manager requests a value from an agent"},
+    {"q": "What does an SNMP SET operation represent?", "o": ["A manager requests a permitted configuration or value change", "A client resolves a domain", "A switch sends a frame", "A browser renders HTML"], "a": "A manager requests a permitted configuration or value change"},
+    {"q": "What is an SNMP TRAP?", "o": ["An unsolicited notification sent by a device about an event", "A DNS hierarchy level", "A file-transfer command", "A type of IP address"], "a": "An unsolicited notification sent by a device about an event"},
+    {"q": "What does an MIB organize?", "o": ["Definitions and information that can be monitored or managed", "Only email recipients", "Only physical cables", "Only browser cookies"], "a": "Definitions and information that can be monitored or managed"},
+    {"q": "Which metric can be monitored in network management?", "o": ["CPU, memory, interface status, traffic, errors, and availability", "Only screen color", "Only a user's password", "Only file names"], "a": "CPU, memory, interface status, traffic, errors, and availability"},
+    {"q": "What is the general fault-management sequence?", "o": ["Detect → Identify → Analyze → Resolve → Verify", "Resolve → Delete → Ignore → Detect", "Query → Upload → Download → Resolve", "Encrypt → Print → Route → Stop"], "a": "Detect → Identify → Analyze → Resolve → Verify"},
+    {"q": "What is the difference between availability and performance?", "o": ["A network can be reachable but still slow, congested, or suffering loss", "They always mean exactly the same thing", "Availability only measures CPU", "Performance means a device is powered off"], "a": "A network can be reachable but still slow, congested, or suffering loss"},
+    {"q": "What usually causes a management alert?", "o": ["A monitored value exceeds a defined threshold or abnormal condition occurs", "A user opens a document", "A DNS name is short", "A peer shares a harmless file"], "a": "A monitored value exceeds a defined threshold or abnormal condition occurs"},
+    {"q": "What is a Peer-to-Peer network?", "o": ["A model where devices can communicate directly and act as clients and servers", "A model requiring one central server for every action", "A DNS-only architecture", "A physical topology with one cable"], "a": "A model where devices can communicate directly and act as clients and servers"},
+    {"q": "What is a major characteristic of P2P architecture?", "o": ["Resources and services can be distributed among peers", "Every resource must be stored on one central server", "Peers cannot request resources", "Only routers can participate"], "a": "Resources and services can be distributed among peers"},
+    {"q": "Which is an advantage of P2P?", "o": ["Direct resource sharing without necessarily requiring one central server", "Always simpler centralized administration", "No security concerns", "Guaranteed resource availability"], "a": "Direct resource sharing without necessarily requiring one central server"},
+    {"q": "Which is a disadvantage of P2P?", "o": ["Management, security, backup, and availability can be more difficult", "Peers can never communicate", "It cannot distribute resources", "It always requires a mainframe"], "a": "Management, security, backup, and availability can be more difficult"},
+    {"q": "What is a centralized system?", "o": ["A system where services or resources depend on a central point", "A system with no servers or nodes", "A system that uses only Wi-Fi", "A system where every device is isolated"], "a": "A system where services or resources depend on a central point"},
+    {"q": "What is a distributed system?", "o": ["A system where resources or services are spread across multiple nodes", "A single computer with no network", "A network that cannot be monitored", "A DNS record type"], "a": "A system where resources or services are spread across multiple nodes"},
+]
+
+def render_computer_networks_chapter_6_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 6 Assessment — Network Management & Peer-to-Peer Networks (20 Questions)")
+    st.caption("Select one answer for each question and submit when finished.")
+    answers = []
+    score = 0
+    for i, item in enumerate(COMPUTER_NETWORKS_CHAPTER_6_QUIZ):
+        choice = st.radio(item["q"], item["o"], key=f"computer_networks_ch6_quiz_{i}")
+        answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+        if choice == item["a"]:
+            score += 1
+    if st.button("Submit Computer Networks Chapter 6 Assessment", key="submit_computer_networks_ch6_quiz"):
+        st.write(f"### Final Score: {score}/{len(COMPUTER_NETWORKS_CHAPTER_6_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Computer Networks: Chapter 7 ---
+COMPUTER_NETWORKS_CHAPTER_7_QUIZ = [
+{"q":"Why is multimedia traffic different from an ordinary file download?","o":["It has timing and continuity requirements during playback","It never uses bandwidth","It cannot be compressed","It does not use packets"],"a":"It has timing and continuity requirements during playback"},
+{"q":"Which is an example of a multimedia application?","o":["Video conferencing","A text-only calculator","A local folder","A keyboard driver"],"a":"Video conferencing"},
+{"q":"What is sampling in digital audio?","o":["Measuring an analog signal at intervals","Deleting every audio frame","Routing an IP packet","Increasing screen resolution"],"a":"Measuring an analog signal at intervals"},
+{"q":"What does frame rate describe in video?","o":["The number of video frames displayed per unit of time","The number of routers in a path","The size of a DNS record","The delay of an email"],"a":"The number of video frames displayed per unit of time"},
+{"q":"Why is multimedia compression used?","o":["To reduce data size, bandwidth needs, and storage requirements","To remove all network protocols","To increase packet loss","To prevent playback"],"a":"To reduce data size, bandwidth needs, and storage requirements"},
+{"q":"What is lossless compression?","o":["The original data can be reconstructed without information loss","Some information is intentionally discarded","Only video can use it","It always reduces data to zero"],"a":"The original data can be reconstructed without information loss"},
+{"q":"What is lossy compression?","o":["It reduces size by discarding some information that may be less noticeable","It always preserves every bit","It is only used for DNS","It prevents streaming"],"a":"It reduces size by discarding some information that may be less noticeable"},
+{"q":"What is bit rate?","o":["The amount of data represented or transmitted per unit of time","The number of users on a server","The physical cable length","The screen width only"],"a":"The amount of data represented or transmitted per unit of time"},
+{"q":"What is streaming?","o":["Playing media while data is arriving instead of waiting for the complete file","Deleting a media file after download","Sending only email headers","Blocking all buffering"],"a":"Playing media while data is arriving instead of waiting for the complete file"},
+{"q":"When does buffering commonly occur?","o":["When data arrives more slowly than the playback rate","When arrival rate is always greater than playback","When a file is already complete","When latency is zero"],"a":"When data arrives more slowly than the playback rate"},
+{"q":"What is jitter?","o":["Variation in packet arrival times","The total video resolution","The maximum disk size","A DNS record"],"a":"Variation in packet arrival times"},
+{"q":"Which can cause packet loss?","o":["Congestion, transmission problems, buffer overflow, or network errors","Only high screen brightness","Only a large monitor","A correct DNS answer"],"a":"Congestion, transmission problems, buffer overflow, or network errors"},
+{"q":"What does QoS help a network do?","o":["Handle traffic according to different performance requirements","Replace every application","Remove all delay from physics","Convert audio into email"],"a":"Handle traffic according to different performance requirements"},
+{"q":"Which application is usually highly sensitive to delay and jitter?","o":["A live video call","An old downloaded PDF","An offline text file","A completed backup"],"a":"A live video call"},
+{"q":"What is VoIP?","o":["Voice communication carried over IP networks","Video stored only on a DVD","A DNS hierarchy","A file compression format"],"a":"Voice communication carried over IP networks"},
+{"q":"What is RTP conceptually used for?","o":["Transporting real-time media data","Resolving domain names","Managing email mailboxes","Creating directories"],"a":"Transporting real-time media data"},
+{"q":"What is RTCP associated with?","o":["Information and monitoring related to an RTP session","File deletion","DNS caching only","Web-page formatting"],"a":"Information and monitoring related to an RTP session"},
+{"q":"What is adaptive streaming?","o":["Changing media quality according to network conditions","Using one fixed quality regardless of bandwidth","Disabling playback","Sending only audio"],"a":"Changing media quality according to network conditions"},
+{"q":"What is a CDN intended to do?","o":["Distribute content through servers closer to users","Replace every client with one router","Increase distance to content","Remove all media encoding"],"a":"Distribute content through servers closer to users"},
+{"q":"Why might a fast Internet connection still produce a poor video call?","o":["Latency, jitter, packet loss, or congestion may be high","Bandwidth is the only factor","Video calls never use packets","QoS guarantees every call"],"a":"Latency, jitter, packet loss, or congestion may be high"},
+]
+def render_computer_networks_chapter_7_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 7 Assessment — Multimedia Networking (20 Questions)")
+    answers=[]; score=0
+    for i,item in enumerate(COMPUTER_NETWORKS_CHAPTER_7_QUIZ):
+        choice=st.radio(item["q"],item["o"],key=f"computer_networks_ch7_quiz_{i}")
+        answers.append({"number":i+1,"question":item["q"],"selected":choice,"correct":item["a"]})
+        if choice==item["a"]: score+=1
+    if st.button("Submit Computer Networks Chapter 7 Assessment",key="submit_computer_networks_ch7_quiz"):
+        st.write(f"### Final Score: {score}/{len(COMPUTER_NETWORKS_CHAPTER_7_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Computer Networks: Chapter 8 ---
+COMPUTER_NETWORKS_CHAPTER_8_QUIZ = [
+{"q":"What is the main role of the Transport Layer?","o":["Providing communication between application processes","Transmitting only electrical signals","Storing DNS zones","Displaying web pages"],"a":"Providing communication between application processes"},
+{"q":"What is the difference between host-to-host and process-to-process delivery?","o":["Host-to-host identifies devices; process-to-process identifies applications on those devices","They are exactly identical","Host-to-host identifies files only","Process-to-process does not use ports"],"a":"Host-to-host identifies devices; process-to-process identifies applications on those devices"},
+{"q":"What does an IP address identify?","o":["A network device or endpoint","A specific application process only","A UDP checksum","A video frame"],"a":"A network device or endpoint"},
+{"q":"What does a port number help identify?","o":["A service or application process on a host","The physical cable length","The DNS root server","The monitor resolution"],"a":"A service or application process on a host"},
+{"q":"What is a socket commonly represented as?","o":["An IP address plus a port number","A frame plus a checksum","A domain plus a DNS record only","A router plus a switch"],"a":"An IP address plus a port number"},
+{"q":"What is multiplexing?","o":["Allowing multiple applications to use network communication at the same time","Sending only one application ever","Removing all ports","Compressing a video"],"a":"Allowing multiple applications to use network communication at the same time"},
+{"q":"What is demultiplexing?","o":["Delivering received data to the application associated with the destination port","Dividing a cable into fibers","Encrypting DNS","Creating an IP address"],"a":"Delivering received data to the application associated with the destination port"},
+{"q":"What is segmentation?","o":["Dividing large application data into transport-sized units","Deleting a message","Combining routers","Converting UDP to DNS"],"a":"Dividing large application data into transport-sized units"},
+{"q":"Which statement describes UDP?","o":["It is connectionless, lightweight, and has low overhead","It always guarantees ordered delivery","It always retransmits lost data","It requires a reliable connection first"],"a":"It is connectionless, lightweight, and has low overhead"},
+{"q":"What does connectionless communication mean in UDP?","o":["Data can be sent without establishing a reliable connection like TCP first","The devices have no IP addresses","The receiver cannot have a port","The application cannot send datagrams"],"a":"Data can be sent without establishing a reliable connection like TCP first"},
+{"q":"Which field identifies the sending process in a UDP datagram?","o":["Source Port","Destination Port","Length only","Checksum only"],"a":"Source Port"},
+{"q":"Which field helps the receiver select the destination application?","o":["Destination Port","Source Port only","Frame Rate","DNS Cache"],"a":"Destination Port"},
+{"q":"What does the UDP Length field describe?","o":["The size of the UDP datagram including header and data","The distance to the router","The number of DNS servers","The video resolution"],"a":"The size of the UDP datagram including header and data"},
+{"q":"What is the purpose of a UDP checksum?","o":["Detecting some errors in the transmitted data","Automatically retransmitting lost data","Guaranteeing packet ordering","Assigning an IP address"],"a":"Detecting some errors in the transmitted data"},
+{"q":"Does a UDP checksum automatically retransmit a missing datagram?","o":["No; checksum supports detection, not automatic recovery","Yes, always","Only when DNS is used","Only for video"],"a":"No; checksum supports detection, not automatic recovery"},
+{"q":"Which is a UDP advantage?","o":["Low overhead and fast processing","Guaranteed delivery","Built-in congestion control like TCP","Ordered retransmission"],"a":"Low overhead and fast processing"},
+{"q":"Which is a UDP limitation?","o":["No built-in guarantee of delivery or ordering","It cannot use ports","It cannot carry application data","It always creates a connection"],"a":"No built-in guarantee of delivery or ordering"},
+{"q":"Why may DNS use UDP for many queries?","o":["A simple query can benefit from low overhead and quick exchange","DNS never uses ports","UDP guarantees DNS delivery","DNS is a physical-layer service"],"a":"A simple query can benefit from low overhead and quick exchange"},
+{"q":"Which situation commonly favors TCP?","o":["Transferring an important file completely and in order","A time-sensitive stream that can tolerate some loss","A short low-overhead query only","A broadcast with no recovery"],"a":"Transferring an important file completely and in order"},
+{"q":"Which situation may favor UDP?","o":["A time-sensitive application that prefers low overhead and can handle some loss","A file that must be complete and ordered","A transaction requiring built-in retransmission","A backup requiring guaranteed delivery"],"a":"A time-sensitive application that prefers low overhead and can handle some loss"},
+]
+def render_computer_networks_chapter_8_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 8 Assessment — Transport Layer: UDP (20 Questions)")
+    answers=[]; score=0
+    for i,item in enumerate(COMPUTER_NETWORKS_CHAPTER_8_QUIZ):
+        choice=st.radio(item["q"],item["o"],key=f"computer_networks_ch8_quiz_{i}")
+        answers.append({"number":i+1,"question":item["q"],"selected":choice,"correct":item["a"]})
+        if choice==item["a"]: score+=1
+    if st.button("Submit Computer Networks Chapter 8 Assessment",key="submit_computer_networks_ch8_quiz"):
+        st.write(f"### Final Score: {score}/{len(COMPUTER_NETWORKS_CHAPTER_8_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Computer Networks: Chapter 9 ---
+COMPUTER_NETWORKS_CHAPTER_9_QUIZ = [
+{"q":"What is TCP?","o":["A connection-oriented transport protocol that provides reliable delivery","A DNS record","A physical cable","A video codec"],"a":"A connection-oriented transport protocol that provides reliable delivery"},
+{"q":"Why is TCP useful for important file transfer?","o":["It supports reliable, ordered delivery","It intentionally loses segments","It has no acknowledgments","It cannot retransmit"],"a":"It supports reliable, ordered delivery"},
+{"q":"What is the correct TCP three-way handshake order?","o":["SYN → SYN-ACK → ACK","ACK → FIN → SYN","FIN → RST → ACK","SYN → FIN → DATA"],"a":"SYN → SYN-ACK → ACK"},
+{"q":"What does a TCP sequence number help identify?","o":["The position and order of data","The DNS server only","The screen size","The physical route only"],"a":"The position and order of data"},
+{"q":"What is an ACK?","o":["An acknowledgment indicating received data information","A port number","A congestion algorithm","A file type"],"a":"An acknowledgment indicating received data information"},
+{"q":"Which mechanisms support TCP reliability?","o":["Sequence numbers, ACKs, retransmission, checksums, and timers","Only IP addresses","Only DNS caching","Only video buffering"],"a":"Sequence numbers, ACKs, retransmission, checksums, and timers"},
+{"q":"When may TCP retransmit a segment?","o":["When expected acknowledgment is not received or loss is inferred","Whenever a file opens","Only when DNS fails","Never"],"a":"When expected acknowledgment is not received or loss is inferred"},
+{"q":"What does RTT measure?","o":["Time for data to travel to a receiver and for a response to return","The number of ports","The file size only","The number of routers"],"a":"Time for data to travel to a receiver and for a response to return"},
+{"q":"What does the TCP SYN flag help with?","o":["Connection establishment","Normal file naming","DNS caching","Video compression"],"a":"Connection establishment"},
+{"q":"What does the TCP FIN flag represent?","o":["Normal connection termination","A new DNS query","A packet checksum","A video frame"],"a":"Normal connection termination"},
+{"q":"What is ordered delivery?","o":["Presenting data to the application in the correct sequence","Sending data without ports","Dropping old segments always","Using UDP only"],"a":"Presenting data to the application in the correct sequence"},
+{"q":"What is flow control concerned with?","o":["Whether the receiver can accept more data","Whether the network is globally congested","Whether DNS is cached","Whether a cable is wireless"],"a":"Whether the receiver can accept more data"},
+{"q":"What does the receive window communicate?","o":["How much additional data the receiver can currently accept","The server's domain name","The video resolution","The route length"],"a":"How much additional data the receiver can currently accept"},
+{"q":"What is network congestion?","o":["Traffic exceeds the ability of parts of the network to handle it efficiently","A receiver has unlimited capacity","A DNS record is missing","A connection has no data"],"a":"Traffic exceeds the ability of parts of the network to handle it efficiently"},
+{"q":"How does congestion control differ from flow control?","o":["Congestion control protects network capacity; flow control protects receiver capacity","They are exactly identical","Flow control protects only routers","Congestion control concerns email only"],"a":"Congestion control protects network capacity; flow control protects receiver capacity"},
+{"q":"What is the congestion window (cwnd)?","o":["A value helping limit data in the network before acknowledgments","The receiver's screen window","A DNS record","A TCP port only"],"a":"A value helping limit data in the network before acknowledgments"},
+{"q":"What is slow start?","o":["Beginning with a relatively small sending rate and increasing it according to network feedback","Sending at maximum rate immediately","A TCP shutdown state","A UDP checksum"],"a":"Beginning with a relatively small sending rate and increasing it according to network feedback"},
+{"q":"What can packet loss indicate to TCP?","o":["Possible network problems or congestion requiring a response","That the receiver is always faster","That TCP is finished","That DNS succeeded"],"a":"Possible network problems or congestion requiring a response"},
+{"q":"Which is usually suitable when reliability and complete ordering are essential?","o":["TCP","UDP only","DNS only","RTP only"],"a":"TCP"},
+{"q":"Which statement is correct about TCP and UDP?","o":["TCP is not simply good and UDP bad; the choice depends on application requirements","TCP is always faster","UDP always guarantees delivery","TCP cannot use ports"],"a":"TCP is not simply good and UDP bad; the choice depends on application requirements"},
+]
+def render_computer_networks_chapter_9_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 9 Assessment — Transport Layer: TCP & Congestion Control (20 Questions)")
+    answers=[]; score=0
+    for i,item in enumerate(COMPUTER_NETWORKS_CHAPTER_9_QUIZ):
+        choice=st.radio(item["q"],item["o"],key=f"computer_networks_ch9_quiz_{i}")
+        answers.append({"number":i+1,"question":item["q"],"selected":choice,"correct":item["a"]})
+        if choice==item["a"]: score+=1
+    if st.button("Submit Computer Networks Chapter 9 Assessment",key="submit_computer_networks_ch9_quiz"):
+        st.write(f"### Final Score: {score}/{len(COMPUTER_NETWORKS_CHAPTER_9_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Computer Networks: Chapter 10 ---
+COMPUTER_NETWORKS_CHAPTER_10_QUIZ = [
+{"q":"What is a primary role of the Network Layer?","o":["Logical addressing and packet delivery across networks","Rendering application interfaces","Storing email messages","Compressing audio"],"a":"Logical addressing and packet delivery across networks"},
+{"q":"What is IPv4 address length?","o":["32 bits","16 bits","64 bits","128 bits"],"a":"32 bits"},
+{"q":"What notation is commonly used for IPv4 addresses?","o":["Dotted decimal","Colon-separated hexadecimal only","Binary words only","Text labels only"],"a":"Dotted decimal"},
+{"q":"What does a prefix length such as /24 describe?","o":["The network portion length of an address","The number of routers","The port number","The TTL value"],"a":"The network portion length of an address"},
+{"q":"What does a subnet mask identify?","o":["Which bits represent the network and which represent the host","Which application receives TCP data","Which DNS server is authoritative","Which video codec is used"],"a":"Which bits represent the network and which represent the host"},
+{"q":"For 192.168.1.0/24, what is 192.168.1.0 commonly used as?","o":["The network address","The broadcast address","A public address only","A port"],"a":"The network address"},
+{"q":"For 192.168.1.0/24, what is 192.168.1.255?","o":["The broadcast address","The network prefix only","A TCP flag","A DNS record"],"a":"The broadcast address"},
+{"q":"Which is a private IPv4 range?","o":["192.168.0.0/16","8.8.8.0/24 only","1.1.1.0/24 only","224.0.0.0/4 only"],"a":"192.168.0.0/16"},
+{"q":"What does DHCP commonly provide?","o":["IP address, subnet mask, gateway, and DNS information","Only a video frame","Only an email subject","Only a routing protocol"],"a":"IP address, subnet mask, gateway, and DNS information"},
+{"q":"How long is an IPv6 address?","o":["128 bits","32 bits","48 bits","64 bits only"],"a":"128 bits"},
+{"q":"What does a default gateway do?","o":["Forwards traffic outside the local network when no more specific route exists","Assigns every port number","Compresses packets","Stores application data"],"a":"Forwards traffic outside the local network when no more specific route exists"},
+{"q":"What is routing?","o":["Determining a path toward a destination network","Sending a packet through one interface after a decision","Assigning a username","Checking a checksum only"],"a":"Determining a path toward a destination network"},
+{"q":"What is forwarding?","o":["Sending a packet through the selected interface toward the next hop","Building every routing protocol","Creating an IPv6 address","Resolving a domain name"],"a":"Sending a packet through the selected interface toward the next hop"},
+{"q":"What can a routing table contain?","o":["Destination network, prefix, next hop, interface, and metric","Only email addresses","Only MAC passwords","Only video resolution"],"a":"Destination network, prefix, next hop, interface, and metric"},
+{"q":"What is a next hop?","o":["The next router or device to which a packet is sent","The final application only","The source port","The subnet mask"],"a":"The next router or device to which a packet is sent"},
+{"q":"What is static routing?","o":["Routes configured manually by an administrator","Routes learned automatically from every protocol","A DNS cache","A physical signal"],"a":"Routes configured manually by an administrator"},
+{"q":"What is dynamic routing?","o":["Routing information exchanged and updated using routing protocols","A route that never changes","A private IP address","An ICMP reply"],"a":"Routing information exchanged and updated using routing protocols"},
+{"q":"What does RIP commonly use as a metric?","o":["Hop count","Image quality","Email size","Port length"],"a":"Hop count"},
+{"q":"What does TTL help prevent?","o":["Packets circulating indefinitely in routing loops","All packet loss","All DNS errors","All congestion"],"a":"Packets circulating indefinitely in routing loops"},
+{"q":"What does Ping commonly use?","o":["ICMP Echo Request and Echo Reply","SMTP DATA and QUIT","FTP upload only","TCP FIN only"],"a":"ICMP Echo Request and Echo Reply"},
+]
+def render_computer_networks_chapter_10_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 10 Assessment — Network Layer: IP Addressing & Routing (20 Questions)")
+    answers=[]; score=0
+    for i,item in enumerate(COMPUTER_NETWORKS_CHAPTER_10_QUIZ):
+        choice=st.radio(item["q"],item["o"],key=f"computer_networks_ch10_quiz_{i}")
+        answers.append({"number":i+1,"question":item["q"],"selected":choice,"correct":item["a"]})
+        if choice==item["a"]: score+=1
+    if st.button("Submit Computer Networks Chapter 10 Assessment",key="submit_computer_networks_ch10_quiz"):
+        st.write(f"### Final Score: {score}/{len(COMPUTER_NETWORKS_CHAPTER_10_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Computer Networks: Chapter 11 ---
+COMPUTER_NETWORKS_CHAPTER_11_QUIZ = [
+{"q":"What is the purpose of a routing algorithm?","o":["To help routers select a suitable path to a destination","To compress application data","To assign email passwords","To display a web page"],"a":"To help routers select a suitable path to a destination"},
+{"q":"Which can be routing information?","o":["Destination network, next hop, interface, metric, and topology","Only screen size","Only a DNS password","Only a video frame"],"a":"Destination network, next hop, interface, metric, and topology"},
+{"q":"What is a routing metric?","o":["A value used to compare paths","A physical cable","A port number only","An application process"],"a":"A value used to compare paths"},
+{"q":"What is Distance Vector routing based on?","o":["Information learned from neighboring routers about distance and next hop","A complete global topology only","Email messages","The IPv6 header only"],"a":"Information learned from neighboring routers about distance and next hop"},
+{"q":"What is Link-State routing based on?","o":["Building a view of network topology and link information","Only asking one neighbor for a hop count","Only a DNS lookup","Only static routes"],"a":"Building a view of network topology and link information"},
+{"q":"What does Bellman-Ford conceptually help Distance Vector routers do?","o":["Select a lower-cost path using information from neighbors","Encrypt every packet","Create an IPv6 address","Measure video resolution"],"a":"Select a lower-cost path using information from neighbors"},
+{"q":"What is a routing loop?","o":["A packet or routing information circulates among routers instead of reaching its destination","A successful shortest path","A DNS cache hit","A normal TCP handshake"],"a":"A packet or routing information circulates among routers instead of reaching its destination"},
+{"q":"What is the count-to-infinity problem associated with?","o":["Some Distance Vector failures where metrics increase while routers believe a route still exists","IPv6 compression","OSPF areas only","TCP ACKs"],"a":"Some Distance Vector failures where metrics increase while routers believe a route still exists"},
+{"q":"What is the basic idea of split horizon?","o":["Do not advertise a route back through the interface from which it was learned","Always choose the longest path","Forward every packet to all routers","Disable all metrics"],"a":"Do not advertise a route back through the interface from which it was learned"},
+{"q":"Which algorithm is associated conceptually with Link-State shortest paths?","o":["Dijkstra's algorithm","SMTP","DHCP","Round Robin DNS"],"a":"Dijkstra's algorithm"},
+{"q":"Which protocol uses Distance Vector and hop count?","o":["RIP","OSPF","BGP","HTTP"],"a":"RIP"},
+{"q":"What is RIP's commonly taught maximum usable hop count?","o":["15","5","64","255"],"a":"15"},
+{"q":"Which protocol uses Link-State information and cost?","o":["OSPF","RIP","SMTP","FTP"],"a":"OSPF"},
+{"q":"What is Area 0 in OSPF?","o":["The backbone area","A DNS root server","The maximum hop count","A TCP state"],"a":"The backbone area"},
+{"q":"What is OSPF convergence?","o":["Routers reaching agreement on updated routing information after a change","A packet reaching TTL zero","A file completing upload","A client opening a socket"],"a":"Routers reaching agreement on updated routing information after a change"},
+{"q":"What is BGP mainly used for?","o":["Exchanging routing information between Autonomous Systems","Routing only inside one small LAN","Transporting audio","Resolving local ports"],"a":"Exchanging routing information between Autonomous Systems"},
+{"q":"What is an Autonomous System?","o":["A group of networks under a common routing administration or policy","A single UDP datagram","A subnet mask","A browser process"],"a":"A group of networks under a common routing administration or policy"},
+{"q":"What is an IGP used for?","o":["Routing within an Autonomous System","Routing between all Internet ASes only","Sending email","Assigning DHCP leases"],"a":"Routing within an Autonomous System"},
+{"q":"What is an EGP used for?","o":["Routing between Autonomous Systems","Routing only inside one switch","Compressing packets","Monitoring CPU"],"a":"Routing between Autonomous Systems"},
+{"q":"What is Longest Prefix Match?","o":["Choosing the most specific matching route for a destination","Choosing the route with the most hops","Choosing the oldest route always","Choosing a route by port number"],"a":"Choosing the most specific matching route for a destination"},
+]
+def render_computer_networks_chapter_11_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 11 Assessment — Routing Algorithms & Protocols (20 Questions)")
+    answers=[]; score=0
+    for i,item in enumerate(COMPUTER_NETWORKS_CHAPTER_11_QUIZ):
+        choice=st.radio(item["q"],item["o"],key=f"computer_networks_ch11_quiz_{i}")
+        answers.append({"number":i+1,"question":item["q"],"selected":choice,"correct":item["a"]})
+        if choice==item["a"]: score+=1
+    if st.button("Submit Computer Networks Chapter 11 Assessment",key="submit_computer_networks_ch11_quiz"):
+        st.write(f"### Final Score: {score}/{len(COMPUTER_NETWORKS_CHAPTER_11_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Computer Networks: Chapter 12 ---
+COMPUTER_NETWORKS_CHAPTER_12_QUIZ = [
+{"q":"What is the main data unit of the Data Link Layer?","o":["A frame","A segment only","A DNS record","A route table"],"a":"A frame"},
+{"q":"What type of delivery does the Data Link Layer primarily provide?","o":["Node-to-node delivery across an adjacent link","End-to-end application delivery across the Internet","Email delivery","Video compression"],"a":"Node-to-node delivery across an adjacent link"},
+{"q":"What is framing?","o":["Placing a network-layer packet inside a Data Link frame","Assigning an IP address","Choosing a routing algorithm","Encrypting an email"],"a":"Placing a network-layer packet inside a Data Link frame"},
+{"q":"What does a MAC address identify?","o":["A network interface on a local link","A remote network path only","An application process","A DNS zone"],"a":"A network interface on a local link"},
+{"q":"What is the common Ethernet MAC address length?","o":["48 bits","32 bits","128 bits","16 bits"],"a":"48 bits"},
+{"q":"Which statement correctly compares MAC and IP addresses?","o":["MAC is link-level/local; IP is logical and supports routing between networks","MAC is always public; IP is always private","They are identical","IP identifies only a switch port"],"a":"MAC is link-level/local; IP is logical and supports routing between networks"},
+{"q":"What is a unicast frame?","o":["A frame sent from one device to one destination","A frame sent to everyone","A frame sent to a group only","A frame with no destination"],"a":"A frame sent from one device to one destination"},
+{"q":"What is the difference between error detection and correction?","o":["Detection identifies a possible error; correction attempts to fix it","They always mean the same thing","Detection always retransmits","Correction only checks a MAC address"],"a":"Detection identifies a possible error; correction attempts to fix it"},
+{"q":"What does a parity check add?","o":["A parity bit used to detect some errors","A routing table","An IP gateway","A TCP sequence number"],"a":"A parity bit used to detect some errors"},
+{"q":"What does a checksum do?","o":["Provides a calculated value that can be compared to detect possible errors","Assigns a VLAN","Chooses the next hop","Creates a DNS name"],"a":"Provides a calculated value that can be compared to detect possible errors"},
+{"q":"What is CRC?","o":["Cyclic Redundancy Check, an error-detection technique","Connection Routing Control","A congestion algorithm","A wireless password"],"a":"Cyclic Redundancy Check, an error-detection technique"},
+{"q":"What is Stop-and-Wait flow control?","o":["Send one frame, wait for ACK, then send the next frame","Send every frame without feedback","Only receive broadcasts","Route through every switch"],"a":"Send one frame, wait for ACK, then send the next frame"},
+{"q":"What does ARQ provide conceptually?","o":["Automatic repeat requests when a frame is lost or not acknowledged","Automatic IP addressing","A MAC table","A VLAN tag"],"a":"Automatic repeat requests when a frame is lost or not acknowledged"},
+{"q":"What is Medium Access Control concerned with?","o":["Which device may transmit on a shared medium","Which IP route is shortest","Which email is newest","Which DNS record is authoritative"],"a":"Which device may transmit on a shared medium"},
+{"q":"What does CSMA/CD include?","o":["Listening, transmitting when available, detecting collisions, backing off, and retrying","Only encrypting wireless data","Only assigning VLANs","Only calculating CRC"],"a":"Listening, transmitting when available, detecting collisions, backing off, and retrying"},
+{"q":"Where is CSMA/CA mainly associated?","o":["Wireless LANs, where collision avoidance is emphasized","DNS servers","Routing tables","Email clients"],"a":"Wireless LANs, where collision avoidance is emphasized"},
+{"q":"What does a switch use to forward Ethernet frames?","o":["MAC addresses and a MAC address table","Only IP routing protocols","Only TCP ports","Only DNS records"],"a":"MAC addresses and a MAC address table"},
+{"q":"How does a switch learn a source MAC?","o":["It records the source MAC and the port on which the frame arrived","It asks a DNS server","It calculates a subnet mask","It waits for a router"],"a":"It records the source MAC and the port on which the frame arrived"},
+{"q":"What may a switch do for an unknown destination MAC?","o":["Flood the frame to relevant ports in the broadcast domain","Discard every frame permanently","Convert it to IPv6","Send it to an SMTP server"],"a":"Flood the frame to relevant ports in the broadcast domain"},
+{"q":"What is a VLAN?","o":["A logical subdivision of a switched network","A transport-layer port","A routing metric","A checksum"],"a":"A logical subdivision of a switched network"},
+]
+def render_computer_networks_chapter_12_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 12 Assessment — Data Link Layer: Framing, MAC & Error Detection (20 Questions)")
+    answers=[]; score=0
+    for i,item in enumerate(COMPUTER_NETWORKS_CHAPTER_12_QUIZ):
+        choice=st.radio(item["q"],item["o"],key=f"computer_networks_ch12_quiz_{i}")
+        answers.append({"number":i+1,"question":item["q"],"selected":choice,"correct":item["a"]})
+        if choice==item["a"]: score+=1
+    if st.button("Submit Computer Networks Chapter 12 Assessment",key="submit_computer_networks_ch12_quiz"):
+        st.write(f"### Final Score: {score}/{len(COMPUTER_NETWORKS_CHAPTER_12_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Computer Networks: Chapter 13 ---
+COMPUTER_NETWORKS_CHAPTER_13_QUIZ = [
+{"q":"What does Ethernet define?","o":["Frame format, MAC addressing, LAN communication, and related transmission rules","Only DNS records","Only TCP congestion","Only email delivery"],"a":"Frame format, MAC addressing, LAN communication, and related transmission rules"},
+{"q":"Which organization is associated with Ethernet standards such as IEEE 802.3?","o":["IEEE","SMTP","DNS","ICMP"],"a":"IEEE"},
+{"q":"Which field identifies the intended Ethernet receiver?","o":["Destination MAC","Source MAC","FCS only","Type only"],"a":"Destination MAC"},
+{"q":"What does the Source MAC identify?","o":["The interface that sent the frame","The remote IP network","The routing protocol","The VLAN trunk only"],"a":"The interface that sent the frame"},
+{"q":"What is an Ethernet MAC address commonly?","o":["A 48-bit hexadecimal link address","A 128-bit routing address","A TCP port","A DNS name"],"a":"A 48-bit hexadecimal link address"},
+{"q":"What is a broadcast Ethernet destination MAC?","o":["FF:FF:FF:FF:FF:FF","00:00:00:00:00:01","127.0.0.1","255.255.255.0"],"a":"FF:FF:FF:FF:FF:FF"},
+{"q":"What does a switch use to make local forwarding decisions?","o":["MAC addresses and a MAC address table","Only routing metrics","Only TCP sequence numbers","Only DNS caching"],"a":"MAC addresses and a MAC address table"},
+{"q":"How does a switch learn a MAC address?","o":["It records the source MAC and the incoming port","It asks the default gateway","It calculates a CRC only","It reads the email sender"],"a":"It records the source MAC and the incoming port"},
+{"q":"What is flooding?","o":["Sending a frame through several relevant ports when the destination MAC is unknown","Sending only to a known port","Deleting all frames","Routing between Autonomous Systems"],"a":"Sending a frame through several relevant ports when the destination MAC is unknown"},
+{"q":"What is filtering?","o":["Avoiding unnecessary ports when the destination port is known","Sending every frame everywhere","Changing an IP address","Adding a DNS record"],"a":"Avoiding unnecessary ports when the destination port is known"},
+{"q":"What is a collision domain?","o":["A part of a network where shared-medium transmissions may collide","A group of DNS servers","A VLAN ID","A routing table"],"a":"A part of a network where shared-medium transmissions may collide"},
+{"q":"What is a broadcast domain?","o":["The set of devices that can receive a broadcast within a logical scope","Only one switch port","All Internet hosts","A TCP session"],"a":"The set of devices that can receive a broadcast within a logical scope"},
+{"q":"What is a VLAN?","o":["A logical division of a physical switched network into separate networks","A transport protocol","A checksum field","A wireless antenna"],"a":"A logical division of a physical switched network into separate networks"},
+{"q":"What is an access port commonly used for?","o":["Connecting an end device to one VLAN","Carrying many VLANs between switches","Routing between Autonomous Systems","Replacing a router"],"a":"Connecting an end device to one VLAN"},
+{"q":"What is a trunk port designed to carry?","o":["Traffic for multiple VLANs between network devices","Only one untagged PC connection","Only ICMP","Only a single MAC address"],"a":"Traffic for multiple VLANs between network devices"},
+{"q":"What is IEEE 802.1Q used for?","o":["VLAN tagging in Ethernet trunking scenarios","TCP retransmission","DNS resolution","IP fragmentation only"],"a":"VLAN tagging in Ethernet trunking scenarios"},
+{"q":"Can VLAN 10 and VLAN 20 normally communicate directly at Layer 2?","o":["No; a Layer 3 device is normally needed for inter-VLAN routing","Yes, always without any configuration","Only through a parity bit","Only with CSMA/CD"],"a":"No; a Layer 3 device is normally needed for inter-VLAN routing"},
+{"q":"What can a Layer 3 switch provide?","o":["Routing between VLAN subnets","Only MAC learning","Only frame preambles","Only wireless access"],"a":"Routing between VLAN subnets"},
+{"q":"Why is STP used?","o":["To prevent Layer 2 loops by creating a loop-free logical topology","To assign IP addresses","To compress frames","To replace all VLANs"],"a":"To prevent Layer 2 loops by creating a loop-free logical topology"},
+{"q":"What is the Root Bridge in STP?","o":["The reference switch selected by STP for path calculations","The default DNS server","The first PC to send a frame","The router's public IP"],"a":"The reference switch selected by STP for path calculations"},
+]
+def render_computer_networks_chapter_13_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 13 Assessment — Ethernet, Switching & VLANs (20 Questions)")
+    answers=[]; score=0
+    for i,item in enumerate(COMPUTER_NETWORKS_CHAPTER_13_QUIZ):
+        choice=st.radio(item["q"],item["o"],key=f"computer_networks_ch13_quiz_{i}")
+        answers.append({"number":i+1,"question":item["q"],"selected":choice,"correct":item["a"]})
+        if choice==item["a"]: score+=1
+    if st.button("Submit Computer Networks Chapter 13 Assessment",key="submit_computer_networks_ch13_quiz"):
+        st.write(f"### Final Score: {score}/{len(COMPUTER_NETWORKS_CHAPTER_13_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Computer Networks: Chapter 14 ---
+COMPUTER_NETWORKS_CHAPTER_14_QUIZ = [
+{"q":"What does LAN mean?","o":["Local Area Network","Large Access Node","Logical Address Network","Local Application Number"],"a":"Local Area Network"},
+{"q":"Which device commonly connects several wired end devices in a LAN?","o":["Switch","DNS server only","Modem only","Printer"],"a":"Switch"},
+{"q":"What is a common LAN topology where devices connect to a central switch?","o":["Star topology","Ringless topology","Single-host topology","WAN topology"],"a":"Star topology"},
+{"q":"Which setting identifies the local IPv4 network boundary?","o":["Subnet mask or prefix length","SSID only","MAC table only","Wi-Fi channel only"],"a":"Subnet mask or prefix length"},
+{"q":"What does WLAN commonly refer to?","o":["A wireless LAN such as Wi-Fi","A wide-area routing protocol","A wired-only network","A VLAN tag"],"a":"A wireless LAN such as Wi-Fi"},
+{"q":"What is an Access Point?","o":["A device that allows wireless clients to connect to a network","A DNS record","A routing metric","A cable tester only"],"a":"A device that allows wireless clients to connect to a network"},
+{"q":"What is an SSID?","o":["The name of a wireless network shown to users","A subnet mask","A MAC table entry","A WAN router address"],"a":"The name of a wireless network shown to users"},
+{"q":"What can overlapping wireless channels cause?","o":["Interference and reduced performance","Automatic VLAN routing","A larger IP address","Guaranteed higher speed"],"a":"Interference and reduced performance"},
+{"q":"What is IEEE 802.11 associated with?","o":["Wireless LAN and Wi-Fi standards","Ethernet VLAN tagging only","TCP retransmission","DNS resolution"],"a":"Wireless LAN and Wi-Fi standards"},
+{"q":"What is a beacon frame used for?","o":["Periodically advertising wireless network information from an access point","Assigning a static route","Checking a TCP checksum","Connecting two WANs only"],"a":"Periodically advertising wireless network information from an access point"},
+{"q":"Which are wireless management-frame examples?","o":["Beacon, probe, authentication, and association frames","Only data segments","Only DNS queries","Only IP packets"],"a":"Beacon, probe, authentication, and association frames"},
+{"q":"What is a WAN designed to connect?","o":["Networks across large geographic areas such as cities or countries","Only devices beside one switch","Only wireless phones","Only one VLAN"],"a":"Networks across large geographic areas such as cities or countries"},
+{"q":"What is a VLAN?","o":["A logical separation of a switched network into multiple networks","A wireless channel","A DHCP message","A physical cable"],"a":"A logical separation of a switched network into multiple networks"},
+{"q":"What does an access port usually connect?","o":["An end device to one VLAN","Multiple VLANs between switches","Two WANs","A DNS server to the Internet"],"a":"An end device to one VLAN"},
+{"q":"What does a trunk port usually carry?","o":["Traffic for multiple VLANs between network devices","Only one end-device VLAN without tags","Only ICMP Echo","Only a single IP packet"],"a":"Traffic for multiple VLANs between network devices"},
+{"q":"What standard is commonly used for VLAN tagging on trunks?","o":["IEEE 802.1Q","IEEE 802.11 only","HTTP/2","SMTP"],"a":"IEEE 802.1Q"},
+{"q":"What is required for communication between different VLAN subnets?","o":["Inter-VLAN routing through a router or Layer 3 switch","Only a larger SSID","Only a MAC address","Only a trunk with no Layer 3 device"],"a":"Inter-VLAN routing through a router or Layer 3 switch"},
+{"q":"What does DHCP commonly provide automatically?","o":["IP address, subnet mask, gateway, and DNS information","Only an SSID","Only a MAC address","Only a VLAN name"],"a":"IP address, subnet mask, gateway, and DNS information"},
+{"q":"Which tool can analyze 802.11 wireless frames?","o":["Wireshark","A spreadsheet only","A text editor only","A printer driver"],"a":"Wireshark"},
+{"q":"What is a sensible first check when a device cannot connect?","o":["Check the cable or wireless link, interface, IP settings, gateway, and DNS systematically","Immediately delete the VLANs","Change every IP randomly","Disable all security"],"a":"Check the cable or wireless link, interface, IP settings, gateway, and DNS systematically"},
+]
+def render_computer_networks_chapter_14_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 14 Assessment — Setup and Configure LAN, WLAN, WAN, and VLAN (20 Questions)")
+    answers=[]; score=0
+    for i,item in enumerate(COMPUTER_NETWORKS_CHAPTER_14_QUIZ):
+        choice=st.radio(item["q"],item["o"],key=f"computer_networks_ch14_quiz_{i}")
+        answers.append({"number":i+1,"question":item["q"],"selected":choice,"correct":item["a"]})
+        if choice==item["a"]: score+=1
+    if st.button("Submit Computer Networks Chapter 14 Assessment",key="submit_computer_networks_ch14_quiz"):
+        st.write(f"### Final Score: {score}/{len(COMPUTER_NETWORKS_CHAPTER_14_QUIZ)}")
         show_quiz_feedback(answers)
 
 
@@ -3537,6 +4051,1408 @@ elif display_page == "Storage & I/O":
 
 
 
+
+elif display_page == "Chapter 14: Setup and Configure LAN, WLAN, WAN, and VLAN":
+    st.markdown("## Computer Networks")
+    st.markdown("### Chapter 14: Setup and Configure LAN, WLAN, WAN, and VLAN")
+    st.info("This final chapter turns networking concepts into a practical setup workflow for LAN, WLAN, WAN, VLAN, DHCP, and wireless analysis.")
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">1. Learning Objectives</div><h3>From Network Concepts to a Working Design</h3><p>By the end of this chapter, you should identify network components, build a LAN, configure a WLAN, understand a WAN, create VLANs, assign IP settings, use DHCP, distinguish access and trunk ports, understand IEEE 802.11, and analyze wireless traffic with Wireshark.</p><div class="step-box"><b>Design questions:</b> What type of network? How are devices connected? How is it segmented? How are IP settings assigned? How are VLANs connected? How is wireless behavior analyzed?</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">2. Network Components</div><h3>2.1 End Devices, Network Devices, and Media</h3><p>A network may include computers, laptops, printers, servers, switches, routers, access points, Ethernet cables, fiber, wireless connections, and network interfaces. In a university lab, PCs connect to a switch, the switch connects to a router, and the router provides access toward the Internet.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">3. LAN and Topology</div><h3>3.1 Building a Local Network</h3><p>A LAN connects devices within a limited geographic area such as a home, office, computer lab, or university building. A common design is Star topology, where devices connect to a central switch. Star networks are easy to manage, expand, and troubleshoot; failure of one end-device link does not normally stop the entire LAN.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">4. Setting Up a LAN</div><h3>4.1 A Practical Sequence</h3><p>A basic LAN setup involves connecting devices, connecting them to the switch, assigning IP addresses, setting subnet masks, configuring a default gateway when external networks are needed, and testing connectivity.</p><div class="step-box"><b>Example:</b> PC 1: <code>192.168.1.10/24</code>, PC 2: <code>192.168.1.11/24</code>, both using gateway <code>192.168.1.1</code>; then test PC 1 → PC 2.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">5. WLAN and Access Points</div><h3>5.1 Wireless LAN Components</h3><p>A WLAN is a wireless LAN, commonly Wi-Fi. A wireless client such as a laptop, phone, or tablet connects to an Access Point, which connects toward the wired LAN, switch, router, or Internet. The access point provides the wireless connection; it is not simply the same thing as a destination server.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">6. SSID, Channels, and 802.11</div><h3>6.1 Wireless Network Identification</h3><p>The SSID, or Service Set Identifier, is the wireless network name shown to users, such as University_WiFi, Student_WiFi, or Guest_WiFi. Wireless channels reduce interference when planned correctly; overlapping nearby networks can reduce signal quality, performance, and stability. IEEE 802.11 is the family of Wi-Fi standards, including 802.11a, b, g, n, ac, and ax, which evolved to improve speed, range, efficiency, and wireless performance.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">7. WLAN Communication</div><h3>7.1 Discovery, Authentication, and Association</h3><p>A laptop searches for Wi-Fi networks, finds an SSID, attempts authentication and association, and then receives network access according to the configuration and security policy. Wireless communication uses management frames, control frames, and data frames.</p><div class="step-box"><b>Flow:</b> Search for Wi-Fi → Find SSID → Connect → Authenticate/Associate → Network Access.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">8. Wireless Frames and Security</div><h3>8.1 Beacons, Management, and Protection</h3><p>Access Points periodically send Beacon Frames containing information such as SSID, capabilities, and timing. Management frames also support probing, authentication, and association. Wireless security uses authentication and encryption; WPA2 and WPA3 are important security concepts. Security should be configured deliberately rather than relying only on a visible SSID.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">9. WAN and LAN Comparison</div><h3>9.1 Connecting Distant Networks</h3><p>A WAN connects networks across large geographic areas such as buildings, cities, regions, or countries. LANs are usually smaller and simpler, while WANs connect remote LANs through routers and wide-area links. A conceptual design is LAN A → Router → WAN → Router → LAN B.</p><table class="summary-table"><tr><th>LAN</th><th>WAN</th></tr><tr><td>Limited area</td><td>Large geographic area</td></tr><tr><td>Home, office, building</td><td>Cities, regions, countries</td></tr><tr><td>Ethernet/Wi-Fi common</td><td>Wide-area technologies and links</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">10. VLAN Setup</div><h3>10.1 Segmentation, IDs, and Ports</h3><p>VLANs divide one switch into logical networks such as VLAN 10 for Students, VLAN 20 for Faculty, and VLAN 30 for Administration. An access port normally connects an end device to one VLAN. A trunk port carries multiple VLANs between network devices, commonly using IEEE 802.1Q tags to identify the VLAN.</p><table class="summary-table"><tr><th>Access</th><th>Trunk</th></tr><tr><td>One VLAN, usually an end device</td><td>Multiple VLANs, usually network devices</td></tr><tr><td>PC → Switch</td><td>Switch → Switch</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">11. Inter-VLAN Routing</div><h3>11.1 Connecting VLAN Subnets</h3><p>Different VLANs do not communicate directly at Layer 2. A router or Layer 3 switch performs inter-VLAN routing. A common design maps VLAN 10 to <code>192.168.10.0/24</code> and VLAN 20 to <code>192.168.20.0/24</code>; the Layer 3 device enables communication between those subnets.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">12. DHCP and IP Configuration</div><h3>12.1 Automatic Network Settings</h3><p>DHCP, Dynamic Host Configuration Protocol, provides network settings automatically instead of requiring manual entry on every client. The simplified process is Discover → Offer → Request → ACK. A successful configuration may include an IP address, subnet mask, default gateway, and DNS server.</p><table class="summary-table"><tr><th>Static IP</th><th>Dynamic IP</th></tr><tr><td>Configured manually and usually stable</td><td>Assigned automatically and may change</td></tr><tr><td>Useful for selected services</td><td>Convenient for user devices</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">13. Wired, Wireless, and WAN Setup</div><h3>13.1 Combining the Designs</h3><p>A wired design may be PC → Ethernet Cable → Switch → Router → Internet. A wireless design may be Internet → Router/Access Point → Laptop, Phone, and Tablet. A WAN design may connect LAN A through a router and WAN service to another router and LAN B.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">14. Design, Testing, and Wireshark</div><h3>14.1 A Complete Network Workflow</h3><p>Before building, consider device count, users, LAN/WLAN requirements, VLANs, IP addressing, security, performance, scalability, and cost. Troubleshoot systematically: check cables or wireless links, interface status, IP address, subnet mask, gateway reachability, and DNS. Use <code>ping 192.168.1.1</code> to test reachability. Wireshark can analyze authorized captures of 802.11 frames, including management, beacon, control, and data frames, with source, destination, SSID, and wireless information.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">15. Real-World Scenario and Activities</div><h3>15.1 University Network Design</h3><p>Consider Students in VLAN 10, Faculty in VLAN 20, and Administration in VLAN 30, connected through switches, a router or Layer 3 switch, WAN/Internet access, and university Wi-Fi. Activities include building a LAN, building a WLAN, configuring DHCP, creating VLANs, assigning access ports, configuring a trunk, enabling inter-VLAN routing, simulating a WAN, and analyzing 802.11 captures with Wireshark in an authorized educational environment.</p><p>At the end, the learner can identify the network type (LAN/WLAN/WAN), connection technology (Ethernet/Wi-Fi), segmentation method (VLAN), switch-to-switch connection (trunk), IP assignment method (static/DHCP), inter-VLAN mechanism (routing), and wireless analysis method (802.11 + Wireshark).</p></div>
+    """,unsafe_allow_html=True)
+    render_computer_networks_chapter_14_quiz()
+
+elif display_page == "Chapter 13: Ethernet, Switching & VLANs":
+    st.markdown("## Computer Networks")
+    st.markdown("### Chapter 13: Ethernet, Switching & VLANs")
+    st.info("This chapter explains how Ethernet operates inside a LAN, how switches learn and forward frames, how VLANs segment networks, and how STP prevents Layer 2 loops.")
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">1. Learning Objectives</div><h3>From Ethernet Frame to Logical Network</h3><p>By the end of this chapter, you should explain Ethernet standards, Ethernet frames, MAC addressing, unicast, broadcast, multicast, switch learning, forwarding, flooding, filtering, collision and broadcast domains, VLAN IDs, access and trunk ports, 802.1Q, inter-VLAN routing, and STP.</p><div class="step-box"><b>Core journey:</b> Device → Ethernet Frame → Destination MAC → Switch → MAC Table → Correct Port.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">2. Ethernet and Standards</div><h3>2.1 LAN Communication Rules</h3><p>Ethernet is one of the most widely used LAN technologies. It defines rules related to frame format, MAC addressing, physical transmission, LAN communication, and error detection. Ethernet standards can support different speeds, such as 10 Mbps, 100 Mbps, 1 Gbps, 10 Gbps, and higher-speed variants. Ethernet is a family of standards, not one single speed.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">3. Ethernet Frame</div><h3>3.1 Understanding the Main Fields</h3><p>An Ethernet frame can include a Preamble, Destination MAC, Source MAC, Type or Length, Data, and FCS. The Destination MAC answers who should receive the frame, the Source MAC identifies who sent it, and the Frame Check Sequence supports error detection.</p><table class="summary-table"><tr><th>Field</th><th>Purpose</th></tr><tr><td>Destination MAC</td><td>Intended link-level receiver</td></tr><tr><td>Source MAC</td><td>Sending interface</td></tr><tr><td>Type/Length</td><td>Identifies payload type or length</td></tr><tr><td>FCS</td><td>Helps detect frame errors</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">4. MAC Addressing</div><h3>4.1 Local Interface Addresses</h3><p>Traditional Ethernet MAC addresses are commonly 48 bits, written in hexadecimal, and associated with network interfaces. For example, <code>00:1A:2B:3C:4D:5E</code> identifies a link-level interface. MAC addresses support local delivery; IP addresses support logical routing between networks.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">5. Frame Delivery Types</div><h3>5.1 Unicast, Broadcast, and Multicast</h3><p>Unicast sends a frame to one device. Broadcast sends it to devices within the broadcast domain; the common Ethernet broadcast destination is <code>FF:FF:FF:FF:FF:FF</code>. Multicast sends data to a selected group rather than to one device or everyone.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">6. Switches and MAC Tables</div><h3>6.1 Learning the Local Topology</h3><p>A switch connects LAN devices and uses MAC addresses to make forwarding decisions. It maintains a MAC Address Table that maps MAC addresses to ports. When a frame arrives, the switch reads the Source MAC and records that the source is reachable through the incoming port.</p><div class="step-box"><b>Example:</b> A frame arrives on Port 1 with Source MAC AA:AA:AA → the switch records AA:AA:AA → Port 1.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">7. Forwarding, Filtering, and Flooding</div><h3>7.1 Choosing the Correct Port</h3><p>If the destination MAC is known, the switch forwards the frame to the associated port. Filtering prevents unnecessary copies from reaching unrelated ports. If the destination MAC is unknown, the switch may flood the frame through relevant ports in the same broadcast domain, excluding the incoming port according to Ethernet behavior.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">8. Collision and Broadcast Domains</div><h3>8.1 Separating Two Important Concepts</h3><p>A collision domain is a part of a network where shared-medium transmissions can collide. With modern switches, each switch port commonly forms a separate collision domain. A broadcast domain is the set of devices that can receive a broadcast within a logical scope. Routers can separate broadcast domains; a normal switch does not separate them without features such as VLANs.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">9. VLANs</div><h3>9.1 Logical Segmentation</h3><p>A VLAN, or Virtual Local Area Network, divides one physical switched network into multiple logical networks. A switch can contain VLAN 10 for Students, VLAN 20 for Faculty, and VLAN 30 for Administration. Devices may share the same physical switch while belonging to different logical networks.</p><p>VLANs support organization, network segmentation, security isolation, reduced broadcast scope, easier management, and logical grouping.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">10. VLAN IDs and Ports</div><h3>10.1 Access and Trunk</h3><p>Each VLAN has a VLAN ID, such as 10, 20, or 30. An access port normally connects an end device such as a PC, printer, or IP phone to one VLAN. A trunk port carries traffic for multiple VLANs between network devices such as Switch A and Switch B.</p><table class="summary-table"><tr><th>Access port</th><th>Trunk port</th></tr><tr><td>Usually one VLAN</td><td>Multiple VLANs</td></tr><tr><td>End device connection</td><td>Network-device connection</td></tr><tr><td>PC → Switch</td><td>Switch → Switch</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">11. VLAN Tagging and 802.1Q</div><h3>11.1 Identifying VLAN Traffic on Trunks</h3><p>When a frame crosses a trunk, VLAN tagging provides information about the VLAN to which it belongs. IEEE 802.1Q is the commonly taught standard for adding VLAN information to Ethernet frames in trunking scenarios.</p><div class="step-box"><b>Concept:</b> Ethernet Frame → 802.1Q Tag → VLAN ID → Trunk forwarding.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">12. Inter-VLAN Routing</div><h3>12.1 Communication Between VLANs</h3><p>VLAN 10 and VLAN 20 do not normally communicate directly at Layer 2. A Layer 3 device, such as a router or Layer 3 switch, performs inter-VLAN routing. In common designs, VLAN 10 maps to subnet <code>192.168.10.0/24</code> and VLAN 20 maps to <code>192.168.20.0/24</code>; communication between them requires routing.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">13. Broadcast Scope and Security</div><h3>13.1 Benefits and Limits of VLANs</h3><p>Without VLANs, a broadcast may reach many devices. With VLANs, the broadcast is limited to the relevant VLAN and does not automatically reach other VLANs. VLANs improve segmentation and organization, but a VLAN alone is not a complete replacement for security controls.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">14. Spanning Tree Protocol</div><h3>14.1 Preventing Layer 2 Loops</h3><p>Redundant links improve availability, but a physical loop such as Switch A → Switch B → Switch C → Switch A can create a Layer 2 loop. STP exchanges information, selects a Root Bridge, determines paths, and blocks selected redundant paths to produce a loop-free logical forwarding topology.</p><div class="step-box"><b>STP flow:</b> Exchange information → Select Root Bridge → Determine paths → Block some redundant paths → Loop-free topology.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">15. Troubleshooting and Activities</div><h3>15.1 Diagnose the LAN Systematically</h3><p>When troubleshooting Ethernet, inspect link status, cables, MAC tables, VLAN assignment, trunk configuration, IP configuration, default gateway, and connectivity. Practical activities include MAC Table Simulation, Ethernet Frame Analysis with an authorized analyzer, VLAN Creation, Access Port and Trunk Simulations, Inter-VLAN Routing, STP Simulation, and correcting a PC assigned to the wrong VLAN.</p><p>The final distinction is: Switches use MAC addresses and MAC tables to forward frames inside a LAN; routers and Layer 3 devices use IP addresses and routing tables to connect networks and VLAN subnets.</p></div>
+    """,unsafe_allow_html=True)
+    render_computer_networks_chapter_13_quiz()
+
+elif display_page == "Chapter 12: Data Link Layer: Framing, MAC & Error Detection":
+    st.markdown("## Computer Networks")
+    st.markdown("### Chapter 12: Data Link Layer: Framing, MAC & Error Detection")
+    st.info("This chapter explains node-to-node delivery, frames, MAC addresses, error detection, medium access, Ethernet, switching, and VLAN fundamentals.")
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">1. Learning Objectives</div><h3>From IP Packets to Local-Link Frames</h3><p>By the end of this chapter, you should explain the Data Link Layer, node-to-node delivery, framing, MAC addresses, error detection, flow control, Medium Access Control, Ethernet, switching, MAC learning, filtering, broadcast domains, and VLANs.</p><div class="step-box"><b>Core journey:</b> IP Packet → Data Link Header → Ethernet Frame → Destination MAC → Switch → Correct Port → Next Node.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">2. Data Link Layer</div><h3>2.1 Local-Link Delivery</h3><p>The Data Link Layer sits below the Network Layer and above the Physical Layer. The Network Layer focuses on reaching a destination network, while the Data Link Layer moves a frame between adjacent nodes on the current link, such as PC → Switch or Switch → Router.</p><div class="layer-stack"><div>Application</div><div>Transport</div><div>Network: IP Packet</div><div>Data Link: Frame</div><div>Physical: Bits</div></div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">3. Framing and Structure</div><h3>3.1 Encapsulating an IP Packet</h3><p>Framing places a network-layer packet inside a Data Link frame so it can cross the local link. A frame may contain a header, source MAC, destination MAC, Type or Length, data, and error-detection information such as a trailer or FCS.</p><div class="step-box"><b>Flow:</b> IP Packet → Data Link Header + Packet + Trailer → Frame → Bits.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">4. MAC Addresses</div><h3>4.1 Local Interface Identity</h3><p>A MAC, or Media Access Control, address identifies a network interface on a local link. An Ethernet MAC address is commonly 48 bits and written in hexadecimal, such as <code>00:1A:2B:3C:4D:5E</code>.</p><table class="summary-table"><tr><th>MAC Address</th><th>IP Address</th></tr><tr><td>Data Link Layer</td><td>Network Layer</td></tr><tr><td>Local link-level address</td><td>Logical address for routing</td></tr><tr><td>Used by switches</td><td>Used by routers</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">5. Frame Delivery Types</div><h3>5.1 Unicast, Broadcast, and Multicast</h3><p>Unicast sends a frame from one device to one destination. Broadcast sends to all devices within the relevant local broadcast domain. Multicast sends to a defined group of devices. These patterns help explain how switches and local networks handle frames.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">6. Error Detection</div><h3>6.1 Detection Is Not Correction</h3><p>Bits can change during transmission. If a sender transmits <code>10110110</code> but the receiver observes <code>10100110</code>, an error occurred. Error detection identifies that data may be incorrect; error correction attempts to repair it. Detection alone does not guarantee correction.</p><table class="summary-table"><tr><th>Technique</th><th>Concept</th></tr><tr><td>Parity</td><td>Add a parity bit using even or odd rules</td></tr><tr><td>Checksum</td><td>Calculate and compare a value</td></tr><tr><td>CRC</td><td>Use modulo-2 polynomial arithmetic to detect errors</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">7. CRC</div><h3>7.1 Cyclic Redundancy Check</h3><p>CRC is an important error-detection technique. The sender calculates a CRC value from the data and generator, transmits the result, and the receiver performs a corresponding check. A mismatch indicates a possible error.</p><div class="step-box"><b>Learning example:</b> Data <code>110101</code> and Generator <code>1011</code> are used to demonstrate the calculation gradually; the goal is understanding sender calculation and receiver verification.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">8. Flow Control and ARQ</div><h3>8.1 Stop-and-Wait</h3><p>Data Link flow control prevents a fast sender from overwhelming a slower receiver. Stop-and-Wait sends one frame and waits for an ACK before sending the next. Stop-and-Wait ARQ adds automatic repeat requests: if a frame is lost or the expected ACK does not arrive, a timeout leads to retransmission.</p><div class="step-box"><b>Flow:</b> Frame 1 → ACK → Frame 2. Lost Frame → Timeout → Retransmission.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">9. Medium Access Control</div><h3>9.1 Sharing a Medium</h3><p>When multiple devices share the same medium, the network needs rules for deciding who may transmit. If A, B, and C transmit simultaneously, a collision may occur. Medium Access Control organizes access to the shared medium.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">10. CSMA/CD and CSMA/CA</div><h3>10.1 Wired and Wireless Access Concepts</h3><p>CSMA/CD, Carrier Sense Multiple Access with Collision Detection, was associated with traditional shared Ethernet: listen, check the medium, transmit if available, detect a collision, back off, and try again. CSMA/CA, Carrier Sense Multiple Access with Collision Avoidance, is mainly associated with Wireless LANs and attempts to reduce the chance of collisions before transmission.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">11. Ethernet</div><h3>11.1 Frames and Local Networking</h3><p>Ethernet is a widely used LAN technology based on frames, MAC addresses, standards, and error detection. A simplified Ethernet frame includes a Preamble, Destination MAC, Source MAC, Type or Length, Data, and FCS. The Frame Check Sequence supports error detection.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">12. Switches and MAC Tables</div><h3>12.1 Learning and Forwarding</h3><p>A switch commonly operates at the Data Link Layer and uses MAC addresses to forward Ethernet frames inside a LAN. It learns by reading the source MAC of an arriving frame and recording the port on which it arrived. If destination BB is known on Port 2, the switch forwards the frame to Port 2.</p><table class="summary-table"><tr><th>MAC address</th><th>Switch port</th></tr><tr><td>AA:AA:AA</td><td>Port 1</td></tr><tr><td>BB:BB:BB</td><td>Port 2</td></tr><tr><td>CC:CC:CC</td><td>Port 3</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">13. Forwarding, Filtering, and Flooding</div><h3>13.1 Handling Destination MACs</h3><p>Forwarding sends a frame to the port associated with the destination MAC. Filtering avoids sending it to unnecessary ports when the destination is known. If the destination is unknown, the switch may flood the frame to relevant ports within the same broadcast domain according to Ethernet behavior.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">14. Switch, Router, and VLAN</div><h3>14.1 Local Segmentation</h3><p>A switch generally uses MAC addresses to connect devices within a LAN. A router uses IP addresses to connect different networks. A VLAN, or Virtual Local Area Network, logically separates a switch into networks such as VLAN 10 for Students and VLAN 20 for Staff, even when devices share the same physical switch.</p><table class="summary-table"><tr><th>Switch</th><th>Router</th></tr><tr><td>Data Link Layer</td><td>Network Layer</td></tr><tr><td>MAC table</td><td>Routing table</td></tr><tr><td>Forwards frames</td><td>Forwards packets</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">15. VLAN Ports and Summary</div><h3>15.1 Access, Trunk, and 802.1Q</h3><p>An access port is commonly associated with one VLAN. A trunk port can carry traffic for multiple VLANs between supporting network devices. IEEE 802.1Q adds a VLAN tag to Ethernet frames in trunking scenarios so the network can identify the VLAN to which a frame belongs.</p><p>Activities include MAC analysis, Ethernet frame analysis with an authorized packet analyzer, switch MAC learning, frame forwarding, CRC calculation, Stop-and-Wait simulation, VLAN creation, and deciding whether a scenario needs a switch or router.</p></div>
+    """,unsafe_allow_html=True)
+    render_computer_networks_chapter_12_quiz()
+
+elif display_page == "Chapter 11: Routing Algorithms & Protocols":
+    st.markdown("## Computer Networks")
+    st.markdown("### Chapter 11: Routing Algorithms & Protocols")
+    st.info("This chapter explains how routers select paths, how Distance Vector and Link State differ, and how RIP, OSPF, and BGP operate at a conceptual level.")
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">1. Learning Objectives</div><h3>How Routers Choose a Path</h3><p>By the end of this chapter, you should explain routing algorithms, metrics, static and dynamic routing, routing tables, Distance Vector, Link State, Bellman-Ford, Dijkstra, routing loops, count-to-infinity, split horizon, RIP, OSPF, BGP, Autonomous Systems, convergence, route failure, and Longest Prefix Match.</p><div class="step-box"><b>Core reasoning:</b> Destination → Available Routes → Metrics → Best Path → Forwarding.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">2. Routing Algorithms</div><h3>2.1 Rules for Path Selection</h3><p>A routing algorithm is a set of rules and processes that helps a router select a suitable path to a destination. A good design aims to deliver packets correctly, use resources efficiently, adapt to changes, and reduce routing problems.</p><p>Routers may consider destination network, next hop, interface, metric, topology, and the routing protocol that supplied the information.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">3. Metrics</div><h3>3.1 Comparing Routes</h3><p>A metric is a value used to compare paths. Possible metrics include hop count, cost, bandwidth, delay, reliability, and protocol-specific values. There is no single metric that is best for every protocol. A path with three hops is not automatically better than a path with five hops if another metric makes the second path more suitable.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">4. Static and Dynamic Routing</div><h3>4.1 Manual Versus Learned Routes</h3><table class="summary-table"><tr><th>Static routing</th><th>Dynamic routing</th></tr><tr><td>Administrator configures routes manually</td><td>Routers exchange information and learn routes</td></tr><tr><td>Predictable and simple for small networks</td><td>Suitable for larger or changing networks</td></tr><tr><td>Changes require manual updates</td><td>Can adapt to topology changes</td></tr><tr><td>Low protocol overhead</td><td>Uses protocol messages and processing</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">5. Routing Tables</div><h3>5.1 Destination, Next Hop, Interface, and Source</h3><p>A routing table may contain the destination network, prefix, next hop, outgoing interface, metric, and route source. For example, Network A may be directly connected with metric 0, while Network B uses Router 2 with metric 10 and Network C uses Router 3 with metric 20.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">6. Distance Vector</div><h3>6.1 Learning from Neighbors</h3><p>In Distance Vector routing, a router learns how far a destination is and which neighbor should be used as the next hop. Routers exchange information with neighbors. If the network changes, updates may spread gradually through the network.</p><div class="step-box"><b>Example:</b> Router A learns from Router B that Network X is three metric units away, then evaluates the cost of reaching X through B.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">7. Bellman-Ford and Loops</div><h3>7.1 Distance Vector Challenges</h3><p>The Bellman-Ford concept helps a router select a lower-cost path using information from neighbors. A routing loop occurs when packets or route information circulate, such as A → B → C → A. The count-to-infinity problem can occur after a failure when routers gradually increase a metric while incorrectly believing a route remains reachable.</p><p>Split horizon helps reduce some loops by preventing a router from advertising a route back through the interface from which it learned that route.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">8. Link-State Routing</div><h3>8.1 Building a Topology View</h3><p>Link-State routing gives routers information about links so they can build a view of network topology rather than knowing only a distance from a neighbor. Routers distribute link-state information, create a Link-State Database, and calculate shortest paths based on the topology and metrics.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">9. Dijkstra and Comparison</div><h3>9.1 Shortest Paths</h3><p>Dijkstra's shortest-path algorithm conceptually begins at a source, selects the lowest-cost available option, updates path costs, and continues until useful paths are built. Distance Vector relies on neighbor information; Link State builds a topology view. RIP is a familiar Distance Vector example, while OSPF is a Link-State example.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">10. RIP</div><h3>10.1 Hop Count and Small Networks</h3><p>RIP is a Distance Vector routing protocol that uses hop count. It is simple and suitable for small networks. The commonly taught usable maximum is 15 hops; a value of 16 represents unreachable in RIP. RIP's limitations include limited scalability, a narrow metric, and slower convergence than some modern protocols.</p><div class="step-box"><b>Example:</b> If Path A is 3 hops and Path B is 5 hops, RIP prefers Path A.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">11. OSPF</div><h3>11.1 Link State, Cost, and Areas</h3><p>OSPF is a Link-State routing protocol that uses link-state information, cost, shortest-path calculation, and topology. It is suitable for larger enterprise networks. OSPF can divide a large network into areas; Area 0 is the backbone area. A lower-cost path is preferred according to OSPF's decision process.</p><div class="step-box"><b>Example:</b> Path A cost 10 versus Path B cost 25 → OSPF prefers Path A.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">12. Convergence</div><h3>12.1 Learning After a Change</h3><p>Convergence is the process and time required for routers to agree on updated routing information after a change. A link failure is detected, information is updated, new paths are calculated, and the network reaches a consistent state. Dynamic routing can help discover an alternative path when one exists.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">13. BGP and Autonomous Systems</div><h3>13.1 Routing Between Administrative Domains</h3><p>BGP is the principal protocol for exchanging routing information between Autonomous Systems. An AS is a group of networks operating under a common administration or routing policy. IGPs such as RIP and OSPF operate within an AS, while BGP supports routing between ASes such as ISP networks.</p><div class="step-box"><b>Conceptual Internet view:</b> AS 1 ↔ AS 2 ↔ AS 3, with BGP exchanging reachability information between them.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">14. Route Selection Changes</div><h3>14.1 Failure, Preference, and Longest Prefix Match</h3><p>Routing tables can change because of link failure, a new network, router failure, metric changes, or protocol updates. When multiple routes match a destination, selection may consider Longest Prefix Match, route preference, metric, and protocol. Longest Prefix Match chooses the most specific matching route.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">15. Practical Activities and Summary</div><h3>15.1 Think Like a Router</h3><p>Activities include analyzing a routing table, finding a shortest path in a weighted topology, simulating Distance Vector updates, identifying a routing loop, choosing a RIP path by hop count, choosing an OSPF path by cost, observing a link failure and alternate route, and identifying RIP, OSPF, or BGP from descriptions.</p><p>The key understanding is not memorizing protocol names: Distance Vector learns from neighbors, Link State builds a topology view, RIP uses hop count, OSPF uses link state and cost, and BGP exchanges routing information between Autonomous Systems.</p></div>
+    """,unsafe_allow_html=True)
+    render_computer_networks_chapter_11_quiz()
+
+elif display_page == "Chapter 10: Network Layer: IP Addressing & Routing":
+    st.markdown("## Computer Networks")
+    st.markdown("### Chapter 10: Network Layer: IP Addressing & Routing")
+    st.info("This chapter explains logical addressing, IPv4 and IPv6, subnet information, routing, forwarding, and the journey of a packet across networks.")
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">1. Learning Objectives</div><h3>From Source Device to Destination Network</h3><p>By the end of this chapter, you should explain the Network Layer, IP addresses, IPv4, IPv6, subnet masks, public and private addressing, DHCP, default gateways, routers, routing tables, forwarding, static and dynamic routing, metrics, TTL, ICMP, Ping, and Traceroute.</p><div class="step-box"><b>Key distinction:</b> IP Address identifies an endpoint. Routing selects a path. Forwarding sends the packet now. A routing table supports the decision.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">2. Network Layer</div><h3>2.1 Logical Delivery Across Networks</h3><p>The Network Layer sits between Transport and Data Link. It provides logical addressing, routing, forwarding, internetworking, path selection, and packet delivery across different networks. If Computer A and Computer B are on different networks, the Network Layer helps determine how a packet should travel from one to the other.</p><div class="layer-stack"><div>Application</div><div>Transport</div><div>Network</div><div>Data Link</div><div>Physical</div></div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">3. IP and IPv4</div><h3>3.1 Logical Addresses</h3><p>Internet Protocol is the main protocol used to route packets across networks. IPv4 addresses contain 32 bits and are commonly written in dotted-decimal notation, such as <code>192.168.1.10</code>. The four decimal parts are called octets.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">4. Network and Host Portions</div><h3>4.1 Prefix Length and Subnet Mask</h3><p>An IPv4 address is interpreted together with a subnet mask or prefix length. In <code>192.168.1.10/24</code>, <code>/24</code> indicates the network prefix length. The remaining part identifies the host within that subnet.</p><table class="summary-table"><tr><th>Concept</th><th>Meaning</th></tr><tr><td>Network portion</td><td>Identifies the subnet</td></tr><tr><td>Host portion</td><td>Identifies a device within the subnet</td></tr><tr><td>Subnet mask</td><td>Separates network bits from host bits</td></tr><tr><td>Prefix length</td><td>Counts the network-prefix bits</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">5. Network and Broadcast Addresses</div><h3>5.1 Special Addresses in IPv4</h3><p>The network address represents the subnet itself rather than one host. The broadcast address can represent all devices in an IPv4 subnet when broadcasting is supported. For <code>192.168.1.0/24</code>, the network address is <code>192.168.1.0</code> and the broadcast address is <code>192.168.1.255</code>.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">6. Address Types and DHCP</div><h3>6.1 Private, Public, Static, and Dynamic</h3><p>Private IPv4 addresses are used inside private networks. Common private ranges include <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, and <code>192.168.0.0/16</code>. A public address can be used on the Internet according to allocation rules. Static addressing is configured deliberately, while dynamic addressing can be assigned automatically.</p><p>DHCP may provide an IP address, subnet mask, default gateway, and DNS server information when a laptop joins Wi-Fi.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">7. IPv6</div><h3>7.1 A Larger Address Space</h3><p>IPv6 uses 128-bit addresses, providing a very large address space compared with IPv4's 32 bits. IPv6 is written with colon-separated hexadecimal groups, such as <code>2001:db8:abcd:0012::10</code>. Address compression can shorten repeated zero groups.</p><table class="summary-table"><tr><th>IPv4</th><th>IPv6</th></tr><tr><td>32-bit</td><td>128-bit</td></tr><tr><td>Dotted decimal</td><td>Hexadecimal with colons</td></tr><tr><td>Limited address space</td><td>Very large address space</td></tr><tr><td>Broadcast exists</td><td>No traditional broadcast</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">8. Default Gateway</div><h3>8.1 Leaving the Local Network</h3><p>A default gateway is the device a host uses to send traffic outside its local network when no more specific route exists. For example, a laptop at <code>192.168.1.10</code> may use gateway <code>192.168.1.1</code> to reach another network or the Internet.</p><div class="step-box"><b>Flow:</b> Laptop → Default Gateway → Router → Other Network.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">9. Routing and Routers</div><h3>9.1 Choosing a Path</h3><p>Routing is the process of selecting a path toward a destination network. A router is a Network Layer device that examines information such as the destination IP address and decides where to send the packet. A path may cross Router 1, Router 2, and Router 3 before reaching the destination network.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">10. Routing Table and Forwarding</div><h3>10.1 Decision versus Action</h3><p>A routing table can contain destination network, prefix, next hop, interface, and metric. Routing determines the path or route information. Forwarding executes the decision by sending the packet through the appropriate interface.</p><table class="summary-table"><tr><th>Routing</th><th>Forwarding</th></tr><tr><td>Determines or learns a path</td><td>Sends a packet now</td></tr><tr><td>Uses routing information</td><td>Uses a forwarding decision</td></tr><tr><td>More about path selection</td><td>More about packet handling</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">11. Next Hop and Routing Types</div><h3>11.1 Static and Dynamic Routing</h3><p>The next hop is the next router or device to which a packet is sent. Static routes are configured manually; they can be predictable and suitable for small networks but are difficult to maintain at scale. Dynamic routing uses routing protocols to exchange information and adapt to topology changes, at the cost of greater complexity and resource use.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">12. Routing Protocols and Metrics</div><h3>12.1 RIP, OSPF, BGP, and Path Comparison</h3><p>RIP introduces hop count as a metric. OSPF uses a link-state approach. BGP supports routing between Autonomous Systems on the Internet. Routing protocols compare paths using metrics such as hop count, cost, bandwidth, delay, or protocol-specific values. A path with fewer hops is not automatically best if another metric makes a different path more suitable.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">13. Packet Forwarding and TTL</div><h3>13.1 The Packet Journey</h3><p>Application data becomes a transport segment, then an IP packet. At each router, the destination IP is checked, a routing or forwarding decision is made, and the packet moves to the next hop. IPv4 TTL is reduced at each router to prevent a packet from circulating forever in a routing loop. When TTL reaches the limit, the packet is discarded.</p><div class="step-box"><b>Example:</b> TTL 4 → Router 1: 3 → Router 2: 2 → Router 3: 1 → Router 4: 0 → packet discarded.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">14. ICMP, Ping, and Traceroute</div><h3>14.1 Diagnostic Tools</h3><p>ICMP carries error and diagnostic messages such as Destination Unreachable, Time Exceeded, Echo Request, and Echo Reply. Ping commonly uses Echo Request and Echo Reply to test reachability. Traceroute or tracert helps reveal the path by using TTL behavior and ICMP responses, allowing learners to locate possible delay or reachability problems.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">15. Practical Activities and Summary</div><h3>15.1 Address, Route, and Diagnose</h3><p>Activities include classifying IPv4 addresses as private or public; identifying the network, host, and prefix in <code>192.168.1.25/24</code>; selecting a route from a routing table; simulating packet forwarding through multiple routers; analyzing Ping source, destination, ICMP, and response; visualizing Traceroute hops; and distinguishing IPv4 from IPv6.</p><p>The complete journey is: Source Device → Source IP → Default Gateway → Router → Routing Table → Next Hop → Destination Network → Destination Device.</p></div>
+    """,unsafe_allow_html=True)
+    render_computer_networks_chapter_10_quiz()
+
+elif display_page == "Chapter 9: Transport Layer: TCP & Congestion Control":
+    st.markdown("## Computer Networks")
+    st.markdown("### Chapter 9: Transport Layer: TCP & Congestion Control")
+    st.info("This chapter explains how TCP provides reliable, ordered communication and how it controls receiver flow and network congestion.")
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">1. Learning Objectives</div><h3>The Complete TCP Journey</h3><p>By the end of this chapter, you should explain TCP, why reliability is needed, the three-way handshake, sequence numbers, ACKs, retransmission, timeouts, RTT, TCP segments and flags, ordered delivery, flow control, receive windows, congestion control, cwnd, slow start, congestion avoidance, and connection termination.</p><div class="step-box"><b>Journey:</b> Establishment → Handshake → Data Transfer → Sequence Numbers and ACKs → Retransmission → Flow Control → Congestion Control → Termination.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">2. TCP and Reliability</div><h3>2.1 Why TCP Is Needed</h3><p>TCP is a connection-oriented Transport Layer protocol that provides reliable, ordered delivery. UDP does not guarantee delivery, ordering, or automatic retransmission. TCP adds mechanisms that help an important file arrive completely and in the correct order.</p><table class="summary-table"><tr><th>TCP property</th><th>Meaning</th></tr><tr><td>Connection-oriented</td><td>Establishes a connection before normal transfer</td></tr><tr><td>Reliable</td><td>Uses feedback and recovery mechanisms</td></tr><tr><td>Ordered</td><td>Reconstructs data in the correct sequence</td></tr><tr><td>Controlled</td><td>Uses flow and congestion control</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">3. Three-Way Handshake</div><h3>3.1 Establishing a TCP Connection</h3><p>Before data transfer, TCP establishes a connection. The client sends SYN, the server responds with SYN-ACK, and the client sends ACK. After this exchange, both sides have agreed to proceed with the connection.</p><div class="step-box"><b>Client → SYN → Server; Server → SYN + ACK → Client; Client → ACK → Server; Connection Established.</b></div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">4. Sequence Numbers and ACKs</div><h3>4.1 Tracking Data Position and Receipt</h3><p>Sequence numbers help TCP identify the position and order of bytes or data segments. An ACK tells the sender what has been received according to the protocol's acknowledgment information. Together, sequence numbers and ACKs support ordered, reliable transfer.</p><div class="step-box"><b>Example:</b> Segment 1 has sequence information 100, Segment 2 200, and Segment 3 300. The receiver can use those values to reason about order.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">5. Reliable Data Transfer</div><h3>5.1 Retransmission, Checksum, and Timers</h3><p>TCP combines sequence numbers, acknowledgments, checksums, retransmission, and timers. If Segment 2 is lost while Segments 1 and 3 are seen, the lack of the expected acknowledgment or other loss evidence can lead TCP to recover by retransmitting the missing data.</p><div class="step-box"><b>Lost segment:</b> Segment → Lost → Expected ACK missing → TCP infers possible loss → Retransmission.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">6. Timeout and RTT</div><h3>6.1 Estimating When to Retransmit</h3><p>A timeout occurs when TCP's timer expires before the expected acknowledgment arrives. TCP uses estimates related to Round-Trip Time (RTT), the time for data to travel to the receiver and for a response to return. It does not rely on one universal fixed waiting time for every network.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">7. TCP Segment and Flags</div><h3>7.1 The Main Header Information</h3><p>A TCP segment can include Source Port, Destination Port, Sequence Number, Acknowledgment Number, Header Length, Flags, Window Size, Checksum, Urgent Pointer, Options, and Data.</p><table class="summary-table"><tr><th>Flag</th><th>Conceptual role</th></tr><tr><td>SYN</td><td>Connection establishment</td></tr><tr><td>ACK</td><td>Acknowledgment information</td></tr><tr><td>FIN</td><td>Normal termination</td></tr><tr><td>RST</td><td>Reset in certain situations</td></tr><tr><td>PSH / URG</td><td>Special handling related to pushing or urgent data</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">8. Data Transfer and Ordering</div><h3>8.1 Providing a Correct Stream</h3><p>After the handshake, the client and server exchange TCP segments and acknowledgments. If Segment 3 arrives before Segment 2, sequence numbers help TCP identify the gap and organize data before presenting the appropriate stream to the application.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">9. Flow Control</div><h3>9.1 Protecting the Receiver</h3><p>Flow control prevents a fast sender from overwhelming a slower receiver. The receiver may have a limited buffer. TCP uses receive-window information to tell the sender how much additional data can currently be accepted.</p><div class="step-box"><b>Flow-control question:</b> Can the receiver handle more data? If not, the sender must reduce or pause the amount in flight.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">10. Congestion Control</div><h3>10.1 Protecting the Network</h3><p>Congestion occurs when traffic exceeds the ability of network components to handle it efficiently. It can cause delay, packet loss, and reduced throughput. Congestion control asks a different question from flow control: can the network itself handle more traffic?</p><table class="summary-table"><tr><th>Flow control</th><th>Congestion control</th></tr><tr><td>Protects receiver capacity</td><td>Protects network capacity</td></tr><tr><td>Uses receive window</td><td>Uses congestion window</td></tr><tr><td>Sender ↔ Receiver</td><td>Sender ↔ Network conditions</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">11. cwnd and Slow Start</div><h3>11.1 Increasing Carefully</h3><p>The congestion window, or <code>cwnd</code>, helps limit how much data may be in the network before acknowledgments. Slow start begins with a relatively small sending rate and increases it according to feedback. The name describes a control phase, not that TCP is always slow.</p><div class="step-box"><b>Concept:</b> Good network condition → increase gradually. Congestion or loss → reduce sending pressure.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">12. Congestion Avoidance</div><h3>12.1 Using Capacity Without Causing Severe Congestion</h3><p>After initial growth, TCP uses more conservative increases to use available capacity while avoiding severe congestion. Packet loss may be a signal of a network problem or congestion, so TCP responds through its congestion-control mechanisms.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">13. Connection Termination and States</div><h3>13.1 Closing the Conversation</h3><p>When communication ends, TCP normally uses FIN and ACK messages. A simplified view is FIN → ACK → FIN → ACK, although the exact sequence depends on which side starts closing and the state of each endpoint.</p><p>Important TCP states include CLOSED, LISTEN, SYN-SENT, SYN-RECEIVED, ESTABLISHED, FIN-WAIT, and CLOSE-WAIT. The important concept is that TCP moves through states during establishment, transfer, and termination.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">14. TCP versus UDP</div><h3>14.1 Choosing by Application Requirements</h3><table class="summary-table"><tr><th>TCP</th><th>UDP</th></tr><tr><td>Connection-oriented</td><td>Connectionless</td></tr><tr><td>Reliable and ordered</td><td>No built-in reliable delivery or ordering</td></tr><tr><td>ACKs and retransmission</td><td>No TCP-style ACK and retransmission mechanism</td></tr><tr><td>Flow and congestion control</td><td>Lower overhead and simpler delivery</td></tr></table><p>TCP is not always “good” and UDP is not always “bad.” TCP fits complete ordered delivery such as many web, file-transfer, and email uses. UDP may fit time-sensitive designs that tolerate loss or implement their own recovery.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">15. Practical Activities and Summary</div><h3>15.1 Observe the TCP Journey</h3><p>In an authorized Wireshark environment, identify SYN, SYN-ACK, and ACK during a handshake. Analyze TCP Source Port, Destination Port, Sequence Number, ACK Number, Flags, Window Size, and Checksum. Simulate sequence ordering, lost-segment retransmission, receive-window flow control, and changing <code>cwnd</code> under congestion.</p><p>The essential distinction is: <b>Flow Control</b> asks whether the receiver can accept data; <b>Congestion Control</b> asks whether the network can handle it. Together with handshake, ACKs, sequence numbers, retransmission, and termination, these mechanisms explain the complete TCP lifecycle.</p></div>
+    """,unsafe_allow_html=True)
+    render_computer_networks_chapter_9_quiz()
+
+elif display_page == "Chapter 8: Transport Layer: UDP":
+    st.markdown("## Computer Networks")
+    st.markdown("### Chapter 8: Transport Layer: UDP")
+    st.info("This chapter introduces the Transport Layer, process-to-process delivery, ports, sockets, multiplexing, segmentation, and UDP before the detailed TCP chapter.")
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">1. Learning Objectives</div><h3>From Devices to Application Processes</h3><p>By the end of this chapter, you should explain the Transport Layer, distinguish host-to-host from process-to-process delivery, identify the role of ports and sockets, and describe multiplexing, demultiplexing, segmentation, and reassembly.</p><p>You will understand UDP datagrams, their fields, advantages and limitations, why DNS and some real-time applications may use UDP, and when TCP is a better choice.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">2. Transport Layer</div><h3>2.1 Where It Fits</h3><p>The Transport Layer sits between the Application Layer and the Network Layer. Applications create data, transport protocols provide process communication, the Network Layer moves packets between hosts, and lower layers deliver signals and frames.</p><div class="layer-stack"><div>Application</div><div>Transport</div><div>Network</div><div>Data Link</div><div>Physical</div></div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">3. Host-to-Host vs Process-to-Process</div><h3>3.1 Why Ports Matter</h3><p>Host-to-host delivery moves data from one device to another. Process-to-process delivery moves data from an application process on one device to the correct process on another. A device may run a browser, email application, and video call at once; port numbers help the Transport Layer identify the intended service.</p><div class="step-box"><b>Example:</b> IP address identifies the device; port 443 helps identify the service associated with the connection.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">4. Ports and Sockets</div><h3>4.1 Identifying an Endpoint</h3><p>A port number identifies an application or service on a host. A socket is commonly described as an IP address plus a port number, such as <code>192.168.1.10:5000</code>. Sockets are fundamental in network programming because they identify communication endpoints.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">5. Transport Responsibilities</div><h3>5.1 Delivery, Segmentation, and Control</h3><p>Transport protocols may provide process delivery, segmentation, reassembly, multiplexing, demultiplexing, reliability, flow control, and congestion control. Not every protocol provides all functions in the same way. This distinction prepares the comparison between TCP and UDP.</p><table class="summary-table"><tr><th>Function</th><th>Meaning</th></tr><tr><td>Segmentation</td><td>Dividing application data into suitable units</td></tr><tr><td>Reassembly</td><td>Reconstructing data at the receiver</td></tr><tr><td>Multiplexing</td><td>Combining data from multiple applications for transport</td></tr><tr><td>Demultiplexing</td><td>Delivering received data to the correct process</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">6. Multiplexing and Demultiplexing</div><h3>6.1 Many Applications, One Device</h3><p>Multiplexing allows a browser, video call, and DNS process to use the network at the same time. The Transport Layer labels traffic with ports. At the receiver, demultiplexing examines the destination port and sends the data to the correct application.</p><div class="step-box"><b>Flow:</b> Network → Transport Layer → Destination Port → Correct Application.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">7. Segmentation and Reassembly</div><h3>7.1 Dividing and Reconstructing Data</h3><p>Large application data may be divided into Segment 1, Segment 2, and Segment 3 for transmission. At the destination, the protocol and application reconstruct the original data. The exact mechanisms depend on the transport protocol.</p><div class="step-box"><b>Segmentation:</b> Large Data → Segment 1 + Segment 2 + Segment 3. <b>Reassembly:</b> Segments → Original Data.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">8. TCP and UDP</div><h3>8.1 Two Different Transport Choices</h3><table class="summary-table"><tr><th>TCP</th><th>UDP</th></tr><tr><td>Connection-oriented</td><td>Connectionless</td></tr><tr><td>Reliable and ordered</td><td>No built-in guarantee of delivery or ordering</td></tr><tr><td>Higher overhead</td><td>Low overhead</td></tr><tr><td>Retransmission, flow and congestion mechanisms</td><td>Simple datagram delivery</td></tr></table><p>This chapter focuses on UDP; TCP will be studied in greater detail in the following chapter.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">9. UDP</div><h3>9.1 User Datagram Protocol</h3><p>UDP is a lightweight Transport Layer protocol for sending datagrams between applications. It is connectionless, has low overhead, begins sending without a reliable connection-establishment phase, and does not provide TCP-like built-in reliable delivery or ordering.</p><div class="step-box"><b>Flow:</b> Application → UDP Datagram → IP Network → Destination → UDP → Application.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">10. UDP Datagram</div><h3>10.1 Header Fields and Data</h3><p>A UDP datagram contains a Source Port, Destination Port, Length, Checksum, and application Data. The source port relates to the sending process; the destination port helps the receiver deliver the datagram to the correct service.</p><table class="summary-table"><tr><th>Field</th><th>Purpose</th></tr><tr><td>Source Port</td><td>Identifies the sending process</td></tr><tr><td>Destination Port</td><td>Identifies the intended receiving service</td></tr><tr><td>Length</td><td>Describes the datagram size including header and data</td></tr><tr><td>Checksum</td><td>Supports detection of some errors</td></tr><tr><td>Data</td><td>Application payload</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">11. UDP Checksum</div><h3>11.1 Detection Is Not Retransmission</h3><p>A checksum helps detect some errors during transmission. It does not mean UDP will automatically resend missing or damaged data. If a datagram is lost, UDP itself does not guarantee recovery; the application may tolerate the loss or implement its own mechanism.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">12. UDP Advantages and Limitations</div><h3>12.1 Why Choose a Lightweight Protocol?</h3><p>UDP offers low overhead, simple processing, no connection-establishment delay, and suitability for time-sensitive applications. Its limitations include no guaranteed delivery, no guaranteed ordering, no automatic retransmission, and no built-in TCP-like flow or congestion control.</p><p>Some applications prefer new data quickly rather than waiting for old data to be retransmitted. The correct choice depends on application design and requirements.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">13. UDP Applications</div><h3>13.1 DNS and Real-Time Communication</h3><p>Many DNS queries can use UDP because a short query and response benefit from low overhead; DNS can also use TCP in certain cases. Some real-time applications may prefer UDP because late data can be less useful than continuing with newer data. This connects directly to multimedia concepts from Chapter 7.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">14. UDP vs TCP and Application Design</div><h3>14.1 Choosing According to Requirements</h3><p>UDP is not automatically faster in every situation. A complete, ordered file transfer usually favors TCP. A time-sensitive application that can handle some loss may favor UDP. If an application needs sequence information, error handling, timing, or recovery while using UDP, it can build those mechanisms at the application level.</p><table class="summary-table"><tr><th>Situation</th><th>Likely choice</th></tr><tr><td>Important file must arrive complete and ordered</td><td>TCP</td></tr><tr><td>Low-overhead, time-sensitive data</td><td>UDP may be suitable</td></tr><tr><td>Application needs its own recovery logic</td><td>UDP plus application-level mechanisms</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">15. Practical Activities</div><h3>15.1 Observe Fields and Choose Protocols</h3><p>In an authorized Wireshark environment, inspect UDP traffic and identify source IP, destination IP, source port, destination port, length, checksum, and UDP. Use a datagram worksheet to label each field. Observe DNS Query → UDP → DNS Response. Simulate multiplexing with Browser → Port A, DNS → Port B, and another application → Port C. Finally, classify scenarios as TCP or UDP and justify the decision.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">16. Key Terms and Summary</div><h3>16.1 Transport Vocabulary</h3><p>The Transport Layer provides process-to-process delivery. A port identifies a service, and a socket combines an IP address with a port. Multiplexing combines application traffic; demultiplexing separates it at the destination. Segmentation divides data and reassembly reconstructs it. UDP is connectionless and lightweight. A datagram contains ports, length, checksum, and data. UDP does not guarantee delivery, ordering, or retransmission, while TCP provides stronger reliability mechanisms.</p><p>The three essential ideas are: Transport connects applications, ports direct data to the correct process, and UDP offers simple delivery when low overhead and timeliness matter more than built-in recovery.</p></div>
+    """,unsafe_allow_html=True)
+    render_computer_networks_chapter_8_quiz()
+
+elif display_page == "Chapter 7: Multimedia Networking":
+    st.markdown("## Computer Networks")
+    st.markdown("### Chapter 7: Multimedia Networking")
+    st.info("This chapter explains how audio and video move through networks, why multimedia is sensitive to timing, and how buffering, QoS, adaptive streaming, and CDNs improve delivery.")
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">1. Learning Objectives</div><h3>Multimedia Is About Timing as Well as Data</h3><p>By the end of this chapter, you should explain multimedia traffic, audio and video representation, compression, streaming, buffering, delay, jitter, packet loss, QoS, real-time applications, multimedia protocols, adaptive streaming, and CDNs.</p><p>The central idea is that good multimedia delivery requires the right amount of data to arrive at the right time. High bandwidth alone does not guarantee a good video call.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">2. Multimedia Networking</div><h3>2.1 Audio, Video, Images, Text, and Interactive Media</h3><p>Multimedia networking transports audio, video, images, text, and interactive media. Multimedia differs from a PDF download because playback is continuous: if data arrives too late, the user sees buffering or hears interruptions.</p><table class="summary-table"><tr><th>Media</th><th>Typical requirement</th></tr><tr><td>Audio</td><td>Continuous timing and acceptable delay</td></tr><tr><td>Video</td><td>Frames delivered smoothly with enough bit rate</td></tr><tr><td>Images/Text</td><td>Often more tolerant of delay</td></tr><tr><td>Interactive media</td><td>Fast response and consistent interaction</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">3. Multimedia Applications</div><h3>3.1 Streaming, Conferencing, VoIP, Games, and Learning</h3><p>Applications include video and audio streaming, video conferencing, Voice over IP, online gaming, live streaming, and online learning. An online lecture needs audio and video to arrive continuously and with sufficiently low delay for natural interaction.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">4. Audio Data</div><h3>4.1 From Analog Sound to Network Data</h3><p>A microphone captures analog sound. Sampling measures the signal at intervals; sampling rate describes how frequently it is measured. Quantization maps measurements to digital values, and bit rate describes the resulting data rate. Compression can reduce the data before transmission.</p><div class="step-box"><b>Flow:</b> Microphone → Digital Audio → Compression → Network → Receiver → Speaker.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">5. Video Data</div><h3>5.1 Frames, Rate, Resolution, and Bit Rate</h3><p>Digital video is a sequence of frames displayed rapidly enough to appear as motion. Frame rate describes frames per second, resolution describes spatial detail, and bit rate describes the amount of data needed over time. Higher quality often requires more capacity unless compression is improved.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">6. Compression</div><h3>6.1 Reducing Size and Bandwidth</h3><p>Audio and video can be large. Compression reduces data size, bandwidth requirements, transmission cost, and storage needs. Lossless compression reconstructs the original data exactly. Lossy compression removes information that may be less noticeable and is common in audio, images, and video.</p><table class="summary-table"><tr><th>Type</th><th>Result</th><th>Typical idea</th></tr><tr><td>Lossless</td><td>Original can be restored exactly</td><td>Useful when every bit matters</td></tr><tr><td>Lossy</td><td>Smaller size with some information discarded</td><td>Useful when perceptual quality is acceptable</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">7. Bit Rate and Bandwidth</div><h3>7.1 Representation versus Capacity</h3><p>Bit rate is the amount of data represented or transmitted per unit of time. Bandwidth is the capacity of a connection. A high-quality video may require a high bit rate, so the network needs sufficient capacity and stable delivery to avoid interruptions.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">8. Streaming and Buffering</div><h3>8.1 Playing While Data Arrives</h3><p>Streaming lets playback begin while chunks are still arriving. A buffer stores a temporary amount of media to absorb delay, congestion, and variable arrival times. If the arrival rate falls below the playback rate, the buffer drains and playback may stop with a “Buffering…” message.</p><div class="step-box"><b>Rule:</b> Arrival Rate ≥ Playback Rate → smooth playback. Arrival Rate &lt; Playback Rate → buffering or interruption.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">9. Download versus Streaming</div><h3>9.1 Two Ways to Consume Media</h3><table class="summary-table"><tr><th>Download</th><th>Streaming</th></tr><tr><td>File may be completed before use</td><td>Playback starts before all data arrives</td></tr><tr><td>Can wait for completion</td><td>Depends on continuous delivery</td></tr><tr><td>Uses storage according to the file</td><td>Uses a buffer and ongoing network flow</td></tr></table><p>Downloading a complete movie and watching an online video illustrate the difference.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">10. Delay and Jitter</div><h3>10.1 Timing Problems in Multimedia</h3><p>Network delay can include transmission, propagation, processing, and queuing delay. Jitter is variation in packet arrival times. For example, packets arriving at 20 ms, 22 ms, 50 ms, and 25 ms are not evenly timed. This variation can make voice and video uneven even when average bandwidth is adequate.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">11. Packet Loss</div><h3>11.1 Missing Media Data</h3><p>Packets may be lost because of congestion, transmission errors, buffer overflow, or other network problems. In audio, loss may sound like gaps or broken speech. In video, it may cause missing information, artifacts, or reduced quality.</p><div class="step-box"><b>Example:</b> Packet 1 ✓, Packet 2 ✓, Packet 3 ✗, Packet 4 ✓. The missing packet can affect the reconstructed media.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">12. QoS</div><h3>12.1 Quality of Service</h3><p>QoS is a group of concepts and techniques for handling traffic according to performance requirements. Important factors include bandwidth, delay, jitter, and packet loss. Email may tolerate delay, while a video call is highly sensitive to delay, jitter, and loss.</p><table class="summary-table"><tr><th>Traffic</th><th>Typical sensitivity</th></tr><tr><td>Email</td><td>Low delay sensitivity</td></tr><tr><td>File download</td><td>Often cares about completion and throughput</td></tr><tr><td>Video streaming</td><td>Medium to high timing sensitivity</td></tr><tr><td>Video call / VoIP</td><td>High delay and jitter sensitivity</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">13. Real-Time Media</div><h3>13.1 VoIP and Video Conferencing</h3><p>VoIP carries voice over IP networks. A microphone creates digital voice, packets cross the IP network, and the receiver plays the sound. Video conferencing combines audio and video and needs low delay, low jitter, acceptable loss, and sufficient bandwidth. In a conversation, stable audio may be more important than maximum image quality.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">14. Multimedia Protocols</div><h3>14.1 RTP, RTCP, and RTSP</h3><table class="summary-table"><tr><th>Technology</th><th>Conceptual role</th></tr><tr><td>RTP</td><td>Carries real-time media data</td></tr><tr><td>RTCP</td><td>Provides information and monitoring related to an RTP session</td></tr><tr><td>RTSP</td><td>Controls aspects of some streaming-media sessions</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">15. Internet Delivery</div><h3>15.1 Adaptive Streaming and CDN</h3><p>Internet paths have different speeds, congestion levels, delays, losses, and device capabilities. Adaptive streaming changes quality: for example, 1080p may move to 720p and then 480p as conditions worsen. The goal is continued playback rather than repeated interruption.</p><p>A Content Delivery Network distributes copies of content across servers closer to users. A nearby CDN server can reduce some path delay and improve the experience for users far from the origin server.</p><div class="step-box"><b>Example:</b> User in Saudi Arabia → Nearby CDN Server → Video Content.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">16. Practical Activities and Summary</div><h3>16.1 Observe the Quality Factors</h3><p>Activities include a streaming simulation that changes Arrival Rate and Playback Rate; a delay simulation for a video call; packet-loss simulation at 0%, 5%, and higher values; authorized Wireshark observation of source, destination, protocol, timing, and size; and a QoS scenario comparing email, file download, and video call during congestion.</p><p>The key relationship is Bandwidth + Delay + Jitter + Packet Loss + Buffering + QoS. A fast connection can still produce a poor call when latency, jitter, or packet loss is high.</p></div>
+    """,unsafe_allow_html=True)
+    render_computer_networks_chapter_7_quiz()
+
+elif display_page == "Chapter 6: Network Management & Peer-to-Peer Networks":
+    st.markdown("## Computer Networks")
+    st.markdown("### Chapter 6: Network Management & Peer-to-Peer Networks")
+    st.info("This chapter explains how administrators monitor and maintain networks, how SNMP exchanges management information, and how Peer-to-Peer systems differ from centralized client-server systems.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Learning Objectives</div>
+        <h3>Managing Networks and Understanding P2P</h3>
+        <p>By the end of this chapter, you should be able to explain network management, identify its main tasks and components, describe SNMP Manager, Agent, operations, and MIB concepts, and interpret monitoring and fault-management scenarios.</p>
+        <p>You will also be able to compare client-server and Peer-to-Peer architectures, explain the advantages and disadvantages of P2P, distinguish centralized and distributed systems, and understand why distributed networks still require monitoring, security, and resource management.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Network Management</div>
+        <h3>2.1 Keeping Network Services Healthy</h3>
+        <p>Network management is the organized process of observing, configuring, maintaining, and troubleshooting network devices and services. A university network may contain routers, switches, access points, and servers. An administrator needs to know whether devices are working, whether interfaces are congested, whether resources are highly used, and whether users can reach the required services.</p>
+        <div class="step-box"><b>Management questions:</b> Is a device up? Is an interface overloaded? Is there packet loss? Is a service unavailable? Did a configuration change cause the problem?</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Management Tasks</div>
+        <h3>3.1 Monitoring, Configuration, Fault, Performance, Security, and Usage</h3>
+        <table class="summary-table">
+            <tr><th>Task</th><th>Purpose</th></tr>
+            <tr><td>Monitoring</td><td>Observe current device and service conditions</td></tr>
+            <tr><td>Configuration</td><td>Manage device settings and operational parameters</td></tr>
+            <tr><td>Fault management</td><td>Detect, analyze, resolve, and verify failures</td></tr>
+            <tr><td>Performance management</td><td>Track capacity, latency, throughput, loss, and utilization</td></tr>
+            <tr><td>Security management</td><td>Observe security-related conditions and access controls</td></tr>
+            <tr><td>Accounting or usage management</td><td>Track resource use when required by policy</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. Management Components</div>
+        <h3>4.1 Devices, Systems, and Protocols</h3>
+        <p>A management solution contains <b>managed devices</b>, such as routers, switches, servers, and access points. A <b>management system</b> collects information and presents it to an administrator. A <b>network-management protocol</b> defines how management information is requested, reported, or changed.</p>
+        <div class="step-box"><b>Basic relationship:</b> Managed Device → Management Protocol → Management System → Administrator.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. SNMP</div>
+        <h3>5.1 Simple Network Management Protocol</h3>
+        <p>SNMP is a protocol used to monitor and manage network devices. It allows a management system to request values, receive information, and in permitted designs request changes. It can expose information such as interface status, traffic counters, device identity, memory, CPU indicators, and error counters.</p>
+        <p>The goal at this level is to understand the information exchange: a manager communicates with an agent associated with a managed device.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. SNMP Components</div>
+        <h3>6.1 Manager, Agent, and Managed Device</h3>
+        <p>The <b>SNMP Manager</b> is the system that requests and collects information. The <b>SNMP Agent</b> is a software component running on or near the managed device. The <b>managed device</b> is the router, switch, server, or access point whose condition is being observed.</p>
+        <div class="step-box"><b>Example:</b> SNMP Manager → Network → SNMP Agent → Router or Switch.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. SNMP Operations</div>
+        <h3>7.1 GET, SET, TRAP, and INFORM</h3>
+        <table class="summary-table">
+            <tr><th>Operation</th><th>Conceptual meaning</th></tr>
+            <tr><td>GET</td><td>Manager asks the Agent for a value</td></tr>
+            <tr><td>SET</td><td>Manager requests a permitted value or configuration change</td></tr>
+            <tr><td>TRAP</td><td>Device sends an event notification without waiting for a regular request</td></tr>
+            <tr><td>INFORM</td><td>Notification that can include acknowledgment from the receiving side</td></tr>
+        </table>
+        <div class="step-box"><b>Scenario:</b> Manager asks “What is the router interface status?” Agent returns “Interface is UP.”</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. MIB</div>
+        <h3>8.1 Management Information Base</h3>
+        <p>A MIB is an organized collection of definitions describing the management information available for a device. The SNMP Agent uses these definitions to identify values such as interface status, traffic counters, device information, and error counters. The MIB provides structure and meaning so the Manager can interpret returned values.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. Monitoring</div>
+        <h3>9.1 What Administrators Observe</h3>
+        <p>Monitoring may include CPU usage, memory usage, interface status, network traffic, packet errors, device availability, bandwidth usage, and service response time. The purpose is to discover abnormal behavior before it becomes a major outage.</p>
+        <div class="step-box"><b>Example:</b> If a router interface receives unusually high traffic, a monitoring system can show the increase and help the administrator investigate congestion or unexpected use.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. Fault Management</div>
+        <h3>10.1 Detect, Identify, Analyze, Resolve, Verify</h3>
+        <p>Fault management is the process of handling failures and abnormal conditions. If users cannot access the Internet, the administrator first detects the problem, identifies affected devices, analyzes routers and switches, resolves the cause, and verifies that connectivity has returned.</p>
+        <div class="step-box"><b>Workflow:</b> Detect → Identify → Analyze → Resolve → Verify.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. Performance Management</div>
+        <h3>11.1 Available Does Not Always Mean Fast</h3>
+        <p>Performance management studies bandwidth, throughput, latency, packet loss, utilization, and response time. A network may be available because devices respond, yet users may experience slow service because of congestion, high latency, loss, or overloaded links.</p>
+        <table class="summary-table">
+            <tr><th>Indicator</th><th>Question it helps answer</th></tr>
+            <tr><td>Bandwidth</td><td>How much capacity does the link have?</td></tr>
+            <tr><td>Throughput</td><td>How much useful data is actually delivered?</td></tr>
+            <tr><td>Latency</td><td>How long does communication take?</td></tr>
+            <tr><td>Packet loss</td><td>Are packets failing to arrive?</td></tr>
+            <tr><td>Utilization</td><td>How heavily is the resource being used?</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. Alerts</div>
+        <h3>12.1 Thresholds and Administrator Notification</h3>
+        <p>A monitoring system can define a normal condition and a threshold. When utilization, errors, or another value exceeds the threshold, the system creates an alert for the network administrator. Alerts help prioritize attention but still require analysis; an alert is evidence of a condition, not automatically the final diagnosis.</p>
+        <div class="step-box"><b>Alert flow:</b> Normal condition → Threshold exceeded → Alert → Administrator investigates.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. Peer-to-Peer</div>
+        <h3>13.1 Direct Communication Between Peers</h3>
+        <p>Peer-to-Peer, or P2P, is an architecture in which devices can communicate directly and each device can request and provide resources. A peer may act as a client in one interaction and as a server in another.</p>
+        <div class="step-box"><b>Basic model:</b> Peer A ↔ Peer B. Both devices can request resources and provide resources.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. P2P Architecture</div>
+        <h3>14.1 Distributed Resource Sharing</h3>
+        <p>Unlike a strictly centralized client-server design, P2P does not necessarily depend on one central server. A group may be represented as Peer A ↔ Peer B ↔ Peer C, with resources distributed among participants. The exact design determines how peers discover one another, exchange data, and handle failures.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">15. Architecture Comparison</div>
+        <h3>15.1 Client-Server versus Peer-to-Peer</h3>
+        <table class="summary-table">
+            <tr><th>Client-Server</th><th>Peer-to-Peer</th></tr>
+            <tr><td>Usually depends on a central service provider</td><td>Resources can be distributed among peers</td></tr>
+            <tr><td>Clients request and servers provide</td><td>Each peer can request and provide</td></tr>
+            <tr><td>Central administration is often easier</td><td>Administration is more distributed</td></tr>
+            <tr><td>Suitable for centralized services</td><td>Suitable for selected distributed applications</td></tr>
+        </table>
+        <div class="step-box"><b>Examples:</b> Student Computer → University Server is client-server. Computer A ↔ Computer B is P2P.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">16. P2P Advantages and Disadvantages</div>
+        <h3>16.1 Trade-offs of a Distributed Model</h3>
+        <p>P2P can provide distributed resources, direct communication, resource sharing, and operation without one central server. However, management can be more difficult, security responsibilities are distributed, backups may be complicated, availability can vary, and performance may depend on which peers participate.</p>
+        <div class="step-box"><b>Availability example:</b> If a file exists on only one peer and that peer becomes unavailable, other peers may lose access to the file.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">17. Centralized and Distributed Systems</div>
+        <h3>17.1 Where Resources Live</h3>
+        <p>In a centralized system, services and resources depend on a central point. In a distributed system, resources or services are spread across multiple nodes. P2P is one possible distributed approach, but not every distributed system is necessarily a pure P2P system.</p>
+        <div class="step-box"><b>Models:</b> Centralized: Clients → Server. Distributed: Node ↔ Node ↔ Node.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">18. Management, P2P, and Activities</div>
+        <h3>18.1 Applying the Concepts</h3>
+        <p>Distributed networks still need monitoring, performance management, fault detection, security, and resource management. Useful activities include a monitoring dashboard showing device status, CPU, memory, interface status, and traffic; an SNMP simulation with Manager → GET → Agent; a fault scenario where a switch stops working; a P2P simulation identifying who requests and provides a resource; and architecture classification between client-server and P2P.</p>
+        <p>The chapter's central ideas are: management tells us how to observe and maintain a network, while P2P explains how resources can be shared among participating devices without depending on one central server.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_computer_networks_chapter_6_quiz()
+
+elif display_page == "Chapter 5: SMTP, DNS & FTP":
+    st.markdown("## Computer Networks")
+    st.markdown("### Chapter 5: SMTP, DNS & FTP")
+    st.info("This chapter develops three important Application Layer services: SMTP for email transfer, DNS for name resolution, and FTP for file transfer.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Learning Objectives</div>
+        <h3>Three Services, Three Different Purposes</h3>
+        <p>By the end of this chapter, you should be able to distinguish SMTP, DNS, and FTP, explain how each uses the client-server model, identify relevant ports and messages, and connect each service to the lower layers studied previously.</p>
+        <div class="step-box"><b>Core distinction:</b> SMTP → Email Transfer. DNS → Name Resolution. FTP → File Transfer.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Application Services</div>
+        <h3>2.1 Different Applications Need Different Protocols</h3>
+        <p>An Application Layer service gives software a network capability. Applications use protocols that match their purpose: the Web uses HTTP or HTTPS, email transfer uses SMTP, name resolution uses DNS, and file transfer uses FTP. Each service still relies on transport, Internet, and local-access functions underneath.</p>
+        <table class="summary-table">
+            <tr><th>Need</th><th>Typical protocol</th><th>Basic action</th></tr>
+            <tr><td>Web access</td><td>HTTP / HTTPS</td><td>Request and return web resources</td></tr>
+            <tr><td>Email transfer</td><td>SMTP</td><td>Send messages between mail systems</td></tr>
+            <tr><td>Name resolution</td><td>DNS</td><td>Find addresses and service records</td></tr>
+            <tr><td>File transfer</td><td>FTP</td><td>Upload, download, and manage files</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Email Communication</div>
+        <h3>3.1 A Message Travels Through Multiple Systems</h3>
+        <p>Email delivery is not simply “send and immediately receive.” The sender writes through a mail client. The client submits the message to a mail server. The sender's mail system finds the recipient's mail system, transfers the message across the network, and stores it until the recipient retrieves it.</p>
+        <div class="step-box"><b>Flow:</b> Sender → Mail Client → Sender Mail Server → Internet → Recipient Mail Server → Recipient.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. SMTP</div>
+        <h3>4.1 Simple Mail Transfer Protocol</h3>
+        <p>SMTP is used to send email and transfer messages between mail systems. An SMTP client begins the conversation, while an SMTP server accepts messages, validates or queues them according to its policy, and may transfer them to another mail server.</p>
+        <p>SMTP is mainly an <b>outgoing and transfer</b> protocol. Reading messages from a mailbox is a separate operation commonly associated with POP3 or IMAP.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. SMTP Workflow</div>
+        <h3>5.1 Alice Sends an Email to Bob</h3>
+        <p>When Alice sends a message to Bob, Alice's mail client submits it to Alice's mail server. The sending system identifies the mail system responsible for Bob's domain, transfers the message to Bob's mail server, and stores it for Bob to access.</p>
+        <div class="step-box"><b>Example:</b> Alice → SMTP → Alice's Mail Server → SMTP → Bob's Mail Server → Bob.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. SMTP Roles and Commands</div>
+        <h3>6.1 Client, Server, Commands, and Responses</h3>
+        <p>An SMTP client starts the message-transfer conversation. The SMTP server receives commands and returns responses. The exchange can identify the participants, specify the sender, specify the recipient, transmit the message data, and end the session.</p>
+        <table class="summary-table">
+            <tr><th>Command</th><th>Learning-level purpose</th></tr>
+            <tr><td>HELO / EHLO</td><td>Introduces the client and begins the SMTP dialogue</td></tr>
+            <tr><td>MAIL FROM</td><td>Specifies the sender envelope address</td></tr>
+            <tr><td>RCPT TO</td><td>Specifies the intended recipient</td></tr>
+            <tr><td>DATA</td><td>Begins transmission of message content</td></tr>
+            <tr><td>QUIT</td><td>Ends the SMTP session</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Client: EHLO mail.example\nServer: Ready\nClient: MAIL FROM:<alice@example>\nClient: RCPT TO:<bob@example>\nClient: DATA\nClient: Message content\nClient: QUIT", language="text")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. SMTP Ports and Retrieval</div>
+        <h3>7.1 Sending Is Not the Same as Reading</h3>
+        <p>SMTP commonly appears with ports such as 25, 587, and 465, but the appropriate port depends on the connection purpose and protection settings. The important idea is not memorizing numbers; it is understanding that different configurations distinguish server-to-server relay and client submission.</p>
+        <p>POP3 retrieves mail from a server. IMAP manages and synchronizes mail that remains on the server. If a student opens the same mailbox on a laptop and smartphone, IMAP is commonly suitable because it keeps mailbox state synchronized across devices.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. Email Protocol Comparison</div>
+        <h3>8.1 SMTP vs POP3 vs IMAP</h3>
+        <table class="summary-table">
+            <tr><th>Protocol</th><th>Main function</th><th>Typical mental model</th></tr>
+            <tr><td>SMTP</td><td>Sending and transferring email</td><td>Push a message toward mail systems</td></tr>
+            <tr><td>POP3</td><td>Retrieving email</td><td>Download messages from a mailbox</td></tr>
+            <tr><td>IMAP</td><td>Managing and synchronizing email</td><td>Keep mailbox state on the server across devices</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. DNS Review and Hierarchy</div>
+        <h3>9.1 From Domain Name to IP Address</h3>
+        <p>DNS resolves names such as <code>www.example.com</code> into address information. A domain name can be understood hierarchically: the Root is above the top-level domain such as <code>.com</code>, followed by the registered domain such as <code>example</code>, and then a host or subdomain such as <code>www</code>.</p>
+        <div class="step-box"><b>Hierarchy:</b> Root → TLD → Domain → Host/Subdomain.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. DNS Servers</div>
+        <h3>10.1 Resolver, Root, TLD, and Authoritative Servers</h3>
+        <p>A recursive resolver searches on behalf of the client. Root servers direct queries toward the correct TLD servers. TLD servers handle domains such as <code>.com</code>, <code>.org</code>, or <code>.edu</code> and point toward authoritative servers. An authoritative server contains the official records for a domain.</p>
+        <div class="step-box"><b>Resolution path:</b> Client → Recursive Resolver → Root Server → TLD Server → Authoritative Server → IP Address → Client.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. DNS Records and Caching</div>
+        <h3>11.1 Address, Mail, and Name-Server Records</h3>
+        <table class="summary-table">
+            <tr><th>Record</th><th>Purpose</th></tr>
+            <tr><td>A</td><td>Maps a domain to an IPv4 address</td></tr>
+            <tr><td>AAAA</td><td>Maps a domain to an IPv6 address</td></tr>
+            <tr><td>CNAME</td><td>Creates an alias for another domain name</td></tr>
+            <tr><td>MX</td><td>Identifies mail servers for a domain</td></tr>
+            <tr><td>NS</td><td>Identifies authoritative name servers</td></tr>
+        </table>
+        <p>DNS caching stores a previous answer for a period of time. Caching can make later resolution faster, reduce repeated traffic, and reduce the number of queries sent to DNS infrastructure. Cached results are eventually refreshed according to their configured lifetime.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. DNS Tools and Security</div>
+        <h3>12.1 nslookup, dig, and DNS Risks</h3>
+        <p><code>nslookup</code> and <code>dig</code> help inspect DNS queries and responses. A learner can record the queried domain, the DNS server used, the returned record type, and the answer.</p>
+        <p>DNS security issues include spoofing and cache poisoning. Conceptually, the danger is that a user could receive a false address from an untrusted or manipulated response and be directed to the wrong destination. This chapter focuses on recognizing the risk rather than implementing advanced defenses.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("nslookup example.com\ndig example.com A\ndig example.com MX", language="bash")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. FTP</div>
+        <h3>13.1 File Transfer Protocol</h3>
+        <p>FTP is used to transfer files between a client and a server. The FTP client requests uploads, downloads, listings, and other operations. The FTP server stores files and provides access according to its configuration and permissions.</p>
+        <div class="step-box"><b>Basic flow:</b> FTP Client → Network → FTP Server.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. FTP Operations</div>
+        <h3>14.1 Upload, Download, and File Management</h3>
+        <p>Common FTP operations include uploading a file from the client to the server, downloading a file from the server, listing available files, creating directories, and deleting or renaming files when permissions allow.</p>
+        <div class="step-box"><b>Example:</b> A student uses an FTP client to upload <code>assignment.pdf</code> to an authorized course FTP server.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">15. FTP Connections and Modes</div>
+        <h3>15.1 Control, Data, Active, and Passive</h3>
+        <p>FTP separates control from data transfer. The <b>control connection</b> carries commands and session management. The <b>data connection</b> carries file contents or directory listings. Active and passive modes describe different ways the data connection is established, which matters when firewalls and network address translation affect connectivity.</p>
+        <div class="step-box"><b>Conceptual diagram:</b> FTP Client ↙ Control Connection ↘ Data Connection ↘ FTP Server.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">16. FTP Security</div>
+        <h3>16.1 FTP, FTPS, and SFTP</h3>
+        <p>Traditional FTP does not provide the modern protection needed for sensitive information by itself. FTPS adds TLS-based protection to FTP. SFTP is a different secure file-transfer technology built on a secure remote-session mechanism; it is not simply “FTP with an S.” The correct choice depends on the server, client, policy, and security requirements.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">17. Protocol Selection</div>
+        <h3>17.1 SMTP vs DNS vs FTP</h3>
+        <table class="summary-table">
+            <tr><th>Situation</th><th>Protocol</th></tr>
+            <tr><td>Send an email</td><td>SMTP</td></tr>
+            <tr><td>Find the IP address of a domain</td><td>DNS</td></tr>
+            <tr><td>Transfer a file</td><td>FTP or an appropriate secure alternative</td></tr>
+            <tr><td>Read and synchronize a mailbox</td><td>POP3 or IMAP, depending on the requirement</td></tr>
+        </table>
+        <p>All three main protocols are Application Layer services, and all depend on lower layers for transport, addressing, routing, and physical delivery.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">18. Practical Activities and Summary</div>
+        <h3>18.1 Observe, Identify, and Choose</h3>
+        <p>For an SMTP activity, trace the journey from sender to recipient and label the mail client, sender mail server, recipient mail server, and recipient. For DNS, use <code>nslookup</code> or <code>dig</code> in an authorized environment and record the domain, address, DNS server, and record type. In Wireshark, identify a DNS query and response by source, destination, query, response, and protocol. For FTP, simulate login, file listing, upload, and download without accessing unauthorized systems. Finally, match each scenario with SMTP, DNS, FTP, POP3, or IMAP.</p>
+        <p>The essential distinction is: SMTP sends email, DNS resolves names, and FTP transfers files. Correct protocol selection becomes easier when the student first identifies the application goal.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_computer_networks_chapter_5_quiz()
+
+elif display_page == "Chapter 4: Client-Server Protocols: Telnet & HTTP":
+    st.markdown("## Computer Networks")
+    st.markdown("### Chapter 4: Client-Server Protocols: Telnet & HTTP")
+    st.info("This chapter explains practical client-server communication, Telnet, HTTP requests and responses, methods, headers, status codes, authentication, and the difference between HTTP and HTTPS.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Learning Objectives</div>
+        <h3>Understanding Client-Server Protocols</h3>
+        <p>By the end of this chapter, you should be able to describe the client-server relationship, explain the complete request-processing-response cycle, and distinguish an application from the protocol that organizes its communication.</p>
+        <p>You will learn the purpose and limitations of Telnet, the structure of HTTP messages, common HTTP methods and status codes, the role of headers and bodies, the basic idea of authentication and authorization, and why HTTPS is preferred for sensitive communication.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Client-Server Architecture</div>
+        <h3>2.1 Client, Network, Server, and Protocol</h3>
+        <p>A client is the application or device that requests a service. A server is the application or device that provides the service. The network carries messages between them, while a protocol defines the rules, message structure, and expected behavior of the communication.</p>
+        <div class="step-box"><b>Website example:</b> Web Browser = Client → HTTP Request → Web Server = Server → HTTP Response → Web Browser.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Communication Cycle</div>
+        <h3>3.1 Request, Processing, and Response</h3>
+        <p>Client-server communication usually begins when the client starts an interaction. The client sends a request, the server receives and processes it, and the server returns a response. The client then interprets the response and presents the result to the user.</p>
+        <div class="step-box"><b>Complete cycle:</b> Client starts → Request sent → Server receives → Server processes → Response sent → Client displays result.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Client\n  ↓ Request\nServer\n  ↓ Processing\nClient receives Response\n  ↓\nUser sees the result", language="text")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. Telnet</div>
+        <h3>4.1 Remote Terminal Access</h3>
+        <p>Telnet is a protocol that allows a user to access and interact with a remote system through a network connection. The main concepts are a Telnet client, a Telnet server, a terminal interface, and a remote session.</p>
+        <p>In a general Telnet flow, the user starts a session, the client connects to the remote server, commands are sent, results are returned, and the session eventually ends.</p>
+        <div class="step-box"><b>Flow:</b> User Computer → Telnet Client → Network → Remote Server.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. Telnet Communication</div>
+        <h3>5.1 A Remote Session Step by Step</h3>
+        <p>A Telnet session is an interactive conversation. The user initiates the connection, the remote system accepts or rejects it, the client sends terminal input, and the server returns output. The user closes the session when the remote interaction is complete.</p>
+        <table class="summary-table">
+            <tr><th>Step</th><th>What happens</th></tr>
+            <tr><td>1</td><td>User starts a remote-session request</td></tr>
+            <tr><td>2</td><td>Telnet client contacts the remote server</td></tr>
+            <tr><td>3</td><td>A session is established if the server accepts</td></tr>
+            <tr><td>4</td><td>Commands and output travel between client and server</td></tr>
+            <tr><td>5</td><td>The session is terminated</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. Telnet and Security</div>
+        <h3>6.1 Why Telnet Is Not Suitable for Sensitive Data</h3>
+        <p>Traditional Telnet does not provide modern protection suitable for sensitive information. Data exchanged through an unprotected remote session may be exposed to parties able to observe the communication. For secure remote administration, SSH is the conceptual comparison: it is designed to provide stronger protection for the remote session.</p>
+        <div class="step-box"><b>Security lesson:</b> Never treat a protocol as safe merely because it connects successfully. Confidentiality and integrity matter when credentials or commands are transmitted.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. HTTP</div>
+        <h3>7.1 Hypertext Transfer Protocol</h3>
+        <p>HTTP is the Hypertext Transfer Protocol used for communication between web clients and web servers. A browser sends an HTTP request for a resource, the server processes the request, and the server returns an HTTP response.</p>
+        <div class="step-box"><b>Web flow:</b> Browser → HTTP Request → Web Server → HTTP Response → Browser.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. How HTTP Works</div>
+        <h3>8.1 From URL to Rendered Page</h3>
+        <p>When a user enters a URL, the browser determines the destination and prepares a request. The request is sent to the server. The server finds or generates the requested resource, constructs a response, and sends it back. The browser interprets the response and renders the result.</p>
+        <ol><li>User enters a URL.</li><li>The destination server is identified.</li><li>The browser sends an HTTP request.</li><li>The server processes the request.</li><li>The server sends an HTTP response.</li><li>The browser displays the content.</li></ol>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. HTTP Request</div>
+        <h3>9.1 Method, Resource, Headers, and Body</h3>
+        <p>An HTTP request tells the server what the client wants. It commonly contains a request method, a URL or resource path, headers with metadata, and an optional body containing submitted data.</p>
+        <table class="summary-table">
+            <tr><th>Part</th><th>Purpose</th></tr>
+            <tr><td>Method</td><td>Describes the intended action, such as GET or POST</td></tr>
+            <tr><td>URL/resource</td><td>Identifies the resource or endpoint</td></tr>
+            <tr><td>Headers</td><td>Carry metadata about the request and client</td></tr>
+            <tr><td>Body</td><td>Optionally carries data sent to the server</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("GET /index.html HTTP/1.1\nHost: example.com\nAccept: text/html\n\n# The body may be empty for this simple GET request", language="http")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. HTTP Methods</div>
+        <h3>10.1 GET, POST, PUT, and DELETE</h3>
+        <p>Methods communicate the intended action. GET requests a resource. POST submits data or asks the server to create a new resource in many application designs. PUT commonly updates or replaces a resource. DELETE requests removal of a resource. The exact behavior is defined by the application API.</p>
+        <div class="step-box"><b>User-account scenario:</b> GET displays user data → POST creates a new record → PUT updates the record → DELETE removes the record.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. HTTP Response</div>
+        <h3>11.1 Status Code, Headers, and Body</h3>
+        <p>An HTTP response communicates the result of a request. The status code gives a broad outcome, headers provide metadata, and the body may contain HTML, JSON, text, or another representation of the result.</p>
+        <table class="summary-table">
+            <tr><th>Status</th><th>Meaning through a scenario</th></tr>
+            <tr><td>200 OK</td><td>The request succeeded and the resource or result is returned</td></tr>
+            <tr><td>301 / 302</td><td>The client is directed to another location</td></tr>
+            <tr><td>404 Not Found</td><td>The requested resource does not exist at that location</td></tr>
+            <tr><td>500 Internal Server Error</td><td>The server encountered an unexpected processing problem</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. Status Code Families</div>
+        <h3>12.1 Reading the First Digit</h3>
+        <p>Status codes are grouped by their first digit. 1xx codes provide informational messages. 2xx codes indicate success. 3xx codes indicate redirection. 4xx codes indicate a problem with the client request or its authorization. 5xx codes indicate a problem while the server processes the request.</p>
+        <p>The purpose is diagnosis, not memorizing isolated numbers. For example, a 404 suggests checking the requested path, while a 500 suggests investigating server-side processing.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. HTTP Headers</div>
+        <h3>13.1 Metadata about Requests and Responses</h3>
+        <p>Headers carry additional information alongside the main message. Host identifies the destination host. Content-Type describes the format of the body. Content-Length describes its size. User-Agent identifies the client software. Accept indicates formats the client can handle. Authorization carries authentication-related information according to the application design.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Host: example.com\nContent-Type: application/json\nAccept: application/json\nUser-Agent: ExampleBrowser/1.0\nAuthorization: <application-defined credential>", language="http")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. Authentication and Authorization</div>
+        <h3>14.1 Identity versus Permission</h3>
+        <p>Authentication verifies who a user or system is. Authorization determines what an authenticated identity is allowed to access or change. When a user submits a username and password, the server verifies the credentials and then grants or denies access based on the result and the user's permissions.</p>
+        <div class="step-box"><b>Login flow:</b> Username + Password → Server verifies credentials → Access granted or denied. Authentication answers “Who are you?” Authorization answers “What may you do?”</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">15. HTTP versus HTTPS</div>
+        <h3>15.1 Protecting Client-Server Communication</h3>
+        <p>HTTP is the web protocol without the modern transport protection provided by TLS. HTTPS is HTTP over TLS and is designed to protect the connection between client and server. HTTPS is especially important when users submit passwords, payment information, personal data, or other sensitive content.</p>
+        <table class="summary-table">
+            <tr><th>HTTP</th><th>HTTPS</th></tr>
+            <tr><td>HTTP communication without TLS protection</td><td>HTTP communication protected using TLS</td></tr>
+            <tr><td>Not appropriate for sensitive data by itself</td><td>Provides stronger protection for data in transit</td></tr>
+            <tr><td>Uses the same request-response concept</td><td>Uses the same HTTP semantics over a protected connection</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">16. Real-World Scenarios</div>
+        <h3>16.1 Website, GET, 404, POST, and Client Roles</h3>
+        <p><b>Opening a website:</b> Browser → HTTP request → web server → HTTP response → browser. The browser renders the returned content.</p>
+        <p><b>GET:</b> The client requests <code>GET /index.html</code>. If the resource exists, the server may return <code>200 OK</code> with its content.</p>
+        <p><b>404:</b> The client requests a path, the server cannot find the resource, and the server returns <code>404 Not Found</code>.</p>
+        <p><b>POST:</b> A form sends data in a POST request. The server validates and processes it, then returns a response describing the result.</p>
+        <p><b>Client and server roles:</b> A browser is a client when requesting a page, but the same computer can act as a server when it provides a service to another device.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">17. Practical Activities</div>
+        <h3>17.1 HTTP Analysis and Client-Server Simulation</h3>
+        <p>In an authorized educational environment, use Wireshark to observe suitable HTTP traffic and identify source, destination, protocol, request, response, and headers. For status-code analysis, match scenarios with 200, 404, and 500. For the simulation activity, choose a request method and predict the server response.</p>
+        <div class="step-box"><b>Simulation flow:</b> Client selects GET, POST, PUT, or DELETE → request is sent → server processes it → expected response and status code are displayed.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Activity worksheet:\n1. Identify the client and server.\n2. Identify the HTTP method.\n3. Record the resource path.\n4. Inspect relevant headers.\n5. Identify the response status code.\n6. Explain what the response body represents.", language="text")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">18. Key Terms and Summary</div>
+        <h3>18.1 Client-Server Protocol Vocabulary</h3>
+        <p>A <b>client</b> requests a service, a <b>server</b> provides it, and a <b>protocol</b> organizes the exchange. <b>Telnet</b> provides legacy remote terminal access but is not suitable for sensitive information. <b>HTTP</b> and <b>HTTPS</b> support web communication. A <b>request</b> travels from client to server, while a <b>response</b> travels back. A method such as GET, POST, PUT, or DELETE describes the intended action. Headers carry metadata, a body carries content, and a status code describes the outcome. Authentication verifies identity, authorization controls permission, and TLS protects HTTPS communication.</p>
+        <p>The complete cycle to remember is: Client → Request → Server → Processing → Response → Client. This cycle appears when opening a website, loading a page, submitting a form, receiving a 404, or signing in.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_computer_networks_chapter_4_quiz()
+
+elif display_page == "Chapter 3: Application Layer Overview":
+    st.markdown("## Computer Networks")
+    st.markdown("### Chapter 3: Application Layer Overview")
+    st.info("This chapter explains how user applications use network services, how client-server communication works, how DNS resolves names, how ports identify services, and how basic utilities help diagnose connectivity.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Learning Objectives</div>
+        <h3>What You Will Learn</h3>
+        <p>By the end of this chapter, you should be able to explain the role of the Application Layer, distinguish an application from an application-layer protocol, describe client-server requests and responses, and identify common application services.</p>
+        <p>You will also understand DNS name resolution, common DNS records, ports, ping, traceroute, nslookup, and Wireshark observations. The central scenario is: type a website name → resolve it to an IP address → connect to the server → send an application request → receive a response.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Application Layer</div>
+        <h3>2.1 The Layer Closest to User Software</h3>
+        <p>The Application Layer is the network layer closest to user applications. It provides network services that software can use to browse websites, send email, transfer files, access remote systems, resolve names, and manage networks.</p>
+        <p>Examples of applications include web browsers, email clients, file-transfer programs, and network utilities. The application itself presents the user interface and business purpose; application-layer protocols define how the software communicates with a remote service.</p>
+        <div class="step-box"><b>Website example:</b> A browser is not the web protocol itself. The browser uses HTTP or HTTPS to communicate with a web server.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Network Applications</div>
+        <h3>3.1 Common Services That Depend on Networks</h3>
+        <table class="summary-table">
+            <tr><th>Application activity</th><th>Example software</th><th>Network purpose</th></tr>
+            <tr><td>Web browsing</td><td>Chrome, Safari, Firefox</td><td>Request and receive web resources</td></tr>
+            <tr><td>Email</td><td>Email client</td><td>Send and retrieve messages</td></tr>
+            <tr><td>File transfer</td><td>FTP client</td><td>Upload or download files</td></tr>
+            <tr><td>Remote access</td><td>Remote administration tools</td><td>Interact with a distant system</td></tr>
+            <tr><td>Name resolution</td><td>Resolver or nslookup</td><td>Find address information for names</td></tr>
+            <tr><td>Network management</td><td>Monitoring utilities</td><td>Observe, test, and manage network behavior</td></tr>
+        </table>
+        <p>An application is the software or service the user interacts with. A protocol is the agreed message format and communication rule used by that application.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. Application Protocols</div>
+        <h3>4.1 Rules Used by Applications</h3>
+        <p>An application-layer protocol defines how applications format messages, identify actions, express requests, return responses, and handle communication. HTTP and HTTPS support the Web. DNS resolves names. FTP supports file transfer. SMTP transfers email between mail systems. Telnet provides a simple remote terminal protocol and should be treated carefully because traditional Telnet traffic is not protected like modern secure alternatives.</p>
+        <table class="summary-table">
+            <tr><th>Protocol</th><th>Introductory purpose</th></tr>
+            <tr><td>HTTP</td><td>Web requests and responses</td></tr>
+            <tr><td>HTTPS</td><td>HTTP communication with transport encryption protection</td></tr>
+            <tr><td>DNS</td><td>Domain-name resolution and DNS information</td></tr>
+            <tr><td>FTP</td><td>File transfer</td></tr>
+            <tr><td>SMTP</td><td>Email transfer</td></tr>
+            <tr><td>Telnet</td><td>Remote terminal communication; mainly a conceptual and legacy protocol</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. Client-Server Architecture</div>
+        <h3>5.1 Who Requests and Who Provides?</h3>
+        <p>In the client-server model, a client is a device or application that requests a service. A server is a device or program that provides a service or resource. A single system can sometimes act as both a client and a server in different interactions.</p>
+        <div class="step-box"><b>Web example:</b> Web Browser = Client. Web Server = Server. The browser requests a resource, and the server processes the request and returns a response.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. Request and Response</div>
+        <h3>6.1 The Basic Application Conversation</h3>
+        <p>Many network applications follow a request-response pattern. The client creates a request, the server receives and processes it, and the server sends a response. The client then interprets the response and updates the user interface.</p>
+        <div class="step-box"><b>Sequence:</b> Browser sends request → server receives request → server processes request → server sends response → browser displays the result.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Client:  GET /index.html\nServer: process the request\nServer: HTTP response + page data\nClient: render the page for the user", language="text")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. DNS</div>
+        <h3>7.1 Domain Name System</h3>
+        <p>DNS translates human-readable domain names into IP addresses used to reach network endpoints. People prefer names such as <code>example.com</code>, while network communication ultimately needs an address such as an IPv4 or IPv6 address.</p>
+        <p>DNS also provides a flexible naming system. A website can change its server address while users continue using the same domain name, as long as DNS records are updated appropriately.</p>
+        <div class="step-box"><b>Core idea:</b> Domain Name → DNS Resolution → IP Address → Connection to Destination.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. DNS Name Resolution</div>
+        <h3>8.1 From a Name to an Address</h3>
+        <p>When a user enters a domain, the client asks a DNS resolver for the corresponding address. The resolver may answer from its cache or query other DNS servers. After receiving an IP address, the client can attempt to establish communication with the destination.</p>
+        <div class="step-box"><b>Resolution flow:</b> User enters domain name → DNS query → resolver or DNS server → IP address returned → client connects to destination.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. DNS Components</div>
+        <h3>9.1 Resolver, Servers, Names, and Records</h3>
+        <p>A <b>DNS client or resolver</b> sends questions on behalf of an application. A <b>DNS server</b> stores or obtains DNS information. A <b>DNS record</b> contains a particular mapping or service detail. A <b>domain name</b> is the human-readable name being resolved.</p>
+        <p>At a high level, a recursive resolver may ask a Root Server where to find a TLD server, ask the TLD server where the authoritative server is, and then ask the authoritative server for the requested record. Caching can make later lookups faster.</p>
+        <div class="step-box"><b>DNS journey:</b> Client → Recursive Resolver → Root Server → TLD Server → Authoritative Server → Answer.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. DNS Records</div>
+        <h3>10.1 Common Record Types</h3>
+        <table class="summary-table">
+            <tr><th>Record</th><th>Meaning</th><th>Simple example</th></tr>
+            <tr><td>A</td><td>Maps a name to an IPv4 address</td><td>example.com → 203.0.113.10</td></tr>
+            <tr><td>AAAA</td><td>Maps a name to an IPv6 address</td><td>example.com → IPv6 address</td></tr>
+            <tr><td>CNAME</td><td>Creates an alias for another domain name</td><td>www.example.com → example.com</td></tr>
+            <tr><td>MX</td><td>Identifies mail servers for a domain</td><td>example.com → mail.example.com</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. Network Utilities</div>
+        <h3>11.1 Ping, Traceroute, and Nslookup</h3>
+        <p><b>Ping</b> tests basic reachability and reports response time or packet loss. A reply indicates that a response was received, while a timeout means no reply arrived within the expected interval. A successful ping does not prove that every web page, API, database, or application feature is functioning.</p>
+        <p><b>Traceroute</b>, called <code>tracert</code> on Windows, displays the sequence of hops between the local device and a destination. <b>Nslookup</b> queries DNS information for a domain.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("ping example.com\ntraceroute example.com\n# Windows equivalent\ntracert example.com\nnslookup example.com", language="bash")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. Ports</div>
+        <h3>12.1 IP Address versus Port Number</h3>
+        <p>A device may run several network services at the same time. The IP address identifies the network endpoint, while the port number helps identify the service or process on that endpoint. Together, an address and port help direct traffic to the intended service.</p>
+        <table class="summary-table">
+            <tr><th>Service</th><th>Common port</th></tr>
+            <tr><td>HTTP</td><td>80</td></tr>
+            <tr><td>HTTPS</td><td>443</td></tr>
+            <tr><td>DNS</td><td>53</td></tr>
+            <tr><td>FTP</td><td>21</td></tr>
+            <tr><td>SMTP</td><td>25</td></tr>
+        </table>
+        <div class="step-box"><b>Example:</b> 192.168.1.10 identifies the device; port 443 indicates the HTTPS service on that device.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. Application Layer and Lower Layers</div>
+        <h3>13.1 Connecting Chapter 3 to Chapter 2</h3>
+        <p>The Application Layer does not move data alone. It relies on lower layers. For a website request, HTTP or HTTPS creates the application conversation, TCP may provide transport delivery, IP handles Internet addressing and routing, and Ethernet or Wi-Fi provides local network access.</p>
+        <div class="layer-stack"><div>Application — HTTP / HTTPS</div><div>Transport — TCP</div><div>Internet — IP</div><div>Network Access — Ethernet / Wi-Fi</div></div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. Real-World Scenarios</div>
+        <h3>14.1 Opening a Website, DNS, Ping, Ports, and Traceroute</h3>
+        <p><b>Opening a website:</b> The user enters www.example.com. The browser triggers a DNS query, receives an IP address, connects to the destination, sends an HTTP or HTTPS request, and receives a server response.</p>
+        <p><b>Ping:</b> Running <code>ping example.com</code> provides reachability, response, latency, and possible packet-loss information. It does not prove that the complete website is healthy.</p>
+        <p><b>Traceroute:</b> The path may look like Device → Router 1 → Router 2 → Router 3 → Destination. Each hop represents a network device or routing step that responded to the diagnostic method.</p>
+        <p><b>Port:</b> 192.168.1.10:443 means the host is 192.168.1.10 and the intended service is commonly HTTPS.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">15. Practical Activities</div>
+        <h3>15.1 Ping, Traceroute, DNS Lookup, and Wireshark</h3>
+        <p>Use these tools only on systems and networks you are authorized to test. For Ping, record the destination, replies, average response time, and packet loss. For Traceroute, record the visible hops and note that some devices may not respond. For Nslookup, identify the domain, returned address, and DNS server. In Wireshark, observe a DNS Query and DNS Response and identify source, destination, protocol, query, and response fields.</p>
+        <div class="step-box"><b>Wireshark observation:</b> DNS Query → DNS Response. Connect the visible packet fields to the Application Layer and the IP/transport information below it.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Activity checklist:\n1. ping example.com\n2. tracert example.com  # Windows\n3. traceroute example.com  # Linux/macOS\n4. nslookup example.com\n5. In Wireshark, locate DNS Query and DNS Response packets.", language="bash")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">16. Key Terms and Summary</div>
+        <h3>16.1 Application-Layer Vocabulary</h3>
+        <p><b>Application Layer</b> provides network services to software. An <b>application</b> is the user-facing program. A <b>protocol</b> defines communication rules. A <b>client</b> requests service and a <b>server</b> provides it. A <b>request</b> asks for an action or resource, while a <b>response</b> reports the result. <b>DNS</b> resolves names. A <b>domain name</b> is a readable identifier. A <b>DNS resolver</b> performs lookups, a <b>DNS record</b> stores a mapping, and a <b>port</b> identifies a service on a host. <b>Ping</b>, <b>traceroute</b>, and <b>nslookup</b> are basic diagnostic tools.</p>
+        <p>The most important workflow is: type a site name → DNS resolves the name → the client obtains an IP address → the client connects to the server → the application sends a request → the server returns a response.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_computer_networks_chapter_3_quiz()
+
+elif display_page == "Chapter 2: Layered Network Architectures":
+    st.markdown("## Computer Networks")
+    st.markdown("### Chapter 2: Layered Network Architectures")
+    st.info("This chapter explains why networking is organized into layers, how the OSI and TCP/IP models are structured, and how data is encapsulated during transmission and decapsulated at the receiver.")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">1. Learning Objectives</div>
+        <h3>Understanding Layered Communication</h3>
+        <p>By the end of this chapter, you should be able to explain what a layered network architecture is, why layers reduce communication complexity, and how each layer provides services to the layer above it.</p>
+        <p>You should also be able to describe the seven OSI layers, the four TCP/IP layers, compare both models, identify common protocol data units, and explain encapsulation and decapsulation using real communication examples.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">2. Layered Architecture</div>
+        <h3>2.1 What Is a Layered Network Architecture?</h3>
+        <p>A layered architecture divides network communication into separate levels of responsibility. Each layer performs a focused group of tasks, uses services from the layer below, and provides services to the layer above. The layers cooperate even though each one has a different role.</p>
+        <div class="step-box"><b>Sending:</b> Application → Transport → Network → Data Link → Physical.<br><b>Receiving:</b> Physical → Data Link → Network → Transport → Application.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">3. Why Layers?</div>
+        <h3>3.1 Complexity, Modularity, and Interoperability</h3>
+        <p>Layers prevent one enormous protocol from having to solve every problem at once. They provide modularity: one layer can change without redesigning the entire system. Standards allow products from different vendors to interoperate. The separation also makes troubleshooting and network development more systematic.</p>
+        <table class="summary-table">
+            <tr><th>Problem</th><th>How layering helps</th></tr>
+            <tr><td>Complexity</td><td>Divides a large communication task into smaller responsibilities</td></tr>
+            <tr><td>Modularity</td><td>Allows one component or protocol to evolve independently</td></tr>
+            <tr><td>Standardization</td><td>Defines common interfaces and expectations</td></tr>
+            <tr><td>Interoperability</td><td>Allows different systems to communicate using shared rules</td></tr>
+            <tr><td>Troubleshooting</td><td>Helps isolate a failure to a particular layer or function</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">4. OSI Model</div>
+        <h3>4.1 The Seven-Layer Reference Model</h3>
+        <p>The Open Systems Interconnection (OSI) model is a seven-layer reference model. It is mainly used as a conceptual framework for describing network functions and troubleshooting. The layers are counted from Layer 1 at the bottom to Layer 7 at the top.</p>
+        <div class="layer-stack"><div>7 — Application</div><div>6 — Presentation</div><div>5 — Session</div><div>4 — Transport</div><div>3 — Network</div><div>2 — Data Link</div><div>1 — Physical</div></div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">5. OSI Layer 1</div>
+        <h3>5.1 Physical Layer — Bits and Signals</h3>
+        <p>The Physical layer transmits raw bits as electrical, optical, or radio signals. It describes the physical media, connectors, signal characteristics, cables, wireless transmission, and the timing or representation of 0s and 1s.</p>
+        <p>When a computer sends a bit over copper, the bit is represented by an electrical signal. Over fiber, it is represented by light. Over wireless, it is represented through radio waves. The Physical layer does not interpret application meaning; it carries the signal.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">6. OSI Layer 2</div>
+        <h3>6.1 Data Link Layer — Frames and MAC Addresses</h3>
+        <p>The Data Link layer provides communication across a local network. It organizes data into frames, uses hardware MAC addresses for local delivery, detects certain transmission errors, and coordinates access to the local medium. Switches primarily operate with Layer 2 information.</p>
+        <div class="step-box"><b>Local example:</b> Two computers on the same LAN can use their MAC addresses and a switch's forwarding table to deliver a frame to the correct local port.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">7. OSI Layer 3</div>
+        <h3>7.1 Network Layer — Packets, IP, and Routing</h3>
+        <p>The Network layer provides logical addressing and routing between different networks. It carries packets that contain source and destination IP addresses. Routers examine network-layer information and select a next hop toward the destination.</p>
+        <p>If two devices are in different networks, the sender forwards the packet to a router or default gateway. The router consults its routing information, selects an appropriate interface, and forwards the packet toward the destination network.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">8. OSI Layer 4</div>
+        <h3>8.1 Transport Layer — TCP, UDP, and Ports</h3>
+        <p>The Transport layer provides process-to-process communication. Ports identify application processes, while TCP and UDP offer different delivery choices. TCP supports connection-oriented, reliable, ordered delivery with mechanisms for error and flow control. UDP has lower overhead and is useful when speed and simplicity are more important than built-in delivery guarantees.</p>
+        <table class="summary-table">
+            <tr><th>TCP</th><th>UDP</th></tr>
+            <tr><td>Reliable and ordered delivery</td><td>Lightweight and lower overhead</td></tr>
+            <tr><td>Uses acknowledgments and control mechanisms</td><td>Does not provide the same built-in reliability</td></tr>
+            <tr><td>Useful when completeness matters</td><td>Useful for time-sensitive traffic or applications with their own control</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">9. OSI Layers 5 and 6</div>
+        <h3>9.1 Session and Presentation Layers</h3>
+        <p>The <b>Session layer</b> establishes, manages, maintains, and ends communication sessions. A session represents an organized interaction between applications. The <b>Presentation layer</b> focuses on data representation: translation between formats, encoding, encryption and decryption, and compression.</p>
+        <p>For example, two systems may need to agree on how characters or structured data are represented. Presentation functions help ensure that the receiving system can interpret the information correctly.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">10. OSI Layer 7</div>
+        <h3>10.1 Application Layer — Services for Applications</h3>
+        <p>The Application layer provides network services used by application software. Examples include HTTP and HTTPS for web communication, FTP for file transfer, SMTP for email transfer, and DNS for name resolution. When a browser opens a website, it uses application-layer protocols to express the request and interpret the response.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Browser application\n    ↓ HTTP or HTTPS\nTransport service\n    ↓ TCP or UDP\nNetwork service\n    ↓ IP routing\nLocal access\n    ↓ Ethernet or Wi-Fi\nWeb server", language="text")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">11. OSI Overview</div>
+        <h3>11.1 Layer, Data Unit, and Associated Technology</h3>
+        <table class="summary-table">
+            <tr><th>OSI layer</th><th>Main function</th><th>Common data term or example</th></tr>
+            <tr><td>7 Application</td><td>Services for applications</td><td>HTTP, DNS, FTP, SMTP; application data</td></tr>
+            <tr><td>6 Presentation</td><td>Translation, encryption, compression</td><td>Formatted or encoded data</td></tr>
+            <tr><td>5 Session</td><td>Establish and manage sessions</td><td>Session interaction</td></tr>
+            <tr><td>4 Transport</td><td>Process-to-process delivery</td><td>Segment; TCP or UDP; ports</td></tr>
+            <tr><td>3 Network</td><td>Logical addressing and routing</td><td>Packet; IP; router</td></tr>
+            <tr><td>2 Data Link</td><td>Local delivery and error detection</td><td>Frame; MAC; switch</td></tr>
+            <tr><td>1 Physical</td><td>Signals and raw bit transmission</td><td>Bits; cable; fiber; radio</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">12. TCP/IP Model</div>
+        <h3>12.1 The Four-Layer Internet Model</h3>
+        <p>The TCP/IP model describes the architecture used by the Internet through four broad layers: Application, Transport, Internet, and Network Access. It is commonly presented as a protocol model because it groups the protocols and functions used in real networks.</p>
+        <table class="summary-table">
+            <tr><th>TCP/IP layer</th><th>Role</th><th>Examples</th></tr>
+            <tr><td>Application</td><td>Application services and formats</td><td>HTTP, HTTPS, DNS, FTP, SMTP</td></tr>
+            <tr><td>Transport</td><td>Process communication and ports</td><td>TCP, UDP</td></tr>
+            <tr><td>Internet</td><td>IP addressing and routing</td><td>IP, ICMP</td></tr>
+            <tr><td>Network Access</td><td>Local delivery and physical transmission</td><td>Ethernet, Wi-Fi, physical media</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">13. OSI vs TCP/IP</div>
+        <h3>13.1 Why the Models Have Different Numbers of Layers</h3>
+        <p>OSI separates Application, Presentation, and Session functions into three layers. TCP/IP generally combines those functions into its Application layer. OSI also separates Data Link and Physical, while TCP/IP groups them into Network Access. The grouping does not mean the functions disappear; it means the practical model organizes them differently.</p>
+        <table class="summary-table">
+            <tr><th>OSI</th><th>TCP/IP</th></tr>
+            <tr><td>Application</td><td rowspan="3">Application</td></tr>
+            <tr><td>Presentation</td></tr>
+            <tr><td>Session</td></tr>
+            <tr><td>Transport</td><td>Transport</td></tr>
+            <tr><td>Network</td><td>Internet</td></tr>
+            <tr><td>Data Link</td><td rowspan="2">Network Access</td></tr>
+            <tr><td>Physical</td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">14. Encapsulation</div>
+        <h3>14.1 How Headers and Layer Information Are Added</h3>
+        <p>Encapsulation occurs at the sender as application data moves down the stack. Each relevant layer adds information needed by its peer layer on the receiving system. The names commonly used for the resulting units are application data, segment, packet, frame, and bits.</p>
+        <div class="step-box"><b>Encapsulation:</b> Application Data → Transport Segment → Network Packet → Data Link Frame → Physical Bits.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Application:  message data\nTransport:    [TCP/UDP information + data] = Segment\nNetwork:      [IP information + segment] = Packet\nData Link:    [MAC information + packet] = Frame\nPhysical:     frame represented as signals = Bits", language="text")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">15. Decapsulation</div>
+        <h3>15.1 How the Receiver Reconstructs the Data</h3>
+        <p>Decapsulation is the reverse process. The receiver accepts physical signals, interprets them as a frame, examines network and transport information, removes the layer-specific information, and delivers the original application data to the correct process.</p>
+        <div class="step-box"><b>Decapsulation:</b> Bits → Frame → Packet → Segment → Application Data.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">16. Real-World Examples</div>
+        <h3>16.1 Message, Website, and Device Roles</h3>
+        <p><b>Sending a message:</b> application data becomes a transport segment, then an IP packet, then a local frame, and finally signals. The receiver performs decapsulation in reverse.</p>
+        <p><b>Opening a website:</b> the browser uses HTTP or HTTPS, the transport layer may use TCP, the Internet layer uses IP, and the Network Access layer uses Ethernet or Wi-Fi.</p>
+        <p><b>Switch versus router:</b> a switch primarily uses Data Link information for local forwarding, while a router uses Network-layer IP information to connect different networks.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">17. Practical Wireshark Activity</div>
+        <h3>17.1 Connecting Captured Fields to Layers</h3>
+        <p>Use Wireshark on an authorized interface to observe how protocols appear together in a packet. Search or inspect traffic containing Ethernet, IP, TCP or UDP, and HTTP or DNS. The purpose is not to memorize names but to connect each visible protocol to its layer and function.</p>
+        <div class="step-box"><b>Example packet:</b> Ethernet → IP → TCP → HTTP.<br>Ethernet maps to Data Link, IP maps to Network, TCP maps to Transport, and HTTP maps to Application.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.code("Wireshark worksheet:\n1. Identify the Ethernet header.\n2. Identify the source and destination IP addresses.\n3. Identify TCP or UDP and the port information.\n4. Identify HTTP or DNS if present.\n5. Write the OSI layer represented by each protocol.", language="text")
+
+    st.markdown("""
+    <div class="learning-card">
+        <div class="concept-badge">18. Key Terms and Summary</div>
+        <h3>18.1 Vocabulary for Layered Networking</h3>
+        <p>A <b>layer</b> is a focused level of network responsibility. A <b>protocol</b> is a communication rule set. The <b>OSI model</b> has seven reference layers, while the <b>TCP/IP model</b> has four broad protocol layers. A <b>segment</b> is a Transport-layer data unit, a <b>packet</b> is associated with the Network layer, a <b>frame</b> with the Data Link layer, and a <b>bit</b> with the Physical layer. MAC addresses identify local interfaces, IP addresses support logical delivery, and ports identify processes.</p>
+        <p>The central lesson is that layers are not just a list to memorize. They explain why communication can be developed, standardized, tested, and troubleshot in organized pieces. Encapsulation carries information downward at the sender; decapsulation reconstructs it upward at the receiver.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    render_computer_networks_chapter_2_quiz()
 
 elif display_page == "Chapter 1: Introduction to Computer Networks":
     st.markdown("## Computer Networks")

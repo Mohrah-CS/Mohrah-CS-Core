@@ -5568,7 +5568,7 @@ elif display_page == "🚀 Smart Exam Prep":
     st.error("🚨 LEVEL: IMPOSSIBLE")
     st.write("This section is designed for professionals only. The questions here simulate international certification exams and the most complex final exams.")
     
-    quiz_subject = st.selectbox("Choose Your Battlefield:", ["Operating Systems (OS)", "Theory of Computation (TOC)", "Database Systems (DB)"])
+    quiz_subject = st.selectbox("Choose Your Battlefield:", ["Operating Systems (OS)", "Theory of Computation (TOC)", "Database Systems (DB)", "Mobile Application Development (MAD)"])
     
     if quiz_subject == "Operating Systems (OS)":
         st.subheader("🖥️ OS Hardcore Challenge (20 Questions)")
@@ -5657,6 +5657,45 @@ elif display_page == "🚀 Smart Exam Prep":
                 st.info("Great job! You are ready for the final exam.")
             else:
                 st.warning("Theory is deep. Re-read the modules and try again!")
+    elif quiz_subject == "Mobile Application Development (MAD)":
+        st.subheader("📱 Mobile Application Development — Hardcore Challenge (20 Questions)")
+        mobile_master_bank = [
+            {"q": "1. Which Flutter widget is used to display a local bundled image?", "o": ["Image.asset", "Image.network", "NetworkImage.asset", "AssetView"], "a": "Image.asset"},
+            {"q": "2. Which keyword creates a compile-time constant in Dart?", "o": ["const", "var", "late", "dynamic"], "a": "const"},
+            {"q": "3. Which method rebuilds a StatefulWidget after a state change?", "o": ["setState()", "rebuildNow()", "refreshWidget()", "notifyRoute()"], "a": "setState()"},
+            {"q": "4. What does ChangeNotifier.notifyListeners() do?", "o": ["Notifies listening widgets that state changed", "Navigates to a new route", "Creates a database", "Loads an image"], "a": "Notifies listening widgets that state changed"},
+            {"q": "5. Which HTTP method is commonly used to retrieve data from an API?", "o": ["GET", "PUSH", "FETCHONLY", "READSQL"], "a": "GET"},
+            {"q": "6. What format is commonly decoded from REST API responses in Flutter?", "o": ["JSON", "PNG", "Dart VM bytecode", "YAML only"], "a": "JSON"},
+            {"q": "7. Which operation represents updating an existing database record?", "o": ["UPDATE", "SELECT", "CREATEONLY", "DISPLAY"], "a": "UPDATE"},
+            {"q": "8. What does Navigator.push() do?", "o": ["Adds a new route to the navigation stack", "Removes the current route", "Clears application state", "Creates a widget theme"], "a": "Adds a new route to the navigation stack"},
+            {"q": "9. How can a screen return a value to the previous screen?", "o": ["Navigator.pop(context, result)", "Navigator.push(context, result)", "Theme.of(context)", "Route.returnOnly()"], "a": "Navigator.pop(context, result)"},
+            {"q": "10. Where are named-route arguments commonly retrieved?", "o": ["ModalRoute.of(context)!.settings.arguments", "Theme.of(context).arguments", "Navigator.argumentsOnly", "RouteData.value"], "a": "ModalRoute.of(context)!.settings.arguments"},
+            {"q": "11. What is onGenerateRoute useful for?", "o": ["Creating routes dynamically at runtime", "Styling a button", "Loading a local asset", "Creating a SQL index"], "a": "Creating routes dynamically at runtime"},
+            {"q": "12. Which widget detects taps, long presses, and swipes?", "o": ["GestureDetector", "ListTile", "Divider", "GridTile"], "a": "GestureDetector"},
+            {"q": "13. What feedback does InkWell provide?", "o": ["A Material ripple effect", "A database result", "A route argument", "A network response"], "a": "A Material ripple effect"},
+            {"q": "14. Which widget is designed for a primary circular action?", "o": ["FloatingActionButton", "TextButton", "Divider", "Tooltip"], "a": "FloatingActionButton"},
+            {"q": "15. What does Flexible help prevent in a Row or Column?", "o": ["Layout overflow", "Missing API data", "Invalid route names", "Image caching"], "a": "Layout overflow"},
+            {"q": "16. Which widget displays temporary feedback at the bottom of the screen?", "o": ["SnackBar", "Hero", "GridTile", "AppBar"], "a": "SnackBar"},
+            {"q": "17. What is a Tooltip primarily used for?", "o": ["Short contextual help", "Persistent database storage", "Screen navigation", "Image cropping"], "a": "Short contextual help"},
+            {"q": "18. What does a Hero widget create?", "o": ["A shared-element transition between screens", "A form validator", "A local database", "A dropdown menu"], "a": "A shared-element transition between screens"},
+            {"q": "19. Which indicator is appropriate when the exact completion amount is unknown?", "o": ["Indeterminate ProgressIndicator", "Determinate-only indicator", "Divider", "ListTile"], "a": "Indeterminate ProgressIndicator"},
+            {"q": "20. Which Material widget slides up from the bottom for contextual actions?", "o": ["BottomSheet", "SliverAppBar", "Card", "Container"], "a": "BottomSheet"},
+        ]
+        score = 0
+        mobile_master_answers = []
+        for i, item in enumerate(mobile_master_bank):
+            choice = st.radio(item["q"], item["o"], key=f"mobile_master_{i}")
+            mobile_master_answers.append({"number": i + 1, "question": item["q"], "selected": choice, "correct": item["a"]})
+            if choice == item["a"]:
+                score += 1
+        if st.button("Submit Mobile Application Development Mega Quiz", key="submit_mobile_master_quiz"):
+            st.write(f"### Final Result: {score}/{len(mobile_master_bank)}")
+            show_quiz_feedback(mobile_master_answers)
+            if score >= 15:
+                st.info("Excellent! You have a strong foundation in Mobile Application Development.")
+            else:
+                st.warning("Review the mobile development chapters and try again.")
+
     elif quiz_subject == "Database Systems (DB)":
         render_database_quiz("__master__", "Database Systems — Hardcore Challenge")
 

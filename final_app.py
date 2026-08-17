@@ -793,6 +793,7 @@ nav_map = {
     t("db"): "Database Systems",
     t("mobile"): "Mobile Application Development",
     t("networks"): "Computer Networks",
+    "Software Engineering": "Software Engineering",
     t("exam_prep"): "🚀 Smart Exam Prep",
     
     
@@ -837,6 +838,12 @@ elif main_subject == "Computer Networks":
     subject = st.sidebar.selectbox(
         t("lesson_select"),
         ["Chapter 1: Introduction to Computer Networks", "Chapter 2: Layered Network Architectures", "Chapter 3: Application Layer Overview", "Chapter 4: Client-Server Protocols: Telnet & HTTP", "Chapter 5: SMTP, DNS & FTP", "Chapter 6: Network Management & Peer-to-Peer Networks", "Chapter 7: Multimedia Networking", "Chapter 8: Transport Layer: UDP", "Chapter 9: Transport Layer: TCP & Congestion Control", "Chapter 10: Network Layer: IP Addressing & Routing", "Chapter 11: Routing Algorithms & Protocols", "Chapter 12: Data Link Layer: Framing, MAC & Error Detection", "Chapter 13: Ethernet, Switching & VLANs", "Chapter 14: Setup and Configure LAN, WLAN, WAN, and VLAN"]
+    )
+    st.session_state.current_page = subject
+elif main_subject == "Software Engineering":
+    subject = st.sidebar.selectbox(
+        t("lesson_select"),
+        ["Chapter 1: Introduction to Software Engineering"]
     )
     st.session_state.current_page = subject
 else:
@@ -2073,6 +2080,44 @@ def render_computer_networks_chapter_14_quiz():
         if choice==item["a"]: score+=1
     if st.button("Submit Computer Networks Chapter 14 Assessment",key="submit_computer_networks_ch14_quiz"):
         st.write(f"### Final Score: {score}/{len(COMPUTER_NETWORKS_CHAPTER_14_QUIZ)}")
+        show_quiz_feedback(answers)
+
+
+
+
+# --- Software Engineering: Chapter 1 ---
+SOFTWARE_ENGINEERING_CHAPTER_1_QUIZ = [
+{"q":"What is software?","o":["Programs, data, configuration, documentation, and interfaces that work together to provide a system","Only source code","Only computer hardware","Only a database table"],"a":"Programs, data, configuration, documentation, and interfaces that work together to provide a system"},
+{"q":"What is Software Engineering?","o":["The systematic application of engineering principles to software development and maintenance","Writing code without planning","Only testing an application","Only managing a budget"],"a":"The systematic application of engineering principles to software development and maintenance"},
+{"q":"Why is Software Engineering important for large systems?","o":["Large systems require planning, coordination, testing, documentation, and maintenance","Large systems never change","Coding alone always prevents defects","Users do not need requirements"],"a":"Large systems require planning, coordination, testing, documentation, and maintenance"},
+{"q":"Which statement best distinguishes programming from Software Engineering?","o":["Programming is one part of Software Engineering, which also includes requirements, design, testing, documentation, and maintenance","They are exactly the same","Programming includes no code","Software Engineering excludes teamwork"],"a":"Programming is one part of Software Engineering, which also includes requirements, design, testing, documentation, and maintenance"},
+{"q":"What does a software system commonly include besides code?","o":["Hardware, databases, networks, users, configuration, and documentation","Only a keyboard","Only a compiler","Only an IP address"],"a":"Hardware, databases, networks, users, configuration, and documentation"},
+{"q":"What is software specification concerned with?","o":["What the system should do and which requirements it must satisfy","How to select a color theme only","How to replace a server cable","Only how to write comments"],"a":"What the system should do and which requirements it must satisfy"},
+{"q":"What is software design concerned with?","o":["How the system will be structured and how its components will interact","Only entering test data","Only deploying the final build","Only collecting user names"],"a":"How the system will be structured and how its components will interact"},
+{"q":"What is implementation?","o":["Turning the design into a working system through code, interfaces, databases, and integration","Writing a project proposal only","Deleting requirements","Measuring customer satisfaction only"],"a":"Turning the design into a working system through code, interfaces, databases, and integration"},
+{"q":"What is software validation?","o":["Checking that the system works as required and satisfies its requirements","Changing a MAC address","Choosing a project name","Buying hardware only"],"a":"Checking that the system works as required and satisfies its requirements"},
+{"q":"Why does software evolution matter?","o":["User needs, platforms, regulations, and business goals change after release","Released software never changes","Evolution means removing all tests","It applies only to hardware"],"a":"User needs, platforms, regulations, and business goals change after release"},
+{"q":"What is corrective maintenance?","o":["Fixing defects or bugs in an existing system","Adapting software to a new operating system","Adding a new feature","Refactoring only for future risk"],"a":"Fixing defects or bugs in an existing system"},
+{"q":"What is adaptive maintenance?","o":["Modifying software to work in a changed environment, such as a new operating system","Fixing a login bug only","Adding dark mode only","Writing the first prototype"],"a":"Modifying software to work in a changed environment, such as a new operating system"},
+{"q":"What is perfective maintenance?","o":["Improving an existing system or adding useful functionality","Repairing a broken button only","Changing hardware cables","Removing all documentation"],"a":"Improving an existing system or adding useful functionality"},
+{"q":"What is preventive maintenance?","o":["Making changes that reduce the likelihood of future problems, such as improving code structure","Responding only after a crash","Adding a user account","Publishing a marketing page"],"a":"Making changes that reduce the likelihood of future problems, such as improving code structure"},
+{"q":"Which quality attribute describes stable and dependable operation?","o":["Reliability","Usability","Portability only","Color consistency"],"a":"Reliability"},
+{"q":"Which quality attribute concerns ease of learning and use?","o":["Usability","Checksum","Routing","Compilation"],"a":"Usability"},
+{"q":"Which quality attribute protects systems and data from unauthorized access?","o":["Security","Typography","Latency only","Deployment speed"],"a":"Security"},
+{"q":"What is maintainability?","o":["How easily a system can be understood, repaired, modified, and extended","How bright the interface is","How many users are online","How large the monitor is"],"a":"How easily a system can be understood, repaired, modified, and extended"},
+{"q":"What does SDLC stand for?","o":["Software Development Life Cycle","System Data Link Control","Software Design Language Code","Secure Database Login Configuration"],"a":"Software Development Life Cycle"},
+{"q":"Which sequence best represents a common SDLC flow?","o":["Planning → Requirements → Design → Implementation → Testing → Deployment → Maintenance","Testing → Deployment → Requirements → Planning only","Coding → Deleting → Deployment → Design","Maintenance → Hardware → DNS → Testing"],"a":"Planning → Requirements → Design → Implementation → Testing → Deployment → Maintenance"},
+]
+def render_software_engineering_chapter_1_quiz():
+    st.markdown("---")
+    st.subheader("Chapter 1 Assessment — Introduction to Software Engineering (20 Questions)")
+    answers=[]; score=0
+    for i,item in enumerate(SOFTWARE_ENGINEERING_CHAPTER_1_QUIZ):
+        choice=st.radio(item["q"],item["o"],key=f"software_engineering_ch1_quiz_{i}")
+        answers.append({"number":i+1,"question":item["q"],"selected":choice,"correct":item["a"]})
+        if choice==item["a"]: score+=1
+    if st.button("Submit Software Engineering Chapter 1 Assessment",key="submit_software_engineering_ch1_quiz"):
+        st.write(f"### Final Score: {score}/{len(SOFTWARE_ENGINEERING_CHAPTER_1_QUIZ)}")
         show_quiz_feedback(answers)
 
 
@@ -5454,6 +5499,57 @@ elif display_page == "Chapter 2: Layered Network Architectures":
 
     render_computer_networks_chapter_2_quiz()
 
+elif display_page == "Chapter 1: Introduction to Software Engineering":
+    st.markdown("## Software Engineering")
+    st.markdown("### Chapter 1: Introduction to Software Engineering")
+    st.info("This chapter introduces software, Software Engineering, software systems, quality attributes, development activities, SDLC, maintenance, professional responsibilities, and the challenges of building large systems.")
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">1. Learning Objectives</div><h3>Understanding Software as a Complete System</h3><p>By the end of this chapter, you should define software and Software Engineering, explain why disciplined engineering is needed, distinguish programming from Software Engineering, identify software quality attributes, describe development activities, explain SDLC, classify maintenance, and recognize the responsibilities and challenges of professional software work.</p><div class="step-box"><b>Core journey:</b> Problem → Requirements → Design → Implementation → Testing → Deployment → Maintenance.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">2. What Is Software?</div><h3>2.1 More Than Source Code</h3><p>Software is the collection of programs, data, files, configuration, documentation, and user interfaces needed for a computer system to provide useful functions. A university application may include a mobile or web interface, application code, a database, configuration files, and documentation. These parts work together as one system.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">3. What Is Software Engineering?</div><h3>3.1 A Systematic Engineering Discipline</h3><p>Software Engineering applies organized engineering principles, methods, and practices to developing and maintaining software. Instead of moving directly from an idea to code, an engineering process studies the problem, defines requirements, designs a solution, implements it, validates it, deploys it, and evolves it.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">4. Why We Need It</div><h3>4.1 Managing Scale and Complexity</h3><p>Small programs may be built by one person, but modern systems can include patient records, appointments, billing, pharmacy, laboratories, authentication, databases, security, and multiple user roles. Coding immediately without planning makes dependencies, risks, and changes difficult to manage. Software Engineering provides structure for complexity.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">5. Programming vs Software Engineering</div><h3>5.1 Scope of Professional Work</h3><p>Programming focuses on writing code and implementing functionality. Software Engineering includes programming but also requirements, planning, architecture, design, testing, documentation, maintenance, teamwork, and project management.</p><table class="summary-table"><tr><th>Programming</th><th>Software Engineering</th></tr><tr><td>Implements functions</td><td>Organizes the complete product lifecycle</td></tr><tr><td>Focuses on code</td><td>Includes requirements, design, quality, and maintenance</td></tr><tr><td>May solve a local problem</td><td>Considers users, risks, teams, and future evolution</td></tr></table><p>For a hospital appointment system, an engineer asks who the users are, how cancellations work, how patient data is protected, how appointments are stored, and how the system will be tested and extended.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">6. Software Systems</div><h3>6.1 Software, Hardware, Data, and People</h3><p>A Software System commonly combines software, hardware, databases, networks, users, and documentation. In online banking, a user interacts with a mobile or web app, which communicates with an application server, a database, and banking services. A failure or change in one part can affect the complete system.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">7. Core Development Activities</div><h3>7.1 Specification, Design, Validation, and Evolution</h3><p>Software development includes specification, design and implementation, validation, and evolution. Specification defines what the system should do. Design and implementation decide how it will be built. Validation checks whether it meets its requirements. Evolution changes the system as user and business needs change.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">8. Specification</div><h3>8.1 Defining Requirements</h3><p>Software specification answers: <b>What should the system do?</b> For a university system, requirements may state that a student can log in, view courses, register for courses, drop courses, and view a schedule. Clear requirements create a basis for design, implementation, and testing.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">9. Design and Implementation</div><h3>9.1 From What to How</h3><p>After defining what the system must do, design explains how it will be structured. A typical design may connect a user interface to an application layer and then to a database. Implementation turns the design into a working system by writing code, building interfaces, creating databases, integrating components, and handling errors.</p><div class="step-box"><b>Login module example:</b> Login Screen → Authentication Code → Database Connection → Error Handling.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">10. Validation</div><h3>10.1 Did We Build the Right System?</h3><p>Validation checks that the system works as required. If the requirement says a user can log in, a test supplies a username and password, selects Login, and verifies that the expected user session begins. Validation links requirements to observable evidence.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">11. Evolution and Maintenance</div><h3>11.1 Software Continues After Release</h3><p>Software does not end when it is deployed. University systems may later add online payment, notifications, or a mobile app. Maintenance includes fixing bugs, adding features, improving performance, updating dependencies, and supporting new environments.</p><table class="summary-table"><tr><th>Type</th><th>Meaning</th><th>Example</th></tr><tr><td>Corrective</td><td>Fix a defect</td><td>Repair a broken Login button</td></tr><tr><td>Adaptive</td><td>Adapt to a changed environment</td><td>Support a new operating system</td></tr><tr><td>Perfective</td><td>Improve or extend the system</td><td>Add course-code search or Dark Mode</td></tr><tr><td>Preventive</td><td>Reduce future maintenance risk</td><td>Refactor unclear code and improve structure</td></tr></table></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">12. Software Quality</div><h3>12.1 A Working System Is Not Enough</h3><p>A high-quality system should do more than run in a demonstration. It should be reliable, usable, secure, efficient, and maintainable. Reliability means stable correct operation. Usability means users can learn and use the system easily. Security protects systems and data. Efficiency uses CPU, memory, storage, and network resources appropriately. Maintainability makes the system easier to understand, repair, modify, and extend.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">13. SDLC</div><h3>13.1 Software Development Life Cycle</h3><p>SDLC is a framework describing common stages of software development: Planning, Requirements, Design, Implementation, Testing, Deployment, and Maintenance. The stages are useful for organizing work, but real projects are iterative. A team may return from Testing to Design when a defect or misunderstood requirement is discovered.</p><div class="step-box"><b>E-commerce example:</b> Planning → Requirements → Design → Coding → Testing → Deployment → Maintenance.</div></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">14. Challenges and Professional Practice</div><h3>14.1 Engineering Is Collaborative</h3><p>Software projects face changing requirements, complexity, deadlines, limited budgets, quality expectations, and communication problems. Professional Software Engineers work with customers, users, developers, testers, designers, managers, and database specialists. Communication, teamwork, problem solving, documentation, and professional responsibility are essential alongside technical ability.</p></div>
+    """,unsafe_allow_html=True)
+    st.markdown("""
+    <div class="learning-card"><div class="concept-badge">15. Practical Activities and Summary</div><h3>15.1 Apply the Ideas</h3><p>Activities include identifying users and functional requirements for an Online Library System, ordering SDLC stages, and classifying maintenance cases as Corrective, Adaptive, Perfective, or Preventive. A university learning platform can combine Login, Courses, Lessons, Quizzes, and Grades across requirements, design, implementation, testing, deployment, and maintenance.</p><div class="step-box"><b>Final idea:</b> Software Engineering = systematic development + operation + maintenance of software.</div></div>
+    """,unsafe_allow_html=True)
+    render_software_engineering_chapter_1_quiz()
+
 elif display_page == "Chapter 1: Introduction to Computer Networks":
     st.markdown("## Computer Networks")
     st.markdown("### Chapter 1: Introduction to Computer Networks")
@@ -7719,7 +7815,7 @@ elif display_page == "🚀 Smart Exam Prep":
     st.error("🚨 LEVEL: IMPOSSIBLE")
     st.write("This section is designed for professionals only. The questions here simulate international certification exams and the most complex final exams.")
     
-    quiz_subject = st.selectbox("Choose Your Battlefield:", ["Operating Systems (OS)", "Theory of Computation (TOC)", "Database Systems (DB)", "Mobile Application Development (MAD)", "Computer Networks (CN)"])
+    quiz_subject = st.selectbox("Choose Your Battlefield:", ["Operating Systems (OS)", "Theory of Computation (TOC)", "Database Systems (DB)", "Mobile Application Development (MAD)", "Computer Networks (CN)", "Software Engineering (SE)"])
     
     if quiz_subject == "Operating Systems (OS)":
         st.subheader("🖥️ OS Hardcore Challenge (20 Questions)")
@@ -7862,6 +7958,19 @@ elif display_page == "🚀 Smart Exam Prep":
 
     elif quiz_subject == "Database Systems (DB)":
         render_database_quiz("__master__", "Database Systems — Hardcore Challenge")
+
+
+    elif quiz_subject == "Software Engineering (SE)":
+        st.subheader("Software Engineering Hardcore Challenge (20 Questions)")
+        software_engineering_master_bank = SOFTWARE_ENGINEERING_CHAPTER_1_QUIZ
+        answers=[]; score=0
+        for i,item in enumerate(software_engineering_master_bank):
+            choice=st.radio(item["q"],item["o"],key=f"software_engineering_master_quiz_{i}")
+            answers.append({"number":i+1,"question":item["q"],"selected":choice,"correct":item["a"]})
+            if choice==item["a"]: score+=1
+        if st.button("Submit Software Engineering Smart Exam",key="submit_software_engineering_master_quiz"):
+            st.write(f"### Final Score: {score}/{len(software_engineering_master_bank)}")
+            show_quiz_feedback(answers)
 
 elif display_page == "👥 Community Corner":
     st.markdown("## 👥 Community Corner: Ask & Learn")
